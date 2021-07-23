@@ -29,13 +29,16 @@ Kromě uložení rozdělané práce do serializovaného formátu musí nástroj 
 export do formátu, který uživatelé využijí pro své účely. Formáty pro export lze
 rozdělit do několika kategorií:
 \begin{itemize}
+  \item serializovaný formát -- většinou se jedná o vlastní formát aplikace a
+  takový soubor nelze jinou aplikací otevřít,
   \item rastrové formáty, např. PNG -- mají nejširší využití a podporu, lze je
   použít v dokumentech a na webových stránkách,
   \item vektorové formáty, např. SVG -- nemají tak rozšířenou podporu, nicméně
   jsou vhodnější v dokumentech po estetické stránce (zvlášť při tištění); dále
   existují vektorové editory, pomocí nichž lze výsledek libovolně upravovat bez
-  potřeby původního souboru; do této kategorie lze zařadit i jiné strukturované
-  formáty, např. XML, VSDX
+  potřeby souboru ve serializovaném formátu; většina webových prohlížečů formát
+  SVG podporuje a soubor vykreslí; do této kategorie lze zařadit i jiné otevřené
+  strukturované formáty, např. VSDX,
   \item zjednodušený export -- některé nástroje šetří práci uživatele tím, že
   diagram rovnou exportují do HTML, PDF a podobných finálních formátů pro
   okamžitou aplikaci, přestože uživatel může zvolit jiný formát a finální
@@ -45,7 +48,7 @@ rozdělit do několika kategorií:
 \end{itemize}
 
 Stejně jako u typu úložiště, čím více různých formátů exportu nástroj podporuje,
-tím lépe, neboť nástroj je pak flexibilní.
+tím lépe, neboť nástroj je flexibilní.
 
 Živá spolupráce je dalším důležitým kritériem. Ve větších týmech a u velkých
 projektů je vývoj modelu urychlen, pokud nástroj spolupráci umožňuje.
@@ -61,30 +64,127 @@ jsou placené funkce esenciální.
 
 \section{diagrams.net}
 
-diagrams.net (dříve draw.io) je obecný open-source kreslící nástroj vydaný s
-licencí Apache License 2.0, dostupný jako webová aplikace na adrese
-\url{app.diagrams.net} nebo jako desktopová aplikace. Desktopová verze aplikace
-je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy
-Electron do okna Chromium. Je vyvinut v běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script,
-CSS, Html).
+Srovnávací kritéria:
+\begin{itemize}
+  \item kategorie -- kresba libovolných diagramů,
+  \item typ úložiště -- lokální, externí, prohlížeč,
+  \item export -- serializovaný, rastrový, vektorový, zjednodušený,
+  \item živá spolupráce -- částečně podporována (pomocí externích úložišť),
+  \item komercializace -- veškeré funkce jsou zdarma a není potřeba uživatelský
+  účet; z jiného pohledu lze počítat cenu externích úložišť, ale ta jsou
+  volitelná.
+\end{itemize}
 
-Soubor lze uložit do serializovaného XML formátu .drawio, rastrového formátu
-PNG, vektorového formátu SVG a jako dokument HTML. Jako úložiště lze využít
-Google Drive, OneDrive, Dropbox, GitHub, GitLab, vlastní počítač (stažení) nebo
-paměť webového prohlížeče. Ze stejných typů souborů lze diagram také importovat.
-Při importu rastrového formátu však uživatel ztratí možnost diagram editovat.
+diagrams.net (dříve draw.io) je obecný open-source kreslící nástroj (který však
+nepřijímá změny od ostatních vývojářů) vydaný s licencí Apache License 2.0,
+dostupný jako webová aplikace na adrese \url{app.diagrams.net} nebo jako
+desktopová aplikace. Desktopová verze aplikace je sestavena stejným způsobem
+jako webová, pouze je zabalena pomocí platformy Electron do okna Chromium. Je
+vyvinut v běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script, CSS, HTML).
+
+Diagramy lze uložit do serializovaného XML formátu .drawio. V tomto formátu je
+pro každý diagram XML element \texttt{diagram}, ve kterém se nachází data
+zakódována do Base64. Tato data jsou komprimována pomocí zlib a obsahují další
+XML dokument, tentokrát již serializaci vlastního diagramu. Formát tak není bez
+dekomprese čitelný člověkem. Výhodou je, že lze uložit více diagramů do jednoho
+souboru a každý pojmenovat. Rozhraní k tomu určené je identické s listy souboru
+tabulkových procesorů, jako Microsoft Excel a Google Sheets.
+
+Soubor s diagramy lze také uložit do formát SVG, který je navíc otevřený a
+podporují ho jiné nástroje. Uživatel má při exportu k dispozici možnost
+``Include a copy of my diagram'', která do SVG souboru zahrne již zmíněný Base64
+řetězec, ve kterém je diagram serializovaný. Ve výsledku to znamená, že takto
+exportované SVG soubory umí diagrams.net i otevřít a práce na nich může
+plnohodnotně pokračovat. Toto řešení se nám líbí, protože se jedná o schování
+vlastního formátu do SVG, který je nejvhodnějším pro přechovávání a zobrazování
+diagramů.
+
+Dalšími možnostmi exportu a ukládání jsou
+\begin{itemize}
+  \item rastrové soubory PNG, JPEG,
+  \item soubor PDF, do kterého je ve vektorovém formátu diagram vložen,
+  \item soubor HTML, do kterého lze podobně jako v SVG data diagramu uložit v
+  serializované formě, případně pouze vložit veřejný odkaz URL na diagram (pokud
+  je použito odpovídající úložiště); v tomto souboru je pak zahrnut JavaScript
+  od diagrams.net, který diagram vykreslí,
+  \item otevřený formát VSDX, původně vyvinutý pro Microsoft Visio.
+\end{itemize}
+
+Ze stejných souborů lze diagramy také importovat, ovšem editovat je lze jen
+pokud je v nich zahrnut formát drawio, čehož je dosaženo u některých formátů
+popsaných výše.
+
+Jako úložiště si lze vybrat Google Drive, OneDrive, Dropbox, GitHub, GitLab,
+paměť prohlížeče a místní úložiště (disk uživatele). Soubor lze ze stejných
+úložišť i otevřít a importovat, navíc k tomu i z libovolné dostupné URL.
+
+Živá spolupráce je umožněna pouze pokud soubor jako úložiště využívá takové, ke
+kterému mají přístup zápisu (popř. pouze čtení) všichni účastnící se uživatelé
+(Google Drive, OneDrive, Dropbox, GitHub, GitLab). Tato úložiště je však nutno
+manuálně vhodně nastavit (přístup ostatním uživatelům). Menu File $\rightarrow$
+Publish chybně napovídá, že se jedná o funkci živé spolupráce. Ve skutečnosti je
+uživateli jen zobrazen odkaz na soubor ve vybraném úložišti (ale pouze pro
+Google Drive a OneDrive). Spolupracující uživatel tak musí tento soubor v daném
+úložišti uložit k sobě (sdíleně), aby mohla začít spolupráce. U všech úložišť je
+rychlost reflektování změn ostatních uživatelů podobná -- vcelku pomalá, protože
+aplikace musí změny aktivně kontrolovat a načítat.
+
+Jako další možnost jsme zvažovali desktopovou aplikaci s načteným souborem,
+který je libovolným externím nástrojem sdílen mezi uživateli. Bohužel, soubor se
+nepřenačítá automaticky, ale musí být manuálně synchronizován tlačítkem File
+$\rightarrow$ Synchronize (Alt+Shift+S), které je dostupné pouze v desktopové
+verzi aplikace. Uživatel je při externí změně souboru upozorněn (avšak ne
+spolehlivě vždy) červeným nápisem. Algoritmus synchronizace funguje správně a
+tak, jak uživatel očekává.
+
+Nejlepší způsob živé spolupráce je dle našeho názoru volba systému pro správu
+Git repozitářů (GitLab nebo GitHub), protože
+\begin{enumerate}
+  \item tato úložiště jsou dostupná jak z webové, tak z desktopové verze
+  aplikace,
+  \item synchronizace probíhá pomocí systému Git,
+  \item díky použití systému Git lze jednoduše spravovat verze a body v historii
+  při vývoji diagramu.
+\end{enumerate} 
+
+K poslednímu bodu je třeba podotknout, že jiná webová úložiště také podporují
+správu verzí, avšak není tak přívětivá, jako správa systémem k tomu určeným --
+Git.
 
 Uživateli jsou v levém postranním panelu k dispozici standardní tvary ER
 diagramů, UML diagramů, flowchart diagramů a další základní tvary pro kresbu
 diagramů. Tvary lze libovolně kombinovat a spojovat podržením levého tlačítka a
 tažením myší z a do kotev na krajích objektů. Každý objekt a spojovací čára má
-vlastnosti, které lze upravovat v pravém postranním panelu. Upravovat lze jak
-vlastnosti a styly formátu SVG, tak nad nimi nastavěné vlastnosti vyššího řádu,
-jako například konce šipek.
+vlastnosti, které lze upravovat v pravém postranním panelu. Upravovat lze přímo
+i vlastnosti formátu SVG.
 
-Uživatelské rozhraní, které je vidět na obrázku \ref{fig:diagrams.net} je velmi
+Uživatelské rozhraní, které je vidět na obrázku \ref{fig:diagrams.net}, je velmi
 podobné kancelářským aplikacím Google. Je tak přívětivé pro nové uživatele,
 kteří již s aplikacemi Google dříve pracovali.
+
+Jako výhody určujeme
+\begin{itemize}
+  \item univerzálnost a flexibilita -- nástroj lze použít pro tvorbu jakýchkoli
+  diagramů,
+  \item množství podporovaných formátů -- export pokrývá téměř všechny možné
+  účely,
+  \item cena -- všechny funkce jsou zdarma,
+  \item více diagramů v jednom souboru
+\end{itemize}
+a nevýhodami jsou
+\begin{itemize}
+  \item chybí možnost pro export do (jednoduše) strojově zpracovatelného
+  formátu, nelze tak bez lidské práce diagram převést do technické vrstvy (to je
+  zapříčiněno obecností nástroje, jeho účelem je kresba, ne abstrakce),
+  \item pomalé zobrazování změn při živé spolupráci, zároveň není zpočátku
+  jasné, jak spolupráce dosáhnout,
+\end{itemize}
+
+Výhodou i nevýhodou může být nutnost použití externího úložiště. Pro velké
+společnosti se může jednat o bezpečnostní opatření, protože diagrams.net k
+diagramům nemá přístup. Pro malé týmy se může jednat o nevýhodu, protože je
+potřeba účet na externím webu, nebo jiný způsob sdílení a správa tohoto
+úložiště.
 
 \begin{figure}
   \centering
