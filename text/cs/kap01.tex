@@ -1,9 +1,7 @@
 \chapter{Existující nástroje}
 
 V této kapitole zanalyzujeme některé existující nástroje pro kresbu diagramů a
-porovnáme je dle navržených kritérií. Nástroje lze rozdělit do tří skupin --
-návrh diagramů konceptuální vrstvy, logické vrstvy a nástroje pro kresbu
-libovolných diagramů.
+porovnáme je dle navržených kritérií.
 
 \section{Srovnávací kritéria}
 
@@ -60,6 +58,40 @@ odemčenými pokročilými funkcemi. U tohoto modelu je důležité vyrovnat fun
 tak, aby byl nástroj použitelný i v bezplatné verzi, a aby byly placené funkce
 atraktivní pro uživatele. Při srovnávání budeme věnovat pozornost i tomu, jestli
 jsou placené funkce esenciální.
+
+\section{diagrams.net}
+
+diagrams.net (dříve draw.io) je obecný open-source kreslící nástroj vydaný s
+licencí Apache License 2.0, dostupný jako webová aplikace na adrese
+\url{app.diagrams.net} nebo jako desktopová aplikace. Desktopová verze aplikace
+je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy
+Electron do okna Chromium. Je vyvinut v běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script,
+CSS, Html).
+
+Soubor lze uložit do serializovaného XML formátu .drawio, rastrového formátu
+PNG, vektorového formátu SVG a jako dokument HTML. Jako úložiště lze využít
+Google Drive, OneDrive, Dropbox, GitHub, GitLab, vlastní počítač (stažení) nebo
+paměť webového prohlížeče. Ze stejných typů souborů lze diagram také importovat.
+Při importu rastrového formátu však uživatel ztratí možnost diagram editovat.
+
+Uživateli jsou v levém postranním panelu k dispozici standardní tvary ER
+diagramů, UML diagramů, flowchart diagramů a další základní tvary pro kresbu
+diagramů. Tvary lze libovolně kombinovat a spojovat podržením levého tlačítka a
+tažením myší z a do kotev na krajích objektů. Každý objekt a spojovací čára má
+vlastnosti, které lze upravovat v pravém postranním panelu. Upravovat lze jak
+vlastnosti a styly formátu SVG, tak nad nimi nastavěné vlastnosti vyššího řádu,
+jako například konce šipek.
+
+Uživatelské rozhraní, které je vidět na obrázku \ref{fig:diagrams.net} je velmi
+podobné kancelářským aplikacím Google. Je tak přívětivé pro nové uživatele,
+kteří již s aplikacemi Google dříve pracovali.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{../img/diagrams.net.png}
+  \caption{Tvorba ER diagramu v aplikaci diagrams.net}
+  \label{fig:diagrams.net}
+\end{figure}
 
 \section{drawSQL}
 
@@ -132,40 +164,6 @@ lze podobně vygenerovat SQL.
   \includegraphics[width=\textwidth]{../img/erdplus.png}
   \caption{Tvorba ER diagramu v ERDplus}
   \label{fig:erdplus}
-\end{figure}
-
-\section{diagrams.net}
-
-diagrams.net (dříve draw.io) je obecný open-source kreslící nástroj vydaný s
-licencí Apache License 2.0, dostupný jako webová aplikace na adrese
-\url{app.diagrams.net} nebo jako desktopová aplikace. Desktopová verze aplikace
-je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy
-Electron do okna Chromium. Je vyvinut v běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script,
-CSS, Html).
-
-Soubor lze uložit do serializovaného XML formátu .drawio, rastrového formátu
-PNG, vektorového formátu SVG a jako dokument HTML. Jako úložiště lze využít
-Google Drive, OneDrive, Dropbox, GitHub, GitLab, vlastní počítač (stažení) nebo
-paměť webového prohlížeče. Ze stejných typů souborů lze diagram také importovat.
-Při importu rastrového formátu však uživatel ztratí možnost diagram editovat.
-
-Uživateli jsou v levém postranním panelu k dispozici standardní tvary ER
-diagramů, UML diagramů, flowchart diagramů a další základní tvary pro kresbu
-diagramů. Tvary lze libovolně kombinovat a spojovat podržením levého tlačítka a
-tažením myší z a do kotev na krajích objektů. Každý objekt a spojovací čára má
-vlastnosti, které lze upravovat v pravém postranním panelu. Upravovat lze jak
-vlastnosti a styly formátu SVG, tak nad nimi nastavěné vlastnosti vyššího řádu,
-jako například konce šipek.
-
-Uživatelské rozhraní, které je vidět na obrázku \ref{fig:diagrams.net} je velmi
-podobné kancelářským aplikacím Google. Je tak přívětivé pro nové uživatele,
-kteří již s aplikacemi Google dříve pracovali.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\textwidth]{../img/diagrams.net.png}
-  \caption{Tvorba ER diagramu v aplikaci diagrams.net}
-  \label{fig:diagrams.net}
 \end{figure}
 
 \begin{table}
