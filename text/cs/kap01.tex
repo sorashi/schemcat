@@ -85,10 +85,11 @@ vyvinut v běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script, CSS, HT
 Diagramy lze uložit do serializovaného XML formátu .drawio. V tomto formátu je
 pro každý diagram XML element \texttt{diagram}, ve kterém se nachází data
 zakódována do Base64. Tato data jsou komprimována pomocí zlib a obsahují další
-XML dokument, tentokrát již serializaci vlastního diagramu. Formát tak není bez
-dekomprese čitelný člověkem. Výhodou je, že lze uložit více diagramů do jednoho
-souboru a každý pojmenovat. Rozhraní k tomu určené je identické s listy souboru
-tabulkových procesorů, jako Microsoft Excel a Google Sheets.
+XML dokument (URL-encoded), tentokrát již serializaci vlastního diagramu. Formát
+tak není bez dekomprese čitelný člověkem. Výhodou je, že lze uložit více
+diagramů do jednoho souboru a každý pojmenovat. Rozhraní k tomu určené je
+identické s listy souboru tabulkových procesorů, jako Microsoft Excel a Google
+Sheets.
 
 Soubor s diagramy lze také uložit do formát SVG, který je navíc otevřený a
 podporují ho jiné nástroje. Uživatel má při exportu k dispozici možnost
