@@ -122,13 +122,15 @@ paměť prohlížeče a místní úložiště (disk uživatele). Soubor lze ze s
 Živá spolupráce je umožněna pouze pokud soubor jako úložiště využívá takové, ke
 kterému mají přístup zápisu (popř. pouze čtení) všichni účastnící se uživatelé
 (Google Drive, OneDrive, Dropbox, GitHub, GitLab). Tato úložiště je však nutno
-manuálně vhodně nastavit (přístup ostatním uživatelům). Menu File $\rightarrow$
-Publish chybně napovídá, že se jedná o funkci živé spolupráce. Ve skutečnosti je
-uživateli jen zobrazen odkaz na soubor ve vybraném úložišti (ale pouze pro
-Google Drive a OneDrive). Spolupracující uživatel tak musí tento soubor v daném
-úložišti uložit k sobě (sdíleně), aby mohla začít spolupráce. U všech úložišť je
+manuálně vhodně nastavit (přístup ostatním uživatelům). U všech úložišť je
 rychlost reflektování změn ostatních uživatelů podobná -- vcelku pomalá, protože
 aplikace musí změny aktivně kontrolovat a načítat.
+
+Menu File $\rightarrow$ Publish chybně napovídá, že se jedná o funkci živé
+spolupráce. Ve skutečnosti je uživateli jen zobrazen odkaz na soubor ve vybraném
+úložišti (ale pouze pro Google Drive a OneDrive, jinak je tato možnost vypnuta).
+Spolupracující uživatel tak musí tento soubor v daném úložišti uložit k sobě
+(sdíleně), aby mohla spolupráce začít. 
 
 Jako další možnost jsme zvažovali desktopovou aplikaci s načteným souborem,
 který je libovolným externím nástrojem sdílen mezi uživateli. Bohužel, soubor se
@@ -149,8 +151,10 @@ Git repozitářů (GitLab nebo GitHub), protože
 \end{enumerate} 
 
 K poslednímu bodu je třeba podotknout, že jiná webová úložiště také podporují
-správu verzí, avšak není tak přívětivá, jako správa systémem k tomu určeným --
-Git.
+správu verzí, avšak není tak rozvinutá, jako správa systémem k tomu určeným --
+Git. Diagrams.net sám o sobě správu verzí neobsahuje, jen obvyklé ``Undo, Redo''
+pro aktuálního uživatele. Úpravy ostatních uživatelů nelze vracet postupně, lze
+se pouze vrátit za bod synchronizace.
 
 Uživateli jsou v levém postranním panelu k dispozici standardní tvary ER
 diagramů, UML diagramů, flowchart diagramů a další základní tvary pro kresbu
@@ -174,7 +178,7 @@ Jako výhody určujeme
 \end{itemize}
 a nevýhodami jsou
 \begin{itemize}
-  \item chybí možnost pro export do (jednoduše) strojově zpracovatelného
+  \item chybějící možnost pro export do (jednoduše) strojově zpracovatelného
   formátu, nelze tak bez lidské práce diagram převést do technické vrstvy (to je
   zapříčiněno obecností nástroje, jeho účelem je kresba, ne abstrakce),
   \item pomalé zobrazování změn při živé spolupráci, zároveň není zpočátku
