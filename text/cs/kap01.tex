@@ -200,13 +200,25 @@ potřeba účet na externím webu, nebo jiný způsob sdílení a správa tohoto
 
 \section{drawSQL}
 
+Srovnávací kritéria:
+\begin{itemize}
+  \item kategorie -- logická vrstva,
+  \item typ úložiště -- online, poskytované autory produktu
+  \item export -- schématický (obecný SQL i platformě specifické formáty),
+  rastrový PNG, serializovaný (JSON, v době psaní práce se chystá)
+  \item živá spolupráce -- pouze v placené verzi,
+  \item komercializace -- omezená verze navždy zdarma, různé měsíčně placené
+  plány.
+\end{itemize}
+
 drawSQL je modelovací nástroj pro tvorbu relačních schémat. Aplikace je dostupná
-ve webovém prohlížeči na adrese \url{drawsql.app}. Je vyvinuta ve standardních
-webových technologiích a používá framework Vue.js. Plán zdarma umožňuje tvorbu
-veřejně přístupných diagramů, které mohou mít maximálně 15 tabulek (entit).
-Měsíčně placené plány umožňují vytvářet neveřejné diagramy, více (až nekonečně
-mnoho) tabulek v diagramu, více uživatelů, kteří mohou na diagramu spolupracovat
-a přístup k verzovacím nástrojům.
+ve webovém prohlížeči na adrese \url{https://drawsql.app}. Je vyvinuta ve
+standardních webových technologiích a používá framework Vue.js. Plán zdarma
+umožňuje tvorbu veřejně přístupných diagramů, které mohou mít maximálně 15
+tabulek (entit). Měsíčně placené plány umožňují vytvářet neveřejné diagramy,
+více (až nekonečně mnoho) tabulek v diagramu, více uživatelů, kteří mohou na
+diagramu spolupracovat a přístup k verzovacím nástrojům. K vyzkoušení i
+používání nástroje je potřeba uživatelský účet.
 
 Hlavní funkcí drawSQL je export schématu do SQL. Proto si uživatel při vytváření
 diagramu zvolí cílovou databázi, pro kterou schéma tvoří. Výsledné SQL tak bude
@@ -229,6 +241,40 @@ rastrového obrázku ve formátu PNG. Vývojáři aplikace plánují implementov
 export diagramu pomocí serializace do formátu JSON. V nabídce Export je navíc
 možnost nechat si vygenerovat platformně specifický kód jako například migrační
 třídy pro Laravel, definice modelů pro Laravel a migrační schémata pro AdonisJS.
+
+Živá spolupráce je k dispozici pouze v placené verzi. Dle našeho názoru je živá
+spolupráce hlavní funkcí tohoto nástroje oproti konkurenčním relačním
+modelovacím nástrojům. Některá integrovaná vývojová prostředí (např. Visual
+Studio) obsahují nástroj pro relační modelování i generování databázového
+schématu. Hlavním omezením těchto nástrojů je však absence živé spolupráce,
+jedná se spíše o spolupráci iterací. Proto považujeme určení živé spolupráce za
+placenou funkci za negativní rozhodnutí pro využitelnost nástroje v relaci s
+konkurencí.
+
+drawSQL také zveřejňuje šablony modelů (jedná se spíše o příklady) na adrese
+\url{https://drawsql.app/templates}. Šablony jsou většinou potenciální modely
+známých produktů (např. WordPress) a tvoří je autoři drawSQL. Tuto funkci
+považujeme za výhodu, protože společnosti a individuální vývojáři se mohou
+inspirovat existujícími a ověřenými řešeními, případně nezačínat se svým modelem
+od nuly.
+
+Závěrem určíme výhody drawSQL:
+\begin{itemize}
+  \item příjemné uživatelské rozhraní (viz obrázek \ref{fig:drawsql}),
+  \item možnost určení typu relace, o sémantiku se aplikace stará sama
+  (one-to-one, one-to-many, many-to-many),
+  \item několik platformě specifických generátorů modelu,
+  \item šablony a příklady existujících modelů
+\end{itemize}
+a nevýhody:
+\begin{itemize}
+  \item nelze upravit ani přesunout lomené čáry spojující cizí klíče, což
+  způsobuje chaos pokud je v diagramu větší množství entit,
+  \item živá spolupráce pouze v placeném plánu,
+  \item správa verzí pouze v placeném plánu,
+  \item k vyzkoušení nástroje je potřeba uživatelský účet,
+  \item podporuje pouze relační databáze.
+\end{itemize}
 
 \begin{figure}
   \centering
@@ -286,15 +332,15 @@ lze podobně vygenerovat SQL.
       poskytuje úložiště  & \xmark\tnote{\ref{tab:ec:external-storage}} & \cmark  & \cmark  \\
       využívá paměť prohlížeče & \cmark & &  \\
       \midrule[\heavyrulewidth]
-  \end{tabular}
+      \end{tabular}
   \end{center}
-
+  
   \footnotesize
   \begin{enumerate}[a.,ref=\alph*,noitemsep]
     \item plánovaná funkce \label{tab:ec:plan}
     \item využívá úložiště třetích stran \label{tab:ec:external-storage}
   \end{enumerate}
-
+  
   \caption{Srovnání existujících řešení}
   \label{tab:existing-comparison}
 \end{table}
