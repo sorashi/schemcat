@@ -266,33 +266,31 @@ lze podobně vygenerovat SQL.
   \caption{Tvorba ER diagramu v ERDplus}
   \label{fig:erdplus}
 \end{figure}
-
+\newcommand{\tnote}[1]{\textsuperscript{#1}}
 \begin{table}
-  \centering
-  \begin{tabular}{c|cccc}
-    aplikace      & ER          & rastrový export   & SQL export & vektorový export \\
-    \hline
-    ERDplus       & \checkmark  & \checkmark        & \checkmark & \\
-    drawSQL       &             & \checkmark        & \checkmark & \\
-    diagrams.net  &\checkmark   &\checkmark         &            &\checkmark
+  \begin{center}
+    \begin{tabular}{r|ccc}
+      \toprule
+      název produktu    & \textbf{diagrams.net}  & \textbf{drawSQL} & \textbf{ERDPlus} \\
+      \midrule
+      kategorie (vrstva)& libovolné diagramy & logická & konceptuální \\
+      serializovaný export & \cmark & \xmark\tnote{\ref{tab:ec:plan}} & ? \\
+      rastrový export   & \cmark        & \cmark  & \cmark  \\
+      vektorový export  & \cmark        & \xmark  & \xmark \\
+      schématický export (SQL) & \xmark & \cmark & \cmark \\
+      zjednodušený export & ? & ? & ? \\
+      poskytuje úložiště  & \xmark\tnote{\ref{tab:ec:external-storage}} & \cmark  & \cmark  \\
+      využívá paměť prohlížeče & \cmark & &  \\
+      \midrule[\heavyrulewidth]
   \end{tabular}
-  \label{tab:criteria}
-  \caption{Srovnání možností exportu diagramu jednotlivých aplikací}
-\end{table}
+  \end{center}
 
+  \footnotesize
+  \begin{enumerate}[a.,ref=\alph*,noitemsep]
+    \item plánovaná funkce \label{tab:ec:plan}
+    \item využívá úložiště třetích stran \label{tab:ec:external-storage}
+  \end{enumerate}
 
-\begin{table}
-  % TODO: fix
-
-  \begin{minipage}{12cm}
-    \centering
-    \begin{tabular}{c|cc}
-      aplikace  & online úložiště & živá spolupráce \\
-      \hline
-      ERDplus   & \checkmark      &\                  \\
-      drawSQL   & \checkmark\footnote{zdarma pouze pro veřejné diagramy} & \checkmark\footnote{pouze v placené verzi} \\
-      diagrams.net&\checkmark\footnote{využívá úložiště třetí strany} & \checkmark\footnote{využívá úložiště třetí strany}
-    \end{tabular}
-  \end{minipage}
-  \caption{Srovnání dalších funkcí jednotlivých aplikací}
+  \caption{Srovnání existujících řešení}
+  \label{tab:existing-comparison}
 \end{table}
