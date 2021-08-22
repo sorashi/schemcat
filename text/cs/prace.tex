@@ -65,36 +65,40 @@
 %%% Údaje o práci
 
 % Název práce v jazyce práce (přesně podle zadání)
-\def\NazevPrace{Název práce}
+\def\NazevPrace{Návrh a implementace nástroje na vytváření diagramů
+unifikovaných konceptuálních schémat multi-modelových a dalších NoSQL
+databázových systémů pomocí prostředků schématických kategorií}
 
 % Název práce v angličtině
-\def\NazevPraceEN{Name of thesis}
+\def\NazevPraceEN{Design and implementation of a tool for diagram creation of
+unified conceptual schemas of multi-model and other NoSQL database systems
+using schematic categories}
 
 % Jméno autora
-\def\AutorPrace{Jméno Příjmení}
+\def\AutorPrace{Dennis Pražák}
 
 % Rok odevzdání
-\def\RokOdevzdani{ROK}
+\def\RokOdevzdani{2021}
 
 % Název katedry nebo ústavu, kde byla práce oficiálně zadána
 % (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
-\def\Katedra{Název katedry nebo ústavu}
-\def\KatedraEN{Name of the department}
+\def\Katedra{Katedra softwarového inženýrství}
+\def\KatedraEN{Department of Software Engineering}
 
 % Jedná se o katedru (department) nebo o ústav (institute)?
 \def\TypPracoviste{Katedra}
 \def\TypPracovisteEN{Department}
 
 % Vedoucí práce: Jméno a příjmení s~tituly
-\def\Vedouci{Vedoucí práce}
+\def\Vedouci{RNDr. Martin Svoboda, Ph.D.}
 
 % Pracoviště vedoucího (opět dle Organizační struktury MFF)
-\def\KatedraVedouciho{katedra}
-\def\KatedraVedoucihoEN{department}
+\def\KatedraVedouciho{\Katedra}
+\def\KatedraVedoucihoEN{\KatedraEN}
 
 % Studijní program a obor
-\def\StudijniProgram{studijní program}
-\def\StudijniObor{studijní obor}
+\def\StudijniProgram{Informatika }
+\def\StudijniObor{IPP2}
 
 % Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
 % zapůjčil software, literaturu apod.)
@@ -129,11 +133,10 @@ Abstract.
 
 %% Titulní strana a různé povinné informační strany
 \begin{document}
-\title{Ročníkový projekt}
-\author{Dennis Pražák}
+\title{\NazevPrace}
+\author{\AutorPrace}
 \date{Draft \today}
-\maketitle
-%% \include{titulka}
+\include{titulka}
 
 %%% Strana s automaticky generovaným obsahem bakalářské práce
 
@@ -145,7 +148,7 @@ Abstract.
 \include{zaver}
 
 %%% Seznam použité literatury
-% \include{literatura}
+\include{literatura}
 
 %%% Obrázky v bakalářské práci
 %%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
