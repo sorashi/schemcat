@@ -37,12 +37,17 @@ lepší sdílené úložiště a~pro lokální práci je vhodnější lokální 
 Interaktivní spolupráce je dalším důležitým kritériem. U~velkých projektů je
 vývoj modelu urychlen, pokud nástroj spolupráci umožňuje.
 
-Kromě uložení rozdělané práce do serializovaného formátu musí nástroj umožnit
-export do formátu, který uživatelé využijí pro své účely. Formáty pro export lze
-rozdělit do několika kategorií:
+Dále budeme porovnávat formát, do kterého nástroj diagram ukládá (pokud k
+uloženému souboru má uživatel přístup). Může se jednat o serializovaný dokument
+do dobře známého standardního formátu, nebo o vlastní formát, který je často
+nakonec také založený na nějakém standardu.
+
+Kromě uložení rozdělané práce do vhodného formátu musí nástroj umožnit export do
+formátu, který uživatelé využijí pro své účely. Formáty pro export lze rozdělit
+do několika kategorií:
 \begin{itemize}
   \item serializovaný formát -- většinou se jedná o~vlastní formát aplikace
-a~takový soubor nelze jinou aplikací otevřít,
+a~takový soubor nelze jinou aplikací otevřít, ale lze jej programově zpracovat,
   \item rastrové formáty, např. PNG\footnote{Portable Network Graphics --
   \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}} -- mají nejširší využití
   a~podporu, lze je použít v~dokumentech a~na webových stránkách,
@@ -105,10 +110,10 @@ okna Chromium. Je vyvinut v~běžných we\-bo\-vých tech\-no\-lo\-gi\-ích
 Diagramy lze uložit do serializovaného XML\footnote{Extensible Markup Language
 -- \url{https://www.w3.org/TR/xml/}} formátu .drawio. V~tomto formátu je pro
 každý diagram XML element \texttt{diagram}, ve kterém se nachází data zakódována
-do Base64\footnote{RFC 2045 §6.8 --
+do Base64\footnote{RFC 2045 \S6.8 --
 \url{https://datatracker.ietf.org/doc/html/rfc2045\#section-6.8}}. Tato data
 jsou komprimována pomocí zlib\footnote{\url{https://zlib.net/}} a~obsahují další
-XML dokument (URL-encoded\footnote{RFC 3986 §2.1 --
+XML dokument (URL-encoded\footnote{RFC 3986 \S2.1 --
 \url{https://datatracker.ietf.org/doc/html/rfc3986\#section-2.1}}, tj.
 zakódovaný), tentokrát již serializaci vlastního diagramu. Formát tak není bez
 dekomprese čitelný člověkem. Výhodou je, že lze uložit více diagramů do jednoho
