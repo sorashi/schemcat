@@ -1203,29 +1203,29 @@ FUNCTION {unpublished}
 
 FUNCTION {default.type} { misc }
 
-MACRO {jan} {"January"}
+MACRO {jan} {"leden"}
 
-MACRO {feb} {"February"}
+MACRO {feb} {"únor"}
 
-MACRO {mar} {"March"}
+MACRO {mar} {"březen"}
 
-MACRO {apr} {"April"}
+MACRO {apr} {"duben"}
 
-MACRO {may} {"May"}
+MACRO {may} {"květen"}
 
-MACRO {jun} {"June"}
+MACRO {jun} {"červen"}
 
-MACRO {jul} {"July"}
+MACRO {jul} {"červenec"}
 
-MACRO {aug} {"August"}
+MACRO {aug} {"srpen"}
 
-MACRO {sep} {"September"}
+MACRO {sep} {"září"}
 
-MACRO {oct} {"October"}
+MACRO {oct} {"říjen"}
 
-MACRO {nov} {"November"}
+MACRO {nov} {"listopad"}
 
-MACRO {dec} {"December"}
+MACRO {dec} {"prosinec"}
 
 MACRO {acmcs} {"ACM Computing Surveys"}
 
