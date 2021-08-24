@@ -1,3 +1,4 @@
+% Encoding: UTF-8
 %
 %  Vzor bibliografické databáze pro automatickou tvorbu seznamu referencí
 %  pomocí BibTeXu
@@ -12,110 +13,29 @@
 %
 %  ===========================================================================
 
-@BOOK{Andel07,
-  title = {Základy matematické statistiky},
-  publisher = {Matfyzpress},
-  year = {2007},
-  author = {Anděl, J.},
-  address = {Praha},
-  series = {Druhé opravené vydání},
-  isbn = {80-7378-001-1}
-}
-
-@BOOK{Andel98,
-  title = {Statistické metody},
-  publisher = {Matfyzpress},
-  year = {1998},
-  author = {Anděl, J.},
-  address = {Praha},
-  series = {Druhé přepracované vydání},
-  isbn = {80-85863-27-8}
-}
-
-@ARTICLE{Cox72,
-  author = {Cox, D. R.},
-  title = {Regression models and life-tables (with {D}iscussion)},
-  journal = {Journal of the Royal Statistical Society, Series B},
-  year = {1972},
-  volume = {34},
-  pages = {187--220},
-  number = {2}
-}
-
-@ARTICLE{DempsterLairdRubin77,
-  author = {Dempster, A. P. and Laird, N. M. and Rubin, D. B.},
-  title = {Maximum likelihood from incomplete data via the {EM} algorithm},
-  journal = {Journal of the Royal Statistical Society, Series B},
-  year = {1977},
-  volume = {39},
-  pages = {1--38},
-  number = {1}
-}
-
-@ARTICLE{Genberget08,
-  author = {Genberg, B. L. and Kulich, M. and Kawichai, S. and Modiba, P. and
-	Chingono, A. and Kilonzo, G. P. and Richter, L. and Pettifor, A.
-	and Sweat, M. and Celentano, D. D.},
-  title = {{HIV} risk behaviors in Sub-{S}aharan {A}frica and {N}orthern {T}hailand:
-	{B}aseline behavioral data from project {A}ccept},
-  journal = {Journal of Acquired Immune Deficiency Syndrome},
-  year = {2008},
-  volume = {49},
-  pages = {309--319}
-}
-
-@ARTICLE{KaplanMeier58,
-  author = {Kaplan, E. L. and Meier, P.},
-  title = {Nonparametric estimation from incomplete observations},
-  journal = {Journal of the American Statistical Association},
-  year = {1958},
-  volume = {53},
-  pages = {457--481},
-  number = {282}
-}
-
-@BOOK{LehmannCasella98,
-  title = {Theory of Point Estimation},
-  publisher = {Springer-Verlag},
-  year = {1998},
-  author = {Lehmann, E. L. and Casella, G.},
-  address = {New York},
-  series = {{S}econd {E}dition},
-  isbn = {0-387-98502-6}
-}
-
-@ARTICLE{Student08,
-  author = {Student},
-  title = {On the probable error of the mean},
-  journal = {Biometrika},
-  year = {1908},
-  volume = {6},
-  pages = {1-25}
-}
-
 @misc{diagramsnet21,
   author       = {{JGraph Ltd}},
-  title        = {diagrams.net},
   howpublished = {[online]},
-  year         = {červen 2021},
-  url          = {https://www.diagrams.net/}
+  title        = {diagrams.net},
+  timestamp    = {2021-07-01},
+  url          = {https://www.diagrams.net/},
 }
 
 @misc{drawsql21,
   author       = {DrawSQL},
   title        = {Draw{SQL} -- {D}atabase {S}chema {D}iagrams},
   howpublished = {[online]},
-  year         = {2021},
   url          = {https://drawsql.app/},
-  urldate      = {2021-08-12}
+  timestamp      = {2021-08-12}
 }
 
 @misc{erdplus21,
   author       = {ERDPlus},
-  title        = {ERDPlus},
+  title        = "{ERDPlus}",
   howpublished = {[online]},
   year         = {2021},
   url          = {https://erdplus.com/},
+  timestamp    = {2021-07-01},
 }
 
 @misc{electron21,
@@ -124,6 +44,15 @@
   howpublished = {[online]},
   year         = {2021},
   url          = {https://www.electronjs.org/},
+}
+
+@misc{uml2017,
+  author       = {{Object Management Group (OMG)}},
+  howpublished = {[online]},
+  month        = dec,
+  title        = {{Unified Modeling Language version 2.5.1}},
+  year         = {2017},
+  url          = {https://www.omg.org/spec/UML/},
 }
 
 @article{Chen76,
@@ -154,13 +83,34 @@
   keywords = {semantics of data, logigcal view of data, data definition and manipulation, Data Base Task Group, entity set model, database design, relational model, data models, network model, data integrity and consistency, entity-relationship model}
 }
 
-@TechReport{Dirk18,
+@techreport{Dirk18,
   author      = {Dirk, Schulze and {\relax SVG Working Group}},
-  title       = "Scalable Vector Graphics ({SVG}) 2 Specification",
+  title       = "{S}calable {V}ector {G}raphics ({SVG}) 2 {S}pecification",
   month       = oct,
   year        = "2018",
   bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
-  type        = "{W3C} Recommendation",
-  institution = "W3C",
+  type        = "{W3C} {R}ecommendation",
+  institution = "{W3C}",
+  number      = "CR-SVG2-20181004",
   url         = {https://www.w3.org/TR/2018/CR-SVG2-20181004/}
+}
+
+ @techreport{json2017,
+      title       = "{T}he {JSON} data interchange syntax 2nd {Edition}",
+      author      = "{TC39} {G}roup",
+      institution = "{ECMA} {I}nternational",
+      address     = {Rue du Rhône 114, CH-1204 Ženeva, Švýcarsko},
+      type        = {Standard},
+      number      = "ECMA-404",
+      year        = 2017,
+      month       = dec,
+      url         = {https://www.ecma-international.org/publications-and-standards/standards/ecma-404/}  
+    }
+
+@misc{react2021,
+  author       = {{F}acebook {I}nc.},
+  title        = {React, {A} {J}ava{S}cript library for building user interfaces},
+  howpublished = {[online]},
+  year         = {2021},
+  url        = {https://reactjs.org/},
 }
