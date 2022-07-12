@@ -84,8 +84,7 @@ tak, aby byl nástroj použitelný i~v~bezplatné verzi, a~aby byly placené fun
 atraktivní pro uživatele. Při srovnávání budeme věnovat pozornost i~tomu, jestli
 jsou placené funkce esenciální.
 
-\section{diagrams.net}
-\label{section:digramsnet}
+\section{diagrams.net}\label{section:digramsnet}
 
 Srovnávací kritéria:
 \begin{itemize}
@@ -104,14 +103,14 @@ s~licencí Apache License
 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}, dostupný jako
 webová aplikace\footnote{na adrese \url{https://app.diagrams.net}} nebo jako
 desktopová aplikace. Desktopová verze aplikace je sestavena stejným způsobem
-jako webová, pouze je zabalena pomocí platformy Electron~\cite{electron21}  do
+jako webová, pouze je zabalena pomocí platformy Electron~\cite{electron21} do
 okna Chromium. Je vyvinut v~běžných we\-bo\-vých tech\-no\-lo\-gi\-ích
 (Java\-Script\footnote{Standardizován jako ECMAScript, ISO 16262 --
 \url{https://iso.org/standard/55755.html}}, CSS\footnote{Cascading Style Sheets --
 \url{https://www.w3.org/TR/css}}, HTML).
 
 Diagramy lze uložit do serializovaného XML\footnote{Extensible Markup Language
--- \url{https://www.w3.org/TR/xml/}} formátu .drawio. V~tomto formátu je pro
+-- \url{https://www.w3.org/TR/xml/}} formátu \texttt{.drawio}. V~tomto formátu je pro
 každý diagram XML element \texttt{diagram}, ve kterém se nachází data zakódována
 do Base64\footnote{RFC 2045 \S6.8 --
 \url{https://datatracker.ietf.org/doc/html/rfc2045\#section-6.8}}. Tato data
@@ -187,7 +186,7 @@ systému pro správu Git\footnote{Systém pro správu verzí Git --
   \item synchronizace probíhá pomocí systému Git,
   \item díky použití systému Git lze jednoduše spravovat verze a~body v~historii
   při vývoji diagramu.
-\end{enumerate} 
+\end{enumerate}
 
 K~poslednímu bodu je třeba podotknout, že jiná webová úložiště také podporují
 správu verzí, avšak není tak rozvinutá, jako správa systémem k~tomu určeným --
@@ -202,7 +201,7 @@ tlačítka a~tažením myší z~a~do kotev na krajích objektů. Každý objekt
 a~spojovací čára má vlastnosti, které lze upravovat v~pravém postranním panelu.
 Upravovat lze přímo i~vlastnosti formátu SVG.
 
-Uživatelské rozhraní, které je vidět na obrázku \ref{fig:diagrams.net}, je velmi
+Uživatelské rozhraní, které je vidět na obrázku~\ref{fig:diagrams.net}, je velmi
 podobné kancelářským aplikacím Google. Je tak přívětivé pro nové uživatele,
 kteří již s~aplikacemi Google dříve pracovali.
 
@@ -232,7 +231,7 @@ potřeba účet na externím webu, nebo jiný způsob sdílení a~správa tohoto
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{../img/diagrams.net.png}
+  \includegraphics[width = \textwidth]{../img/diagrams.net.png}
   \caption{Tvorba ER diagramu v~aplikaci diagrams.net}
   \label{fig:diagrams.net}
 \end{figure}
@@ -268,7 +267,7 @@ MySQL\footnote{\url{https://mysql.com}},
 PostgreSQL\footnote{\url{https://postgresql.org}} a~SQL
 Server\footnote{Microsoft SQL Server -- \url{https://aka.ms/sqlserver}}.
 
-Rozhraní, které je vidět na obrázku \ref{fig:drawsql}, obsahuje diagram
+Rozhraní, které je vidět na obrázku~\ref{fig:drawsql}, obsahuje diagram
 a~postranní panel. V~postranním panelu lze vytvářet jednotlivé tabulky,
 definovat jejich sloupce a~vlastnosti jednotlivých sloupců -- typ sloupce,
 nullability\footnote{\emph{nullability} je příznak, který určuje, zda lze sloupec
@@ -308,7 +307,7 @@ modelem od nuly.
 
 Závěrem určíme výhody drawSQL:
 \begin{itemize}
-  \item příjemné uživatelské rozhraní (viz obrázek \ref{fig:drawsql}),
+  \item příjemné uživatelské rozhraní (viz obrázek~\ref{fig:drawsql}),
   \item možnost určení typu relace, o~sémantiku se aplikace stará sama
   (one-to-one, one-to-many, many-to-many),
   \item několik platformě specifických generátorů modelu,
@@ -326,7 +325,7 @@ a~nevýhody:
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{../img/drawsql.png}
+  \includegraphics[width = \textwidth]{../img/drawsql.png}
   \caption{Tvorba diagramu v~drawSQL}
   \label{fig:drawsql}
 \end{figure}
@@ -354,7 +353,7 @@ využití úložiště diagramů na serveru aplikace. Diagramy (ERDPlus je nazý
 úložiště nejsou žádným způsobem zpoplatněny.
 
 Tvorba ER diagramů je intuitivní s~jednoduchým uživatelským rozhraním, které je
-vidět na obrázku \ref{fig:erdplus}. Uživatel má na výběr mezi vytvořením entity,
+vidět na obrázku~\ref{fig:erdplus}. Uživatel má na výběr mezi vytvořením entity,
 atributu, relace, spojení mezi těmito objekty a~jednoduchého textového popisku.
 V~pravé části rozhraní se nachází panel s~vlastnostmi zvoleného objektu. V~tomto
 panelu může uživatel také rychleji tvořit atributy entit a~relací. Při zvolení
@@ -382,7 +381,7 @@ nebudeme, protože jsou mimo rozsah této práce.
 Výhody:
 \begin{itemize}
   \item převod diagramu z~ER do relačního diagramu,
-  \item jednoduchost a intuitivnost procesu kresby diagramu 
+  \item jednoduchost a intuitivnost procesu kresby diagramu
 \end{itemize}
 a nevýhody:
 \begin{itemize}
@@ -394,7 +393,7 @@ a nevýhody:
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{../img/erdplus.png}
+  \includegraphics[width = \textwidth]{../img/erdplus.png}
   \caption{Tvorba ER diagramu v~ERDplus}
   \label{fig:erdplus}
 \end{figure}
@@ -414,7 +413,7 @@ webovém prohlížeči\footnote{na adrese \url{https://nomnoml.com}}. Jeho klí�
 vlastnost je, že místo interakce myší s~webovou aplikací probíhá kresba
 deklarativně -- psaním.
 
-Uživatelské rozhraní (viz obrázek \ref{fig:nomnoml}) se skládá z~oblasti pro
+Uživatelské rozhraní (viz obrázek~\ref{fig:nomnoml}) se skládá z~oblasti pro
 textový vstup, nad kterou je zároveň (v~reálném čase) vykreslován výsledný
 diagram. V~pravé horní části se nachází několik tlačítek, při kliknutí na
 některé z~nich se vždy otevře pravý postranní panel s~odpovídajícími informacemi
@@ -450,20 +449,17 @@ této možnosti není z~dokumentace zřejmý, u~nástroje nomnoml lze však pozo
 změnu v~pořadí a vzdálenostech entit (délce spojovacích čar). Uživatel tak může
 vyzkoušet různá rozložení a použít to, které je vizuálně nejpřehlednější.
 
-Diagram lze exportovat do formátu PNG a dále podobně jako v~sekci
-\ref{section:digramsnet}, nomnoml také umožňuje export do SVG se zakomponovaným
-zdrojovým kódem. Uživatel tak může diagram distribuovat v~tomto formátu a
-zároveň tento formát v~nástroji nomnoml i otevřít a plnohodnotně pokračovat
-v~práci. Podobně je možné sdílet odkaz přímo na vytvořený diagram ve službě
-nomnoml. Ten je vytvořen tak, že do odkazu URL je jako parametr \texttt{source}
-zapsán přímo zdrojový kód diagramu. Výsledná adresa URL je tak velice dlouhá,
-ale služba nomnoml nemusí diagramy ukládat, stačí je vykreslit z~dat v~odkazu.
-Přestože se nejedná o~opravdové online úložiště, kategorizovali jsme ho tímto
-způsobem. Rozdělaný diagram lze také uložit do paměti prohlížeče.
+Diagram lze exportovat do formátu PNG a dále podobně jako v~sekci~\ref{section:digramsnet}, nomnoml také umožňuje export do SVG se zakomponovaným zdrojovým kódem.
+Uživatel tak může diagram distribuovat v~tomto formátu a zároveň tento formát v~nástroji nomnoml i otevřít a plnohodnotně pokračovat v~práci.
+Podobně je možné sdílet odkaz přímo na vytvořený diagram ve službě nomnoml.
+Ten je vytvořen tak, že do odkazu URL je jako parametr \texttt{source} zapsán přímo zdrojový kód diagramu.
+Výsledná adresa URL je tak velice dlouhá, ale služba nomnoml nemusí diagramy ukládat, stačí je vykreslit z~dat v~odkazu.
+Přestože se nejedná o~opravdové online úložiště, kategorizovali jsme ho tímto způsobem.
+Rozdělaný diagram lze také uložit do paměti prohlížeče.
 
 Nástroj nomnoml je tedy inovativní svým přístupem ke kresbě diagramů.
 U~složitých diagramů se však nutně ve zdrojovém kódu uživatel ztrácí, protože
-nomnoml nenabízí žádné dělení čí kompozici tohoto kódu. S~vizuální reprezentací
+nomnoml nenabízí žádné dělení či kompozici tohoto kódu. S~vizuální reprezentací
 grafu nelze přímo (např. myší) pracovat, veškeré rozložení a orientaci diagramu
 tak musí uživatel nechat na algoritmu nástroje. Nástroj dále nenabízí ani
 možnost pracovat s~několika diagramy najednou. Z~těchto důvodů určujeme produkt
@@ -471,48 +467,47 @@ jako vhodný pouze pro jednotlivce a tvorbu méně rozsáhlých UML diagramů.
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{../img/nomnoml.png}
+  \includegraphics[width = \textwidth]{../img/nomnoml.png}
   \caption{Tvorba UML diagramu v~nomnoml}
   \label{fig:nomnoml}
 \end{figure}
 
 \section{Závěr existujících řešení}
 
-Přehled analýzy zmíněných existujících řešení je vidět v~tabulce
-\ref{tab:existing-comparison}. % TODO doplnit
+Přehled analýzy zmíněných existujících řešení je vidět v~tabulce~\ref{tab:existing-comparison}. % TODO doplnit
 
 \newcommand{\tnote}[1]{\textsuperscript{#1}}
 \begin{table}
   \begin{center}
     \sffamily
-    \tabcolsep=1pt\relax
+    \tabcolsep = 1pt\relax
     \footnotesize
     \makebox[\textwidth]{
     \begin{tabular}{r|c|c|c|c}
       \toprule
-      název produktu     & \textbf{diagrams.net}                       & \textbf{drawSQL}                                & \textbf{ERDPlus} & \textbf{nomnoml}\\
-      \midrule                 
-      kategorie (vrstva) & libovolné d.                                & logická                                         & konceptuální & omezené d. \\    
-      serializovaný ex.  & ano                                         & ne\tnote{\ref{tab:ec:plan}}                     & ano & ano \\               
-      rastrový ex.       & ano                                         & ano                                             & ano & ano  \\            
-      vektorový ex.      & ano                                         & ne                                              & ne  & ano \\              
-      schématický ex.    & ne                                          & SQL                                             & SQL & ne \\             
-      zjednodušený ex.   & HTML, PDF                                   & ano\tnote{\ref{tab:scaffolding}}                & ne  & ne \\               
-      poskytuje úložiště & ne\tnote{\ref{tab:ec:external-storage}}     & ano                                             & ano & ano\tnote{\ref{tab:ec:urlsharing}} \\            
-      paměť prohlížeče   & ano                                         & ne                                              & ne  & ano \\                
+      název produktu & \textbf{diagrams.net} & \textbf{drawSQL} & \textbf{ERDPlus} & \textbf{nomnoml}\\
+      \midrule
+      kategorie (vrstva) & libovolné d. & logická & konceptuální & omezené d. \\
+      serializovaný ex. & ano & ne\tnote{\ref{tab:ec:plan}} & ano & ano \\
+      rastrový ex. & ano & ano & ano & ano \\
+      vektorový ex. & ano & ne & ne & ano \\
+      schématický ex. & ne & SQL & SQL & ne \\
+      zjednodušený ex. & HTML, PDF & ano\tnote{\ref{tab:scaffolding}} & ne & ne \\
+      poskytuje úložiště & ne\tnote{\ref{tab:ec:external-storage}} & ano & ano & ano\tnote{\ref{tab:ec:urlsharing}} \\
+      paměť prohlížeče & ano & ne & ne & ano \\
       \midrule[\heavyrulewidth]
       \end{tabular}
-    }
+}
   \end{center}
-    
+
   \footnotesize
-  \begin{enumerate}[a.,ref=\alph*,noitemsep]
+  \begin{enumerate}[a.,ref = \alph*,noitemsep]
     \item plánovaná funkce \label{tab:ec:plan}
     \item využívá úložiště třetích stran \label{tab:ec:external-storage}
     \item platformně-specifický scaffolding -- automatické generování kódu pro specifické platformy a programovací jazyky \label{tab:scaffolding}
     \item diagram je uložen v~URL, pomocí které lze diagram sdílet \label{tab:ec:urlsharing}
   \end{enumerate}
-  
+
   \caption{Srovnání existujících řešení}
   \label{tab:existing-comparison}
 \end{table}
