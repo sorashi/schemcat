@@ -484,7 +484,11 @@ Přehled analýzy zmíněných existujících řešení je vidět v~tabulce
 \newcommand{\tnote}[1]{\textsuperscript{#1}}
 \begin{table}
   \begin{center}
-    \begin{tabular}{r|cccc}
+    \sffamily
+    \tabcolsep=1pt\relax
+    \footnotesize
+    \makebox[\textwidth]{
+    \begin{tabular}{r|c|c|c|c}
       \toprule
       název produktu           & \textbf{diagrams.net}                       & \textbf{drawSQL}                                & \textbf{ERDPlus} & \textbf{nomnoml}\\
       \midrule                 
@@ -498,6 +502,7 @@ Přehled analýzy zmíněných existujících řešení je vidět v~tabulce
       paměť prohlížeče & ano                                         & ne                                               & ne & ano \\                
       \midrule[\heavyrulewidth]
       \end{tabular}
+    }
   \end{center}
   
   \footnotesize
