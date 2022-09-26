@@ -69,22 +69,42 @@ Srovnávací kritéria:
 \end{itemize}
 
 Nástroj diagrams.net~\cite{diagramsnet21}, dříve draw.io, je obecný open-source kreslící nástroj
-(který však nepřijímá změny od externích vývojářů) % https://github.com/jgraph/drawio/blob/c7122cad617f52563c11d90890e64ab06db3a27a/README.md#open-source-not-open-contribution
+(který však nepřijímá změny od externích vývojářů~\cite{drawio22}) % https://github.com/jgraph/drawio/blob/c7122cad617f52563c11d90890e64ab06db3a27a/README.md#open-source-not-open-contribution
 vydaný s~licencí Apache License 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}, dostupný jako webová aplikace\footnote{na adrese \url{https://app.diagrams.net}} nebo jako desktopová aplikace.
 Desktopová verze aplikace je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy Electron~\cite{electron21} do okna Chromium.
 Je vyvinut v~běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script\footnote{Standardizován jako ECMAScript, ISO 16262 -- \url{https://iso.org/standard/55755.html}}, CSS\footnote{Cascading Style Sheets -- \url{https://www.w3.org/TR/css}}, HTML).
 
 Diagramy lze uložit do serializovaného XML\footnote{Extensible Markup Language -- \url{https://www.w3.org/TR/xml/}} formátu \texttt{.drawio}.
 V~tomto formátu je pro každý diagram XML element \texttt{diagram}, ve kterém se nachází data zakódována do Base64\footnote{RFC 2045 \S6.8 -- \url{https://datatracker.ietf.org/doc/html/rfc2045\#section-6.8}}.
-Tato data jsou komprimována pomocí zlib\footnote{\url{https://zlib.net}} a~obsahují další XML dokument (URL-encoded\footnote{RFC 3986 \S2.1 -- \url{https://datatracker.ietf.org/doc/html/rfc3986\#section-2.1}}, tj. zakódovaný), tentokrát již serializaci vlastního diagramu.
+Tato data jsou komprimována pomocí zlib\footnote{\url{https://zlib.net}} a~obsahují další XML dokument (URL-encoded\footnote{RFC 3986 \S2.1 -- \url{https://datatracker.ietf.org/doc/html/rfc3986\#section-2.1}}, tj. zakódovaný), tentokrát již serializaci vlastního diagramu~\cite{seibert_extracting_2016}.
 Formát tak není bez dekomprese čitelný člověkem.
 Výhodou je, že lze uložit více diagramů do jednoho souboru a~každý pojmenovat.
 Rozhraní k~tomu určené je identické s~listy souboru tabulkových procesorů, jako Microsoft Excel\footnote{\url{https://aka.ms/excel}} a~Google Sheets\footnote{\url{https://sheets.google.com}}.
+
+Jednosouborový program v jazyce Python (viz kód~\ref{code:mxfiledec}) přijímá na standardním vstupu base64 řetězec formátu mxfile a na standardní výstup vypíše výslednou dekódovanou XML serializaci.
+Použití algoritmu Inflate na syrová data je vynuceno podle dokumentace zlib\footnote{\url{https://www.zlib.net/manual.html}}.
+% specificky https://www.zlib.net/manual.html#:~:text=windowbits%20can%20also%20be%20%E2%80%938..%E2%80%9315%20for%20raw%20deflate
+Jedná se o ukázku postupu dekódování a toho, že formát je otevřený.
+Organizace JGraph dokonce poskytuje online nástroj\footnote{k dispozici na adrese~\url{https://jgraph.github.io/drawio-tools/tools/convert.html}}, pomocí kterého lze dosáhnout téhož výsledku.
 
 Soubor s~diagramy lze také uložit do formátu SVG, který je navíc otevřený a~podporují ho jiné nástroje.
 Uživatel má při exportu k~dispozici možnost \textit{Include a~copy of my diagram}, která do SVG souboru zahrne již zmíněný Base64 řetězec, ve kterém je diagram serializovaný.
 Ve výsledku to znamená, že takto exportované SVG soubory umí diagrams.net i~otevřít a~práce na nich může plnohodnotně pokračovat.
 Toto řešení se nám líbí, protože se jedná o~schování vlastního formátu do SVG, který je nejvhodnějším pro přechovávání a~zobrazování diagramů.
+
+\begin{lstlisting}[language=Python, caption=Dekódování mxfile, label=code:mxfiledec]
+from sys import stdin
+from base64 import b64decode
+from zlib import decompress, MAX_WBITS
+from urllib.parse import unquote
+
+base64_data = stdin.read()
+deflated_data = b64decode(base64_data, validate=False)
+# wbits must be -MAX_WBITS which makes zlib use the raw Inflate algorithm without header detection
+urlencoded_inflated_data = decompress(deflated_data, -MAX_WBITS)
+urldecoded_data = unquote(urlencoded_inflated_data)
+print(urldecoded_data)
+\end{lstlisting}
 
 Dalšími možnostmi exportu a~ukládání jsou
 \begin{itemize}
@@ -94,6 +114,10 @@ Dalšími možnostmi exportu a~ukládání jsou
   v~tomto souboru je pak zahrnut JavaScript od diagrams.net, který diagram vykreslí,
   \item otevřený formát VSDX, původně vyvinutý pro Microsoft Visio.
 \end{itemize}
+
+Zajímavou vlastností exportu do rastrového formátu PNG je, že po otevření v programu diagrams.net je diagram plnohodnotně upravovatelný.
+Je toho dosaženo tím, že v \texttt{tEXt} chunku\footnote{dle PNG formátu sekce 11.3.4.3 \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}}
+je pod klíčovým slovem \texttt{mxfile} zahrnuta plnohodnotná serializace diagramu.
 
 Ze stejných souborů lze diagramy také importovat, ovšem editovat je lze jen pokud je v~nich zahrnut formát drawio, čehož je dosaženo u~některých formátů popsaných výše.
 
@@ -136,6 +160,15 @@ Upravovat lze přímo i~vlastnosti formátu SVG.
 
 Uživatelské rozhraní, které je vidět na obrázku~\ref{fig:diagrams.net}, je velmi podobné kancelářským aplikacím Google.
 Je tak přívětivé pro nové uživatele, kteří již s~aplikacemi Google dříve pracovali.
+
+Menu \menu{Arrange > Layout} umožňuje celý diagram přearanžovat do zvoleného rozložení (Horizontal Flow, Vertical Flow, Horizontal Tree, Vertical Tree, Radial Tree, Organic, Circle, Org Chart, Parallels).
+Případně lze zvolit \menu{Apply\dots}, kde lze aplikovat libovolnou transformaci rozložení\footnote{Dokumentace dostupných transformací rozložení \url{https://jgraph.github.io/mxgraph/docs/js-api/files/layout/hierarchical/mxHierarchicalLayout-js.html}}.
+Tato funkce však není perfektní, protože po změně rozložení se jednotlivé prvky diagramu překrývají a uživatel je musí přesunout manuálně do vhodné pozice.
+Přenastavení rozložení však alespoň položí prvky do zvolené obecné pozice.
+
+V menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjax2022}.
+Pokud pak v nějakém textovém objektu uživatel zadá například \verb|\(x^2\)|, je vykresleno $x^2$.
+Správné vykreslení matematické notace je pak zachováno ve všech zmíněných exportovaných formátech.
 
 Jako výhody určujeme
 \begin{itemize}
@@ -358,6 +391,47 @@ Z~těchto důvodů určujeme produkt jako vhodný pouze pro jednotlivce a tvorbu
   \caption{Tvorba UML diagramu v~nomnoml}
   \label{fig:nomnoml}
 \end{figure}
+
+\section{Visual Paradigm Online}
+
+Srovnávací kritéria:
+\begin{itemize}
+  \item kategorie -- kresba libovolných diagramů,
+  \item typ úložiště -- online, lokální, externí, prohlížeč,
+  \item export -- serializovaný, rastrový, vektorový,
+  \item interaktivní spolupráce -- podporována,
+  \item komercializace -- verze zdarma, měsíčně/ročně placené plány několika úrovní
+\end{itemize}
+
+Nástroj Visual Paradigm Online\footnote{\url{https://online.visual-paradigm.com}} je proprietární produkt od firmy Visual Paradigm.
+Tato firma je známá svou stejnojmennou desktopovou aplikací, která má stejný účel. Zde se zaměříme na její online verzi.
+
+Visual Paradigm Online je nástroj pro tvorbu různých typů diagramů.
+Mimo těch je určen i pro úpravu fotografií, tvorbu koláží, design infografiky, příspěvků na sociální sítě, uživatelských rozhraní, plakátů, dárkových poukazů, apod.
+Funkcionalita kromě tvorby diagramů je mimo rozsah této práce.
+
+Nástroj poskytuje předlohy tvarů pro diagramy tříd, use case diagramy, sekvenční diagramy, diagramy aktivit, diagramy nasazení (deployment), ER diagramy a velmi mnoho dalších.
+Uživatel si před tvorbou diagramu musí vybrat jednu z těchto kategorií, čímž vymezí tvary, které jsou v uživatelském rozhraní dostupné k použití v levém postranním panelu.
+Ve stejném panelu lze ale posléze přidat libovolnou další kategorii tvarů dle výběru uživatele.
+
+Nástroj je svým rozhraním, designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:digramsnet}.
+Stejně tak spojování tvarů čarami má velmi podobné chování.
+Jeden rozdíl je ten, že kresba spojení z jednoho tvaru do toho samého (tvorba \uv{cyklu}) je velmi nepředvídatelná.
+Čára se při tom samovolně přemisťuje do všech možných stran, až nakonec zůstane přilepena na jedné ze stran tvaru.
+
+Diagramy lze uložit do formátu \texttt{vpd}, který při otevření připomíná base64 kód.
+Vypadá velice podobně jako serializace pro diagrams.net ze sekce~\ref{section:digramsnet}.
+Nejedná se však o validní base64.
+
+Jeho dekódováním nicméně vznikne nečitelný bajtový kód, který je buď zašifrovaný nebo v nezdokumentovaném proprietárním formátu.
+
+Diagramy lze exportovat do formátu SVG a PDF, do kterých lze volitelně uložit i serializaci diagramu ve formátu \texttt{vpd} a případně tak plnohodnotně přenést editovatelný diagram i s jeho vektorovou reprezentací.
+Rastrový export je možný ve formátu JPEG nebo PNG.
+Stejně jako u diagrams.net ze sekce~\ref{section:digramsnet} je do PNG volitelně přidána serializace diagramu v \texttt{tEXt} chunku formátu PNG.
+Dokonce je použito stejné klíčové slovo identifikující tuto serializaci -- \texttt{mxfile}.
+To vzbuzuje podezření, že se jedná o stejný formát, jako používá diagrams.net ze sekce \ref{section:digramsnet}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
+O tom, že Visual Paradigm Online používá stejný formát jsme ale nenašli žádné zmínky.
+Dále, jak už bylo zmíněno, \texttt{vpd} nemá stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
 
 \section{Závěr existujících řešení}
 
