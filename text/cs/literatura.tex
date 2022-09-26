@@ -16,6 +16,13 @@
 
 \renewcommand{\bibname}{Seznam použité literatury}
 
+% Dlouhé URLs v bibliografii se špatně zalamují a způsobují problémy se
+% zarovnáním textu. Nepomáhá ani \usepackage[hyphens,spaces,obeyspaces]{url},
+% ani \hypersetup{breaklinks}. Řešení: bibliografie musí být left-aligned
+% (raggedright) místo justified.
+
+\raggedright
+
 %%% Vytvoření seznamu literatury. Pozor, pokud jste necitovali ani jednu
 %%% položku, seznam se automaticky vynechá.
 

@@ -1,13 +1,13 @@
 \chapter{Existující nástroje}
 
 V~této kapitole zanalyzujeme některé existující nástroje pro tvorbu diagramů a~porovnáme je dle navržených kritérií.
-Všechny analyzované nástroje jsou dostupné online ve webovém prohlížeči, jelikož v praktické části bude implementován nástroj pro stejné prostředí.
+Všechny analyzované nástroje jsou dostupné online ve webovém prohlížeči, jelikož v~praktické části bude implementován nástroj pro stejné prostředí.
 Nástroji, které budeme porovnávat, jsou
 \begin{itemize}
   \item diagrams.net~\cite{diagramsnet21} vhodné pro tvorbu libovolných diagramů,
   \item drawSQL~\cite{drawsql21} určené pro tvorbu relačních schémat,
   \item ERDPlus~\cite{erdplus21} k~vytváření zejména ER diagramů~\cite{Chen76}.
-  \item nomnoml~\cite{nomnoml22} k tvorbě UML diagramů~\cite{uml2017} psaním textu,
+  \item nomnoml~\cite{nomnoml22} k~tvorbě UML diagramů~\cite{uml2017} psaním textu,
   \item Visual Paradigm Online~\cite{vpo22} pro tvorbu libovolných diagramů.
 \end{itemize}
 
@@ -81,10 +81,10 @@ Formát tak není bez dekomprese čitelný člověkem.
 Výhodou je, že lze uložit více diagramů do jednoho souboru a~každý pojmenovat.
 Rozhraní k~tomu určené je identické s~listy souboru tabulkových procesorů, jako Microsoft Excel\footnote{\url{https://aka.ms/excel}} a~Google Sheets\footnote{\url{https://sheets.google.com}}.
 
-Jednosouborový program v jazyce Python (viz kód~\ref{code:mxfiledec}) přijímá na standardním vstupu base64 řetězec formátu mxfile a na standardní výstup vypíše výslednou dekódovanou XML serializaci.
+Jednosouborový program v~jazyce Python (viz kód~\ref{code:mxfiledec}) přijímá na standardním vstupu base64 řetězec formátu mxfile a na standardní výstup vypíše výslednou dekódovanou XML serializaci.
 Použití algoritmu Inflate na syrová data je vynuceno podle dokumentace zlib\footnote{\url{https://www.zlib.net/manual.html}}.
 % specificky https://www.zlib.net/manual.html#:~:text=windowbits%20can%20also%20be%20%E2%80%938..%E2%80%9315%20for%20raw%20deflate
-Jedná se o ukázku postupu dekódování a toho, že formát je otevřený.
+Jedná se o~ukázku postupu dekódování a toho, že formát je otevřený.
 Organizace JGraph dokonce poskytuje online nástroj\footnote{k dispozici na adrese~\url{https://jgraph.github.io/drawio-tools/tools/convert.html}}, pomocí kterého lze dosáhnout téhož výsledku.
 
 Soubor s~diagramy lze také uložit do formátu SVG, který je navíc otevřený a~podporují ho jiné nástroje.
@@ -115,8 +115,8 @@ Dalšími možnostmi exportu a~ukládání jsou
   \item otevřený formát VSDX, původně vyvinutý pro Microsoft Visio.
 \end{itemize}
 
-Zajímavou vlastností exportu do rastrového formátu PNG je, že po otevření v programu diagrams.net je diagram plnohodnotně upravovatelný.
-Je toho dosaženo tím, že v \texttt{tEXt} chunku\footnote{dle PNG formátu sekce 11.3.4.3 \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}}
+Zajímavou vlastností exportu do rastrového formátu PNG je, že po otevření v~programu diagrams.net je diagram plnohodnotně upravovatelný.
+Je toho dosaženo tím, že v~\texttt{tEXt} chunku\footnote{dle PNG formátu sekce 11.3.4.3 \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}}
 je pod klíčovým slovem \texttt{mxfile} zahrnuta plnohodnotná serializace diagramu.
 
 Ze stejných souborů lze diagramy také importovat, ovšem editovat je lze jen pokud je v~nich zahrnut formát drawio, čehož je dosaženo u~některých formátů popsaných výše.
@@ -166,8 +166,8 @@ Případně lze zvolit \menu{Apply\dots}, kde lze aplikovat libovolnou transform
 Tato funkce však není perfektní, protože po změně rozložení se jednotlivé prvky diagramu překrývají a uživatel je musí přesunout manuálně do vhodné pozice.
 Přenastavení rozložení však alespoň položí prvky do zvolené obecné pozice.
 
-V menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjax2022}.
-Pokud pak v nějakém textovém objektu uživatel zadá například \verb|\(x^2\)|, je vykresleno $x^2$.
+V~menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjax2022}.
+Pokud pak v~nějakém textovém objektu uživatel zadá například \verb|\(x^2\)|, je vykresleno $x^2$.
 Správné vykreslení matematické notace je pak zachováno ve všech zmíněných exportovaných formátech.
 
 Jako výhody určujeme
@@ -400,7 +400,7 @@ Srovnávací kritéria:
   \item typ úložiště -- online, lokální, externí, prohlížeč,
   \item export -- serializovaný, rastrový, vektorový,
   \item interaktivní spolupráce -- podporována,
-  \item komercializace -- verze zdarma, měsíčně/ročně placené plány několika úrovní
+  \item komercializace -- verze zdarma, měsíčně/ročně placené plány několika úro\-vní.
 \end{itemize}
 
 Nástroj Visual Paradigm Online\footnote{\url{https://online.visual-paradigm.com}} je proprietární produkt od firmy Visual Paradigm.
@@ -411,27 +411,34 @@ Mimo těch je určen i pro úpravu fotografií, tvorbu koláží, design infogra
 Funkcionalita kromě tvorby diagramů je mimo rozsah této práce.
 
 Nástroj poskytuje předlohy tvarů pro diagramy tříd, use case diagramy, sekvenční diagramy, diagramy aktivit, diagramy nasazení (deployment), ER diagramy a velmi mnoho dalších.
-Uživatel si před tvorbou diagramu musí vybrat jednu z těchto kategorií, čímž vymezí tvary, které jsou v uživatelském rozhraní dostupné k použití v levém postranním panelu.
+Uživatel si před tvorbou diagramu musí vybrat jednu z~těchto kategorií, čímž vymezí tvary, které jsou v~uživatelském rozhraní dostupné k~použití v~levém postranním panelu.
 Ve stejném panelu lze ale posléze přidat libovolnou další kategorii tvarů dle výběru uživatele.
 
 Nástroj je svým rozhraním, designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:digramsnet}.
 Stejně tak spojování tvarů čarami má velmi podobné chování.
-Jeden rozdíl je ten, že kresba spojení z jednoho tvaru do toho samého (tvorba \uv{cyklu}) je velmi nepředvídatelná.
+Jeden rozdíl je ten, že kresba spojení z~jednoho tvaru do toho samého (tvorba \uv{cyklu}) je velmi nepředvídatelná.
 Čára se při tom samovolně přemisťuje do všech možných stran, až nakonec zůstane přilepena na jedné ze stran tvaru.
 
-Diagramy lze uložit do formátu \texttt{vpd}, který při otevření připomíná base64 kód.
+Diagramy lze uložit do formátu \texttt{vpd}, který při otevření v textovém editoru připomíná base64 kód.
 Vypadá velice podobně jako serializace pro diagrams.net ze sekce~\ref{section:digramsnet}.
-Nejedná se však o validní base64.
+Nejedná se však o~validní base64 kód, protože ten kóduje 3 bajty do 4 znaků, jinak používá výplň 0-2 znaky \texttt{=}.
+Nicméně \texttt{vpd} obsahuje i sekvence jako je \texttt{M=Q8}, které tomu neodpovídají.
+Jedná se tak nejspíš o nezdokumentovaný proprietární formát.
 
-Jeho dekódováním nicméně vznikne nečitelný bajtový kód, který je buď zašifrovaný nebo v nezdokumentovaném proprietárním formátu.
-
-Diagramy lze exportovat do formátu SVG a PDF, do kterých lze volitelně uložit i serializaci diagramu ve formátu \texttt{vpd} a případně tak plnohodnotně přenést editovatelný diagram i s jeho vektorovou reprezentací.
+Diagramy lze exportovat do formátu SVG a PDF, do kterých lze volitelně uložit i serializaci diagramu ve formátu \texttt{vpd} a případně tak plnohodnotně přenést editovatelný diagram i s~jeho vektorovou reprezentací.
 Rastrový export je možný ve formátu JPEG nebo PNG.
-Stejně jako u diagrams.net ze sekce~\ref{section:digramsnet} je do PNG volitelně přidána serializace diagramu v \texttt{tEXt} chunku formátu PNG.
+Stejně jako u~diagrams.net ze sekce~\ref{section:digramsnet} je do PNG volitelně přidána serializace diagramu v~\texttt{tEXt} chunku formátu PNG.
 Dokonce je použito stejné klíčové slovo identifikující tuto serializaci -- \texttt{mxfile}.
-To vzbuzuje podezření, že se jedná o stejný formát, jako používá diagrams.net ze sekce \ref{section:digramsnet}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
-O tom, že Visual Paradigm Online používá stejný formát jsme ale nenašli žádné zmínky.
+To vzbuzuje podezření, že se jedná o~stejný formát, jako používá diagrams.net ze sekce \ref{section:digramsnet}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
+O~tom, že Visual Paradigm Online používá stejný formát jsme ale nenašli žádné zmínky.
 Dále, jak už bylo zmíněno, \texttt{vpd} nemá stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
+
+Komercializace Visual Paradigm Online je rozdělena do několik platebních úrovní.
+Každá úroveň má určenou cenu za uživatele za měsíc.
+Úrovně jsou dle ceny a úplnosti funkcí vzestupně Free (zdarma), Starter, Advance, Combo (všechny funkce).
+Úroveň Free obsahuje i prémiové šablony, ale je v nich zobrazen vodoznak.
+Ten je v placených plánech odstraněn.
+Placené plány navíc obsahují více typů diagramů a více tvarů k použití, rastrový export vyššího rozlišení, historii verzí diagramu (při spolupráci) a další.
 
 \section{Závěr existujících řešení}
 
