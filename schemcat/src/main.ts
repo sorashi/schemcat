@@ -1,4 +1,5 @@
 import * as d3 from "d3"
+import $ from "jquery"
 
 class ErNode {
     text:string
@@ -13,18 +14,12 @@ class ErNode {
 }
 const data = [new ErNode("Person", 30, 50), new ErNode("Bank Account", 120, 150), new ErNode("Pet", 60, 230)]
 
-function htmlVersion() {
-    d3.select("body").selectAll(".er-entity").data(data).enter().append("div")
-        .attr("class", "er-entity")
-        .attr("style", d => `left: ${d.x}px; top: ${d.y}px`).text(d => d.text)
-}
-
 function updatePath(path: d3.Selection<SVGPathElement, unknown, HTMLElement, unknown>) {
     path.attr("d", `M${data[0].x} ${data[0].y} L${data[1].x} ${data[1].y}`)
 }
 
 function svgVersion() {
-    const svg = d3.select("#container").append("svg")
+    const svg = d3.select("#er-diagram").append("svg")
         .attr("height", 400)
         .attr("width", 400)
     
@@ -61,9 +56,23 @@ function svgVersion() {
         .text(d=>d.text)
 }
 
+function expandMenu(event) {
+    $(this).children(".submenu").css("display", "block")
+    console.log(this)
+}
+function contractMenu(event) {
+    $(this).children(".submenu").css("display", "none")
+}
+function closeView(event) {
+    $(this).parents(".viewbox").css("display", "none")
+}
 function init() {
     // htmlVersion()
     svgVersion()
+    $(".menu-item, .submenu-item").hover(expandMenu, contractMenu)
+    $(".view-close-btn").click(closeView)
 }
+$(document).ready(function() {
+    init()
+})
 
-init()
