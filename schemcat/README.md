@@ -2,6 +2,17 @@
 
 Nástroj pro kresbu diagramů schématických kategorií.
 
+## Instalace
+
+Je potřeba mít správce balíků kompatibilní s npm registrem ([npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)/[yarn](https://yarnpkg.com/)/[pnpm](https://pnpm.io/)...).
+V čase psaní doporučujeme pnpm.
+
+Poté ve složce projektu spustit:
+
+```bash
+pnpm install
+```
+
 ## Vývoj
 
 Hot-reload pro vývoj:
