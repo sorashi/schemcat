@@ -1,11 +1,19 @@
-function MovableSvgComponent(props: any) {
-    function handleMouseDown(event: any) {
+interface MovableSvgComponentProps {
+    x: number,
+    y: number,
+    children: React.ReactNode,
+}
+
+function MovableSvgComponent(props: MovableSvgComponentProps) {
+    function handleMouseDown(event: unknown) {
         console.log(event)
     }
-    function handleMouseMove(event: any) {
+    function handleMouseMove(event: unknown) {
         console.log(event)
     }
-    function handleMouseUp(event: any) { }
+    function handleMouseUp(event: unknown) {
+        console.log(event)
+    }
     return (
         <g transform={`translate(${props.x}, ${props.y})`} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}>
             {props.children}
