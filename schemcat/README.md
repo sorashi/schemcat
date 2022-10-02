@@ -27,12 +27,15 @@ pnpm dev
 pnpm build
 ```
 
-poté lze výstup ve složce `./dist/` distribuovat pomocí libovolného statického serveru,
-např.
+poté lze výstup ve složce `./dist/` distribuovat pomocí libovolného statického serveru, např.
 
 ```bash
+# pnpx je součástí pnpm
 pnpx http-server .
 ```
+
+Statický server musí podporovat (v konfiguraci nebo jako výchozí) korektní MIME headers v HTTP odpovědích pro odpovídající přípony souborů.
+Například `python -m http.server` *nepodporuje* MIME headers jako výchozí, ale lze ho nakonfigurovat.
 
 Pro sestavení projekt používá build-tool [Vite](https://vitejs.dev/).
 Ten ve výchozím nastavení cílí pouze na [moderní webové prohlížeče](https://caniuse.com/es6-module).
