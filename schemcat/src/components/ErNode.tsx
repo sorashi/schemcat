@@ -42,9 +42,9 @@ function ErNode(props: ErNodeProps) {
             node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
             break
         }
-    }, [node.type])
+    }, [node.type, node.x, node.y])
     return (
-        <MovableSvgComponent x={node.x.get()} y={node.y.get()}>
+        <>
             {getErNodeTypeSvg(node)}
             <foreignObject x="0" y="0" width="75" height="75" className="overflow-visible">
                 <div className="h-full text-center w-auto" style={{ lineHeight: `${height}px` }}>
@@ -53,7 +53,7 @@ function ErNode(props: ErNodeProps) {
                     </span>
                 </div>
             </foreignObject>
-        </MovableSvgComponent>
+        </>
     )
 }
 
