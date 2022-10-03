@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { hookstate, State, useHookstate } from "@hookstate/core"
+import { hookstate, State, useHookstate, DevTools } from "@hookstate/core"
 import { Connection, DiagramModel, ErNode as ErNodeModel, ErNodeType } from "../model/DiagramNode"
 import ErNode from "./ErNode"
 import SvgConnection from "./SvgConnection"
@@ -26,6 +26,7 @@ exampleDiagram.links = [
 ]
 function Diagram(props: DiagramProps) {
     const { width, height } = props
+    DevTools(diagram).label("diagram")
     const diagram = useHookstate(exampleDiagram)
     function linkToPoints(link: Connection) {
         const { from, to } = link

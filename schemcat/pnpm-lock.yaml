@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@hookstate/core': 4.0.0-rc21
+  '@hookstate/devtools': 4.0.0-rc21
   '@types/react': ^18.0.17
   '@types/react-dom': ^18.0.6
   '@typescript-eslint/eslint-plugin': ^5.38.1
@@ -22,6 +23,7 @@ specifiers:
 
 dependencies:
   '@hookstate/core': 4.0.0-rc21_react@18.2.0
+  '@hookstate/devtools': 4.0.0-rc21_@hookstate+core@4.0.0-rc21
   flexlayout-react: 0.7.4_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -275,6 +277,13 @@ packages:
       '@babel/types': 7.19.3
     dev: true
 
+  /@babel/runtime/7.19.0:
+    resolution: {integrity: sha512-eR8Lo9hnDS7tqkO7NsV+mKvCmv5boaXFSZ70DnfhcgiEne8hv9oCEd36Klw74EtizEqLsy4YnW8UWwpBVolHZA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: false
+
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
     engines: {node: '>=6.9.0'}
@@ -352,6 +361,16 @@ packages:
       react: ^16.8.6 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@hookstate/devtools/4.0.0-rc21_@hookstate+core@4.0.0-rc21:
+    resolution: {integrity: sha512-gMP/I3ILbzR6EtFFn5+jYuX2z70hFDWF+r/3hjaWZ6vDdOCaAR7/ul1X4W/7TG6cDGCPzFgQwgjLtWEAbNhyEQ==}
+    peerDependencies:
+      '@hookstate/core': 4.0.0-rc21
+    dependencies:
+      '@hookstate/core': 4.0.0-rc21_react@18.2.0
+      redux: 4.2.0
+      redux-devtools-extension: 2.13.9_redux@4.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.10.7:
@@ -2246,6 +2265,25 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
+
+  /redux-devtools-extension/2.13.9_redux@4.2.0:
+    resolution: {integrity: sha512-cNJ8Q/EtjhQaZ71c8I9+BPySIBVEKssbPpskBfsXqb8HJ002A3KRVHfeRzwRo6mGPqsm7XuHTqNSNeS1Khig0A==}
+    deprecated: Package moved to @redux-devtools/extension.
+    peerDependencies:
+      redux: ^3.1.0 || ^4.0.0
+    dependencies:
+      redux: 4.2.0
+    dev: false
+
+  /redux/4.2.0:
+    resolution: {integrity: sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==}
+    dependencies:
+      '@babel/runtime': 7.19.0
+    dev: false
+
+  /regenerator-runtime/0.13.9:
+    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+    dev: false
 
   /regexp.prototype.flags/1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}
