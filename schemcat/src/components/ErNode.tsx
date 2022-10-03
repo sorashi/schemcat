@@ -1,20 +1,23 @@
-import { State } from "@hookstate/core"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { ErNode as ErNodeModel } from "../model/DiagramNode"
 import MovableSvgComponent from "./MovableSvgComponent"
 import SvgDiamondShape from "./SvgDiamondShape"
 
 interface ErNodeProps {
-    node: State<ErNodeModel>
+    node: ErNodeModel
+}
+
+interface AnchorPoint {
+    x: number,
+    y: number,
 }
 
 function ErNode(props: ErNodeProps) {
     const width = 75,
         height = 75
 
-    function getErNodeTypeSvg(node: State<ErNodeModel>) {
-        const nodeCopy = node.get()
-        switch (nodeCopy.type) {
+    function getErNodeTypeSvg(node: ErNodeModel) {
+        switch (node.type) {
         case "Entity":
             return <rect width={width} height={height} fill="white" stroke="black" />
         case "Attribute":
@@ -27,29 +30,29 @@ function ErNode(props: ErNodeProps) {
     }
 
     const { node } = props
-    useEffect(() => {
-        switch (node.type.get()) {
-        case "Entity":
-            node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
-            break
-        case "Attribute":
-            node.anchorPoints.set([{ x: node.x.get() + 5, y: node.y.get() + 75 / 2 }])
-            break
-        case "Relationship":
-            node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
-            break
-        default:
-            node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
-            break
-        }
-    }, [node.type, node.x, node.y])
+    // useEffect(() => {
+    //     switch (node.type) {
+    //     case "Entity":
+    //         setAnchorPoints([{ x: node.x + width / 2, y: node.y }])
+    //         break
+    //     case "Attribute":
+    //         setAnchorPoints[{ x: node.x + 5, y: node.y + 75 / 2 }])
+    //         break
+    //     case "Relationship":
+    //         node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
+    //         break
+    //     default:
+    //         node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
+    //         break
+    //     }
+    // }, [node.type, node.x, node.y])
     return (
         <>
             {getErNodeTypeSvg(node)}
             <foreignObject x="0" y="0" width="75" height="75" className="overflow-visible">
                 <div className="h-full text-center w-auto" style={{ lineHeight: `${height}px` }}>
                     <span>
-                        <u>{node.label.get()}</u>
+                        <u>{node.label}</u>
                     </span>
                 </div>
             </foreignObject>

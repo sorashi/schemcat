@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @import "flexlayout-react/style/light.css";
+// conditionally import dark theme
+// would be better if you could toggle https://www.npmjs.com/package/react-toggle-dark-mode
+// but that requires js
+// @import "flexlayout-react/style/dark.css" screen and (prefers-color-scheme: dark);
 
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;

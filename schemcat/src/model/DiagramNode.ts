@@ -43,3 +43,9 @@ export class Connection {
         this.multiplicity = multiplicity
     }
 }
+
+export interface Model {
+    diagram: DiagramModel,
+    updateNode: (node: ErNode) => void
+    refreshLinksFromToNode: (node: ErNode) => void
+}

@@ -36,3 +36,5 @@ rules:
         - error
         - allow:
             - private-constructors
+    "no-trailing-spaces":
+        - error

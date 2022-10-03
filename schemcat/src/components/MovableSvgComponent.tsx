@@ -1,16 +1,16 @@
-import { State } from "@hookstate/core"
 import React, { useState } from "react"
 
 interface MovableSvgComponentProps {
-    x: State<number>,
-    y: State<number>,
+    x: number,
+    y: number,
     children: React.ReactNode,
     svgRef: React.RefObject<SVGSVGElement>
+    onDrag?: (x: number, y: number) => void
 }
 
 function pageToSvgCoordinates(x: number, y: number, svg: SVGSVGElement | null): DOMPoint {
     if(svg === null) {
-        console.error("SVG is null") 
+        console.error("SVG is null")
         return new SVGPoint(0, 0)
     }
     const pt = svg.createSVGPoint()
@@ -23,13 +23,14 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
     const [state, setState] = useState({ isDragging: false, offset: { x: 0, y: 0} })
     function handleMouseDown(event: React.MouseEvent) {
         const res = pageToSvgCoordinates(event.pageX, event.pageY, props.svgRef.current)
-        setState({ isDragging: true, offset: { x: res.x - props.x.get(), y: res.y - props.y.get() } })
+        setState({ isDragging: true, offset: { x: res.x - props.x, y: res.y - props.y } })
     }
     function handleMouseMove(event: React.MouseEvent) {
         if(state.isDragging) {
             const res = pageToSvgCoordinates(event.pageX, event.pageY, props.svgRef.current)
-            props.x.set(res.x - state.offset.x)
-            props.y.set(res.y - state.offset.y)
+            if(props.onDrag){
+                props.onDrag(res.x - state.offset.x, res.y - state.offset.y)
+            }
         }
     }
     function handleMouseUp(event: React.MouseEvent) {
@@ -37,12 +38,12 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
     }
     function handleMouseLeave(event: React.MouseEvent) {
         if(state.isDragging) {
-            handleMouseMove(event)   
+            handleMouseMove(event)
             console.log("mouse left")
         }
     }
     return (
-        <g transform={`translate(${props.x.get()}, ${props.y.get()})`} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+        <g transform={`translate(${props.x}, ${props.y})`} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
             {props.children}
         </g>
     )
