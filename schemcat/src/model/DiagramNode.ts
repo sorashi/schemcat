@@ -9,6 +9,7 @@ export class DiagramNode {
     label: string
     x = 0
     y = 0
+    selected = false
     constructor(label: string, x = 0, y = 0, id?: number) {
         this.x = x
         this.y = y
