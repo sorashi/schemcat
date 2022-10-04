@@ -9,7 +9,6 @@ export class DiagramNode {
     label: string
     x = 0
     y = 0
-    anchorPoints: { x: number, y: number }[] = []
     constructor(label: string, x = 0, y = 0, id?: number) {
         this.x = x
         this.y = y
@@ -17,6 +16,7 @@ export class DiagramNode {
         else this.id = globalIdGenerator.nextId()
         this.label = label
     }
+    getAnchorPoints?():{x: number, y: number}[]
 }
 export enum ErNodeType {
     Entity = "Entity",
@@ -28,6 +28,19 @@ export class ErNode extends DiagramNode {
     constructor(label: string, type: ErNodeType, x = 0, y = 0) {
         super(label, x, y)
         this.type = type
+    }
+    getAnchorPoints(): { x: number; y: number }[] {
+        const width = 75, height = 75
+        switch (this.type) {
+        case "Entity":
+            return [{ x: this.x + width / 2, y: this.y }]
+        case "Attribute":
+            return [{ x: this.x + 5, y: this.y + 75 / 2 }]
+        case "Relationship":
+            return [{ x: this.x + width / 2, y: this.y}]
+        default:
+            return [{ x: this.x + width / 2, y: this.y }]
+        }
     }
 }
 export class Connection {

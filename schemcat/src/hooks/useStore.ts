@@ -1,4 +1,4 @@
-import {Connection, DiagramModel, ErNode, ErNodeType, Model} from "../model/DiagramNode"
+import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType, Model} from "../model/DiagramNode"
 import create from "zustand"
 import { devtools } from "zustand/middleware"
 
@@ -52,7 +52,7 @@ export const useStore = create<Model>()(
                                 else return l
                             })
                         }}})
-            }
+            },
         })
     )
 )
