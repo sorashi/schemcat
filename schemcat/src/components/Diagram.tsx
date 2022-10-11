@@ -12,7 +12,7 @@ interface DiagramProps {
 function Diagram(props: DiagramProps) {
     const { width, height } = props
     const diagram = useStore(state => state.diagram)
-    const updateNode = useStore(state => state.updateNode)
+    const updateNodeById = useStore(state => state.updateNodeById)
     const refreshLinksFromToNode = useStore(state => state.refreshLinksFromToNode)
     const svgRef = useRef(null)
     function linkToPoints(link: Connection) {
@@ -31,7 +31,7 @@ function Diagram(props: DiagramProps) {
             ))}
             {diagram.nodes.map((node) => (
                 <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
-                    updateNode({ ...(node as ErNodeModel), x: newX, y: newY, getAnchorPoints: node.getAnchorPoints! })
+                    updateNodeById(node.id, n => { n.x = newX, n.y = newY })
                     refreshLinksFromToNode(node as ErNodeModel)
                 }}>
                     <ErNode key={node.id} node={node as ErNodeModel} />

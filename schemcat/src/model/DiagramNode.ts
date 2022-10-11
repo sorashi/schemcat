@@ -1,4 +1,31 @@
+import "reflect-metadata"
+
 import globalIdGenerator from "../utils/GlobalIdGenerator"
+
+export enum ControlPanelViewType {
+    ViewOnly,
+    NumericUpDown,
+    TextEdit,
+    ComboBox
+}
+
+export const IncludeInControlPanelMetadataKey: unique symbol = Symbol("IncludeInControlPanelMetadataKey")
+export const EnumTypeMetadataKey: unique symbol = Symbol("EnumTypeMetadataKey")
+
+export class IncludeInControlPanelMetadata {
+    controlPanelViewType: ControlPanelViewType
+    constructor(controlPanelViewType: ControlPanelViewType) {
+        this.controlPanelViewType = controlPanelViewType
+    }
+}
+
+export function IncludeInControlPanel(viewType: ControlPanelViewType) {
+    return Reflect.metadata(IncludeInControlPanelMetadataKey, new IncludeInControlPanelMetadata(viewType))
+}
+
+export function EnumType(enumType: unknown) {
+    return Reflect.metadata(EnumTypeMetadataKey, enumType)
+}
 
 export class DiagramModel {
     public nodes: DiagramNode[] = []
@@ -6,7 +33,8 @@ export class DiagramModel {
 }
 export class DiagramNode {
     id: number
-    label: string
+    @IncludeInControlPanel(ControlPanelViewType.TextEdit)
+        label: string
     x = 0
     y = 0
     selected = false
@@ -25,7 +53,9 @@ export enum ErNodeType {
     Relationship = "Relationship"
 }
 export class ErNode extends DiagramNode {
-    type: ErNodeType
+    @IncludeInControlPanel(ControlPanelViewType.ComboBox)
+    @EnumType(ErNodeType)
+        type: ErNodeType
     constructor(label: string, type: ErNodeType, x = 0, y = 0) {
         super(label, x, y)
         this.type = type
@@ -61,5 +91,6 @@ export class Connection {
 export interface Model {
     diagram: DiagramModel,
     updateNode: (node: ErNode) => void
+    updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
     refreshLinksFromToNode: (node: ErNode) => void
 }

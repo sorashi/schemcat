@@ -12,9 +12,11 @@ specifiers:
   eslint-plugin-import: ^2.26.0
   eslint-plugin-react: ^7.31.8
   flexlayout-react: ^0.7.4
+  immer: ^9.0.15
   postcss: ^8.4.17
   react: ^18.2.0
   react-dom: ^18.2.0
+  reflect-metadata: ^0.1.13
   sass: ^1.55.0
   tailwindcss: ^3.1.8
   typescript: ^4.8.4
@@ -24,10 +26,12 @@ specifiers:
 
 dependencies:
   flexlayout-react: 0.7.4_biqbaboplfbrettd7655fr4n2y
+  immer: 9.0.15
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  reflect-metadata: 0.1.13
   uuid: 9.0.0
-  zustand: 4.1.1_react@18.2.0
+  zustand: 4.1.1_immer@9.0.15+react@18.2.0
 
 devDependencies:
   '@types/react': 18.0.21
@@ -1680,6 +1684,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer/9.0.15:
+    resolution: {integrity: sha512-2eB/sswms9AEUSkOm4SbV5Y7Vmt/bKRwByd52jfLkW4OLYeaTP3EEiJ9agqU0O/tq6Dk62Zfj+TJSqfm1rLVGQ==}
+    dev: false
+
   /immutable/4.1.0:
     resolution: {integrity: sha512-oNkuqVTA8jqG1Q6c+UglTOD1xhC1BtjKI7XkCXRkZHrN5m18/XsnUp8Q89GkQO/z+0WjonSvl0FLhDYftp46nQ==}
     dev: true
@@ -2251,6 +2259,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /reflect-metadata/0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
   /regexp.prototype.flags/1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}
     engines: {node: '>= 0.4'}
@@ -2666,7 +2678,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zustand/4.1.1_react@18.2.0:
+  /zustand/4.1.1_immer@9.0.15+react@18.2.0:
     resolution: {integrity: sha512-h4F3WMqsZgvvaE0n3lThx4MM81Ls9xebjvrABNzf5+jb3/03YjNTSgZXeyrvXDArMeV9untvWXRw1tY+ntPYbA==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -2678,6 +2690,7 @@ packages:
       react:
         optional: true
     dependencies:
+      immer: 9.0.15
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false

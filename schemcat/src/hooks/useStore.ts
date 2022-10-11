@@ -1,6 +1,7 @@
 import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType, Model} from "../model/DiagramNode"
 import create from "zustand"
 import { devtools } from "zustand/middleware"
+import produce from "immer"
 
 function exampleDiagram() {
     const diagram = new DiagramModel()
@@ -29,17 +30,26 @@ export const useStore = create<Model>()(
                 set({diagram})
             },
             updateNode: (node: ErNode) => {
-                set(state => {
-                    return {
-                        diagram: {
-                            ...state.diagram,
-                            nodes: state.diagram.nodes.map(n => {
-                                if (n.id === node.id) return node
-                                else return n
-                            })
+                set(produce(
+                    state => {
+                        const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === node.id)
+                        if(index === -1) {
+                            console.log("node id not found")
+                            return
                         }
-                    }
-                })
+                        state.diagram.nodes[index] = node
+                    }))
+            },
+            updateNodeById: (id: number, update: (node: DiagramNode) => void) => {
+                set(produce(
+                    state => {
+                        const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
+                        if(index === -1) {
+                            console.error(`node ${id} not found`)
+                            return
+                        }
+                        update(state.diagram.nodes[index])
+                    }))
             },
             refreshLinksFromToNode: (node: ErNode) => {
                 set(state => {
