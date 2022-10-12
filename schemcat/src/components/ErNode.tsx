@@ -1,16 +1,9 @@
-import { useEffect, useState } from "react"
 import { ErNode as ErNodeModel } from "../model/DiagramNode"
-import MovableSvgComponent from "./MovableSvgComponent"
 import SvgDiamondShape from "./SvgDiamondShape"
 
 interface ErNodeProps {
     node: ErNodeModel,
     selected: boolean,
-}
-
-interface AnchorPoint {
-    x: number,
-    y: number,
 }
 
 const width = 90,
