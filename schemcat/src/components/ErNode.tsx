@@ -52,7 +52,7 @@ function ErNode(props: ErNodeProps) {
             <foreignObject x="0" y="0" width="75" height="75" className="overflow-visible">
                 <div className="h-full text-center w-auto" style={{ lineHeight: `${height}px` }}>
                     <span>
-                        <u>{node.label}</u>
+                        {node.label}
                     </span>
                 </div>
             </foreignObject>
