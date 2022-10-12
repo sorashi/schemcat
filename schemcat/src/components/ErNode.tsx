@@ -12,9 +12,10 @@ interface AnchorPoint {
     y: number,
 }
 
+const width = 90,
+    height = 70
+
 function ErNode(props: ErNodeProps) {
-    const width = 75,
-        height = 75
 
     function getErNodeTypeSvg(node: ErNodeModel) {
         switch (node.type) {
@@ -33,7 +34,7 @@ function ErNode(props: ErNodeProps) {
     return (
         <>
             {getErNodeTypeSvg(node)}
-            <foreignObject x="0" y="0" width="75" height="75" className="overflow-visible">
+            <foreignObject x="0" y="0" width={width} height={height} className="overflow-visible">
                 <div className="h-full text-center w-auto" style={{ lineHeight: `${height}px` }}>
                     <span>
                         {node.label}

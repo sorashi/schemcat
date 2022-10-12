@@ -64,7 +64,7 @@ export class ErNode extends DiagramNode {
         this.type = type
     }
     getAnchorPoints(): { x: number; y: number }[] {
-        const width = 75, height = 75
+        const width = 90, height = 70
         switch (this.type) {
         case "Entity":
             return [{ x: this.x + width / 2, y: this.y }]
