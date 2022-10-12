@@ -32,11 +32,14 @@ export class DiagramModel {
     public links: Connection[] = []
 }
 export class DiagramNode {
-    id: number
+    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+        id: number
     @IncludeInControlPanel(ControlPanelViewType.TextEdit)
         label: string
-    x = 0
-    y = 0
+    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+        x = 0
+    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+        y = 0
     selected = false
     constructor(label: string, x = 0, y = 0, id?: number) {
         this.x = x
