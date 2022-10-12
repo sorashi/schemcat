@@ -16,15 +16,20 @@ interface AnchorPoint {
 const width = 90,
     height = 70
 
+const selectedNodeStyle = {
+    stroke: "green",
+    "stroke-dasharray": "10,10"
+}
+
 function ErNodeByType(props: ErNodeProps) {
     const {node, selected} = props
     switch (node.type) {
     case "Entity":
-        return <rect width={width} height={height} fill="white" stroke={selected ? "red" : "black"} />
+        return <rect width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
     case "Attribute":
-        return <circle r={10} cx={5} cy={75 / 2} fill="white" stroke={selected ? "red" : "black"} />
+        return <circle r={10} cx={5} cy={75 / 2} fill="white" stroke="black" {...selected && selectedNodeStyle} />
     case "Relationship":
-        return <SvgDiamondShape width={width} height={height} fill="white" stroke={selected ? "red" : "black"} />
+        return <SvgDiamondShape width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
     default:
         return <rect width={width} height={height} fill="white"  />
     }
