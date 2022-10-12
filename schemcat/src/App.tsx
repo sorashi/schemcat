@@ -6,6 +6,7 @@ import MovableSvgComponent from "./components/MovableSvgComponent"
 import *  as FlexLayout from "flexlayout-react"
 import ControlPanel from "./components/ControlPanel"
 import { DiagramModel, ErNode as ErNodeModel, ErNodeType, Connection } from "./model/DiagramNode"
+import { useStore } from "./hooks/useStore"
 
 const layoutModel = FlexLayout.Model.fromJson({
     global: {},
@@ -63,6 +64,7 @@ function factory(node: FlexLayout.TabNode) {
 }
 
 function App() {
+    const diagram = useStore(state => state.diagram)
     return (
         <div className="App absolute left-0 right-0 bottom-0 top-0 flex flex-col">
             <div>
