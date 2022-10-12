@@ -6,6 +6,7 @@ interface MovableSvgComponentProps {
     children: React.ReactNode,
     svgRef: React.RefObject<SVGSVGElement>
     onDrag?: (x: number, y: number) => void
+    onClick?: () => void
 }
 
 function pageToSvgCoordinates(x: number, y: number, svg: SVGSVGElement | null): DOMPoint {
@@ -42,8 +43,11 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
             console.log("mouse left")
         }
     }
+    function handleClick(event: React.MouseEvent) {
+        if(props.onClick) props.onClick()
+    }
     return (
-        <g transform={`translate(${props.x}, ${props.y})`} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+        <g transform={`translate(${props.x}, ${props.y})`} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick}>
             {props.children}
         </g>
     )

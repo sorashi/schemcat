@@ -30,6 +30,7 @@ export function EnumType(enumType: unknown) {
 export class DiagramModel {
     public nodes: DiagramNode[] = []
     public links: Connection[] = []
+    public selectedNodeId?: number
 }
 export class DiagramNode {
     @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
@@ -91,9 +92,3 @@ export class Connection {
     }
 }
 
-export interface Model {
-    diagram: DiagramModel,
-    updateNode: (node: ErNode) => void
-    updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
-    refreshLinksFromToNode: (node: ErNode) => void
-}

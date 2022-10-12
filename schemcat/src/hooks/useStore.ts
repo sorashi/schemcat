@@ -1,4 +1,4 @@
-import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType, Model} from "../model/DiagramNode"
+import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType} from "../model/DiagramNode"
 import create from "zustand"
 import { devtools } from "zustand/middleware"
 import produce from "immer"
@@ -22,12 +22,24 @@ function exampleDiagram() {
     ]
     return diagram
 }
-export const useStore = create<Model>()(
+export interface StoreModel {
+    diagram: DiagramModel
+    updateDiagram: (update: (diagram: DiagramModel) => void) => void
+    updateNode: (node: ErNode) => void
+    updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
+    refreshLinksFromToNode: (node: ErNode) => void
+}
+export const useStore = create<StoreModel>()(
     devtools(
         (set) => ({
             diagram: exampleDiagram(),
             setDiagram: (diagram: DiagramModel) => {
                 set({diagram})
+            },
+            updateDiagram: (update: (diagram: DiagramModel) => void) => {
+                set(produce((state) => {
+                    update(state.diagram)
+                }))
             },
             updateNode: (node: ErNode) => {
                 set(produce(

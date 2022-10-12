@@ -54,11 +54,9 @@ function ControlPanelView(props: ControlPanelViewProps) {
 }
 
 function ControlPanel() {
-    const selectedNode = useStore(state => state.diagram.nodes.find(node => node.selected))
+    const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
+    const selectedNode = useStore(state => state.diagram.nodes.find(n => n.id === selectedNodeId))
     const updateNodeById = useStore(state => state.updateNodeById)
-    useEffect(() => {
-        updateNodeById(1, node => node.selected = true)
-    }, [])
     return (
         <div>
             <dl>

@@ -14,6 +14,8 @@ function Diagram(props: DiagramProps) {
     const diagram = useStore(state => state.diagram)
     const updateNodeById = useStore(state => state.updateNodeById)
     const refreshLinksFromToNode = useStore(state => state.refreshLinksFromToNode)
+    const updateDiagram = useStore(state => state.updateDiagram)
+    const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
     const svgRef = useRef(null)
     function linkToPoints(link: Connection) {
         const { from, to } = link
@@ -33,8 +35,12 @@ function Diagram(props: DiagramProps) {
                 <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
                     updateNodeById(node.id, n => { n.x = newX, n.y = newY })
                     refreshLinksFromToNode(node as ErNodeModel)
-                }}>
-                    <ErNode key={node.id} node={node as ErNodeModel} />
+                }}
+                onClick={() => {
+                    updateDiagram(d => d.selectedNodeId = node.id)
+                }}
+                >
+                    <ErNode key={node.id} node={node as ErNodeModel} selected={node.id === selectedNodeId} />
                 </MovableSvgComponent>
             ))}
         </svg>
