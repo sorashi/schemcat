@@ -30,22 +30,6 @@ function ErNode(props: ErNodeProps) {
     }
 
     const { node } = props
-    // useEffect(() => {
-    //     switch (node.type) {
-    //     case "Entity":
-    //         setAnchorPoints([{ x: node.x + width / 2, y: node.y }])
-    //         break
-    //     case "Attribute":
-    //         setAnchorPoints[{ x: node.x + 5, y: node.y + 75 / 2 }])
-    //         break
-    //     case "Relationship":
-    //         node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
-    //         break
-    //     default:
-    //         node.anchorPoints.set([{ x: node.x.get() + width / 2, y: node.y.get() }])
-    //         break
-    //     }
-    // }, [node.type, node.x, node.y])
     return (
         <>
             {getErNodeTypeSvg(node)}
