@@ -11,7 +11,7 @@ const width = 90,
 
 const selectedNodeStyle = {
     stroke: "green",
-    "stroke-dasharray": "10,10"
+    strokeDasharray: "10,10"
 }
 
 function ErNodeByType(props: ErNodeProps) {
