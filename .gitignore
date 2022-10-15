@@ -299,3 +299,6 @@ desktop.ini
 
 # Mega Sync Rubbish
 Rubbish/
+
+# tmp soubory
+*.tmp
