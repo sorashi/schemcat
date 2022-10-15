@@ -1,4 +1,4 @@
-import { ErNode as ErNodeModel } from "../model/DiagramNode"
+import { ErNode as ErNodeModel, ErNodeType } from "../model/DiagramNode"
 import SvgDiamondShape from "./SvgDiamondShape"
 
 interface ErNodeProps {
@@ -17,11 +17,11 @@ const selectedNodeStyle = {
 function ErNodeByType(props: ErNodeProps) {
     const {node, selected} = props
     switch (node.type) {
-    case "Entity":
+    case ErNodeType.Entity:
         return <rect width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
-    case "Attribute":
+    case ErNodeType.Attribute:
         return <circle r={10} cx={5} cy={75 / 2} fill="white" stroke="black" {...selected && selectedNodeStyle} />
-    case "Relationship":
+    case ErNodeType.Relationship:
         return <SvgDiamondShape width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
     default:
         return <rect width={width} height={height} fill="white"  />
