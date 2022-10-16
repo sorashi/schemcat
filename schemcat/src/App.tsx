@@ -1,12 +1,9 @@
-import React, { useState } from "react"
-import reactLogo from "./assets/react.svg"
 import "./App.css"
 import Diagram from "./components/Diagram"
-import MovableSvgComponent from "./components/MovableSvgComponent"
 import *  as FlexLayout from "flexlayout-react"
 import ControlPanel from "./components/ControlPanel"
-import { DiagramModel, ErNode as ErNodeModel, ErNodeType, Connection } from "./model/DiagramNode"
 import { useStore } from "./hooks/useStore"
+import { MenuBar } from "./components/Menu"
 
 const layoutModel = FlexLayout.Model.fromJson({
     global: {},
@@ -67,8 +64,8 @@ function App() {
     const diagram = useStore(state => state.diagram)
     return (
         <div className="App absolute left-0 right-0 bottom-0 top-0 flex flex-col">
-            <div>
-                <p>Menu</p>
+            <div className="border-b-2 border-gray-200 relative block">
+                <MenuBar />
             </div>
             <div className="relative left-0 right-0 bottom-0 top-0 flex-1">
                 <FlexLayout.Layout model={layoutModel} factory={factory} />
