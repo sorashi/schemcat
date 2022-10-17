@@ -4,7 +4,9 @@ import ErNode from "./ErNode"
 import SvgConnection from "./SvgConnection"
 import MovableSvgComponent from "./MovableSvgComponent"
 import { useStore } from "../hooks/useStore"
-import {v4 as uuidv4} from "uuid"
+import { Draggable } from "./Draggable"
+import { Point } from "../model/Point"
+import { clientToSvgCoordinates } from "../utils/Utils"
 
 interface DiagramProps {
     width: number
@@ -58,25 +60,43 @@ function Diagram(props: DiagramProps) {
     const updateDiagram = useStore(state => state.updateDiagram)
     const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
     const svgRef = useRef(null)
+    const [ viewBoxOnDragStart, setViewBoxOnDragStart ] = useState({ x: 0, y: 0 })
     return (
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full cursor-move"
-            ref={svgRef}
-            onWheel={(e) => handleWheel(e, svgRef)}
-            preserveAspectRatio="xMidYMid meet">
-            {links.map((link) => (
-                <DiagramConnection key={link.id} link={link} />
-            ))}
-            {nodes.map((node) => (
-                <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
-                    updateNodeById(node.id, n => { n.x = newX, n.y = newY })
-                }}
-                onClick={() => {
-                    updateDiagram(d => d.selectedNodeId = node.id)
-                }}>
-                    <ErNode key={node.id} node={node as ErNodeModel} selected={node.id === selectedNodeId} />
-                </MovableSvgComponent>
-            ))}
-        </svg>
+        <Draggable
+            onDragStart={(_start: Point, target: EventTarget) => {
+                if(svgRef.current === null) return true
+                const svg: SVGSVGElement = svgRef.current
+                if(svg !== target) return true
+                setViewBoxOnDragStart({ x: svg.viewBox.baseVal.x, y: svg.viewBox.baseVal.y })
+                return false
+            }}
+            onDragging={(start: Point, now: Point) => {
+                if(svgRef.current === null) return
+                const svg: SVGSVGElement = svgRef.current
+                const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
+                const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
+                svg.viewBox.baseVal.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
+                svg.viewBox.baseVal.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
+            }}>
+            <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full cursor-move"
+                ref={svgRef}
+                onWheel={(e) => handleWheel(e, svgRef)}
+                preserveAspectRatio="xMidYMid meet">
+                {links.map((link) => (
+                    <DiagramConnection key={link.id} link={link} />
+                ))}
+                {nodes.map((node) => (
+                    <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
+                        updateNodeById(node.id, n => { n.x = newX, n.y = newY })
+                    }}
+                    onClick={() => {
+                        updateDiagram(d => d.selectedNodeId = node.id)
+                    }}>
+                        <ErNode key={node.id} node={node as ErNodeModel} selected={node.id === selectedNodeId} />
+                    </MovableSvgComponent>
+                ))}
+            </svg>
+        </Draggable>
     )
 }
 
