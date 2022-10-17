@@ -56,7 +56,13 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
         if(props.onClick) props.onClick()
     }
     return (
-        <g transform={`translate(${props.x}, ${props.y})`} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={handleClick}>
+        <g transform={`translate(${props.x}, ${props.y})`}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+            className="cursor-pointer">
             {props.children}
         </g>
     )
