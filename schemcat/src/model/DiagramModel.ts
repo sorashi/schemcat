@@ -1,4 +1,5 @@
 import "reflect-metadata"
+import { immerable } from "immer"
 
 import globalIdGenerator from "../utils/GlobalIdGenerator"
 
@@ -28,11 +29,13 @@ export function EnumType(enumType: unknown) {
 }
 
 export class DiagramModel {
+    [immerable] = true
     public nodes: DiagramNode[] = []
     public links: Connection[] = []
     public selectedNodeId?: number
 }
 export class DiagramNode {
+    [immerable] = true
     @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
         id: number
     @IncludeInControlPanel(ControlPanelViewType.TextEdit)
@@ -57,6 +60,7 @@ export enum ErNodeType {
     RelationshipType = "RelationshipType"
 }
 export class ErNode extends DiagramNode {
+    [immerable] = true
     @IncludeInControlPanel(ControlPanelViewType.ComboBox)
     @EnumType(ErNodeType)
         type: ErNodeType
@@ -79,15 +83,16 @@ export class ErNode extends DiagramNode {
     }
 }
 export class Connection {
+    [immerable] = true
     id: number
-    from: DiagramNode
-    to: DiagramNode
+    fromId: number
+    toId: number
     multiplicity: string
-    constructor(from: DiagramNode, to: DiagramNode, multiplicity: string, id?: number) {
+    constructor(fromId: number, toId: number, multiplicity: string, id?: number) {
         if (id) this.id = id
         else this.id = globalIdGenerator.nextId()
-        this.from = from
-        this.to = to
+        this.fromId = fromId
+        this.toId = toId
         this.multiplicity = multiplicity
     }
 }

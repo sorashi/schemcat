@@ -4,6 +4,7 @@ import *  as FlexLayout from "flexlayout-react"
 import ControlPanel from "./components/ControlPanel"
 import { useStore } from "./hooks/useStore"
 import { MenuBar } from "./components/Menu"
+import { v4 as uuidv4 } from "uuid"
 
 const layoutModel = FlexLayout.Model.fromJson({
     global: {},
@@ -54,14 +55,13 @@ function factory(node: FlexLayout.TabNode) {
     case "er-diagram":
         return <Diagram />
     case "control-panel":
-        return <ControlPanel />
+        return <ControlPanel key={uuidv4()} />
     default:
         return <div>Unknown component: <b>{node.getComponent()}</b></div>
     }
 }
 
 function App() {
-    const diagram = useStore(state => state.diagram)
     return (
         <div className="App absolute left-0 right-0 bottom-0 top-0 flex flex-col">
             <div className="border-b-2 border-gray-200 relative block">

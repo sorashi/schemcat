@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import { useStore } from "../hooks/useStore"
 import { ControlPanelViewType, DiagramNode, EnumTypeMetadataKey, ErNode, IncludeInControlPanelMetadata, IncludeInControlPanelMetadataKey } from "../model/DiagramModel"
 import {v4 as uuidv4} from "uuid"
@@ -15,8 +15,7 @@ function TextEditView(props: ControlPanelViewProps) {
     return <input type="text" defaultValue={String(props.node[props.propertyKey])}
         onChange={(e) => {updateNodeById(props.node.id, n =>
             (n as any)[props.propertyKey] = e.target.value
-        )} }
-    />
+        )} } />
 }
 
 function ComboBoxView(props: ControlPanelViewProps) {
@@ -55,20 +54,19 @@ function ControlPanelView(props: ControlPanelViewProps) {
 
 function ControlPanel() {
     const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
-    const selectedNode = useStore(state => state.diagram.nodes.find(n => n.id === selectedNodeId))
-    const updateNodeById = useStore(state => state.updateNodeById)
+    const selectedNode = useStore(useCallback(state => state.diagram.nodes.find(n => n.id === selectedNodeId), [selectedNodeId]))
     return (
         <div>
             <dl>
                 {selectedNode && Reflect.ownKeys(selectedNode).map((prp) => {
                     const metadata: IncludeInControlPanelMetadata | undefined = Reflect.getMetadata(IncludeInControlPanelMetadataKey, selectedNode, prp as keyof typeof selectedNode)
                     if(metadata === undefined) return null
-                    return <React.Fragment key={uuidv4()}>
-                        <dt className="font-bold" key={uuidv4()}>{String(prp)}</dt>
-                        <dd className="ml-4" key={uuidv4()}>
-                            <ControlPanelView metadata={metadata} node={selectedNode} propertyKey={prp as keyof typeof selectedNode} />
+                    return <div key={`${selectedNodeId}-${String(prp)}`}>
+                        <dt className="font-bold">{String(prp)}</dt>
+                        <dd className="ml-4">
+                            <ControlPanelView key={`${selectedNodeId}-${String(prp)}`} metadata={metadata} node={selectedNode} propertyKey={prp as keyof typeof selectedNode} />
                         </dd>
-                    </React.Fragment>
+                    </div>
                 })}
             </dl>
         </div>

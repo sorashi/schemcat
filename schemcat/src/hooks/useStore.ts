@@ -17,11 +17,11 @@ function exampleDiagram() {
         new ErNode("member", ErNodeType.RelationshipType, 200, 150), //5
     ]
     diagram.links = [
-        new Connection(diagram.nodes[0], diagram.nodes[1], "0..1"),
-        new Connection(diagram.nodes[0], diagram.nodes[2], "0..1"),
-        new Connection(diagram.nodes[3], diagram.nodes[4], "0..1"),
-        new Connection(diagram.nodes[0], diagram.nodes[5], "0..*"),
-        new Connection(diagram.nodes[3], diagram.nodes[5], "0..*"),
+        new Connection(diagram.nodes[0].id, diagram.nodes[1].id, "0..1"),
+        new Connection(diagram.nodes[0].id, diagram.nodes[2].id, "0..1"),
+        new Connection(diagram.nodes[3].id, diagram.nodes[4].id, "0..1"),
+        new Connection(diagram.nodes[0].id, diagram.nodes[5].id, "0..*"),
+        new Connection(diagram.nodes[3].id, diagram.nodes[5].id, "0..*"),
     ]
     return diagram
 }
@@ -30,7 +30,6 @@ export interface StoreModel {
     updateDiagram: (update: (diagram: DiagramModel) => void) => void
     updateNode: (node: ErNode) => void
     updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
-    refreshLinksFromToNode: (node: ErNode) => void
 }
 export const useStore = create<StoreModel>()(
     devtools(
@@ -67,18 +66,6 @@ export const useStore = create<StoreModel>()(
                                 }
                                 update(state.diagram.nodes[index])
                             }))
-                    },
-                    refreshLinksFromToNode: (node: ErNode) => {
-                        set(state => {
-                            return {
-                                diagram: {
-                                    ...state.diagram,
-                                    links: state.diagram.links.map(l => {
-                                        if (l.from.id === node.id) return {...l, from: node}
-                                        else if (l.to.id === node.id) return {...l, to: node}
-                                        else return l
-                                    })
-                                }}})
                     },
                 }), {
                     //limit: 50,
