@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTemporalStore } from "../hooks/useStore"
 
 interface MovableSvgComponentProps {
     x: number,
@@ -22,9 +23,11 @@ function pageToSvgCoordinates(x: number, y: number, svg: SVGSVGElement | null): 
 
 function MovableSvgComponent(props: MovableSvgComponentProps) {
     const [state, setState] = useState({ isDragging: false, offset: { x: 0, y: 0} })
+    const { pause, resume } = useTemporalStore()
     function handleMouseDown(event: React.MouseEvent) {
         const res = pageToSvgCoordinates(event.pageX, event.pageY, props.svgRef.current)
         setState({ isDragging: true, offset: { x: res.x - props.x, y: res.y - props.y } })
+        pause()
     }
     function handleMouseMove(event: React.MouseEvent) {
         if(state.isDragging) {
@@ -36,6 +39,12 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
     }
     function handleMouseUp(event: React.MouseEvent) {
         setState({ isDragging: false, offset: { x: 0, y: 0 } })
+        resume()
+        console.log("Resumed")
+        const res = pageToSvgCoordinates(event.pageX, event.pageY, props.svgRef.current)
+        if(props.onDrag){
+            props.onDrag(res.x - state.offset.x, res.y - state.offset.y)
+        }
     }
     function handleMouseLeave(event: React.MouseEvent) {
         if(state.isDragging) {

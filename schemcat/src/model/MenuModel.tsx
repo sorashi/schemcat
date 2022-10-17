@@ -1,24 +1,6 @@
-import React from "react"
-
-export interface ICommand {
-    execute(): void
-}
-
-export class NewFileCommand implements ICommand {
-    execute(): void {
-        throw new Error("Method not implemented.")
-    }
-}
-export class UndoFileCommand implements ICommand {
-    execute(): void {
-        throw new Error("Method not implemented.")
-    }
-}
-export class RedoFileCommand implements ICommand {
-    execute(): void {
-        throw new Error("Method not implemented.")
-    }
-}
+import { DropdownItemProps } from "../components/Menu/DropdownItem"
+import { RedoMenuItem } from "../components/Menu/RedoMenuItem"
+import { UndoMenuItem } from "../components/Menu/UndoMenuItem"
 
 export interface KeyShortcut {
     altKey: boolean,
@@ -37,11 +19,12 @@ const defaultKeyShortcut: KeyShortcut = {
 
 export interface MenuItem {
     title: string,
-    command?: ICommand,
+    factory?: (props: DropdownItemProps) => JSX.Element,
     keyShortcut?: KeyShortcut,
     submenu?: MenuItem[],
 }
-type MenuModel = MenuItem[]
+
+type MenuModel = (MenuItem)[]
 enum Modifier {
     Alt = "alt",
     Ctrl = "ctrl",
@@ -87,7 +70,6 @@ export const menuModel: MenuModel = [
         submenu: [
             {
                 title: "New",
-                command: new NewFileCommand(),
             },
             {
                 title: "Export",
@@ -108,12 +90,12 @@ export const menuModel: MenuModel = [
             {
                 title: "Undo",
                 keyShortcut: getShortcut([Modifier.Ctrl], "z"),
-                command: new UndoFileCommand(),
+                factory: (props: DropdownItemProps) => <UndoMenuItem {...props} />,
             },
             {
                 title: "Redo",
                 keyShortcut: getShortcut([Modifier.Ctrl], "y"),
-                command: new RedoFileCommand(),
+                factory: (props: DropdownItemProps) => <RedoMenuItem {...props} />,
             }
         ]
     }

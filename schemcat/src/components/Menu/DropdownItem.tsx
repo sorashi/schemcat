@@ -1,15 +1,21 @@
 import React from "react"
+import { useKeyboardShortcut } from "../../hooks/useKeyboardShortcut"
 import { MenuItem as MenuItemModel, shortcutToString } from "../../model/MenuModel"
 import { Dropdown } from "./Dropdown"
 
-interface DropdownItemProps {
+export interface DropdownItemProps {
     item: MenuItemModel
+    action?: () => void
 }
 
 export function DropdownItem(props: DropdownItemProps) {
     const [dropdown, setDropdown] = React.useState(false)
+    if(props.item.keyShortcut) {
+        useKeyboardShortcut(props.item.keyShortcut, () => props.action && props.action())
+    }
     return <li onClick={e => {
         setDropdown(!dropdown)
+        if(props.action) props.action()
         e.stopPropagation()
     }}
     onMouseEnter={() => setDropdown(true)}
