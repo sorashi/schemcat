@@ -9,6 +9,11 @@ interface ErNodeProps {
 const width = 90,
     height = 70
 
+const defaultNodeStyle = {
+    fill: "white",
+    stroke: "black",
+}
+
 const selectedNodeStyle = {
     stroke: "green",
     strokeDasharray: "3,3"
@@ -18,14 +23,14 @@ function ErNodeByType(props: ErNodeProps) {
     const {node, selected} = props
     switch (node.type) {
     case ErNodeType.EntityType:
-        return <rect width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
+        return <rect width={width} height={height} {...defaultNodeStyle} {...selected && selectedNodeStyle} />
     case ErNodeType.AttributeType:
-        return <circle r={10} cx={5} cy={75 / 2} fill="white" stroke="black" {...selected && selectedNodeStyle} />
+        return <circle r={10} cx={5} cy={75 / 2} {...defaultNodeStyle} {...selected && selectedNodeStyle} />
     case ErNodeType.RelationshipType:
-        return <SvgDiamondShape width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
+        return <SvgDiamondShape width={width} height={height} {...defaultNodeStyle} {...selected && selectedNodeStyle} />
     default:
         console.error(`Unknown node type: ${node.type}`)
-        return <rect width={width} height={height} fill="white"  />
+        return <rect width={width} height={height} {...defaultNodeStyle} />
     }
 }
 
