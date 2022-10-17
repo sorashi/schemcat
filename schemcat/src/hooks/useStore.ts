@@ -1,4 +1,4 @@
-import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType} from "../model/DiagramNode"
+import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType} from "../model/DiagramModel"
 import create from "zustand"
 import { devtools } from "zustand/middleware"
 import produce from "immer"

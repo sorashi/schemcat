@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useStore } from "../hooks/useStore"
-import { ControlPanelViewType, DiagramNode, EnumTypeMetadataKey, ErNode, IncludeInControlPanelMetadata, IncludeInControlPanelMetadataKey } from "../model/DiagramNode"
+import { ControlPanelViewType, DiagramNode, EnumTypeMetadataKey, ErNode, IncludeInControlPanelMetadata, IncludeInControlPanelMetadataKey } from "../model/DiagramModel"
 import {v4 as uuidv4} from "uuid"
 import { getEnumKeys } from "../utils/Utils"
 

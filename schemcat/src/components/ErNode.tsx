@@ -1,4 +1,4 @@
-import { ErNode as ErNodeModel, ErNodeType } from "../model/DiagramNode"
+import { ErNode as ErNodeModel, ErNodeType } from "../model/DiagramModel"
 import SvgDiamondShape from "./SvgDiamondShape"
 
 interface ErNodeProps {

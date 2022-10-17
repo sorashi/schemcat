@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Connection, DiagramModel, ErNode as ErNodeModel, ErNodeType } from "../model/DiagramNode"
+import { Connection, ErNode as ErNodeModel, ErNodeType } from "../model/DiagramModel"
 import ErNode from "./ErNode"
 import SvgConnection from "./SvgConnection"
 import MovableSvgComponent from "./MovableSvgComponent"
