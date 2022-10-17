@@ -45,7 +45,7 @@ export class DiagramNode {
     @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
         y = 0
     selected = false
-    constructor(label: string, x = 0, y = 0, id?: number) {
+    constructor(label = "Label", x = 0, y = 0, id?: number) {
         this.x = x
         this.y = y
         if (id) this.id = id
@@ -64,7 +64,7 @@ export class ErNode extends DiagramNode {
     @IncludeInControlPanel(ControlPanelViewType.ComboBox)
     @EnumType(ErNodeType)
         type: ErNodeType
-    constructor(label: string, type: ErNodeType, x = 0, y = 0) {
+    constructor(label = "Label", type: ErNodeType = ErNodeType.EntityType, x = 0, y = 0) {
         super(label, x, y)
         this.type = type
     }

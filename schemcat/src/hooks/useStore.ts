@@ -23,7 +23,12 @@ function exampleDiagram() {
         new Connection(diagram.nodes[0].id, diagram.nodes[5].id, "0..*"),
         new Connection(diagram.nodes[3].id, diagram.nodes[5].id, "0..*"),
     ]
-    return diagram
+    // Simulate persistence serialization and deserialization. This is because
+    // we need the state to be pure js objects, not class instances. State
+    // managers compare class instances using reference equality and may not
+    // detect global state change in some cases. This is the invariant to
+    // preserve throughout the whole application.
+    return JSON.parse(JSON.stringify(diagram))
 }
 export interface StoreModel {
     diagram: DiagramModel
