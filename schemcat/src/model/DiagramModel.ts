@@ -49,7 +49,7 @@ export class DiagramNode {
         else this.id = globalIdGenerator.nextId()
         this.label = label
     }
-    getAnchorPoints?():{x: number, y: number}[]
+    getAnchorPoints?: () => {x: number, y: number}[]
 }
 export enum ErNodeType {
     EntityType = "EntityType",
@@ -64,7 +64,7 @@ export class ErNode extends DiagramNode {
         super(label, x, y)
         this.type = type
     }
-    getAnchorPoints(): { x: number; y: number }[] {
+    getAnchorPoints = () => {
         const width = 90, height = 70
         switch (this.type) {
         case ErNodeType.EntityType:

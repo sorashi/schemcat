@@ -1,6 +1,7 @@
 import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType} from "../model/DiagramModel"
 import create from "zustand"
-import { devtools } from "zustand/middleware"
+import { devtools, persist } from "zustand/middleware"
+
 import produce from "immer"
 
 function exampleDiagram() {
@@ -31,50 +32,55 @@ export interface StoreModel {
 }
 export const useStore = create<StoreModel>()(
     devtools(
-        (set) => ({
-            diagram: exampleDiagram(),
-            setDiagram: (diagram: DiagramModel) => {
-                set({diagram})
-            },
-            updateDiagram: (update: (diagram: DiagramModel) => void) => {
-                set(produce((state) => {
-                    update(state.diagram)
-                }))
-            },
-            updateNode: (node: ErNode) => {
-                set(produce(
-                    state => {
-                        const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === node.id)
-                        if(index === -1) {
-                            console.log("node id not found")
-                            return
-                        }
-                        state.diagram.nodes[index] = node
+        persist(
+            (set) => ({
+                diagram: exampleDiagram(),
+                setDiagram: (diagram: DiagramModel) => {
+                    set({diagram})
+                },
+                updateDiagram: (update: (diagram: DiagramModel) => void) => {
+                    set(produce((state) => {
+                        update(state.diagram)
                     }))
-            },
-            updateNodeById: (id: number, update: (node: DiagramNode) => void) => {
-                set(produce(
-                    state => {
-                        const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
-                        if(index === -1) {
-                            console.error(`node ${id} not found`)
-                            return
-                        }
-                        update(state.diagram.nodes[index])
-                    }))
-            },
-            refreshLinksFromToNode: (node: ErNode) => {
-                set(state => {
-                    return {
-                        diagram: {
-                            ...state.diagram,
-                            links: state.diagram.links.map(l => {
-                                if (l.from.id === node.id) return {...l, from: node}
-                                else if (l.to.id === node.id) return {...l, to: node}
-                                else return l
-                            })
-                        }}})
-            },
-        })
+                },
+                updateNode: (node: ErNode) => {
+                    set(produce(
+                        state => {
+                            const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === node.id)
+                            if(index === -1) {
+                                console.log("node id not found")
+                                return
+                            }
+                            state.diagram.nodes[index] = node
+                        }))
+                },
+                updateNodeById: (id: number, update: (node: DiagramNode) => void) => {
+                    set(produce(
+                        state => {
+                            const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
+                            if(index === -1) {
+                                console.error(`node ${id} not found`)
+                                return
+                            }
+                            update(state.diagram.nodes[index])
+                        }))
+                },
+                refreshLinksFromToNode: (node: ErNode) => {
+                    set(state => {
+                        return {
+                            diagram: {
+                                ...state.diagram,
+                                links: state.diagram.links.map(l => {
+                                    if (l.from.id === node.id) return {...l, from: node}
+                                    else if (l.to.id === node.id) return {...l, to: node}
+                                    else return l
+                                })
+                            }}})
+                },
+            })
+            , {
+                name: "schemcat-state",
+                getStorage: () => localStorage,
+            })
     )
 )
