@@ -33,18 +33,36 @@ function DiagramConnection(props: any) {
     return <SvgConnection points={linkToPoints(from as ErNodeModel, to as ErNodeModel)} />
 }
 
+function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
+    const scaleFactor = 1.6
+    const delta = e.deltaY || e.detail || 0
+    const normalized = -(delta % 3 ? delta * 10 : delta / 3)
+    const scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor
+    if(svgRef.current === null) return
+    const svg: SVGSVGElement = svgRef.current
+    const p = svg.createSVGPoint()
+    p.x = e.clientX
+    p.y = e.clientY
+    const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
+    svg.viewBox.baseVal.width *= scaleDelta
+    svg.viewBox.baseVal.height *= scaleDelta
+    svg.viewBox.baseVal.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
+    svg.viewBox.baseVal.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
+}
+
 function Diagram(props: DiagramProps) {
     const { width, height } = props
-    // const diagram = useStore(state => state.diagram)
     const nodes = useStore(state => state.diagram.nodes)
     const links = useStore(state => state.diagram.links)
     const updateNodeById = useStore(state => state.updateNodeById)
-    const updateNode = useStore(state => state.updateNode)
     const updateDiagram = useStore(state => state.updateDiagram)
     const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
     const svgRef = useRef(null)
     return (
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-full" ref={svgRef}>
+        <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full cursor-move"
+            ref={svgRef}
+            onWheel={(e) => handleWheel(e, svgRef)}
+            preserveAspectRatio="xMidYMid meet">
             {links.map((link) => (
                 <DiagramConnection key={link.id} link={link} />
             ))}
