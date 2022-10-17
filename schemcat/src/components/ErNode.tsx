@@ -17,13 +17,14 @@ const selectedNodeStyle = {
 function ErNodeByType(props: ErNodeProps) {
     const {node, selected} = props
     switch (node.type) {
-    case ErNodeType.Entity:
+    case ErNodeType.EntityType:
         return <rect width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
-    case ErNodeType.Attribute:
+    case ErNodeType.AttributeType:
         return <circle r={10} cx={5} cy={75 / 2} fill="white" stroke="black" {...selected && selectedNodeStyle} />
-    case ErNodeType.Relationship:
+    case ErNodeType.RelationshipType:
         return <SvgDiamondShape width={width} height={height} fill="white" stroke="black" {...selected && selectedNodeStyle} />
     default:
+        console.error(`Unknown node type: ${node.type}`)
         return <rect width={width} height={height} fill="white"  />
     }
 }

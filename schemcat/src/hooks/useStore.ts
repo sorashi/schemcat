@@ -6,12 +6,12 @@ import produce from "immer"
 function exampleDiagram() {
     const diagram = new DiagramModel()
     diagram.nodes = [
-        new ErNode("Person", ErNodeType.Entity, 20, 1), //0
-        new ErNode("name", ErNodeType.Attribute, 20, 100), //1
-        new ErNode("age", ErNodeType.Attribute, 100, 100), //2
-        new ErNode("Team", ErNodeType.Entity, 20, 200), //3
-        new ErNode("name", ErNodeType.Attribute, 20, 300), //4
-        new ErNode("member", ErNodeType.Relationship, 200, 150), //5
+        new ErNode("Person", ErNodeType.EntityType, 20, 1), //0
+        new ErNode("name", ErNodeType.AttributeType, 20, 100), //1
+        new ErNode("age", ErNodeType.AttributeType, 100, 100), //2
+        new ErNode("Team", ErNodeType.EntityType, 20, 200), //3
+        new ErNode("name", ErNodeType.AttributeType, 20, 300), //4
+        new ErNode("member", ErNodeType.RelationshipType, 200, 150), //5
     ]
     diagram.links = [
         new Connection(diagram.nodes[0], diagram.nodes[1], "0..1"),

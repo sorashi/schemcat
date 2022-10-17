@@ -52,9 +52,9 @@ export class DiagramNode {
     getAnchorPoints?():{x: number, y: number}[]
 }
 export enum ErNodeType {
-    Entity = "Entity",
-    Attribute = "Attribute",
-    Relationship = "Relationship"
+    EntityType = "EntityType",
+    AttributeType = "AttributeType",
+    RelationshipType = "RelationshipType"
 }
 export class ErNode extends DiagramNode {
     @IncludeInControlPanel(ControlPanelViewType.ComboBox)
@@ -67,11 +67,11 @@ export class ErNode extends DiagramNode {
     getAnchorPoints(): { x: number; y: number }[] {
         const width = 90, height = 70
         switch (this.type) {
-        case "Entity":
+        case ErNodeType.EntityType:
             return [{ x: this.x + width / 2, y: this.y }]
-        case "Attribute":
+        case ErNodeType.AttributeType:
             return [{ x: this.x + 5, y: this.y + 75 / 2 }]
-        case "Relationship":
+        case ErNodeType.RelationshipType:
             return [{ x: this.x + width / 2, y: this.y}]
         default:
             return [{ x: this.x + width / 2, y: this.y }]
