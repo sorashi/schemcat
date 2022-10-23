@@ -11,7 +11,7 @@ specifiers:
   eslint: ^8.24.0
   eslint-plugin-import: ^2.26.0
   eslint-plugin-react: ^7.31.8
-  flexlayout-react: ^0.7.4
+  flexlayout-react: ^0.7.5
   immer: ^9.0.15
   postcss: ^8.4.17
   react: ^18.2.0
@@ -28,7 +28,7 @@ specifiers:
   zustand: ^4.1.1
 
 dependencies:
-  flexlayout-react: 0.7.4_biqbaboplfbrettd7655fr4n2y
+  flexlayout-react: 0.7.5_biqbaboplfbrettd7655fr4n2y
   immer: 9.0.15
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -1569,8 +1569,8 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
-  /flexlayout-react/0.7.4_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-6/yR1Fy3qr5LnE+8JfUeOd3sk/aWu5RHMAAl/RiyCmFEkouJyifSDEWz8eBG3R7BFvL5fvhJQjGl4qzr+Bi6aA==}
+  /flexlayout-react/0.7.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-6WqWrH7COMJx5IJMLt8rksxBJuYYqMvfXqRwGC/2nW8y10nSYqWqOQ544HMUdYfd+tdnRmjgOLI7TLxLbnfGEw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
