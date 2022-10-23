@@ -1,13 +1,14 @@
 import "./App.css"
 import Diagram from "./components/Diagram"
-import *  as FlexLayout from "flexlayout-react"
+import * as FlexLayout from "flexlayout-react"
 import ControlPanel from "./components/ControlPanel"
-import { useStore } from "./hooks/useStore"
 import { MenuBar } from "./components/Menu"
 import { v4 as uuidv4 } from "uuid"
 
 const layoutModel = FlexLayout.Model.fromJson({
-    global: {},
+    global: {
+        tabEnableRename: false,
+    },
     borders: [],
     layout: {
         type: "row",
@@ -32,6 +33,7 @@ const layoutModel = FlexLayout.Model.fromJson({
                         type: "tab",
                         name: "ER Diagram",
                         component: "er-diagram",
+                        className: "overflow-hidden",
                     }
                 ]
             },
@@ -43,6 +45,7 @@ const layoutModel = FlexLayout.Model.fromJson({
                         type: "tab",
                         name: "Schemcat Visualization",
                         component: "er-diagram",
+                        className: "overflow-hidden",
                     }
                 ]
             }

@@ -36,6 +36,9 @@ function DiagramConnection(props: any) {
 }
 
 function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
+    // We cannot preventDefault() here, because wheel is a passive event listener.
+    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
+    // The scrolling capability must be properly disabled in the style layer.
     const scaleFactor = 1.6
     const delta = e.deltaY || e.detail || 0
     const normalized = -(delta % 3 ? delta * 10 : delta / 3)
