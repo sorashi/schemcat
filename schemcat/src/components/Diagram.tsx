@@ -115,7 +115,10 @@ function Diagram(props: DiagramProps) {
                     : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
             className="h-full w-full cursor-move"
             ref={svgRef}
+            // zoom on mouse wheel
             onWheel={(e) => handleWheel(e, svgRef)}
+            // cancel selection on SVG left click
+            onClick={(e) => e.target === svgRef.current && e.button === 0 && updateDiagram(d => d.selectedNodeId = undefined)}
             preserveAspectRatio="xMidYMid meet">
                 {links.map((link) => (
                     <DiagramConnection key={link.id} link={link} />
