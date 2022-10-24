@@ -17,7 +17,7 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
     const { pause, resume } = useTemporalStore()
     function handleMouseDown(event: React.MouseEvent) {
         if(event.button !== 0) return
-        const res = clientToSvgCoordinates(event.pageX, event.pageY, props.svgRef.current)
+        const res = clientToSvgCoordinates(event.clientX, event.clientY, props.svgRef.current)
         setState({ isDragging: true, offset: { x: res.x - props.x, y: res.y - props.y } })
         pause()
     }
@@ -33,7 +33,7 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
         setState({ isDragging: false, offset: { x: 0, y: 0 } })
         resume()
         console.log("Resumed")
-        const res = clientToSvgCoordinates(event.pageX, event.pageY, props.svgRef.current)
+        const res = clientToSvgCoordinates(event.clientX, event.clientY, props.svgRef.current)
         if(props.onDrag){
             props.onDrag(res.x - state.offset.x, res.y - state.offset.y)
         }
