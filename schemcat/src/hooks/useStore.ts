@@ -81,7 +81,8 @@ export const useStore = create<StoreModel>()(
                 }), {
                     //limit: 50,
                     partialize: (state: StoreModel) => {
-                        const { diagram: { selectedNodeId, ...diagRest }, ...rest } = state
+                        // ignore a part of the state
+                        const { isZoomPanSynced, diagram: { selectedNodeId, ...diagRest }, ...rest } = state
                         return { diagram: { ...diagRest }, ...rest }
                     },
                 })
