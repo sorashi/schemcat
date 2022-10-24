@@ -44,7 +44,7 @@ function Diagram(props: DiagramProps) {
     const updateDiagram = useStore(state => state.updateDiagram)
     const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
     const isZoomPanSynced = useStore(state => state.isZoomPanSynced)
-    const [ customViewBox, setCustomViewBox ] = useState(viewBox)
+    const [ customViewBox, setCustomViewBox ] = useState({...viewBox })
     const svgRef = useRef(null)
     function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
     // We cannot preventDefault() here, because wheel is a passive event listener.
@@ -80,7 +80,7 @@ function Diagram(props: DiagramProps) {
 
     useEffect(() => {
         if(!isZoomPanSynced) {
-            setCustomViewBox(viewBox)
+            setCustomViewBox({...viewBox})
         }
     }, [isZoomPanSynced])
     const [ viewBoxOnDragStart, setViewBoxOnDragStart ] = useState({ x: 0, y: 0 })
