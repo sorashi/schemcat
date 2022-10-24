@@ -28,11 +28,19 @@ export function EnumType(enumType: unknown) {
     return Reflect.metadata(EnumTypeMetadataKey, enumType)
 }
 
+export interface Rectangle {
+    x: number
+    y: number
+    width: number
+    height: number
+}
+
 export class DiagramModel {
     [immerable] = true
     public nodes: DiagramNode[] = []
     public links: Connection[] = []
     public selectedNodeId?: number
+    public viewBox: Rectangle = { x: 0, y: 0, width: 800, height: 800 }
 }
 export class DiagramNode {
     [immerable] = true

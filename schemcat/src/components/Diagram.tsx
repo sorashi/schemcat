@@ -7,10 +7,10 @@ import { useStore } from "../hooks/useStore"
 import { Draggable } from "./Draggable"
 import { Point } from "../model/Point"
 import { clientToSvgCoordinates } from "../utils/Utils"
+import produce from "immer"
 
 interface DiagramProps {
-    width: number
-    height: number,
+    er: boolean
 }
 
 function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
@@ -35,34 +35,54 @@ function DiagramConnection(props: any) {
     return <SvgConnection points={linkToPoints(from as ErNodeModel, to as ErNodeModel)} />
 }
 
-function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
-    // We cannot preventDefault() here, because wheel is a passive event listener.
-    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
-    // The scrolling capability must be properly disabled in the style layer.
-    const scaleFactor = 1.6
-    const delta = e.deltaY || e.detail || 0
-    const normalized = -(delta % 3 ? delta * 10 : delta / 3)
-    const scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor
-    if(svgRef.current === null) return
-    const svg: SVGSVGElement = svgRef.current
-    const p = svg.createSVGPoint()
-    p.x = e.clientX
-    p.y = e.clientY
-    const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
-    svg.viewBox.baseVal.width *= scaleDelta
-    svg.viewBox.baseVal.height *= scaleDelta
-    svg.viewBox.baseVal.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
-    svg.viewBox.baseVal.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
-}
 
 function Diagram(props: DiagramProps) {
-    const { width, height } = props
     const nodes = useStore(state => state.diagram.nodes)
     const links = useStore(state => state.diagram.links)
+    const viewBox = useStore(state => state.diagram.viewBox)
     const updateNodeById = useStore(state => state.updateNodeById)
     const updateDiagram = useStore(state => state.updateDiagram)
     const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
+    const isZoomPanSynced = useStore(state => state.isZoomPanSynced)
+    const [ customViewBox, setCustomViewBox ] = useState(viewBox)
     const svgRef = useRef(null)
+    function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
+    // We cannot preventDefault() here, because wheel is a passive event listener.
+    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
+    // The scrolling capability must be properly disabled in the style layer. See #13.
+        const scaleFactor = 1.6
+        const delta = e.deltaY || e.detail || 0
+        const normalized = -(delta % 3 ? delta * 10 : delta / 3)
+        const scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor
+        if(svgRef.current === null) return
+        const svg: SVGSVGElement = svgRef.current
+        const p = svg.createSVGPoint()
+        p.x = e.clientX
+        p.y = e.clientY
+        const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
+        if(props.er || isZoomPanSynced) {
+            updateDiagram(d => {
+                d.viewBox.width *= scaleDelta
+                d.viewBox.height *= scaleDelta
+                d.viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
+                d.viewBox.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
+            })
+        }
+        if(!props.er && !isZoomPanSynced) {
+            setCustomViewBox(produce(draft => {
+                draft.width *= scaleDelta
+                draft.height *= scaleDelta
+                draft.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
+                draft.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
+            }))
+        }
+    }
+
+    useEffect(() => {
+        if(!isZoomPanSynced) {
+            setCustomViewBox(viewBox)
+        }
+    }, [isZoomPanSynced])
     const [ viewBoxOnDragStart, setViewBoxOnDragStart ] = useState({ x: 0, y: 0 })
     return (
         <Draggable
@@ -78,13 +98,25 @@ function Diagram(props: DiagramProps) {
                 const svg: SVGSVGElement = svgRef.current
                 const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
                 const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
-                svg.viewBox.baseVal.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
-                svg.viewBox.baseVal.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
-            }}>
-            <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full cursor-move"
-                ref={svgRef}
-                onWheel={(e) => handleWheel(e, svgRef)}
-                preserveAspectRatio="xMidYMid meet">
+                if(props.er || isZoomPanSynced) {
+                    updateDiagram(d => {
+                        d.viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
+                        d.viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
+                    })
+                }
+                if(!props.er && !isZoomPanSynced) {
+                    setCustomViewBox(produce(d => {
+                        d.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
+                        d.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
+                    }))
+                }}}>
+            <svg viewBox={
+                (props.er || isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+                    : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
+            className="h-full w-full cursor-move"
+            ref={svgRef}
+            onWheel={(e) => handleWheel(e, svgRef)}
+            preserveAspectRatio="xMidYMid meet">
                 {links.map((link) => (
                     <DiagramConnection key={link.id} link={link} />
                 ))}
@@ -104,8 +136,7 @@ function Diagram(props: DiagramProps) {
 }
 
 Diagram.defaultProps = {
-    width: 800,
-    height: 800,
+    er: false,
 }
 
 export default Diagram

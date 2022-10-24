@@ -44,7 +44,7 @@ const layoutModel = FlexLayout.Model.fromJson({
                     {
                         type: "tab",
                         name: "Schemcat Visualization",
-                        component: "er-diagram",
+                        component: "schemcat-visualization-diagram",
                         className: "overflow-hidden",
                     }
                 ]
@@ -56,6 +56,8 @@ const layoutModel = FlexLayout.Model.fromJson({
 function factory(node: FlexLayout.TabNode) {
     switch(node.getComponent()) {
     case "er-diagram":
+        return <Diagram er={true} />
+    case "schemcat-visualization-diagram":
         return <Diagram />
     case "control-panel":
         return <ControlPanel key={uuidv4()} />

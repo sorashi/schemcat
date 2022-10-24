@@ -32,6 +32,8 @@ function exampleDiagram() {
 }
 export interface StoreModel {
     diagram: DiagramModel
+    isZoomPanSynced: boolean,
+    setIsZoomPanSynced: (isLocked: boolean) => void
     updateDiagram: (update: (diagram: DiagramModel) => void) => void
     updateNode: (node: ErNode) => void
     updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
@@ -42,6 +44,10 @@ export const useStore = create<StoreModel>()(
             temporal(
                 (set) => ({
                     diagram: exampleDiagram(),
+                    isZoomPanSynced: false,
+                    setIsZoomPanSynced: (isZoomPanSynced: boolean) => set(produce((state) => {
+                        state.isZoomPanSynced = isZoomPanSynced
+                    })),
                     setDiagram: (diagram: DiagramModel) => {
                         set({diagram})
                     },
