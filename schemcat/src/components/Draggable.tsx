@@ -33,7 +33,8 @@ export function Draggable(props: DraggableProps) {
     }
     return <div onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}>
+        onMouseMove={handleMouseMove}
+        className="w-full h-full overflow-hidden">
         {props.children}
     </div>
 }

@@ -113,7 +113,7 @@ function Diagram(props: DiagramProps) {
             <svg viewBox={
                 (props.er || isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
                     : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
-            className="h-full w-full cursor-move"
+            className="h-[100vh] w-[100vw] cursor-move"
             ref={svgRef}
             // zoom on mouse wheel
             onWheel={(e) => handleWheel(e, svgRef)}
