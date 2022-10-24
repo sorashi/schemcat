@@ -16,6 +16,7 @@ export function Draggable(props: DraggableProps) {
     })
     function handleMouseDown(e: React.MouseEvent) {
         let prevent = false
+        if(e.button !== 0) return
         if(props.onDragStart) prevent = props.onDragStart({ x: e.clientX, y: e.clientY }, e.target)
         setState({ ...state, isDragging: !prevent, start: { x: e.clientX, y: e.clientY } })
     }
