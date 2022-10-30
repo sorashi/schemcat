@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Connection, ErNode as ErNodeModel, ErNodeType } from "../model/DiagramModel"
 import ErNode from "./ErNode"
 import SvgConnection from "./SvgConnection"
