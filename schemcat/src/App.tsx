@@ -11,6 +11,8 @@ import DragAndDropPanel from "./components/DragAndDropPanel"
 const layoutModel = FlexLayout.Model.fromJson({
     global: {
         tabEnableRename: false,
+        tabEnableClose: false,
+        tabSetEnableClose: false,
     },
     borders: [],
     layout: {
