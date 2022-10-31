@@ -18,6 +18,7 @@ schemcat-install:
     - apk update && apk add curl
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir schemcat/.pnpm-store
+    - cd schemcat
   script:
     - pnpm install
 
