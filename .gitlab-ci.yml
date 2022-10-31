@@ -6,7 +6,7 @@ cache: &global_cache
       - schemcat/pnpm-lock.yaml
   paths:
     - schemcat/node_modules/
-    - schemcat/.pnpm-store
+    - schemcat/.pnpm-store/
   policy: pull
 
 schemcat-install:
@@ -74,4 +74,7 @@ schemcat-gh-pages:
     # commit only if there are changes
     - git diff-index --quiet HEAD || git commit -m "$CI_SERVER_NAME $CI_PIPELINE_ID"
     - git push
-  only: [ master ]
+  # deploy to production when a tag is pushed 
+  only: [ tags ]
+  # ignore all branches except the default branch (i.e. must tag master)
+  except: [ branches ]
