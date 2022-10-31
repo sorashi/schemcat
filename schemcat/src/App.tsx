@@ -4,6 +4,9 @@ import * as FlexLayout from "flexlayout-react"
 import ControlPanel from "./components/ControlPanel"
 import { MenuBar } from "./components/Menu"
 import { v4 as uuidv4 } from "uuid"
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import DragAndDropPanel from "./components/DragAndDropPanel"
 
 const layoutModel = FlexLayout.Model.fromJson({
     global: {
@@ -22,6 +25,11 @@ const layoutModel = FlexLayout.Model.fromJson({
                         type: "tab",
                         name: "Control Panel",
                         component: "control-panel",
+                    },
+                    {
+                        type: "tab",
+                        name: "Drag and Drop",
+                        component: "drag-and-drop-panel",
                     }
                 ]
             },
@@ -61,6 +69,8 @@ function factory(node: FlexLayout.TabNode) {
         return <Diagram />
     case "control-panel":
         return <ControlPanel key={uuidv4()} />
+    case "drag-and-drop-panel":
+        return <DragAndDropPanel />
     default:
         return <div>Unknown component: <b>{node.getComponent()}</b></div>
     }
@@ -73,7 +83,9 @@ function App() {
                 <MenuBar />
             </div>
             <div className="relative left-0 right-0 bottom-0 top-0 flex-1">
-                <FlexLayout.Layout model={layoutModel} factory={factory} />
+                <DndProvider backend={HTML5Backend}>
+                    <FlexLayout.Layout model={layoutModel} factory={factory} />
+                </DndProvider>
             </div>
         </div>
     )
