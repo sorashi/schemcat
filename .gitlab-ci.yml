@@ -1,0 +1,22 @@
+image: node:current-alpine
+schemcat-gh-pages:
+  before_script:
+    - apk update && apk add openssl ca-certificates git
+    - npm install
+    - PATH=$(npm bin):$PATH
+  script:
+    - npm run build
+    - git clone --depth 1 https://sorashi:$GITHUB_ACCESS_TOKEN@github.com/sorashi/schemcat.git
+    - mkdir schemcat.new
+    # clean working dir, preserve .git
+    - cp -a schemcat/.git schemcat.new/.git
+    - cp -a dist/* schemcat.new/
+    - cd schemcat.new
+    - touch .nojekyll
+    - git config user.email prazak.dennis@gmail.com
+    - git config user.name "Dennis Prazak"
+    - git add -A
+    # commit only if there are changes
+    - git diff-index --quiet HEAD || git commit -m "$CI_SERVER_NAME $CI_PIPELINE_ID"
+    - git push
+  only: [ master ]
