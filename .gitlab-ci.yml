@@ -17,7 +17,7 @@ schemcat-install:
   before_script:
     - apk update && apk add curl
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
-    - pnpm config set store-dir schemcat/.pnpm-store
+    - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
     - pnpm install
@@ -29,7 +29,7 @@ schemcat-build:
   before_script:
     - apk update && apk add curl
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
-    - pnpm config set store-dir schemcat/.pnpm-store
+    - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
     - pnpm build
@@ -45,7 +45,7 @@ schemcat-test:
   before_script:
     - apk update && apk add curl
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
-    - pnpm config set store-dir schemcat/.pnpm-store
+    - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
     - pnpm test
@@ -57,7 +57,7 @@ schemcat-gh-pages:
   before_script:
     - apk update && apk add curl openssl ca-certificates git
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
-    - pnpm config set store-dir schemcat/.pnpm-store
+    - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
     - npm run build
