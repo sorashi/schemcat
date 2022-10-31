@@ -1,10 +1,63 @@
 image: node:current-alpine
+
+cache: &global_cache
+  key:
+    files:
+      - schemcat/pnpm-lock.yaml
+  paths:
+    - schemcat/node_modules/
+    - schemcat/.pnpm-store
+  policy: pull
+
+schemcat-install:
+  stage: .pre
+  cache:
+    <<: *global_cache
+    policy: pull-push
+  before_script:
+    - apk update
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - pnpm config set store-dir schemcat/.pnpm-store
+  script:
+    - pnpm install
+
+schemcat-build:
+  stage: build
+  cache:
+    <<: *global_cache
+  before_script:
+    - apk update
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - pnpm config set store-dir schemcat/.pnpm-store
+    - cd schemcat
+  script:
+    - pnpm build
+  artifacts:
+    paths:
+      - schemcat/dist/
+    expire_in: 7 days
+
+schemcat-test:
+  stage: test
+  cache:
+    <<: *global_cache
+  before_script:
+    - apk update
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - pnpm config set store-dir schemcat/.pnpm-store
+    - cd schemcat
+  script:
+    - pnpm test
+
 schemcat-gh-pages:
+  stage: deploy
+  cache:
+    <<: *global_cache
   before_script:
     - apk update && apk add openssl ca-certificates git
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - pnpm config set store-dir schemcat/.pnpm-store
     - cd schemcat
-    - npm install
-    - PATH=$(npm bin):$PATH
   script:
     - npm run build
     - git clone --depth 1 https://sorashi:$GITHUB_ACCESS_TOKEN@github.com/sorashi/schemcat.git
