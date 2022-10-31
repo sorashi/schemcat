@@ -2,6 +2,7 @@ image: node:current-alpine
 schemcat-gh-pages:
   before_script:
     - apk update && apk add openssl ca-certificates git
+    - cd schemcat
     - npm install
     - PATH=$(npm bin):$PATH
   script:
