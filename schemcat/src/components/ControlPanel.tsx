@@ -57,7 +57,7 @@ function ControlPanel() {
     const selectedNode = useStore(useCallback(state => state.diagram.nodes.find(n => n.id === selectedNodeId), [selectedNodeId]))
     const convertedNode = Object.assign(new ErNode(), selectedNode)
     return (
-        <div>
+        <div className="p-2">
             <dl>
                 {selectedNode && Reflect.ownKeys(selectedNode).map((prp) => {
                     const metadata: IncludeInControlPanelMetadata | undefined = Reflect.getMetadata(IncludeInControlPanelMetadataKey, convertedNode, prp as keyof typeof selectedNode)
@@ -68,7 +68,8 @@ function ControlPanel() {
                             <ControlPanelView key={`${selectedNodeId}-${String(prp)}`} metadata={metadata} node={convertedNode} propertyKey={prp as keyof typeof selectedNode} />
                         </dd>
                     </div>
-                })}
+                })
+                || <div className="text-gray-500">Select a node</div>}
             </dl>
         </div>
     )
