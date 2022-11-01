@@ -8,6 +8,7 @@ import { Draggable } from "./Draggable"
 import { Point } from "../model/Point"
 import { clientToSvgCoordinates } from "../utils/Utils"
 import produce from "immer"
+import { useDrop } from "react-dnd"
 
 interface DiagramProps {
     er: boolean
@@ -84,57 +85,70 @@ function Diagram(props: DiagramProps) {
         }
     }, [isZoomPanSynced])
     const [ viewBoxOnDragStart, setViewBoxOnDragStart ] = useState({ x: 0, y: 0 })
+    const [, dropRef] = useDrop(() => ({
+        accept: ["s"],
+        drop: ({erNodeType}: { erNodeType: ErNodeType }, monitor) => {
+            const newNode = new ErNodeModel(erNodeType, erNodeType, 0, 0)
+            updateDiagram(d => {
+                d.nodes.push(newNode)
+            })
+            return newNode
+        },
+        // collect: monitor => ({ isOver: monitor.isOver(), item: monitor.getItem(), didDrop: monitor.didDrop(), result: monitor.getDropResult() }),
+    }), [])
     return (
-        <Draggable
-            onDragStart={(_start: Point, target: EventTarget) => {
-                if(svgRef.current === null) return true
-                const svg: SVGSVGElement = svgRef.current
-                if(svg !== target) return true
-                setViewBoxOnDragStart({ x: svg.viewBox.baseVal.x, y: svg.viewBox.baseVal.y })
-                return false
-            }}
-            onDragging={(start: Point, now: Point) => {
-                if(svgRef.current === null) return
-                const svg: SVGSVGElement = svgRef.current
-                const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
-                const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
-                if(props.er || isZoomPanSynced) {
-                    updateDiagram(d => {
-                        d.viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
-                        d.viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
-                    })
-                }
-                if(!props.er && !isZoomPanSynced) {
-                    setCustomViewBox(produce(d => {
-                        d.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
-                        d.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
-                    }))
-                }}}>
-            <svg viewBox={
-                (props.er || isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
-                    : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
-            className="h-[100vh] w-[100vw] cursor-move"
-            ref={svgRef}
-            // zoom on mouse wheel
-            onWheel={(e) => handleWheel(e, svgRef)}
-            // cancel selection on SVG left click
-            onClick={(e) => e.target === svgRef.current && e.button === 0 && updateDiagram(d => d.selectedNodeId = undefined)}
-            preserveAspectRatio="xMidYMid meet">
-                {links.map((link) => (
-                    <DiagramConnection key={link.id} link={link} />
-                ))}
-                {nodes.map((node) => (
-                    <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
-                        updateNodeById(node.id, n => { n.x = newX, n.y = newY })
-                    }}
-                    onClick={() => {
-                        updateDiagram(d => d.selectedNodeId = node.id)
-                    }}>
-                        <ErNode key={node.id} node={node as ErNodeModel} selected={node.id === selectedNodeId} />
-                    </MovableSvgComponent>
-                ))}
-            </svg>
-        </Draggable>
+        <div className="w-full h-full overflow-hidden" ref={dropRef}>
+            <Draggable
+                onDragStart={(_start: Point, target: EventTarget) => {
+                    if(svgRef.current === null) return true
+                    const svg: SVGSVGElement = svgRef.current
+                    if(svg !== target) return true
+                    setViewBoxOnDragStart({ x: svg.viewBox.baseVal.x, y: svg.viewBox.baseVal.y })
+                    return false
+                }}
+                onDragging={(start: Point, now: Point) => {
+                    if(svgRef.current === null) return
+                    const svg: SVGSVGElement = svgRef.current
+                    const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
+                    const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
+                    if(props.er || isZoomPanSynced) {
+                        updateDiagram(d => {
+                            d.viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
+                            d.viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
+                        })
+                    }
+                    if(!props.er && !isZoomPanSynced) {
+                        setCustomViewBox(produce(d => {
+                            d.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
+                            d.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
+                        }))
+                    }}}>
+                <svg viewBox={
+                    (props.er || isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+                        : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
+                className="h-[100vh] w-[100vw] cursor-move"
+                ref={svgRef}
+                // zoom on mouse wheel
+                onWheel={(e) => handleWheel(e, svgRef)}
+                // cancel selection on SVG left click
+                onClick={(e) => e.target === svgRef.current && e.button === 0 && updateDiagram(d => d.selectedNodeId = undefined)}
+                preserveAspectRatio="xMidYMid meet">
+                    {links.map((link) => (
+                        <DiagramConnection key={link.id} link={link} />
+                    ))}
+                    {nodes.map((node) => (
+                        <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
+                            updateNodeById(node.id, n => { n.x = newX, n.y = newY })
+                        }}
+                        onClick={() => {
+                            updateDiagram(d => d.selectedNodeId = node.id)
+                        }}>
+                            <ErNode key={node.id} node={node as ErNodeModel} selected={node.id === selectedNodeId} />
+                        </MovableSvgComponent>
+                    ))}
+                </svg>
+            </Draggable>
+        </div>
     )
 }
 
