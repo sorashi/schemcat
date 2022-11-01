@@ -1,7 +1,7 @@
 import ErNode from "./ErNode"
 import { ErNode as ErNodeModel, ErNodeType} from "../model/DiagramModel"
 import { useDrag } from "react-dnd"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useMemo } from "react"
 
 interface DragAndDropPanelItemProps {
     erNodeType: ErNodeType
