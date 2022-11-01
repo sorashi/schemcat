@@ -88,7 +88,9 @@ function Diagram(props: DiagramProps) {
     const [, dropRef] = useDrop(() => ({
         accept: ["s"],
         drop: ({erNodeType}: { erNodeType: ErNodeType }, monitor) => {
-            const newNode = new ErNodeModel(erNodeType, erNodeType, 0, 0)
+            const { x, y } = monitor.getClientOffset() || { x: 0, y: 0 }
+            const point = clientToSvgCoordinates(x, y, svgRef.current)
+            const newNode = new ErNodeModel(erNodeType, erNodeType, point.x, point.y)
             updateDiagram(d => {
                 d.nodes.push(newNode)
             })
