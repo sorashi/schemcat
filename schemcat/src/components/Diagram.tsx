@@ -9,6 +9,8 @@ import { Point } from "../model/Point"
 import { clientToSvgCoordinates } from "../utils/Utils"
 import produce from "immer"
 import { useDrop } from "react-dnd"
+import { useKeyboardShortcut } from "../hooks/useKeyboardShortcut"
+import { getShortcut } from "../model/MenuModel"
 
 interface DiagramProps {
     er: boolean
@@ -43,8 +45,12 @@ function Diagram(props: DiagramProps) {
     const viewBox = useStore(state => state.diagram.viewBox)
     const updateNodeById = useStore(state => state.updateNodeById)
     const updateDiagram = useStore(state => state.updateDiagram)
+    const removeNodeById = useStore(state => state.removeNodeById)
     const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
     const isZoomPanSynced = useStore(state => state.isZoomPanSynced)
+    useKeyboardShortcut(getShortcut([], "Delete"), () => {
+        if(selectedNodeId)  removeNodeById(selectedNodeId)
+    })
     const [ customViewBox, setCustomViewBox ] = useState({...viewBox })
     const svgRef = useRef(null)
     function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {

@@ -32,7 +32,7 @@ enum Modifier {
     Shift = "shift"
 }
 
-function getShortcut(mods: Modifier[], key: string): KeyShortcut {
+export function getShortcut(mods: Modifier[], key: string): KeyShortcut {
     const shortcut = { ...defaultKeyShortcut }
     shortcut.key = key.toLowerCase()
     mods.forEach(mod => {

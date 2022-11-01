@@ -8,7 +8,7 @@ export function useKeyboardShortcut(
 ) {
     useEffect(() => {
         function handleKeydown(e: KeyboardEvent) {
-            if (e.key === shortcut.key &&
+            if (e.key.toLowerCase() === shortcut.key &&
                 e.ctrlKey === shortcut.ctrlKey &&
                 e.shiftKey === shortcut.shiftKey &&
                 e.altKey === shortcut.altKey &&

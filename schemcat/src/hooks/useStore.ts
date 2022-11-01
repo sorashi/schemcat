@@ -36,6 +36,9 @@ export interface StoreModel {
     setIsZoomPanSynced: (isLocked: boolean) => void
     updateDiagram: (update: (diagram: DiagramModel) => void) => void
     updateNode: (node: ErNode) => void
+    /** removes the node and its connections from the diagram */
+    removeNodeById: (id: number) => void
+    /** calls and update function on the node */
     updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
 }
 export const useStore = create<StoreModel>()(
@@ -65,6 +68,18 @@ export const useStore = create<StoreModel>()(
                                     return
                                 }
                                 state.diagram.nodes[index] = node
+                            }))
+                    },
+                    removeNodeById: (id: number) => {
+                        set(produce(
+                            state => {
+                                const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
+                                if(index === -1) {
+                                    console.log("node id not found")
+                                    return
+                                }
+                                state.diagram.nodes.splice(index, 1)
+                                state.diagram.links = state.diagram.links.filter((l: Connection) => l.fromId !== id && l.toId !== id)
                             }))
                     },
                     updateNodeById: (id: number, update: (node: DiagramNode) => void) => {
