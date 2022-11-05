@@ -2,9 +2,7 @@ import {Connection, DiagramModel, DiagramNode, ErNode, ErNodeType} from "../mode
 import create from "zustand"
 import { devtools, persist } from "zustand/middleware"
 import { temporal } from "zundo"
-
-import produce from "immer"
-import Diagram from "../components/Diagram"
+import { produce } from "immer"
 
 function exampleDiagram() {
     const diagram = new DiagramModel()
