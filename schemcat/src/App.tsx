@@ -20,19 +20,31 @@ const layoutModel = FlexLayout.Model.fromJson({
         weight: 100,
         children: [
             {
-                type: "tabset",
+                type: "row",
                 weight: 10,
                 children: [
                     {
-                        type: "tab",
-                        name: "Control Panel",
-                        component: "control-panel",
+                        type: "tabset",
+                        weight: 10,
+                        children: [
+                            {
+                                type: "tab",
+                                name: "Control Panel",
+                                component: "control-panel",
+                            },
+                        ]
                     },
                     {
-                        type: "tab",
-                        name: "Drag and Drop",
-                        component: "drag-and-drop-panel",
-                    }
+                        type: "tabset",
+                        weight: 10,
+                        children: [
+                            {
+                                type: "tab",
+                                name: "Drag and Drop",
+                                component: "drag-and-drop-panel",
+                            }
+                        ]
+                    },
                 ]
             },
             {
