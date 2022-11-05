@@ -7,8 +7,9 @@ import { v4 as uuidv4 } from "uuid"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import DragAndDropPanel from "./components/DragAndDropPanel"
+import { useEffect, useLayoutEffect, useState } from "react"
 
-const layoutModel = FlexLayout.Model.fromJson({
+const defaultLayoutModel = FlexLayout.Model.fromJson({
     global: {
         tabEnableRename: false,
         tabEnableClose: false,
@@ -90,7 +91,24 @@ function factory(node: FlexLayout.TabNode) {
     }
 }
 
+const LAYOUT_STORAGE = "schemcat-layout"
+function getSavedLayout(): FlexLayout.Model | null {
+    const saved = localStorage.getItem(LAYOUT_STORAGE)
+    if(saved) return FlexLayout.Model.fromJson(JSON.parse(saved))
+    return null
+}
+function setSavedLayout(layout: FlexLayout.Model) {
+    localStorage.setItem(LAYOUT_STORAGE, JSON.stringify(layout.toJson()))
+}
+
 function App() {
+    const [ layoutModelState, setLayoutModelState ] = useState(defaultLayoutModel)
+
+    useLayoutEffect(() => {
+        const savedLayout = getSavedLayout()
+        if(savedLayout) setLayoutModelState(savedLayout)
+    }, [])
+
     return (
         <div className="App absolute left-0 right-0 bottom-0 top-0 flex flex-col">
             <div className="border-b-2 border-gray-200 relative block">
@@ -98,7 +116,7 @@ function App() {
             </div>
             <div className="relative left-0 right-0 bottom-0 top-0 flex-1">
                 <DndProvider backend={HTML5Backend}>
-                    <FlexLayout.Layout model={layoutModel} factory={factory} />
+                    <FlexLayout.Layout model={layoutModelState} onModelChange={(model) => {setSavedLayout(model)}} factory={factory} />
                 </DndProvider>
             </div>
         </div>
