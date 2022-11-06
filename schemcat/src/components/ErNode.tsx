@@ -21,6 +21,7 @@ const selectedNodeStyle = {
 
 function ErNodeByType(props: ErNodeProps) {
     const {node, selected} = props
+    const { width } = node
     switch (node.type) {
     case ErNodeType.EntityType:
         return <rect width={width} height={height} {...defaultNodeStyle} {...selected && selectedNodeStyle} />

@@ -79,16 +79,15 @@ export class ErNode extends DiagramNode {
         this.type = type
     }
     getAnchorPoints = () => {
-        const width = 90, height = 70
         switch (this.type) {
         case ErNodeType.EntityType:
-            return [{ x: this.x + width / 2, y: this.y }]
+            return [{ x: this.x + this.width / 2, y: this.y }]
         case ErNodeType.AttributeType:
             return [{ x: this.x + 5, y: this.y + 75 / 2 }]
         case ErNodeType.RelationshipType:
-            return [{ x: this.x + width / 2, y: this.y}]
+            return [{ x: this.x + this.width / 2, y: this.y}]
         default:
-            return [{ x: this.x + width / 2, y: this.y }]
+            return [{ x: this.x + this.width / 2, y: this.y }]
         }
     }
 }
