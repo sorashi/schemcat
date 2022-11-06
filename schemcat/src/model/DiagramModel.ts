@@ -65,9 +65,9 @@ export class DiagramNode {
     getAnchorPoints?: () => {x: number, y: number}[]
 }
 export enum ErNodeType {
-    EntityType = "EntityType",
-    AttributeType = "AttributeType",
-    RelationshipType = "RelationshipType"
+    EntityType = "Entity Type",
+    AttributeType = "Attribute Type",
+    RelationshipType = "Relationship Type"
 }
 export class ErNode extends DiagramNode {
     [immerable] = true

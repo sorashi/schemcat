@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import { useCallback } from "react"
 import { useStore } from "../hooks/useStore"
 import { ControlPanelViewType, DiagramNode, EnumTypeMetadataKey, ErNode, IncludeInControlPanelMetadata, IncludeInControlPanelMetadataKey } from "../model/DiagramModel"
 import {v4 as uuidv4} from "uuid"
@@ -22,7 +22,7 @@ function ComboBoxView(props: ControlPanelViewProps) {
     const enumType = Reflect.getMetadata(EnumTypeMetadataKey, props.node, props.propertyKey)
     const updateNodeById = useStore(state => state.updateNodeById)
     return <select defaultValue={String(props.node[props.propertyKey])} onChange={(e) => updateNodeById(props.node.id, n => (n as any)[props.propertyKey] = e.target.value)}>
-        {(getEnumKeys(enumType)).map((v) =>
+        {Object.values(enumType).map((v: any) =>
             <option key={uuidv4()} value={String(v)}>{String(v)}</option>
         )}
     </select>
