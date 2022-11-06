@@ -39,8 +39,8 @@ function ErNode(props: ErNodeProps) {
     return (
         <>
             <ErNodeByType {...props} />
-            <foreignObject x="0" y="0" width={width} height={height} className="overflow-visible">
-                <div className="h-full text-center w-auto" style={{ lineHeight: `${height}px` }}>
+            <foreignObject x="0" y="0" width={props.node.width} height={height} className="overflow-visible">
+                <div className="h-auto text-center w-full relative top-1/2 -translate-y-1/2">
                     <span>
                         {node.label}
                     </span>

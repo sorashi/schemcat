@@ -52,6 +52,8 @@ export class DiagramNode {
         x = 0
     @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
         y = 0
+    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+        width = 90
     selected = false
     constructor(label = "Label", x = 0, y = 0, id?: number) {
         this.x = x
