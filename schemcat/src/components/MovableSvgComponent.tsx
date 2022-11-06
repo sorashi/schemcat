@@ -8,7 +8,7 @@ interface MovableSvgComponentProps {
     children: React.ReactNode,
     svgRef: React.RefObject<SVGSVGElement>
     onDrag?: (x: number, y: number) => void
-    onClick?: () => void
+    onClick?: (event: React.MouseEvent) => void
 }
 
 
@@ -45,7 +45,7 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
         }
     }
     function handleClick(event: React.MouseEvent) {
-        if(props.onClick) props.onClick()
+        if(props.onClick) props.onClick(event)
     }
     return (
         <g transform={`translate(${props.x}, ${props.y})`}

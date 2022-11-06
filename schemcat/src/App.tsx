@@ -1,3 +1,6 @@
+import { enableMapSet } from "immer"
+enableMapSet()
+
 import "./App.css"
 import Diagram from "./components/Diagram"
 import * as FlexLayout from "flexlayout-react"

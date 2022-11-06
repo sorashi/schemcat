@@ -26,7 +26,7 @@ function exampleDiagram() {
     // managers compare class instances using reference equality and may not
     // detect global state change in some cases. This is the invariant to
     // preserve throughout the whole application.
-    return JSON.parse(JSON.stringify(diagram))
+    return { ...JSON.parse(JSON.stringify(diagram)), selectedNodeIds: new Set<number>() }
 }
 export interface StoreModel {
     diagram: DiagramModel
@@ -95,13 +95,26 @@ export const useStore = create<StoreModel>()(
                     //limit: 50,
                     partialize: (state: StoreModel) => {
                         // ignore a part of the state
-                        const { isZoomPanSynced, diagram: { selectedNodeId, ...diagRest }, ...rest } = state
+                        const { isZoomPanSynced, diagram: { selectedNodeIds, ...diagRest }, ...rest } = state
                         return { diagram: { ...diagRest }, ...rest }
                     },
                 })
             , {
                 name: "schemcat-state",
                 getStorage: () => localStorage,
+                partialize: (state: StoreModel) => {
+                    // ignore a part of the state
+                    const { isZoomPanSynced, diagram: { selectedNodeIds, ...diagRest }, ...rest } = state
+                    return { diagram: { ...diagRest }, ...rest }
+                },
+                serialize: (state) => {
+                    return JSON.stringify(state)
+                },
+                deserialize: (s) => {
+                    const o = JSON.parse(s)
+                    o.state.diagram.selectedNodeIds = new Set<number>()
+                    return o
+                },
             })
     )
 )

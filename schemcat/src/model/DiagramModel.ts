@@ -39,7 +39,7 @@ export class DiagramModel {
     [immerable] = true
     public nodes: DiagramNode[] = []
     public links: Connection[] = []
-    public selectedNodeId?: number
+    public selectedNodeIds: Set<number> = new Set<number>()
     public viewBox: Rectangle = { x: 0, y: 0, width: 800, height: 800 }
 }
 export class DiagramNode {

@@ -59,8 +59,10 @@ function ControlPanelView(props: ControlPanelViewProps) {
 }
 
 function ControlPanel() {
-    const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
-    const selectedNode = useStore(useCallback(state => state.diagram.nodes.find(n => n.id === selectedNodeId), [selectedNodeId]))
+    const selectedNodeIds = useStore(state => state.diagram.selectedNodeIds)
+
+    const selectedNodeId = selectedNodeIds.size === 1 ? selectedNodeIds.values().next().value : undefined
+    const selectedNode = useStore(useCallback(state => state.diagram.nodes.find(n => n.id === selectedNodeId), [selectedNodeIds]))
     const convertedNode = Object.assign(new ErNode(), selectedNode)
     return (
         <div className="p-2">
@@ -75,7 +77,8 @@ function ControlPanel() {
                         </dd>
                     </div>
                 })
-                || <div className="text-gray-500">Select a node</div>}
+                ||
+                <div className="text-gray-500">{selectedNodeIds.size === 0 ? "Select a node" : "Multiple node editing is not supported yet"}</div>}
             </dl>
         </div>
     )

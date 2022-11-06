@@ -46,10 +46,13 @@ function Diagram(props: DiagramProps) {
     const updateNodeById = useStore(state => state.updateNodeById)
     const updateDiagram = useStore(state => state.updateDiagram)
     const removeNodeById = useStore(state => state.removeNodeById)
-    const selectedNodeId = useStore(state => state.diagram.selectedNodeId)
+    const selectedNodeIds = useStore(state => state.diagram.selectedNodeIds)
     const isZoomPanSynced = useStore(state => state.isZoomPanSynced)
     useKeyboardShortcut(getShortcut([], "Delete"), () => {
-        if(selectedNodeId)  removeNodeById(selectedNodeId)
+        if(selectedNodeIds) {
+            selectedNodeIds.forEach(id => removeNodeById(id))
+            updateDiagram(d => d.selectedNodeIds.clear())
+        }
     })
     const [ customViewBox, setCustomViewBox ] = useState({...viewBox })
     const svgRef = useRef(null)
@@ -139,7 +142,7 @@ function Diagram(props: DiagramProps) {
                 // zoom on mouse wheel
                 onWheel={(e) => handleWheel(e, svgRef)}
                 // cancel selection on SVG left click
-                onClick={(e) => e.target === svgRef.current && e.button === 0 && updateDiagram(d => d.selectedNodeId = undefined)}
+                onClick={(e) => e.target === svgRef.current && e.button === 0 && updateDiagram(d => d.selectedNodeIds.clear())}
                 preserveAspectRatio="xMidYMid meet">
                     {links.map((link) => (
                         <DiagramConnection key={link.id} link={link} />
@@ -148,10 +151,14 @@ function Diagram(props: DiagramProps) {
                         <MovableSvgComponent key={node.id} svgRef={svgRef} x={node.x} y={node.y} onDrag={(newX, newY) => {
                             updateNodeById(node.id, n => { n.x = newX, n.y = newY })
                         }}
-                        onClick={() => {
-                            updateDiagram(d => d.selectedNodeId = node.id)
+                        onClick={(e) => {
+                            if(e.ctrlKey) {
+                                updateDiagram(d => d.selectedNodeIds.add(node.id))
+                            } else {
+                                updateDiagram(d =>{ d.selectedNodeIds.clear(); d.selectedNodeIds.add(node.id) })
+                            }
                         }}>
-                            <ErNode key={node.id} node={node as ErNodeModel} selected={node.id === selectedNodeId} />
+                            <ErNode key={node.id} node={node as ErNodeModel} selected={selectedNodeIds.has && selectedNodeIds.has(node.id) || false} />
                         </MovableSvgComponent>
                     ))}
                 </svg>
