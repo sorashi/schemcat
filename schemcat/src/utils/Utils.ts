@@ -15,3 +15,7 @@ export function clientToSvgCoordinates(x: number, y: number, svg: SVGSVGElement 
     pt.y = y
     return pt.matrixTransform(svg.getScreenCTM()?.inverse())
 }
+
+export function toRadians(degrees: number) {
+    return Math.PI * degrees / 180
+}
