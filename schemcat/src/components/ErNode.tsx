@@ -4,7 +4,7 @@ import SvgDiamondShape from "./SvgDiamondShape"
 
 interface ErNodeProps {
     node: ErNodeModel,
-    height: number,
+    height?: number,
     selected: boolean,
 }
 
@@ -21,7 +21,7 @@ const selectedNodeStyle = {
 }
 
 function ErNodeByType(props: ErNodeProps) {
-    const {node, selected, height} = props
+    const {node, selected, height = 70} = props
     const { width } = node
     switch (node.type) {
     case ErNodeType.EntityType:
