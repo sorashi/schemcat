@@ -3,7 +3,7 @@ import { KeyShortcut } from "../model/MenuModel"
 
 export function useKeyboardShortcut(
     shortcut: KeyShortcut,
-    callback: () => void,
+    callback: (e: KeyboardEvent) => void,
     deps: any[] = []
 ) {
     useEffect(() => {
@@ -13,7 +13,7 @@ export function useKeyboardShortcut(
                 e.shiftKey === shortcut.shiftKey &&
                 e.altKey === shortcut.altKey &&
                 e.metaKey === shortcut.metaKey)
-                callback()
+                callback(e)
         }
         window.addEventListener("keydown", handleKeydown)
         return () => window.removeEventListener("keydown", handleKeydown)

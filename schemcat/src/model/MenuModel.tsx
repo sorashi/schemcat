@@ -25,7 +25,7 @@ export interface MenuItem {
 }
 
 type MenuModel = (MenuItem)[]
-enum Modifier {
+export enum Modifier {
     Alt = "alt",
     Ctrl = "ctrl",
     Meta = "meta",

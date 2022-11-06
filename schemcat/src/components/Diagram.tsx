@@ -10,7 +10,7 @@ import { clientToSvgCoordinates } from "../utils/Utils"
 import produce from "immer"
 import { useDrop } from "react-dnd"
 import { useKeyboardShortcut } from "../hooks/useKeyboardShortcut"
-import { getShortcut } from "../model/MenuModel"
+import { getShortcut, Modifier } from "../model/MenuModel"
 
 interface DiagramProps {
     er: boolean
@@ -54,6 +54,20 @@ function Diagram(props: DiagramProps) {
             updateDiagram(d => d.selectedNodeIds.clear())
         }
     })
+    useKeyboardShortcut(getShortcut([Modifier.Ctrl], "l"), (e) => {
+        if(selectedNodeIds.size !== 2) {
+            console.error("not supported yet")
+            return
+        }
+        const [node1, node2] = selectedNodeIds
+        e.preventDefault()
+        let existing: number
+        if((existing = links.findIndex(l => l.fromId === node1 && l.toId === node2 || l.fromId === node2 && l.toId === node1)) !== -1) {
+            updateDiagram(d => d.links.splice(existing, 1))
+            return
+        }
+        updateDiagram(d => d.links.push(new Connection(node1, node2, "")))
+    }, [selectedNodeIds])
     const [ customViewBox, setCustomViewBox ] = useState({...viewBox })
     const svgRef = useRef(null)
     function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
