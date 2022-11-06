@@ -83,7 +83,7 @@ export class ErNode extends DiagramNode {
         case ErNodeType.EntityType:
             return [{ x: this.x + this.width / 2, y: this.y }]
         case ErNodeType.AttributeType:
-            return [{ x: this.x + 5, y: this.y + 75 / 2 }]
+            return [{ x: this.x + 5, y: this.y + 5 }]
         case ErNodeType.RelationshipType:
             return [{ x: this.x + this.width / 2, y: this.y}]
         default:
