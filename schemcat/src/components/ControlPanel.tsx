@@ -28,6 +28,12 @@ function ComboBoxView(props: ControlPanelViewProps) {
     </select>
 }
 
+function NumericUpDownView(props: ControlPanelViewProps) {
+    const updateNodeById = useStore(state => state.updateNodeById)
+    return <input type="number" defaultValue={Number(props.node[props.propertyKey])}
+        onChange={(e) => updateNodeById(props.node.id, n => (n as any)[props.propertyKey] = Number(e.target.value))} />
+}
+
 interface ControlPanelViewProps {
     metadata: IncludeInControlPanelMetadata
     node: DiagramNode,
@@ -41,7 +47,7 @@ function ControlPanelView(props: ControlPanelViewProps) {
     case ControlPanelViewType.TextEdit:
         return <TextEditView {...props} />
     case ControlPanelViewType.NumericUpDown:
-        return <></>
+        return <NumericUpDownView {...props} />
     case ControlPanelViewType.ComboBox:
         return <ComboBoxView {...props} />
     default:

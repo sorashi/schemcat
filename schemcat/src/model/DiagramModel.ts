@@ -48,11 +48,11 @@ export class DiagramNode {
         id: number
     @IncludeInControlPanel(ControlPanelViewType.TextEdit)
         label: string
-    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+    @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
         x = 0
-    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+    @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
         y = 0
-    @IncludeInControlPanel(ControlPanelViewType.ViewOnly)
+    @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
         width = 90
     selected = false
     constructor(label = "Label", x = 0, y = 0, id?: number) {
