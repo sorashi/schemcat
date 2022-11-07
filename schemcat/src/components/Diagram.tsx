@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
-import { Connection, ErNode as ErNodeModel, ErNodeType } from "../model/DiagramModel"
+import { Connection, ErNode as ErNodeModel, ErNodeType, Rectangle } from "../model/DiagramModel"
 import ErNode from "./ErNode"
 import SvgConnection from "./SvgConnection"
 import MovableSvgComponent from "./MovableSvgComponent"
@@ -71,6 +71,29 @@ function Diagram({ isSelectedNodeInActiveTabSet = false}: DiagramProps) {
     }, [selectedNodeIds])
     const [ customViewBox, setCustomViewBox ] = useState({...viewBox })
     const svgRef = useRef(null)
+
+    function handleDragStart(_start: Point, target: EventTarget): boolean {
+        if(svgRef.current === null) return true
+        const svg: SVGSVGElement = svgRef.current
+        if(svg !== target) return true
+        setViewBoxOnDragStart({ x: svg.viewBox.baseVal.x, y: svg.viewBox.baseVal.y })
+        return false
+    }
+    function handleDragging(start: Point, now: Point) {
+        if(svgRef.current === null) return
+        const svg: SVGSVGElement = svgRef.current
+        const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
+        const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
+
+        function updateViewBox(viewBox: Rectangle) {
+            viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
+            viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
+        }
+        if(isZoomPanSynced)
+            updateDiagram(d => updateViewBox(d.viewBox))
+        else
+            setCustomViewBox(produce(updateViewBox))
+    }
     function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
     // We cannot preventDefault() here, because wheel is a passive event listener.
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
@@ -86,21 +109,16 @@ function Diagram({ isSelectedNodeInActiveTabSet = false}: DiagramProps) {
         p.y = e.clientY
         const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
 
-        if(isZoomPanSynced) {
-            updateDiagram(d => {
-                d.viewBox.width *= scaleDelta
-                d.viewBox.height *= scaleDelta
-                d.viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
-                d.viewBox.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
-            })
-        } else {
-            setCustomViewBox(produce(draft => {
-                draft.width *= scaleDelta
-                draft.height *= scaleDelta
-                draft.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
-                draft.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
-            }))
+        function updateViewBox(viewBox: Rectangle) {
+            viewBox.width *= scaleDelta
+            viewBox.height *= scaleDelta
+            viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
+            viewBox.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
         }
+        if(isZoomPanSynced)
+            updateDiagram(d => updateViewBox(d.viewBox))
+        else
+            setCustomViewBox(produce(updateViewBox))
     }
 
     useLayoutEffect(() => {
@@ -130,31 +148,8 @@ function Diagram({ isSelectedNodeInActiveTabSet = false}: DiagramProps) {
     return (
         <div className="w-full h-full overflow-hidden" ref={dropRef}>
             <Draggable
-                onDragStart={(_start: Point, target: EventTarget) => {
-                    if(svgRef.current === null) return true
-                    const svg: SVGSVGElement = svgRef.current
-                    if(svg !== target) return true
-                    setViewBoxOnDragStart({ x: svg.viewBox.baseVal.x, y: svg.viewBox.baseVal.y })
-                    return false
-                }}
-                onDragging={(start: Point, now: Point) => {
-                    if(svgRef.current === null) return
-                    const svg: SVGSVGElement = svgRef.current
-                    const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
-                    const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
-
-                    if(isZoomPanSynced) {
-                        updateDiagram(d => {
-                            d.viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
-                            d.viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
-                        })
-                    } else {
-                        setCustomViewBox(produce(d => {
-                            d.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
-                            d.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
-                        }))
-                    }
-                }}>
+                onDragStart={handleDragStart}
+                onDragging={handleDragging}>
                 <svg viewBox={
                     (isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
                         : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
