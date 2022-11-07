@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import DragAndDropPanel from "./components/DragAndDropPanel"
-import { useEffect, useLayoutEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
     global: {
@@ -80,11 +80,12 @@ const defaultLayoutModel = FlexLayout.Model.fromJson({
 })
 
 function factory(node: FlexLayout.TabNode) {
+    const isSelectedNodeInActiveTabset = node.getModel().getActiveTabset()?.getSelectedNode() === node
     switch(node.getComponent()) {
     case "er-diagram":
-        return <Diagram er={true} />
+        return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case "schemcat-visualization-diagram":
-        return <Diagram />
+        return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case "control-panel":
         return <ControlPanel key={uuidv4()} />
     case "drag-and-drop-panel":

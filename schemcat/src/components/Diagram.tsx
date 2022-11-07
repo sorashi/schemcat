@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Connection, ErNode as ErNodeModel, ErNodeType } from "../model/DiagramModel"
 import ErNode from "./ErNode"
 import SvgConnection from "./SvgConnection"
@@ -13,7 +13,8 @@ import { useKeyboardShortcut } from "../hooks/useKeyboardShortcut"
 import { getShortcut, Modifier } from "../model/MenuModel"
 
 interface DiagramProps {
-    er: boolean
+    /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
+    isSelectedNodeInActiveTabSet: boolean
 }
 
 function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
@@ -39,7 +40,7 @@ function DiagramConnection(props: any) {
 }
 
 
-function Diagram(props: DiagramProps) {
+function Diagram({ isSelectedNodeInActiveTabSet = false}: DiagramProps) {
     const nodes = useStore(state => state.diagram.nodes)
     const links = useStore(state => state.diagram.links)
     const viewBox = useStore(state => state.diagram.viewBox)
@@ -84,15 +85,15 @@ function Diagram(props: DiagramProps) {
         p.x = e.clientX
         p.y = e.clientY
         const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
-        if(props.er || isZoomPanSynced) {
+
+        if(isZoomPanSynced) {
             updateDiagram(d => {
                 d.viewBox.width *= scaleDelta
                 d.viewBox.height *= scaleDelta
                 d.viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
                 d.viewBox.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
             })
-        }
-        if(!props.er && !isZoomPanSynced) {
+        } else {
             setCustomViewBox(produce(draft => {
                 draft.width *= scaleDelta
                 draft.height *= scaleDelta
@@ -102,11 +103,16 @@ function Diagram(props: DiagramProps) {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if(!isZoomPanSynced) {
             setCustomViewBox({...viewBox})
         }
+        if(isZoomPanSynced && isSelectedNodeInActiveTabSet) {
+            // leader
+            updateDiagram(d => d.viewBox = {...customViewBox})
+        }
     }, [isZoomPanSynced])
+
     const [ viewBoxOnDragStart, setViewBoxOnDragStart ] = useState({ x: 0, y: 0 })
     const [, dropRef] = useDrop(() => ({
         accept: ["s"],
@@ -136,20 +142,21 @@ function Diagram(props: DiagramProps) {
                     const svg: SVGSVGElement = svgRef.current
                     const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
                     const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
-                    if(props.er || isZoomPanSynced) {
+
+                    if(isZoomPanSynced) {
                         updateDiagram(d => {
                             d.viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
                             d.viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
                         })
-                    }
-                    if(!props.er && !isZoomPanSynced) {
+                    } else {
                         setCustomViewBox(produce(d => {
                             d.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
                             d.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
                         }))
-                    }}}>
+                    }
+                }}>
                 <svg viewBox={
-                    (props.er || isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+                    (isZoomPanSynced) ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
                         : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`}
                 className="h-[100vh] w-[100vw] cursor-move"
                 ref={svgRef}
@@ -179,10 +186,6 @@ function Diagram(props: DiagramProps) {
             </Draggable>
         </div>
     )
-}
-
-Diagram.defaultProps = {
-    er: false,
 }
 
 export default Diagram
