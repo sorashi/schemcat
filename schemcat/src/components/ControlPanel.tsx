@@ -8,7 +8,7 @@ import {
   IncludeInControlPanelMetadata,
   IncludeInControlPanelMetadataKey,
 } from '../model/DiagramModel'
-import { v4 as uuidv4 } from 'uuid'
+import { plainToInstance } from 'class-transformer'
 
 function SimpleView(props: ControlPanelViewProps) {
   return <>{String(props.node[props.propertyKey])}</>
@@ -109,11 +109,12 @@ function ControlPanel() {
       [selectedNodeIds]
     )
   )
-  const convertedNode = Object.assign(new ErNode(), selectedNode)
+  const convertedNode = plainToInstance(ErNode, selectedNode)
   return (
     <div className='p-2'>
       <dl>
         {(selectedNode &&
+          convertedNode &&
           Reflect.ownKeys(selectedNode).map((prp) => {
             const metadata: IncludeInControlPanelMetadata | undefined =
               Reflect.getMetadata(

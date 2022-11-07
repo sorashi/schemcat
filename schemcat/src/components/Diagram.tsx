@@ -16,6 +16,7 @@ import produce from 'immer'
 import { useDrop } from 'react-dnd'
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
 import { getShortcut, Modifier } from '../model/MenuModel'
+import { plainToInstance } from 'class-transformer'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -28,8 +29,8 @@ function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
   // existence of its methods. This could be improved by implementing a
   // custom deserializer.
   const { from, to } = {
-    from: Object.assign(new ErNodeModel('', ErNodeType.EntityType), fromNode),
-    to: Object.assign(new ErNodeModel('', ErNodeType.EntityType), toNode),
+    from: plainToInstance(ErNodeModel, fromNode),
+    to: plainToInstance(ErNodeModel, toNode),
   }
   let fromAnchorPoints: { x: number; y: number }[] = []
   if (from.getAnchorPoints) fromAnchorPoints = from.getAnchorPoints()
@@ -93,7 +94,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
         updateDiagram((d) => d.links.splice(existing, 1))
         return
       }
-      updateDiagram((d) => d.links.push(new Connection(node1, node2, '')))
+      updateDiagram((d) => d.links.push(new Connection(node1, node2, '', true)))
     },
     [selectedNodeIds]
   )
@@ -194,7 +195,8 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
           erNodeType,
           erNodeType,
           point.x,
-          point.y
+          point.y,
+          true
         )
         updateDiagram((d) => {
           d.nodes.push(newNode)

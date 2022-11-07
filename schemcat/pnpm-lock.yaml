@@ -9,6 +9,7 @@ specifiers:
   '@vitejs/plugin-react': ^2.2.0
   '@vitest/ui': ^0.24.5
   autoprefixer: ^10.4.13
+  class-transformer: ^0.5.1
   eslint: ^8.27.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-import: ^2.26.0
@@ -33,6 +34,7 @@ specifiers:
   zustand: ^4.1.4
 
 dependencies:
+  class-transformer: 0.5.1
   flexlayout-react: 0.7.5_biqbaboplfbrettd7655fr4n2y
   immer: 9.0.16
   react: 18.2.0
@@ -910,6 +912,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /class-transformer/0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}

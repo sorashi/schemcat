@@ -59,12 +59,11 @@ export class DiagramNode {
   y = 0
   @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
   width = 90
-  selected = false
-  constructor(label = 'Label', x = 0, y = 0, id?: number) {
+  constructor(label = 'Label', x = 0, y = 0, newId = false) {
     this.x = x
     this.y = y
-    if (id) this.id = id
-    else this.id = globalIdGenerator.nextId()
+    if (newId) this.id = globalIdGenerator.nextId()
+    else this.id = -1
     this.label = label
   }
   getAnchorPoints?: () => { x: number; y: number }[]
@@ -83,9 +82,10 @@ export class ErNode extends DiagramNode {
     label = 'Label',
     type: ErNodeType = ErNodeType.EntityType,
     x = 0,
-    y = 0
+    y = 0,
+    newId = false
   ) {
-    super(label, x, y)
+    super(label, x, y, newId)
     this.type = type
   }
   getAnchorPoints = () => {
@@ -107,9 +107,13 @@ export class Connection {
   fromId: number
   toId: number
   multiplicity: string
-  constructor(fromId: number, toId: number, multiplicity: string, id?: number) {
-    if (id) this.id = id
-    else this.id = globalIdGenerator.nextId()
+  constructor(
+    fromId: number,
+    toId: number,
+    multiplicity: string,
+    newId = false
+  ) {
+    this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId
     this.toId = toId
     this.multiplicity = multiplicity
