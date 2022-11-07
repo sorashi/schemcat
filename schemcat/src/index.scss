@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @import 'flexlayout-react/style/light.css';
+.flexlayout__tabset-selected {
+  background-color: #e9faff !important;
+}
 // conditionally import dark theme
 // would be better if you could toggle https://www.npmjs.com/package/react-toggle-dark-mode
 // but that requires js
