@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "flexlayout-react/style/light.css";
+@import 'flexlayout-react/style/light.css';
 // conditionally import dark theme
 // would be better if you could toggle https://www.npmjs.com/package/react-toggle-dark-mode
 // but that requires js
