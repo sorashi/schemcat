@@ -141,7 +141,28 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
     p.y = e.clientY
     const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
 
+    function shouldPreventZoom(currentViewBox: Rectangle): boolean {
+      const maxSize = 2500
+      if (
+        (currentViewBox.width > maxSize || currentViewBox.height > maxSize) &&
+        scaleDelta > 1
+      ) {
+        // prevent zoom out
+        return true
+      }
+      const minSize = 200
+      if (
+        (currentViewBox.width < minSize || currentViewBox.height < minSize) &&
+        scaleDelta < 1
+      ) {
+        // prevent zoom in
+        return true
+      }
+      return false
+    }
+
     function updateViewBox(viewBox: Rectangle) {
+      if (shouldPreventZoom(viewBox)) return
       viewBox.width *= scaleDelta
       viewBox.height *= scaleDelta
       viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
