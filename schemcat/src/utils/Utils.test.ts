@@ -1,4 +1,10 @@
-import { arrayRotate, arrayRotated, getEnumKeys, toRadians } from './Utils'
+import {
+  arrayRotate,
+  arrayRotated,
+  getEnumKeys,
+  normalizeRadiansAngle,
+  toRadians,
+} from './Utils'
 
 test('getEnumKeys returns all keys of an enum', () => {
   enum TestEnum {
@@ -30,4 +36,14 @@ test('arrayRotated', () => {
   expect(arr).toEqual([0, 1, 2, 3, 4])
   expect(arrayRotated(arr, -1)).toEqual([4, 0, 1, 2, 3])
   expect(arrayRotated(arr, 2)).toEqual([2, 3, 4, 0, 1])
+})
+
+test('normalizeRadiansAngle', () => {
+  expect(normalizeRadiansAngle(0)).toBeCloseTo(0)
+  expect(normalizeRadiansAngle((-1 / 4) * Math.PI)).toBeCloseTo(
+    (7 / 4) * Math.PI
+  )
+  expect(normalizeRadiansAngle(-(9 / 4) * Math.PI)).toBeCloseTo(
+    (7 / 4) * Math.PI
+  )
 })

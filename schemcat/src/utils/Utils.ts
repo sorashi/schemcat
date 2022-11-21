@@ -143,3 +143,11 @@ export function arrayRotate<T>(array: Array<T>, n: number): Array<T> {
   array.push(...array.splice(0, n))
   return array
 }
+
+/**
+ * Returns the same angle in radians but normalized into the range [0, 2*PI)
+ */
+export function normalizeRadiansAngle(radians: number) {
+  const circle = 2 * Math.PI
+  return ((radians % circle) + circle) % circle
+}

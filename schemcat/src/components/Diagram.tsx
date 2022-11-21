@@ -12,8 +12,11 @@ import { useStore } from '../hooks/useStore'
 import { Draggable } from './Draggable'
 import { Point } from '../model/Point'
 import {
+  arrayRotate,
+  arrayRotated,
   BezierPathStringBuilder,
   clientToSvgCoordinates,
+  normalizeRadiansAngle,
   Vector2,
 } from '../utils/Utils'
 import produce from 'immer'
@@ -73,12 +76,41 @@ function identifiersToBezier(
   identifiers: ErNodeModel[]
 ): IdentifiersToBezierReturnType {
   if (identifiers.length <= 1) return { path: '', circle: Vector2.zero }
-  const connectionLocations = identifiers
+  let connectionLocations = identifiers
     .map((id) => linkToPoints(node, id))
     .map((points) => ({
       from: new Vector2(points[0].x, points[0].y),
       to: new Vector2(points[1].x, points[1].y),
     }))
+  // sort by counter-clockwise angle
+  connectionLocations = connectionLocations.sort((a, b) => {
+    const angleA = normalizeRadiansAngle(a.to.subtract(a.from).angle())
+    const angleB = normalizeRadiansAngle(b.to.subtract(b.from).angle())
+    return angleA - angleB
+  })
+  // find best array rotation by angle sum
+  let minAchieved = Infinity
+  let bestRotation = 0
+  for (let i = 0; i < connectionLocations.length; i++) {
+    const rotated = arrayRotated(connectionLocations, i)
+    let sum = 0
+    for (let j = 0; j < rotated.length - 1; j++) {
+      const angleA = normalizeRadiansAngle(
+        rotated[j].to.subtract(rotated[j].from).angle()
+      )
+      const angleB = normalizeRadiansAngle(
+        rotated[j + 1].to.subtract(rotated[j + 1].from).angle()
+      )
+      sum += normalizeRadiansAngle(angleB - angleA)
+    }
+    if (sum < minAchieved) {
+      minAchieved = sum
+      bestRotation = i
+    }
+  }
+  // apply the found best rotation
+  arrayRotate(connectionLocations, bestRotation)
+
   const connectionVectors = connectionLocations.map((loc) =>
     loc.to.subtract(loc.from)
   )
