@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { Fragment, useLayoutEffect, useRef, useState } from 'react'
 import {
   Connection,
   ErNode as ErNodeModel,
@@ -11,7 +11,11 @@ import MovableSvgComponent from './MovableSvgComponent'
 import { useStore } from '../hooks/useStore'
 import { Draggable } from './Draggable'
 import { Point } from '../model/Point'
-import { clientToSvgCoordinates } from '../utils/Utils'
+import {
+  BezierPathStringBuilder,
+  clientToSvgCoordinates,
+  Vector2,
+} from '../utils/Utils'
 import produce from 'immer'
 import { useDrop } from 'react-dnd'
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
@@ -57,6 +61,82 @@ function DiagramConnection(props: any) {
       points={linkToPoints(from as ErNodeModel, to as ErNodeModel)}
     />
   )
+}
+
+type IdentifiersToBezierReturnType = {
+  path: string
+  circle: Vector2
+}
+
+function identifiersToBezier(
+  node: ErNodeModel,
+  identifiers: ErNodeModel[]
+): IdentifiersToBezierReturnType {
+  if (identifiers.length <= 1) return { path: '', circle: Vector2.zero }
+  const connectionLocations = identifiers
+    .map((id) => linkToPoints(node, id))
+    .map((points) => ({
+      from: new Vector2(points[0].x, points[0].y),
+      to: new Vector2(points[1].x, points[1].y),
+    }))
+  const connectionVectors = connectionLocations.map((loc) =>
+    loc.to.subtract(loc.from)
+  )
+  const bezierStartShift = (v: Vector2) =>
+    v.rotate(-90).normalize().multiply(20)
+  const bezierEndShift = (v: Vector2) => v.rotate(90).normalize().multiply(20)
+  const t = 0.7
+
+  const bezier = new BezierPathStringBuilder()
+
+  const bezierStart = connectionLocations[0].from
+    .add(connectionVectors[0].multiply(t))
+    .add(bezierStartShift(connectionVectors[0]))
+
+  bezier.addFirstBezier(
+    bezierStart,
+    bezierStart.add(connectionVectors[0].rotate(60).normalize().multiply(30)),
+    connectionLocations[1].from
+      .add(connectionVectors[1].multiply(t))
+      .add(
+        connectionLocations.length == 2
+          ? bezierEndShift(connectionVectors[1])
+          : Vector2.zero
+      )
+      .add(connectionVectors[1].rotate(-60).normalize().multiply(30)),
+    connectionLocations[1].from
+      .add(connectionVectors[1].multiply(t))
+      .add(
+        connectionLocations.length == 2
+          ? bezierEndShift(connectionVectors[1])
+          : Vector2.zero
+      )
+  )
+  for (let i = 2; i < connectionLocations.length; i++) {
+    bezier.addReflectedBezier(
+      connectionLocations[i].from
+        .add(connectionVectors[i].multiply(t))
+        .add(
+          i == connectionLocations.length - 1
+            ? bezierEndShift(connectionVectors[i])
+            : Vector2.zero
+        )
+        .add(connectionVectors[i].rotate(-60).normalize().multiply(30)),
+      connectionLocations[i].from.add(
+        connectionVectors[i]
+          .multiply(t)
+          .add(
+            i == connectionLocations.length - 1
+              ? bezierEndShift(connectionVectors[i])
+              : Vector2.zero
+          )
+      )
+    )
+  }
+  return {
+    path: bezier.toString(),
+    circle: bezierStart,
+  }
 }
 
 function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
@@ -230,7 +310,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
           {links.map((link) => (
             <DiagramConnection key={link.id} link={link} />
           ))}
-          {nodes.map((node) => (
+          {nodes.map((node) => [
             <MovableSvgComponent
               key={node.id}
               svgRef={svgRef}
@@ -258,8 +338,38 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
                   (selectedNodeIds.has && selectedNodeIds.has(node.id)) || false
                 }
               />
-            </MovableSvgComponent>
-          ))}
+            </MovableSvgComponent>,
+            ...(node as ErNodeModel).identifiers
+              .map((x) => nodes.filter((y) => x.includes(y.id)))
+              .map((identifiers) => {
+                if (identifiers.length < 2) return
+                const bezierResult = identifiersToBezier(
+                  node as ErNodeModel,
+                  identifiers as ErNodeModel[]
+                )
+                return [
+                  <path
+                    key={`identifiers-bezier-${node.id}-${identifiers
+                      .map((x) => x.id)
+                      .join(' ')}`}
+                    fill='none'
+                    stroke='black'
+                    strokeWidth={1}
+                    d={bezierResult.path}
+                  />,
+                  <circle
+                    key={`identifiers-circle-${node.id}-${identifiers
+                      .map((x) => x.id)
+                      .join(' ')}`}
+                    cx={bezierResult.circle.x}
+                    cy={bezierResult.circle.y}
+                    r='10'
+                    fill='black'
+                  />,
+                ]
+              })
+              .flat(),
+          ])}
         </svg>
       </Draggable>
     </div>

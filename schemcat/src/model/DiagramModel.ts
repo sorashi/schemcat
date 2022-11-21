@@ -78,6 +78,7 @@ export class ErNode extends DiagramNode {
   @IncludeInControlPanel(ControlPanelViewType.ComboBox)
   @EnumType(ErNodeType)
   type: ErNodeType
+  identifiers: number[][] = []
   constructor(
     label = 'Label',
     type: ErNodeType = ErNodeType.EntityType,

@@ -47,6 +47,7 @@ function exampleDiagram(): DiagramModel {
     new Connection(team.id, teamMember.id, '0..1', true),
     new Connection(person.id, teamMember.id, '0..1', true),
   ]
+  person.identifiers.push([givenName.id, surname.id, age.id])
   // Simulate persistence serialization and deserialization. This is because
   // we need the state to be pure js objects, not class instances. State
   // managers compare class instances using reference equality and may not
