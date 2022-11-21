@@ -29,6 +29,7 @@ function exampleDiagram(): DiagramModel {
     -70,
     true
   )
+  nationalId.width = 120
   const age = new ErNode('age', ErNodeType.AttributeType, 105, 110, true)
   const team = new ErNode('Team', ErNodeType.EntityType, 20, 200, true)
   const teamName = new ErNode('name', ErNodeType.AttributeType, 20, 300, true)
@@ -60,6 +61,7 @@ function exampleDiagram(): DiagramModel {
   ]
   person.identifiers.push([givenName.id, surname.id, age.id])
   // person.identifiers.push([givenName.id, surname.id])
+  person.identifiers.push([nationalId.id])
   // Simulate persistence serialization and deserialization. This is because
   // we need the state to be pure js objects, not class instances. State
   // managers compare class instances using reference equality and may not

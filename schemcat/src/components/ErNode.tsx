@@ -1,6 +1,8 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { StoreModel, useStore } from '../hooks/useStore'
 import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
+import isEqual from 'react-fast-compare'
 
 interface ErNodeProps {
   node: ErNodeModel
@@ -24,6 +26,25 @@ const selectedNodeStyle = {
 function ErNodeByType(props: ErNodeProps) {
   const { node, selected, height = 70 } = props
   const { width } = node
+  const connections = useStore(
+    useCallback(
+      (state: StoreModel) =>
+        state.diagram.links.filter(
+          (x) => x.fromId === node.id || x.toId === node.id
+        ),
+      [node.id]
+    )
+  )
+  const nodes = useStore((state: StoreModel) => state.diagram.nodes)
+  const circleConditionalStyle: Record<string, any> = useMemo(() => {
+    return connections.some((x) =>
+      (
+        nodes.find((y) => y.id === x.toId || y.id === x.fromId) as ErNodeModel
+      ).identifiers.some((id) => isEqual(id, [node.id]))
+    )
+      ? { fill: 'black' }
+      : {}
+  }, [connections, nodes, node.id])
   switch (node.type) {
     case ErNodeType.EntityType:
       // margin-y 10
@@ -44,6 +65,7 @@ function ErNodeByType(props: ErNodeProps) {
           cy={height / 2}
           {...defaultNodeStyle}
           {...(selected && selectedNodeStyle)}
+          {...circleConditionalStyle}
         />
       )
     case ErNodeType.RelationshipType:
