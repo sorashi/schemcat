@@ -17,18 +17,19 @@ function exampleDiagram(): DiagramModel {
   const givenName = new ErNode(
     'givenName',
     ErNodeType.AttributeType,
-    20,
-    100,
+    -90,
+    110,
     true
   )
-  const surname = new ErNode(
-    'surname',
+  const surname = new ErNode('surname', ErNodeType.AttributeType, 10, 110, true)
+  const nationalId = new ErNode(
+    'nationalId',
     ErNodeType.AttributeType,
-    100,
-    100,
+    65,
+    -70,
     true
   )
-  const age = new ErNode('age', ErNodeType.AttributeType, 150, 100, true)
+  const age = new ErNode('age', ErNodeType.AttributeType, 105, 110, true)
   const team = new ErNode('Team', ErNodeType.EntityType, 20, 200, true)
   const teamName = new ErNode('name', ErNodeType.AttributeType, 20, 300, true)
   const teamMember = new ErNode(
@@ -38,16 +39,27 @@ function exampleDiagram(): DiagramModel {
     150,
     true
   )
-  diagram.nodes = [person, givenName, surname, age, team, teamName, teamMember]
+  diagram.nodes = [
+    person,
+    givenName,
+    surname,
+    age,
+    nationalId,
+    team,
+    teamName,
+    teamMember,
+  ]
   diagram.links = [
     new Connection(person.id, givenName.id, '0..1', true),
     new Connection(person.id, surname.id, '0..1', true),
     new Connection(person.id, age.id, '0..1', true),
+    new Connection(person.id, nationalId.id, '0..1', true),
     new Connection(team.id, teamName.id, '0..1', true),
     new Connection(team.id, teamMember.id, '0..1', true),
     new Connection(person.id, teamMember.id, '0..1', true),
   ]
   person.identifiers.push([givenName.id, surname.id, age.id])
+  // person.identifiers.push([givenName.id, surname.id])
   // Simulate persistence serialization and deserialization. This is because
   // we need the state to be pure js objects, not class instances. State
   // managers compare class instances using reference equality and may not
