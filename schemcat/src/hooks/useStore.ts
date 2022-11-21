@@ -9,23 +9,43 @@ import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { temporal } from 'zundo'
 import { produce } from 'immer'
+import { instanceToPlain } from 'class-transformer'
 
-function exampleDiagram() {
+function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
-  diagram.nodes = [
-    new ErNode('Person', ErNodeType.EntityType, 20, 1, true), //0
-    new ErNode('name', ErNodeType.AttributeType, 20, 100, true), //1
-    new ErNode('age', ErNodeType.AttributeType, 100, 100, true), //2
-    new ErNode('Team', ErNodeType.EntityType, 20, 200, true), //3
-    new ErNode('name', ErNodeType.AttributeType, 20, 300, true), //4
-    new ErNode('member', ErNodeType.RelationshipType, 200, 150, true), //5
-  ]
+  const person = new ErNode('Person', ErNodeType.EntityType, 20, 1, true)
+  const givenName = new ErNode(
+    'givenName',
+    ErNodeType.AttributeType,
+    20,
+    100,
+    true
+  )
+  const surname = new ErNode(
+    'surname',
+    ErNodeType.AttributeType,
+    100,
+    100,
+    true
+  )
+  const age = new ErNode('age', ErNodeType.AttributeType, 150, 100, true)
+  const team = new ErNode('Team', ErNodeType.EntityType, 20, 200, true)
+  const teamName = new ErNode('name', ErNodeType.AttributeType, 20, 300, true)
+  const teamMember = new ErNode(
+    'member',
+    ErNodeType.RelationshipType,
+    200,
+    150,
+    true
+  )
+  diagram.nodes = [person, givenName, surname, age, team, teamName, teamMember]
   diagram.links = [
-    new Connection(diagram.nodes[0].id, diagram.nodes[1].id, '0..1', true),
-    new Connection(diagram.nodes[0].id, diagram.nodes[2].id, '0..1', true),
-    new Connection(diagram.nodes[3].id, diagram.nodes[4].id, '0..1', true),
-    new Connection(diagram.nodes[0].id, diagram.nodes[5].id, '0..*', true),
-    new Connection(diagram.nodes[3].id, diagram.nodes[5].id, '0..*', true),
+    new Connection(person.id, givenName.id, '0..1', true),
+    new Connection(person.id, surname.id, '0..1', true),
+    new Connection(person.id, age.id, '0..1', true),
+    new Connection(team.id, teamName.id, '0..1', true),
+    new Connection(team.id, teamMember.id, '0..1', true),
+    new Connection(person.id, teamMember.id, '0..1', true),
   ]
   // Simulate persistence serialization and deserialization. This is because
   // we need the state to be pure js objects, not class instances. State
@@ -33,9 +53,9 @@ function exampleDiagram() {
   // detect global state change in some cases. This is the invariant to
   // preserve throughout the whole application.
   return {
-    ...JSON.parse(JSON.stringify(diagram)),
+    ...instanceToPlain(diagram),
     selectedNodeIds: new Set<number>(),
-  }
+  } as DiagramModel
 }
 export interface StoreModel {
   diagram: DiagramModel
