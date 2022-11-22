@@ -60,7 +60,7 @@ schemcat-gh-pages:
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
-    - npm run build
+    - pnpm build
     - git clone --depth 1 https://sorashi:$GITHUB_ACCESS_TOKEN@github.com/sorashi/schemcat.git
     - mkdir schemcat.new
     # clean working dir, preserve .git
