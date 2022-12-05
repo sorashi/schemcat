@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
-import { ErNode } from '../../model/DiagramModel'
+import { ErNode, ErNodeType } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
@@ -29,17 +29,26 @@ export function NodeContextMenu({
 
   function handleAddRemoveIdentifier() {
     if (!node) return
+    if (node.type === ErNodeType.AttributeType) {
+      console.error('Cannot add/remove identifier to attribute')
+      return
+    }
     // ignore when no nodes are selected
     if (!selectedNodeIds || selectedNodeIds.size === 0) return
+    const selectedNodeIdsWithoutSelf = new Set(selectedNodeIds)
+    selectedNodeIdsWithoutSelf.delete(nodeId)
     const index = node.identifiers.findIndex((id) =>
-      isEqual(new Set(id), selectedNodeIds)
+      isEqual(new Set(id), selectedNodeIdsWithoutSelf)
     )
     if (index === -1) {
       // add identifier
       updateNodeById(nodeId, (node) =>
-        (node as ErNode).identifiers.push(Array.from(selectedNodeIds))
+        (node as ErNode).identifiers.push(
+          Array.from(selectedNodeIdsWithoutSelf)
+        )
       )
     } else {
+      // remove identifier
       updateNodeById(nodeId, (node) =>
         (node as ErNode).identifiers.splice(index, 1)
       )
