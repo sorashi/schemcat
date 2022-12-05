@@ -9,6 +9,7 @@ interface MovableSvgComponentProps {
   svgRef: React.RefObject<SVGSVGElement>
   onDrag?: (x: number, y: number) => void
   onClick?: (event: React.MouseEvent) => void
+  onContextMenu?: (event: React.MouseEvent) => void
 }
 
 function MovableSvgComponent(props: MovableSvgComponentProps) {
@@ -43,6 +44,7 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
     }
   }
   function handleMouseUp(event: React.MouseEvent) {
+    if (event.button !== 0) return
     setState({ isDragging: false, offset: { x: 0, y: 0 } })
     resume()
     console.log('Resumed')
@@ -64,6 +66,9 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
   function handleClick(event: React.MouseEvent) {
     if (props.onClick) props.onClick(event)
   }
+  function handleContextMenu(this: any, event: React.MouseEvent) {
+    if (props.onContextMenu) props.onContextMenu.bind(this)(event)
+  }
   return (
     <g
       transform={`translate(${props.x}, ${props.y})`}
@@ -72,6 +77,7 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
+      onContextMenu={handleContextMenu}
       className='cursor-pointer'>
       {props.children}
     </g>

@@ -24,6 +24,9 @@ import { useDrop } from 'react-dnd'
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
 import { getShortcut, Modifier } from '../model/MenuModel'
 import { plainToInstance } from 'class-transformer'
+import { NodeContextMenu } from './Menu/NodeContextMenu'
+import { createRoot } from 'react-dom/client'
+import { createPortal } from 'react-dom'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -180,6 +183,12 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   const removeNodeById = useStore((state) => state.removeNodeById)
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
+  const [nodeContextMenuState, setNodeContextMenuState] = useState({
+    show: false,
+    location: Vector2.zero,
+    nodeId: -1,
+  })
+
   useKeyboardShortcut(getShortcut([], 'Delete'), () => {
     if (selectedNodeIds) {
       selectedNodeIds.forEach((id) => removeNodeById(id))
@@ -217,6 +226,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
     if (svgRef.current === null) return true
     const svg: SVGSVGElement = svgRef.current
     if (svg !== target) return true
+    setNodeContextMenuState({ ...nodeContextMenuState, show: false })
     setViewBoxOnDragStart({
       x: svg.viewBox.baseVal.x,
       y: svg.viewBox.baseVal.y,
@@ -321,6 +331,14 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   )
   return (
     <div className='w-full h-full overflow-hidden' ref={dropRef}>
+      {nodeContextMenuState.show && (
+        <NodeContextMenu
+          location={nodeContextMenuState.location}
+          nodeId={nodeContextMenuState.nodeId}
+          onAfterAction={() =>
+            setNodeContextMenuState({ ...nodeContextMenuState, show: false })
+          }></NodeContextMenu>
+      )}
       <Draggable onDragStart={handleDragStart} onDragging={handleDragging}>
         <svg
           viewBox={
@@ -355,13 +373,26 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               }}
               onClick={(e) => {
                 if (e.ctrlKey) {
-                  updateDiagram((d) => d.selectedNodeIds.add(node.id))
+                  updateDiagram((d) => {
+                    if (d.selectedNodeIds.has(node.id))
+                      d.selectedNodeIds.delete(node.id)
+                    else d.selectedNodeIds.add(node.id)
+                  })
                 } else {
                   updateDiagram((d) => {
                     d.selectedNodeIds.clear()
                     d.selectedNodeIds.add(node.id)
                   })
                 }
+              }}
+              onContextMenu={(e) => {
+                e.preventDefault()
+                setNodeContextMenuState({
+                  ...nodeContextMenuState,
+                  location: new Vector2(e.clientX, e.clientY),
+                  show: !nodeContextMenuState.show,
+                  nodeId: node.id,
+                })
               }}>
               <ErNode
                 key={node.id}

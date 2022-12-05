@@ -9,6 +9,7 @@ import { Dropdown } from './Dropdown'
 export interface DropdownItemProps {
   item: MenuItemModel
   action?: () => void
+  onAfterAction?: () => void
 }
 
 export function DropdownItem(props: DropdownItemProps) {
@@ -23,12 +24,15 @@ export function DropdownItem(props: DropdownItemProps) {
     <li
       onClick={(e) => {
         setDropdown(!dropdown)
-        if (props.action) props.action()
+        if (props.action) {
+          props.action()
+          if (props.onAfterAction) props.onAfterAction()
+        }
         e.stopPropagation()
       }}
       onMouseEnter={() => setDropdown(true)}
       onMouseLeave={() => setDropdown(false)}
-      className='hover:bg-gray-200 px-2'>
+      className='hover:bg-gray-200 px-2 cursor-pointer'>
       {props.item.title}
       {props.item.keyShortcut && (
         <span className='text-gray-400 text-sm ml-2'>
