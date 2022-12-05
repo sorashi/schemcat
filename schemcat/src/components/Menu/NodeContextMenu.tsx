@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from 'react'
-import { Root } from 'react-dom/client'
+import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
-import { DiagramNode, ErNode } from '../../model/DiagramModel'
+import { ErNode } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
@@ -19,7 +18,6 @@ export function NodeContextMenu({
   nodeId,
   onAfterAction,
 }: NodeContextMenuProps) {
-  const updateDiagram = useStore((state) => state.updateDiagram)
   const updateNodeById = useStore((state) => state.updateNodeById)
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
   const node: ErNode | undefined = useStore(
@@ -29,7 +27,7 @@ export function NodeContextMenu({
     )
   ) as ErNode | undefined
 
-  function handleAddRemoveKey() {
+  function handleAddRemoveIdentifier() {
     if (!node) return
     // ignore when no nodes are selected
     if (!selectedNodeIds || selectedNodeIds.size === 0) return
@@ -52,14 +50,11 @@ export function NodeContextMenu({
     title: 'Context Menu',
     submenu: [
       {
-        title: 'Add/Remove as key',
+        title: 'Add/Remove as identifier',
         factory: (props: DropdownItemProps) => (
           <DropdownItem
             {...props}
-            action={() => {
-              console.log('Add/Remove as key')
-              handleAddRemoveKey()
-            }}
+            action={handleAddRemoveIdentifier}
             onAfterAction={() =>
               onAfterAction && onAfterAction()
             }></DropdownItem>
