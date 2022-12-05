@@ -5,7 +5,11 @@ import { ErNode, ErNodeType } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
-import { DropdownItem, DropdownItemProps } from './DropdownItem'
+import {
+  DropdownItem,
+  DropdownItemDisabledBehavior,
+  DropdownItemProps,
+} from './DropdownItem'
 
 interface NodeContextMenuProps {
   location: Vector2
@@ -27,6 +31,9 @@ export function NodeContextMenu({
     )
   ) as ErNode | undefined
 
+  const selectedNodeIdsWithoutSelf = new Set(selectedNodeIds)
+  selectedNodeIdsWithoutSelf.delete(nodeId)
+
   function handleAddRemoveIdentifier() {
     if (!node) return
     if (node.type === ErNodeType.AttributeType) {
@@ -35,8 +42,6 @@ export function NodeContextMenu({
     }
     // ignore when no nodes are selected
     if (!selectedNodeIds || selectedNodeIds.size === 0) return
-    const selectedNodeIdsWithoutSelf = new Set(selectedNodeIds)
-    selectedNodeIdsWithoutSelf.delete(nodeId)
     const index = node.identifiers.findIndex((id) =>
       isEqual(new Set(id), selectedNodeIdsWithoutSelf)
     )
@@ -64,9 +69,12 @@ export function NodeContextMenu({
           <DropdownItem
             {...props}
             action={handleAddRemoveIdentifier}
-            onAfterAction={() =>
-              onAfterAction && onAfterAction()
-            }></DropdownItem>
+            onAfterAction={() => onAfterAction && onAfterAction()}
+            canDoAction={() =>
+              node?.type !== ErNodeType.AttributeType &&
+              selectedNodeIdsWithoutSelf.size > 0
+            }
+          />
         ),
       },
     ],
