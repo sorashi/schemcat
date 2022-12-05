@@ -1,15 +1,11 @@
 import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
-import { ErNode, ErNodeType } from '../../model/DiagramModel'
+import { Connection, ErNode, ErNodeType } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
-import {
-  DropdownItem,
-  DropdownItemDisabledBehavior,
-  DropdownItemProps,
-} from './DropdownItem'
+import { DropdownItem, DropdownItemProps } from './DropdownItem'
 
 interface NodeContextMenuProps {
   location: Vector2
@@ -22,6 +18,7 @@ export function NodeContextMenu({
   nodeId,
   onAfterAction,
 }: NodeContextMenuProps) {
+  const updateDiagram = useStore((state) => state.updateDiagram)
   const updateNodeById = useStore((state) => state.updateNodeById)
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
   const node: ErNode | undefined = useStore(
@@ -60,6 +57,25 @@ export function NodeContextMenu({
     }
   }
 
+  function handleAddAttribute() {
+    if (!node) return
+    if (node.type !== ErNodeType.EntityType) {
+      console.error('Adding attribute supported only for entities')
+      return
+    }
+    const newAttribute: ErNode = new ErNode(
+      'Attribute',
+      ErNodeType.AttributeType,
+      node.x,
+      node.y + 100,
+      true
+    )
+    updateDiagram((d) => {
+      d.nodes.push(newAttribute)
+      d.links.push(new Connection(nodeId, newAttribute.id, '', true))
+    })
+  }
+
   const item: MenuItem = {
     title: 'Context Menu',
     submenu: [
@@ -75,6 +91,18 @@ export function NodeContextMenu({
               selectedNodeIdsWithoutSelf.size > 0
             }
           />
+        ),
+      },
+      {
+        title: 'Add attribute type',
+        factory: (props: DropdownItemProps) => (
+          <DropdownItem
+            {...props}
+            action={handleAddAttribute}
+            onAfterAction={() => onAfterAction && onAfterAction()}
+            canDoAction={() =>
+              node?.type === ErNodeType.EntityType
+            }></DropdownItem>
         ),
       },
     ],
