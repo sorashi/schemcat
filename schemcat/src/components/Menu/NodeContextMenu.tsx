@@ -3,6 +3,7 @@ import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
 import { Connection, ErNode, ErNodeType } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
+import { isSubset } from '../../utils/SetOperations'
 import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
 import { DropdownItem } from './DropdownItem'
@@ -17,6 +18,7 @@ interface ContextMenuItemProps {
   nodeId: number
   onAfterAction?: () => void
 }
+
 function AddRemoveIdentifierDropdownItem({
   nodeId,
   onAfterAction,
@@ -46,6 +48,16 @@ function AddRemoveIdentifierDropdownItem({
     )
     if (index === -1) {
       // add identifier
+      if (
+        node.identifiers.some((id) =>
+          isSubset(selectedNodeIdsWithoutSelf, new Set(id))
+        )
+      ) {
+        alert(
+          'A subset of an existing identifier cannot be added as an identifier. Please remove the larger identifier first.'
+        )
+        return
+      }
       updateNodeById(nodeId, (node) =>
         (node as ErNode).identifiers.push(
           Array.from(selectedNodeIdsWithoutSelf)
