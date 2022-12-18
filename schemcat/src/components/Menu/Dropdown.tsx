@@ -8,6 +8,7 @@ interface DropdownProps {
   item: MenuItemModel
   className?: string
   style?: React.CSSProperties
+  children?: React.ReactNode
 }
 
 export function Dropdown({
@@ -16,6 +17,7 @@ export function Dropdown({
   item,
   className = '',
   style,
+  children,
 }: DropdownProps) {
   if (!item.submenu) throw new Error('Invalid props')
   return (
@@ -32,6 +34,7 @@ export function Dropdown({
             <item.factory item={item} key={uuidv4()}></item.factory>
           )) || <DropdownItem item={item} key={uuidv4()}></DropdownItem>
       )}
+      {children}
     </ul>
   )
 }

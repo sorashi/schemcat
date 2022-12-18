@@ -5,7 +5,7 @@ import { Connection, ErNode, ErNodeType } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
-import { DropdownItem, DropdownItemProps } from './DropdownItem'
+import { DropdownItem } from './DropdownItem'
 
 interface NodeContextMenuProps {
   location: Vector2
@@ -13,12 +13,14 @@ interface NodeContextMenuProps {
   onAfterAction?: () => void
 }
 
-export function NodeContextMenu({
-  location,
+interface ContextMenuItemProps {
+  nodeId: number
+  onAfterAction?: () => void
+}
+function AddRemoveIdentifierDropdownItem({
   nodeId,
   onAfterAction,
-}: NodeContextMenuProps) {
-  const updateDiagram = useStore((state) => state.updateDiagram)
+}: ContextMenuItemProps) {
   const updateNodeById = useStore((state) => state.updateNodeById)
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
   const node: ErNode | undefined = useStore(
@@ -56,6 +58,42 @@ export function NodeContextMenu({
       )
     }
   }
+  function getAddRemoveIdentifierTitle() {
+    const neutral = 'Add/Remove as identifier'
+    const add = 'Add as identifier'
+    const remove = 'Remove from identifiers'
+    if (!node) return neutral
+    if (node.type === ErNodeType.AttributeType) return neutral
+    if (!selectedNodeIds || selectedNodeIds.size === 0) return neutral
+    const index = node.identifiers.findIndex((id) =>
+      isEqual(new Set(id), selectedNodeIdsWithoutSelf)
+    )
+    if (index === -1) return add
+    else return remove
+  }
+  return (
+    <DropdownItem
+      item={{ title: getAddRemoveIdentifierTitle() }}
+      action={handleAddRemoveIdentifier}
+      onAfterAction={() => onAfterAction && onAfterAction()}
+      canDoAction={() =>
+        node?.type !== ErNodeType.AttributeType &&
+        selectedNodeIdsWithoutSelf.size > 0
+      }></DropdownItem>
+  )
+}
+
+function AddAttributeTypeDropdownItem({
+  nodeId,
+  onAfterAction,
+}: ContextMenuItemProps) {
+  const updateDiagram = useStore((state) => state.updateDiagram)
+  const node: ErNode | undefined = useStore(
+    useCallback(
+      (state) => state.diagram.nodes.find((n) => n.id === nodeId),
+      [nodeId]
+    )
+  ) as ErNode | undefined
 
   function handleAddAttribute() {
     if (!node) return
@@ -76,36 +114,23 @@ export function NodeContextMenu({
     })
   }
 
+  return (
+    <DropdownItem
+      item={{ title: 'Add attribute type' }}
+      action={handleAddAttribute}
+      onAfterAction={() => onAfterAction && onAfterAction()}
+      canDoAction={() => node?.type === ErNodeType.EntityType}></DropdownItem>
+  )
+}
+
+export function NodeContextMenu({
+  location,
+  nodeId,
+  onAfterAction,
+}: NodeContextMenuProps) {
   const item: MenuItem = {
     title: 'Context Menu',
-    submenu: [
-      {
-        title: 'Add/Remove as identifier',
-        factory: (props: DropdownItemProps) => (
-          <DropdownItem
-            {...props}
-            action={handleAddRemoveIdentifier}
-            onAfterAction={() => onAfterAction && onAfterAction()}
-            canDoAction={() =>
-              node?.type !== ErNodeType.AttributeType &&
-              selectedNodeIdsWithoutSelf.size > 0
-            }
-          />
-        ),
-      },
-      {
-        title: 'Add attribute type',
-        factory: (props: DropdownItemProps) => (
-          <DropdownItem
-            {...props}
-            action={handleAddAttribute}
-            onAfterAction={() => onAfterAction && onAfterAction()}
-            canDoAction={() =>
-              node?.type === ErNodeType.EntityType
-            }></DropdownItem>
-        ),
-      },
-    ],
+    submenu: [],
   }
   return (
     <Dropdown
@@ -117,6 +142,15 @@ export function NodeContextMenu({
         top: location.y,
         position: 'fixed',
         zIndex: 50,
-      }}></Dropdown>
+      }}>
+      <AddRemoveIdentifierDropdownItem
+        nodeId={nodeId}
+        onAfterAction={onAfterAction}
+      />
+      <AddAttributeTypeDropdownItem
+        nodeId={nodeId}
+        onAfterAction={onAfterAction}
+      />
+    </Dropdown>
   )
 }
