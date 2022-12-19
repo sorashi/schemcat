@@ -16,8 +16,7 @@ schemcat-install:
     policy: pull-push
   before_script:
     - apk update && apk add curl
-    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
-    - which pnpm
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
@@ -29,7 +28,7 @@ schemcat-build:
     <<: *global_cache
   before_script:
     - apk update && apk add curl
-    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
@@ -45,7 +44,7 @@ schemcat-test:
     <<: *global_cache
   before_script:
     - apk update && apk add curl
-    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
@@ -57,7 +56,7 @@ schemcat-gh-pages:
     <<: *global_cache
   before_script:
     - apk update && apk add curl openssl ca-certificates git
-    - curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
+    - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
   script:
