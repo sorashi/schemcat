@@ -58,6 +58,14 @@ function AddRemoveIdentifierDropdownItem({
         )
         return
       }
+      if (
+        node.identifiers.some((id) => isSubset(new Set(id), selectedNodeIds))
+      ) {
+        alert(
+          'A superset of an existing identifier cannot be added as an identifier. Please remove the smaller identifier first.'
+        )
+        return
+      }
       updateNodeById(nodeId, (node) =>
         (node as ErNode).identifiers.push(
           Array.from(selectedNodeIdsWithoutSelf)
