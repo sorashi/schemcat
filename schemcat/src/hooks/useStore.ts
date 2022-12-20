@@ -4,6 +4,7 @@ import {
   DiagramNode,
   ErNode,
   ErNodeType,
+  Multiplicity,
 } from '../model/DiagramModel'
 import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
@@ -51,13 +52,13 @@ function exampleDiagram(): DiagramModel {
     teamMember,
   ]
   diagram.links = [
-    new Connection(person.id, givenName.id, '0..1', true),
-    new Connection(person.id, surname.id, '0..1', true),
-    new Connection(person.id, age.id, '0..1', true),
-    new Connection(person.id, nationalId.id, '0..1', true),
-    new Connection(team.id, teamName.id, '0..1', true),
-    new Connection(team.id, teamMember.id, '0..1', true),
-    new Connection(person.id, teamMember.id, '0..1', true),
+    new Connection(person.id, givenName.id, new Multiplicity(0, 1), true),
+    new Connection(person.id, surname.id, new Multiplicity(0, 1), true),
+    new Connection(person.id, age.id, new Multiplicity(0, 1), true),
+    new Connection(person.id, nationalId.id, new Multiplicity(1, 1), true),
+    new Connection(team.id, teamName.id, new Multiplicity(0, 1), true),
+    new Connection(team.id, teamMember.id, new Multiplicity(0, 1), true),
+    new Connection(person.id, teamMember.id, new Multiplicity(0, 1), true),
   ]
   person.identifiers.push([givenName.id, surname.id, age.id])
   // person.identifiers.push([givenName.id, surname.id])

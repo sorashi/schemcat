@@ -3,6 +3,7 @@ import {
   Connection,
   ErNode as ErNodeModel,
   ErNodeType,
+  Multiplicity,
   Rectangle,
 } from '../model/DiagramModel'
 import ErNode from './ErNode'
@@ -54,6 +55,35 @@ function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
     { x: toAnchorPoints[0]?.x || to.x, y: toAnchorPoints[0]?.y || to.y },
   ]
 }
+
+function MultiplicityText(props: {
+  multiplicity: Multiplicity
+  x: number
+  y: number
+}) {
+  const { multiplicity, x, y } = props
+  const [textWidth, setTextWidth] = useState(0)
+  const [textHeight, setTextHeight] = useState(0)
+  const textRef = useRef<SVGTextElement>(null)
+  useLayoutEffect(() => {
+    if (textRef.current) {
+      const { width, height } = textRef.current.getBBox()
+      setTextWidth(width)
+      setTextHeight(height)
+    }
+  }, [textRef])
+  return (
+    <text
+      ref={textRef}
+      x={x - textWidth / 2}
+      y={y - textHeight / 2}
+      dominantBaseline='central'
+      textAnchor='middle'>
+      {multiplicity.lowerBound}..{multiplicity.upperBound}
+    </text>
+  )
+}
+
 function DiagramConnection(props: any) {
   const link: Connection = props.link
   const from = useStore((state) =>
@@ -62,10 +92,16 @@ function DiagramConnection(props: any) {
   const to = useStore((state) =>
     state.diagram.nodes.find((n) => n.id === link.toId)
   )
+  const points = linkToPoints(from as ErNodeModel, to as ErNodeModel)
   return (
-    <SvgConnection
-      points={linkToPoints(from as ErNodeModel, to as ErNodeModel)}
-    />
+    <>
+      <SvgConnection points={points} />
+      <MultiplicityText
+        multiplicity={link.multiplicity}
+        x={points[1].x}
+        y={points[1].y}
+      />
+    </>
   )
 }
 
@@ -215,7 +251,9 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
         updateDiagram((d) => d.links.splice(existing, 1))
         return
       }
-      updateDiagram((d) => d.links.push(new Connection(node1, node2, '', true)))
+      updateDiagram((d) =>
+        d.links.push(new Connection(node1, node2, new Multiplicity(), true))
+      )
     },
     [selectedNodeIds]
   )

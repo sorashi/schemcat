@@ -1,7 +1,12 @@
 import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
-import { Connection, ErNode, ErNodeType } from '../../model/DiagramModel'
+import {
+  Connection,
+  ErNode,
+  ErNodeType,
+  Multiplicity,
+} from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { isSubset } from '../../utils/SetOperations'
 import { Vector2 } from '../../utils/Utils'
@@ -130,7 +135,9 @@ function AddAttributeTypeDropdownItem({
     )
     updateDiagram((d) => {
       d.nodes.push(newAttribute)
-      d.links.push(new Connection(nodeId, newAttribute.id, '', true))
+      d.links.push(
+        new Connection(nodeId, newAttribute.id, new Multiplicity(), true)
+      )
     })
   }
 

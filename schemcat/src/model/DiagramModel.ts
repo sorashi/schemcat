@@ -102,16 +102,41 @@ export class ErNode extends DiagramNode {
     }
   }
 }
+
+export enum MultiplicityLowerBound {
+  Zero = 0,
+  One = 1,
+}
+
+export enum MultiplicityUpperBound {
+  One = 1,
+  Many = 'n',
+}
+
+export class Multiplicity {
+  [immerable] = true
+  lowerBound: MultiplicityLowerBound
+  upperBound: MultiplicityUpperBound
+
+  constructor(
+    lower: MultiplicityLowerBound = MultiplicityLowerBound.One,
+    upper: MultiplicityUpperBound = MultiplicityUpperBound.One
+  ) {
+    this.lowerBound = lower
+    this.upperBound = upper
+  }
+}
+
 export class Connection {
   [immerable] = true
   id: number
   fromId: number
   toId: number
-  multiplicity: string
+  multiplicity: Multiplicity
   constructor(
     fromId: number,
     toId: number,
-    multiplicity: string,
+    multiplicity = new Multiplicity(),
     newId = false
   ) {
     this.id = newId ? globalIdGenerator.nextId() : -1

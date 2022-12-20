@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test-watch": "vitest",
     "test-ui": "vitest --ui",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "ts:check": "tsc --noEmit"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
