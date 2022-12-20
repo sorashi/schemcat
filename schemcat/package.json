@@ -13,7 +13,8 @@
     "test-watch": "vitest",
     "test-ui": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "format": "prettier -w '**/*.{ts,tsx,js,jsx}'"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
