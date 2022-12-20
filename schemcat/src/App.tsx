@@ -80,17 +80,12 @@ const defaultLayoutModel = FlexLayout.Model.fromJson({
 })
 
 function factory(node: FlexLayout.TabNode) {
-  const isSelectedNodeInActiveTabset =
-    node.getModel().getActiveTabset()?.getSelectedNode() === node
+  const isSelectedNodeInActiveTabset = node.getModel().getActiveTabset()?.getSelectedNode() === node
   switch (node.getComponent()) {
     case 'er-diagram':
-      return (
-        <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
-      )
+      return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'schemcat-visualization-diagram':
-      return (
-        <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
-      )
+      return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'control-panel':
       return <ControlPanel key={uuidv4()} />
     case 'drag-and-drop-panel':

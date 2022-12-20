@@ -10,9 +10,7 @@ export enum ControlPanelViewType {
   ComboBox,
 }
 
-export const IncludeInControlPanelMetadataKey: unique symbol = Symbol(
-  'IncludeInControlPanelMetadataKey'
-)
+export const IncludeInControlPanelMetadataKey: unique symbol = Symbol('IncludeInControlPanelMetadataKey')
 export const EnumTypeMetadataKey: unique symbol = Symbol('EnumTypeMetadataKey')
 
 export class IncludeInControlPanelMetadata {
@@ -23,10 +21,7 @@ export class IncludeInControlPanelMetadata {
 }
 
 export function IncludeInControlPanel(viewType: ControlPanelViewType) {
-  return Reflect.metadata(
-    IncludeInControlPanelMetadataKey,
-    new IncludeInControlPanelMetadata(viewType)
-  )
+  return Reflect.metadata(IncludeInControlPanelMetadataKey, new IncludeInControlPanelMetadata(viewType))
 }
 
 export function EnumType(enumType: unknown) {
@@ -79,13 +74,7 @@ export class ErNode extends DiagramNode {
   @EnumType(ErNodeType)
   type: ErNodeType
   identifiers: number[][] = []
-  constructor(
-    label = 'Label',
-    type: ErNodeType = ErNodeType.EntityType,
-    x = 0,
-    y = 0,
-    newId = false
-  ) {
+  constructor(label = 'Label', type: ErNodeType = ErNodeType.EntityType, x = 0, y = 0, newId = false) {
     super(label, x, y, newId)
     this.type = type
   }
@@ -133,12 +122,7 @@ export class Connection {
   fromId: number
   toId: number
   multiplicity: Multiplicity
-  constructor(
-    fromId: number,
-    toId: number,
-    multiplicity = new Multiplicity(),
-    newId = false
-  ) {
+  constructor(fromId: number, toId: number, multiplicity = new Multiplicity(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId
     this.toId = toId

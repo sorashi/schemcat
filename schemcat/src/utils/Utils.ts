@@ -1,19 +1,11 @@
-export const getEnumKeys = <T>(
-  enumToDeconstruct: T
-): Array<keyof typeof enumToDeconstruct> => {
-  return Object.keys(enumToDeconstruct as object) as Array<
-    keyof typeof enumToDeconstruct
-  >
+export const getEnumKeys = <T>(enumToDeconstruct: T): Array<keyof typeof enumToDeconstruct> => {
+  return Object.keys(enumToDeconstruct as object) as Array<keyof typeof enumToDeconstruct>
 }
 
 /** Transforms client coordinates (perhaps from a `MouseEvent`) to SVG coordinates (the SVG may be scaled, translated, rotated...).
  * Difference between page and client coordinates: https://stackoverflow.com/a/21452887/1697953
  */
-export function clientToSvgCoordinates(
-  x: number,
-  y: number,
-  svg: SVGSVGElement | null
-): DOMPoint {
+export function clientToSvgCoordinates(x: number, y: number, svg: SVGSVGElement | null): DOMPoint {
   if (svg === null) {
     console.error('SVG is null')
     return new SVGPoint(0, 0)
@@ -39,10 +31,7 @@ export class Vector2 {
     return new Vector2(0, 0)
   }
   static fromLengthAndAngle(length: number, degrees: number): Vector2 {
-    return new Vector2(
-      Math.cos(toRadians(360 - degrees)) * length,
-      Math.sin(toRadians(360 - degrees)) * length
-    )
+    return new Vector2(Math.cos(toRadians(360 - degrees)) * length, Math.sin(toRadians(360 - degrees)) * length)
   }
   add(other: Vector2): Vector2 {
     return new Vector2(this.x + other.x, this.y + other.y)
@@ -86,18 +75,12 @@ export class BezierPathStringBuilder {
   private bezierStarted = false
 
   addStart(from: Vector2) {
-    if (this.bezierStarted)
-      throw new Error('bezier start was already specified')
+    if (this.bezierStarted) throw new Error('bezier start was already specified')
     this.path += `M ${from}`
     this.bezierStarted = true
   }
 
-  addFirstBezier(
-    from: Vector2,
-    controlPoint1: Vector2,
-    controlPoint2: Vector2,
-    to: Vector2
-  ) {
+  addFirstBezier(from: Vector2, controlPoint1: Vector2, controlPoint2: Vector2, to: Vector2) {
     this.addStart(from)
     this.addBezier(controlPoint1, controlPoint2, to)
   }
@@ -113,8 +96,7 @@ export class BezierPathStringBuilder {
   }
 
   private checkStarted() {
-    if (!this.bezierStarted)
-      throw new Error("bezier start hasn't been specified yet")
+    if (!this.bezierStarted) throw new Error("bezier start hasn't been specified yet")
   }
 
   toString() {

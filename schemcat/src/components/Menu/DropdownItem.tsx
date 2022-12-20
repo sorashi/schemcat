@@ -1,9 +1,6 @@
 import React from 'react'
 import { useKeyboardShortcut } from '../../hooks/useKeyboardShortcut'
-import {
-  MenuItem as MenuItemModel,
-  shortcutToString,
-} from '../../model/MenuModel'
+import { MenuItem as MenuItemModel, shortcutToString } from '../../model/MenuModel'
 import { Dropdown } from './Dropdown'
 
 export enum DropdownItemDisabledBehavior {
@@ -34,10 +31,8 @@ export function DropdownItem({
     useKeyboardShortcut(item.keyShortcut, () => action && action())
   }
   const disabled = canDoAction && !canDoAction()
-  const hide =
-    disabled && disableBehavior === DropdownItemDisabledBehavior.HIDDEN
-  const grayOut =
-    disabled && disableBehavior === DropdownItemDisabledBehavior.DISABLED
+  const hide = disabled && disableBehavior === DropdownItemDisabledBehavior.HIDDEN
+  const grayOut = disabled && disableBehavior === DropdownItemDisabledBehavior.DISABLED
   return (
     (!hide && (
       <li
@@ -51,18 +46,10 @@ export function DropdownItem({
         }}
         onMouseEnter={() => setDropdown(true)}
         onMouseLeave={() => setDropdown(false)}
-        className={`hover:bg-gray-200 px-2 cursor-pointer ${
-          grayOut && 'text-gray-400'
-        }`}>
+        className={`hover:bg-gray-200 px-2 cursor-pointer ${grayOut && 'text-gray-400'}`}>
         {item.title}
-        {item.keyShortcut && (
-          <span className='text-gray-400 text-sm ml-2'>
-            {shortcutToString(item.keyShortcut)}
-          </span>
-        )}
-        {item.submenu && (
-          <Dropdown item={item} dropdown={dropdown} submenu={true}></Dropdown>
-        )}
+        {item.keyShortcut && <span className='text-gray-400 text-sm ml-2'>{shortcutToString(item.keyShortcut)}</span>}
+        {item.submenu && <Dropdown item={item} dropdown={dropdown} submenu={true}></Dropdown>}
         {item.submenu && ' \u25B8'}
       </li>
     )) || <></>

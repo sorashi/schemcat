@@ -1,11 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import {
-  Connection,
-  ErNode as ErNodeModel,
-  ErNodeType,
-  Multiplicity,
-  Rectangle,
-} from '../model/DiagramModel'
+import { Connection, ErNode as ErNodeModel, ErNodeType, Multiplicity, Rectangle } from '../model/DiagramModel'
 import ErNode from './ErNode'
 import SvgConnection from './SvgConnection'
 import MovableSvgComponent from './MovableSvgComponent'
@@ -55,11 +49,7 @@ function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
   ]
 }
 
-function MultiplicityText(props: {
-  multiplicity: Multiplicity
-  x: number
-  y: number
-}) {
+function MultiplicityText(props: { multiplicity: Multiplicity; x: number; y: number }) {
   const { multiplicity, x, y } = props
   const [textWidth, setTextWidth] = useState(0)
   const [textHeight, setTextHeight] = useState(0)
@@ -72,33 +62,20 @@ function MultiplicityText(props: {
     }
   }, [textRef])
   return (
-    <text
-      ref={textRef}
-      x={x - textWidth / 2}
-      y={y - textHeight / 2}
-      dominantBaseline='central'
-      textAnchor='middle'>
+    <text ref={textRef} x={x - textWidth / 2} y={y - textHeight / 2} dominantBaseline='central' textAnchor='middle'>
       {multiplicity.lowerBound}..{multiplicity.upperBound}
     </text>
   )
 }
 
 function DiagramConnection({ link }: { link: Connection }) {
-  const from = useStore((state) =>
-    state.diagram.nodes.find((n) => n.id === link.fromId)
-  )
-  const to = useStore((state) =>
-    state.diagram.nodes.find((n) => n.id === link.toId)
-  )
+  const from = useStore((state) => state.diagram.nodes.find((n) => n.id === link.fromId))
+  const to = useStore((state) => state.diagram.nodes.find((n) => n.id === link.toId))
   const points = linkToPoints(from as ErNodeModel, to as ErNodeModel)
   return (
     <>
       <SvgConnection points={points} />
-      <MultiplicityText
-        multiplicity={link.multiplicity}
-        x={points[1].x}
-        y={points[1].y}
-      />
+      <MultiplicityText multiplicity={link.multiplicity} x={points[1].x} y={points[1].y} />
     </>
   )
 }
@@ -108,10 +85,7 @@ type IdentifiersToBezierReturnType = {
   circle: Vector2
 }
 
-function identifiersToBezier(
-  node: ErNodeModel,
-  identifiers: ErNodeModel[]
-): IdentifiersToBezierReturnType {
+function identifiersToBezier(node: ErNodeModel, identifiers: ErNodeModel[]): IdentifiersToBezierReturnType {
   if (identifiers.length <= 1) return { path: '', circle: Vector2.zero }
   let connectionLocations = identifiers
     .map((id) => linkToPoints(node, id))
@@ -132,12 +106,8 @@ function identifiersToBezier(
     const rotated = arrayRotated(connectionLocations, i)
     let sum = 0
     for (let j = 0; j < rotated.length - 1; j++) {
-      const angleA = normalizeRadiansAngle(
-        rotated[j].to.subtract(rotated[j].from).angle()
-      )
-      const angleB = normalizeRadiansAngle(
-        rotated[j + 1].to.subtract(rotated[j + 1].from).angle()
-      )
+      const angleA = normalizeRadiansAngle(rotated[j].to.subtract(rotated[j].from).angle())
+      const angleB = normalizeRadiansAngle(rotated[j + 1].to.subtract(rotated[j + 1].from).angle())
       sum += normalizeRadiansAngle(angleB - angleA)
     }
     if (sum < minAchieved) {
@@ -148,11 +118,8 @@ function identifiersToBezier(
   // apply the found best rotation
   arrayRotate(connectionLocations, bestRotation)
 
-  const connectionVectors = connectionLocations.map((loc) =>
-    loc.to.subtract(loc.from)
-  )
-  const bezierStartShift = (v: Vector2) =>
-    v.rotate(-90).normalize().multiply(20)
+  const connectionVectors = connectionLocations.map((loc) => loc.to.subtract(loc.from))
+  const bezierStartShift = (v: Vector2) => v.rotate(-90).normalize().multiply(20)
   const bezierEndShift = (v: Vector2) => v.rotate(90).normalize().multiply(20)
   const t = 0.7
 
@@ -167,38 +134,22 @@ function identifiersToBezier(
     bezierStart.add(connectionVectors[0].rotate(60).normalize().multiply(30)),
     connectionLocations[1].from
       .add(connectionVectors[1].multiply(t))
-      .add(
-        connectionLocations.length == 2
-          ? bezierEndShift(connectionVectors[1])
-          : Vector2.zero
-      )
+      .add(connectionLocations.length == 2 ? bezierEndShift(connectionVectors[1]) : Vector2.zero)
       .add(connectionVectors[1].rotate(-60).normalize().multiply(30)),
     connectionLocations[1].from
       .add(connectionVectors[1].multiply(t))
-      .add(
-        connectionLocations.length == 2
-          ? bezierEndShift(connectionVectors[1])
-          : Vector2.zero
-      )
+      .add(connectionLocations.length == 2 ? bezierEndShift(connectionVectors[1]) : Vector2.zero)
   )
   for (let i = 2; i < connectionLocations.length; i++) {
     bezier.addReflectedBezier(
       connectionLocations[i].from
         .add(connectionVectors[i].multiply(t))
-        .add(
-          i == connectionLocations.length - 1
-            ? bezierEndShift(connectionVectors[i])
-            : Vector2.zero
-        )
+        .add(i == connectionLocations.length - 1 ? bezierEndShift(connectionVectors[i]) : Vector2.zero)
         .add(connectionVectors[i].rotate(-60).normalize().multiply(30)),
       connectionLocations[i].from.add(
         connectionVectors[i]
           .multiply(t)
-          .add(
-            i == connectionLocations.length - 1
-              ? bezierEndShift(connectionVectors[i])
-              : Vector2.zero
-          )
+          .add(i == connectionLocations.length - 1 ? bezierEndShift(connectionVectors[i]) : Vector2.zero)
       )
     )
   }
@@ -241,17 +192,13 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
       let existing: number
       if (
         (existing = links.findIndex(
-          (l) =>
-            (l.fromId === node1 && l.toId === node2) ||
-            (l.fromId === node2 && l.toId === node1)
+          (l) => (l.fromId === node1 && l.toId === node2) || (l.fromId === node2 && l.toId === node1)
         )) !== -1
       ) {
         updateDiagram((d) => d.links.splice(existing, 1))
         return
       }
-      updateDiagram((d) =>
-        d.links.push(new Connection(node1, node2, new Multiplicity(), true))
-      )
+      updateDiagram((d) => d.links.push(new Connection(node1, node2, new Multiplicity(), true)))
     },
     [selectedNodeIds]
   )
@@ -282,10 +229,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
     if (isZoomPanSynced) updateDiagram((d) => updateViewBox(d.viewBox))
     else setCustomViewBox(produce(updateViewBox))
   }
-  function handleWheel(
-    e: React.WheelEvent<SVGSVGElement>,
-    svgRef: React.RefObject<SVGSVGElement>
-  ) {
+  function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
     // We cannot preventDefault() here, because wheel is a passive event listener.
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
     // The scrolling capability must be properly disabled in the style layer. See #13.
@@ -302,18 +246,12 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
 
     function shouldPreventZoom(currentViewBox: Rectangle): boolean {
       const maxSize = 2500
-      if (
-        (currentViewBox.width > maxSize || currentViewBox.height > maxSize) &&
-        scaleDelta > 1
-      ) {
+      if ((currentViewBox.width > maxSize || currentViewBox.height > maxSize) && scaleDelta > 1) {
         // prevent zoom out
         return true
       }
       const minSize = 200
-      if (
-        (currentViewBox.width < minSize || currentViewBox.height < minSize) &&
-        scaleDelta < 1
-      ) {
+      if ((currentViewBox.width < minSize || currentViewBox.height < minSize) && scaleDelta < 1) {
         // prevent zoom in
         return true
       }
@@ -349,13 +287,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
       drop: ({ erNodeType }: { erNodeType: ErNodeType }, monitor) => {
         const { x, y } = monitor.getClientOffset() || { x: 0, y: 0 }
         const point = clientToSvgCoordinates(x, y, svgRef.current)
-        const newNode = new ErNodeModel(
-          erNodeType,
-          erNodeType,
-          point.x,
-          point.y,
-          true
-        )
+        const newNode = new ErNodeModel(erNodeType, erNodeType, point.x, point.y, true)
         updateDiagram((d) => {
           d.nodes.push(newNode)
         })
@@ -371,9 +303,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
         <NodeContextMenu
           location={nodeContextMenuState.location}
           nodeId={nodeContextMenuState.nodeId}
-          onAfterAction={() =>
-            setNodeContextMenuState({ ...nodeContextMenuState, show: false })
-          }></NodeContextMenu>
+          onAfterAction={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}></NodeContextMenu>
       )}
       <Draggable onDragStart={handleDragStart} onDragging={handleDragging}>
         <svg
@@ -388,9 +318,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
           onWheel={(e) => handleWheel(e, svgRef)}
           // cancel selection on SVG left click
           onClick={(e) =>
-            e.target === svgRef.current &&
-            e.button === 0 &&
-            updateDiagram((d) => d.selectedNodeIds.clear())
+            e.target === svgRef.current && e.button === 0 && updateDiagram((d) => d.selectedNodeIds.clear())
           }
           preserveAspectRatio='xMidYMid meet'>
           {links.map((link) => (
@@ -410,8 +338,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               onClick={(e) => {
                 if (e.ctrlKey) {
                   updateDiagram((d) => {
-                    if (d.selectedNodeIds.has(node.id))
-                      d.selectedNodeIds.delete(node.id)
+                    if (d.selectedNodeIds.has(node.id)) d.selectedNodeIds.delete(node.id)
                     else d.selectedNodeIds.add(node.id)
                   })
                 } else {
@@ -433,33 +360,24 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               <ErNode
                 key={node.id}
                 node={node as ErNodeModel}
-                selected={
-                  (selectedNodeIds.has && selectedNodeIds.has(node.id)) || false
-                }
+                selected={(selectedNodeIds.has && selectedNodeIds.has(node.id)) || false}
               />
             </MovableSvgComponent>,
             ...(node as ErNodeModel).identifiers
               .map((x) => nodes.filter((y) => x.includes(y.id)))
               .map((identifiers) => {
                 if (identifiers.length < 2) return
-                const bezierResult = identifiersToBezier(
-                  node as ErNodeModel,
-                  identifiers as ErNodeModel[]
-                )
+                const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[])
                 return [
                   <path
-                    key={`identifiers-bezier-${node.id}-${identifiers
-                      .map((x) => x.id)
-                      .join(' ')}`}
+                    key={`identifiers-bezier-${node.id}-${identifiers.map((x) => x.id).join(' ')}`}
                     fill='none'
                     stroke='black'
                     strokeWidth={1}
                     d={bezierResult.path}
                   />,
                   <circle
-                    key={`identifiers-circle-${node.id}-${identifiers
-                      .map((x) => x.id)
-                      .join(' ')}`}
+                    key={`identifiers-circle-${node.id}-${identifiers.map((x) => x.id).join(' ')}`}
                     cx={bezierResult.circle.x}
                     cy={bezierResult.circle.y}
                     r='10'

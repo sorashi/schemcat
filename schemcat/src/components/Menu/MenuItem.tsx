@@ -16,12 +16,7 @@ export function MenuItem(props: MenuItemProps) {
       onClick={() => setDropdown(!dropdown)}
       onMouseLeave={() => setDropdown(false)}>
       {props.item.title}
-      {props.item.submenu && (
-        <Dropdown
-          dropdown={dropdown}
-          item={props.item}
-          submenu={false}></Dropdown>
-      )}
+      {props.item.submenu && <Dropdown dropdown={dropdown} item={props.item} submenu={false}></Dropdown>}
     </li>
   )
 }

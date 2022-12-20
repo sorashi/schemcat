@@ -23,9 +23,7 @@ function TextEditView(props: ControlPanelViewProps) {
       onChange={(e) => {
         updateNodeById(
           props.node.id,
-          (n) =>
-            ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] =
-              e.target.value)
+          (n) => ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] = e.target.value)
         )
       }}
     />
@@ -33,11 +31,7 @@ function TextEditView(props: ControlPanelViewProps) {
 }
 
 function ComboBoxView(props: ControlPanelViewProps) {
-  const enumType = Reflect.getMetadata(
-    EnumTypeMetadataKey,
-    props.node,
-    props.propertyKey
-  )
+  const enumType = Reflect.getMetadata(EnumTypeMetadataKey, props.node, props.propertyKey)
   const updateNodeById = useStore((state) => state.updateNodeById)
   return (
     <select
@@ -45,9 +39,7 @@ function ComboBoxView(props: ControlPanelViewProps) {
       onChange={(e) =>
         updateNodeById(
           props.node.id,
-          (n) =>
-            ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] =
-              e.target.value)
+          (n) => ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] = e.target.value)
         )
       }>
       {Object.values(enumType).map((v: unknown) => (
@@ -68,9 +60,7 @@ function NumericUpDownView(props: ControlPanelViewProps) {
       onChange={(e) =>
         updateNodeById(
           props.node.id,
-          (n) =>
-            ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] =
-              Number(e.target.value))
+          (n) => ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] = Number(e.target.value))
         )
       }
     />
@@ -95,8 +85,7 @@ function ControlPanelView(props: ControlPanelViewProps) {
       return <ComboBoxView {...props} />
     default:
       // eslint-disable-next-line no-case-declarations
-      const message =
-        'Unknown ControlPanelViewType: ' + props.metadata.controlPanelViewType
+      const message = 'Unknown ControlPanelViewType: ' + props.metadata.controlPanelViewType
       console.error(message)
       return <span className='text-red-500'>{message}</span>
   }
@@ -105,15 +94,9 @@ function ControlPanelView(props: ControlPanelViewProps) {
 function ControlPanel() {
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
 
-  const selectedNodeId =
-    selectedNodeIds.size === 1
-      ? selectedNodeIds.values().next().value
-      : undefined
+  const selectedNodeId = selectedNodeIds.size === 1 ? selectedNodeIds.values().next().value : undefined
   const selectedNode = useStore(
-    useCallback(
-      (state) => state.diagram.nodes.find((n) => n.id === selectedNodeId),
-      [selectedNodeIds]
-    )
+    useCallback((state) => state.diagram.nodes.find((n) => n.id === selectedNodeId), [selectedNodeIds])
   )
   const convertedNode = plainToInstance(ErNode, selectedNode)
   return (
@@ -122,12 +105,11 @@ function ControlPanel() {
         {(selectedNode &&
           convertedNode &&
           Reflect.ownKeys(selectedNode).map((prp) => {
-            const metadata: IncludeInControlPanelMetadata | undefined =
-              Reflect.getMetadata(
-                IncludeInControlPanelMetadataKey,
-                convertedNode,
-                prp as keyof typeof selectedNode
-              )
+            const metadata: IncludeInControlPanelMetadata | undefined = Reflect.getMetadata(
+              IncludeInControlPanelMetadataKey,
+              convertedNode,
+              prp as keyof typeof selectedNode
+            )
             if (metadata === undefined) return null
             return (
               <div key={`${selectedNodeId}-${String(prp)}`}>
@@ -144,9 +126,7 @@ function ControlPanel() {
             )
           })) || (
           <div className='text-gray-500'>
-            {selectedNodeIds.size === 0
-              ? 'Select a node'
-              : 'Multiple node editing is not supported yet'}
+            {selectedNodeIds.size === 0 ? 'Select a node' : 'Multiple node editing is not supported yet'}
           </div>
         )}
       </dl>

@@ -1,11 +1,4 @@
-import {
-  Connection,
-  DiagramModel,
-  DiagramNode,
-  ErNode,
-  ErNodeType,
-  Multiplicity,
-} from '../model/DiagramModel'
+import { Connection, DiagramModel, DiagramNode, ErNode, ErNodeType, Multiplicity } from '../model/DiagramModel'
 import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 import { temporal } from 'zundo'
@@ -15,42 +8,15 @@ import { instanceToPlain } from 'class-transformer'
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
   const person = new ErNode('Person', ErNodeType.EntityType, 20, 1, true)
-  const givenName = new ErNode(
-    'givenName',
-    ErNodeType.AttributeType,
-    -90,
-    110,
-    true
-  )
+  const givenName = new ErNode('givenName', ErNodeType.AttributeType, -90, 110, true)
   const surname = new ErNode('surname', ErNodeType.AttributeType, 10, 110, true)
-  const nationalId = new ErNode(
-    'nationalId',
-    ErNodeType.AttributeType,
-    65,
-    -70,
-    true
-  )
+  const nationalId = new ErNode('nationalId', ErNodeType.AttributeType, 65, -70, true)
   nationalId.width = 120
   const age = new ErNode('age', ErNodeType.AttributeType, 105, 110, true)
   const team = new ErNode('Team', ErNodeType.EntityType, 20, 200, true)
   const teamName = new ErNode('name', ErNodeType.AttributeType, 20, 300, true)
-  const teamMember = new ErNode(
-    'member',
-    ErNodeType.RelationshipType,
-    200,
-    150,
-    true
-  )
-  diagram.nodes = [
-    person,
-    givenName,
-    surname,
-    age,
-    nationalId,
-    team,
-    teamName,
-    teamMember,
-  ]
+  const teamMember = new ErNode('member', ErNodeType.RelationshipType, 200, 150, true)
+  diagram.nodes = [person, givenName, surname, age, nationalId, team, teamName, teamMember]
   diagram.links = [
     new Connection(person.id, givenName.id, new Multiplicity(0, 1), true),
     new Connection(person.id, surname.id, new Multiplicity(0, 1), true),
@@ -110,9 +76,7 @@ export const useStore = create<StoreModel>()(
           updateNode: (node: ErNode) => {
             set(
               produce((state) => {
-                const index = state.diagram.nodes.findIndex(
-                  (n: DiagramNode) => n.id === node.id
-                )
+                const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === node.id)
                 if (index === -1) {
                   console.log('node id not found')
                   return
@@ -124,26 +88,20 @@ export const useStore = create<StoreModel>()(
           removeNodeById: (id: number) => {
             set(
               produce((state) => {
-                const index = state.diagram.nodes.findIndex(
-                  (n: DiagramNode) => n.id === id
-                )
+                const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
                 if (index === -1) {
                   console.log('node id not found')
                   return
                 }
                 state.diagram.nodes.splice(index, 1)
-                state.diagram.links = state.diagram.links.filter(
-                  (l: Connection) => l.fromId !== id && l.toId !== id
-                )
+                state.diagram.links = state.diagram.links.filter((l: Connection) => l.fromId !== id && l.toId !== id)
               })
             )
           },
           updateNodeById: (id: number, update: (node: DiagramNode) => void) => {
             set(
               produce((state) => {
-                const index = state.diagram.nodes.findIndex(
-                  (n: DiagramNode) => n.id === id
-                )
+                const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
                 if (index === -1) {
                   console.error(`node ${id} not found`)
                   return

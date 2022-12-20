@@ -27,19 +27,16 @@ function ErNodeByType(props: ErNodeProps) {
   const { width } = node
   const connections = useStore(
     useCallback(
-      (state: StoreModel) =>
-        state.diagram.links.filter(
-          (x) => x.fromId === node.id || x.toId === node.id
-        ),
+      (state: StoreModel) => state.diagram.links.filter((x) => x.fromId === node.id || x.toId === node.id),
       [node.id]
     )
   )
   const nodes = useStore((state: StoreModel) => state.diagram.nodes)
   const circleConditionalStyle: Record<string, unknown> = useMemo(() => {
     return connections.some((x) =>
-      (
-        nodes.find((y) => y.id === x.toId || y.id === x.fromId) as ErNodeModel
-      ).identifiers.some((id) => isEqual(id, [node.id]))
+      (nodes.find((y) => y.id === x.toId || y.id === x.fromId) as ErNodeModel).identifiers.some((id) =>
+        isEqual(id, [node.id])
+      )
     )
       ? { fill: 'black' }
       : {}
@@ -48,13 +45,7 @@ function ErNodeByType(props: ErNodeProps) {
     case ErNodeType.EntityType:
       // margin-y 10
       return (
-        <rect
-          width={width}
-          height={height + 20}
-          y={-10}
-          {...defaultNodeStyle}
-          {...(selected && selectedNodeStyle)}
-        />
+        <rect width={width} height={height + 20} y={-10} {...defaultNodeStyle} {...(selected && selectedNodeStyle)} />
       )
     case ErNodeType.AttributeType:
       return (
@@ -69,12 +60,7 @@ function ErNodeByType(props: ErNodeProps) {
       )
     case ErNodeType.RelationshipType:
       return (
-        <SvgDiamondShape
-          width={width}
-          height={height}
-          {...defaultNodeStyle}
-          {...(selected && selectedNodeStyle)}
-        />
+        <SvgDiamondShape width={width} height={height} {...defaultNodeStyle} {...(selected && selectedNodeStyle)} />
       )
     default:
       console.error(`Unknown node type: ${node.type}`)
@@ -100,9 +86,7 @@ function ErNode(props: ErNodeProps) {
         width={props.node.width}
         height={foreignObjectHeight == 0 ? 1 : foreignObjectHeight}
         className='overflow-visible'>
-        <div
-          ref={divRef}
-          className='h-auto text-center w-full relative top-1/2 -translate-y-1/2'>
+        <div ref={divRef} className='h-auto text-center w-full relative top-1/2 -translate-y-1/2'>
           <span>{node.label}</span>
         </div>
       </foreignObject>

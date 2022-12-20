@@ -3,13 +3,7 @@ interface SvgConnectionProps {
 }
 
 function SvgConnection(props: SvgConnectionProps) {
-  return (
-    <polyline
-      points={props.points.map((point) => `${point.x},${point.y}`).join(' ')}
-      fill='none'
-      stroke='black'
-    />
-  )
+  return <polyline points={props.points.map((point) => `${point.x},${point.y}`).join(' ')} fill='none' stroke='black' />
 }
 
 export default SvgConnection

@@ -61,9 +61,7 @@ export function shortcutToString(shortcut: KeyShortcut): string {
   if (shortcut.altKey) mods.push('Alt')
   if (shortcut.metaKey) mods.push('Meta')
   if (shortcut.shiftKey) mods.push('Shift')
-  return (
-    mods.join('+') + (mods.length > 0 ? '+' : '') + shortcut.key.toUpperCase()
-  )
+  return mods.join('+') + (mods.length > 0 ? '+' : '') + shortcut.key.toUpperCase()
 }
 
 export const menuModel: MenuModel = [

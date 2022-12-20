@@ -1,12 +1,7 @@
 import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
-import {
-  Connection,
-  ErNode,
-  ErNodeType,
-  Multiplicity,
-} from '../../model/DiagramModel'
+import { Connection, ErNode, ErNodeType, Multiplicity } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { isSubset } from '../../utils/SetOperations'
 import { Vector2 } from '../../utils/Utils'
@@ -24,17 +19,11 @@ interface ContextMenuItemProps {
   onAfterAction?: () => void
 }
 
-function AddRemoveIdentifierDropdownItem({
-  nodeId,
-  onAfterAction,
-}: ContextMenuItemProps) {
+function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
   const updateNodeById = useStore((state) => state.updateNodeById)
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
   const node: ErNode | undefined = useStore(
-    useCallback(
-      (state) => state.diagram.nodes.find((n) => n.id === nodeId),
-      [nodeId]
-    )
+    useCallback((state) => state.diagram.nodes.find((n) => n.id === nodeId), [nodeId])
   ) as ErNode | undefined
 
   const selectedNodeIdsWithoutSelf = new Set(selectedNodeIds)
@@ -48,39 +37,25 @@ function AddRemoveIdentifierDropdownItem({
     }
     // ignore when no nodes are selected
     if (!selectedNodeIds || selectedNodeIds.size === 0) return
-    const index = node.identifiers.findIndex((id) =>
-      isEqual(new Set(id), selectedNodeIdsWithoutSelf)
-    )
+    const index = node.identifiers.findIndex((id) => isEqual(new Set(id), selectedNodeIdsWithoutSelf))
     if (index === -1) {
       // add identifier
-      if (
-        node.identifiers.some((id) =>
-          isSubset(selectedNodeIdsWithoutSelf, new Set(id))
-        )
-      ) {
+      if (node.identifiers.some((id) => isSubset(selectedNodeIdsWithoutSelf, new Set(id)))) {
         alert(
           'A subset of an existing identifier cannot be added as an identifier. Please remove the larger identifier first.'
         )
         return
       }
-      if (
-        node.identifiers.some((id) => isSubset(new Set(id), selectedNodeIds))
-      ) {
+      if (node.identifiers.some((id) => isSubset(new Set(id), selectedNodeIds))) {
         alert(
           'A superset of an existing identifier cannot be added as an identifier. Please remove the smaller identifier first.'
         )
         return
       }
-      updateNodeById(nodeId, (node) =>
-        (node as ErNode).identifiers.push(
-          Array.from(selectedNodeIdsWithoutSelf)
-        )
-      )
+      updateNodeById(nodeId, (node) => (node as ErNode).identifiers.push(Array.from(selectedNodeIdsWithoutSelf)))
     } else {
       // remove identifier
-      updateNodeById(nodeId, (node) =>
-        (node as ErNode).identifiers.splice(index, 1)
-      )
+      updateNodeById(nodeId, (node) => (node as ErNode).identifiers.splice(index, 1))
     }
   }
   function getAddRemoveIdentifierTitle() {
@@ -90,9 +65,7 @@ function AddRemoveIdentifierDropdownItem({
     if (!node) return neutral
     if (node.type === ErNodeType.AttributeType) return neutral
     if (!selectedNodeIds || selectedNodeIds.size === 0) return neutral
-    const index = node.identifiers.findIndex((id) =>
-      isEqual(new Set(id), selectedNodeIdsWithoutSelf)
-    )
+    const index = node.identifiers.findIndex((id) => isEqual(new Set(id), selectedNodeIdsWithoutSelf))
     if (index === -1) return add
     else return remove
   }
@@ -101,23 +74,14 @@ function AddRemoveIdentifierDropdownItem({
       item={{ title: getAddRemoveIdentifierTitle() }}
       action={handleAddRemoveIdentifier}
       onAfterAction={() => onAfterAction && onAfterAction()}
-      canDoAction={() =>
-        node?.type !== ErNodeType.AttributeType &&
-        selectedNodeIdsWithoutSelf.size > 0
-      }></DropdownItem>
+      canDoAction={() => node?.type !== ErNodeType.AttributeType && selectedNodeIdsWithoutSelf.size > 0}></DropdownItem>
   )
 }
 
-function AddAttributeTypeDropdownItem({
-  nodeId,
-  onAfterAction,
-}: ContextMenuItemProps) {
+function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
   const updateDiagram = useStore((state) => state.updateDiagram)
   const node: ErNode | undefined = useStore(
-    useCallback(
-      (state) => state.diagram.nodes.find((n) => n.id === nodeId),
-      [nodeId]
-    )
+    useCallback((state) => state.diagram.nodes.find((n) => n.id === nodeId), [nodeId])
   ) as ErNode | undefined
 
   function handleAddAttribute() {
@@ -126,18 +90,10 @@ function AddAttributeTypeDropdownItem({
       console.error('Adding attribute supported only for entities')
       return
     }
-    const newAttribute: ErNode = new ErNode(
-      'Attribute',
-      ErNodeType.AttributeType,
-      node.x,
-      node.y + 100,
-      true
-    )
+    const newAttribute: ErNode = new ErNode('Attribute', ErNodeType.AttributeType, node.x, node.y + 100, true)
     updateDiagram((d) => {
       d.nodes.push(newAttribute)
-      d.links.push(
-        new Connection(nodeId, newAttribute.id, new Multiplicity(), true)
-      )
+      d.links.push(new Connection(nodeId, newAttribute.id, new Multiplicity(), true))
     })
   }
 
@@ -150,11 +106,7 @@ function AddAttributeTypeDropdownItem({
   )
 }
 
-export function NodeContextMenu({
-  location,
-  nodeId,
-  onAfterAction,
-}: NodeContextMenuProps) {
+export function NodeContextMenu({ location, nodeId, onAfterAction }: NodeContextMenuProps) {
   const item: MenuItem = {
     title: 'Context Menu',
     submenu: [],
@@ -170,14 +122,8 @@ export function NodeContextMenu({
         position: 'fixed',
         zIndex: 50,
       }}>
-      <AddRemoveIdentifierDropdownItem
-        nodeId={nodeId}
-        onAfterAction={onAfterAction}
-      />
-      <AddAttributeTypeDropdownItem
-        nodeId={nodeId}
-        onAfterAction={onAfterAction}
-      />
+      <AddRemoveIdentifierDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
+      <AddAttributeTypeDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
     </Dropdown>
   )
 }

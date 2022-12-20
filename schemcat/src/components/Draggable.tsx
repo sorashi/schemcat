@@ -17,8 +17,7 @@ export function Draggable(props: DraggableProps) {
   function handleMouseDown(e: React.MouseEvent) {
     let prevent = false
     if (e.button !== 0) return
-    if (props.onDragStart)
-      prevent = props.onDragStart({ x: e.clientX, y: e.clientY }, e.target)
+    if (props.onDragStart) prevent = props.onDragStart({ x: e.clientX, y: e.clientY }, e.target)
     setState({
       ...state,
       isDragging: !prevent,
@@ -27,15 +26,13 @@ export function Draggable(props: DraggableProps) {
   }
   function handleMouseUp(e: React.MouseEvent) {
     if (state.isDragging) {
-      if (props.onDragEnd)
-        props.onDragEnd(state.start, { x: e.clientX, y: e.clientY })
+      if (props.onDragEnd) props.onDragEnd(state.start, { x: e.clientX, y: e.clientY })
     }
     setState({ ...state, isDragging: false })
   }
   function handleMouseMove(e: React.MouseEvent) {
     if (state.isDragging) {
-      if (props.onDragging)
-        props.onDragging(state.start, { x: e.clientX, y: e.clientY })
+      if (props.onDragging) props.onDragging(state.start, { x: e.clientX, y: e.clientY })
     }
   }
   return (

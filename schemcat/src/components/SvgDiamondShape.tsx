@@ -1,9 +1,7 @@
 import React from 'react'
 import { toRadians } from '../utils/Utils'
 
-function convertToFloat(
-  value: number | string | undefined
-): number | undefined {
+function convertToFloat(value: number | string | undefined): number | undefined {
   if (typeof value === 'number') return value
   if (typeof value === 'string') {
     const parsed = parseFloat(value)

@@ -11,11 +11,7 @@ export function MenuBar() {
       {menuModel.map((item) => (
         <MenuItem key={uuidv4()} item={item} />
       ))}
-      <ToggleButton
-        className='ml-5'
-        label='Sync Pan & Zoom'
-        onToggle={(locked) => setIsZoomPanLocked(locked)}
-      />
+      <ToggleButton className='ml-5' label='Sync Pan & Zoom' onToggle={(locked) => setIsZoomPanLocked(locked)} />
     </ul>
   )
 }

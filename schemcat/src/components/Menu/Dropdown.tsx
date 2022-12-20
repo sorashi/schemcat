@@ -11,14 +11,7 @@ interface DropdownProps {
   children?: React.ReactNode
 }
 
-export function Dropdown({
-  dropdown,
-  submenu,
-  item,
-  className = '',
-  style,
-  children,
-}: DropdownProps) {
+export function Dropdown({ dropdown, submenu, item, className = '', style, children }: DropdownProps) {
   if (!item.submenu) throw new Error('Invalid props')
   return (
     <ul
@@ -30,9 +23,9 @@ export function Dropdown({
       style={style}>
       {item.submenu.map(
         (item) =>
-          (item.factory && (
-            <item.factory item={item} key={uuidv4()}></item.factory>
-          )) || <DropdownItem item={item} key={uuidv4()}></DropdownItem>
+          (item.factory && <item.factory item={item} key={uuidv4()}></item.factory>) || (
+            <DropdownItem item={item} key={uuidv4()}></DropdownItem>
+          )
       )}
       {children}
     </ul>
