@@ -10,8 +10,7 @@ interface ErNodeProps {
   selected: boolean
 }
 
-const width = 90,
-  height = 70
+const height = 70
 
 const defaultNodeStyle = {
   fill: 'white',
@@ -36,7 +35,7 @@ function ErNodeByType(props: ErNodeProps) {
     )
   )
   const nodes = useStore((state: StoreModel) => state.diagram.nodes)
-  const circleConditionalStyle: Record<string, any> = useMemo(() => {
+  const circleConditionalStyle: Record<string, unknown> = useMemo(() => {
     return connections.some((x) =>
       (
         nodes.find((y) => y.id === x.toId || y.id === x.fromId) as ErNodeModel

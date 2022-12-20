@@ -23,7 +23,9 @@ function TextEditView(props: ControlPanelViewProps) {
       onChange={(e) => {
         updateNodeById(
           props.node.id,
-          (n) => ((n as any)[props.propertyKey] = e.target.value)
+          (n) =>
+            ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] =
+              e.target.value)
         )
       }}
     />
@@ -43,10 +45,12 @@ function ComboBoxView(props: ControlPanelViewProps) {
       onChange={(e) =>
         updateNodeById(
           props.node.id,
-          (n) => ((n as any)[props.propertyKey] = e.target.value)
+          (n) =>
+            ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] =
+              e.target.value)
         )
       }>
-      {Object.values(enumType).map((v: any) => (
+      {Object.values(enumType).map((v: unknown) => (
         <option key={`${props.node.id}: ${String(v)}`} value={String(v)}>
           {String(v)}
         </option>
@@ -64,7 +68,9 @@ function NumericUpDownView(props: ControlPanelViewProps) {
       onChange={(e) =>
         updateNodeById(
           props.node.id,
-          (n) => ((n as any)[props.propertyKey] = Number(e.target.value))
+          (n) =>
+            ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] =
+              Number(e.target.value))
         )
       }
     />

@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import {
   Connection,
   ErNode as ErNodeModel,
@@ -20,14 +20,13 @@ import {
   normalizeRadiansAngle,
   Vector2,
 } from '../utils/Utils'
+// eslint-disable-next-line import/no-named-as-default
 import produce from 'immer'
 import { useDrop } from 'react-dnd'
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
 import { getShortcut, Modifier } from '../model/MenuModel'
 import { plainToInstance } from 'class-transformer'
 import { NodeContextMenu } from './Menu/NodeContextMenu'
-import { createRoot } from 'react-dom/client'
-import { createPortal } from 'react-dom'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -84,8 +83,7 @@ function MultiplicityText(props: {
   )
 }
 
-function DiagramConnection(props: any) {
-  const link: Connection = props.link
+function DiagramConnection({ link }: { link: Connection }) {
   const from = useStore((state) =>
     state.diagram.nodes.find((n) => n.id === link.fromId)
   )

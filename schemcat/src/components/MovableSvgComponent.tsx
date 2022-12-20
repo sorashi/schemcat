@@ -66,7 +66,7 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
   function handleClick(event: React.MouseEvent) {
     if (props.onClick) props.onClick(event)
   }
-  function handleContextMenu(this: any, event: React.MouseEvent) {
+  function handleContextMenu(this: unknown, event: React.MouseEvent) {
     if (props.onContextMenu) props.onContextMenu.bind(this)(event)
   }
   return (

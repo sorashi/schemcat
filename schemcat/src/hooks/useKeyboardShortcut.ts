@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { KeyShortcut } from '../model/MenuModel'
 
 export function useKeyboardShortcut(
   shortcut: KeyShortcut,
   callback: (e: KeyboardEvent) => void,
-  deps: any[] = []
+  deps: React.DependencyList = []
 ) {
   useEffect(() => {
     function handleKeydown(e: KeyboardEvent) {
@@ -19,5 +19,5 @@ export function useKeyboardShortcut(
     }
     window.addEventListener('keydown', handleKeydown)
     return () => window.removeEventListener('keydown', handleKeydown)
-  }, [shortcut, callback, deps])
+  }, [shortcut, callback, ...deps])
 }
