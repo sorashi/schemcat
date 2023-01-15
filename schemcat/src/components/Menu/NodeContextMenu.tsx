@@ -4,9 +4,9 @@ import { useStore } from '../../hooks/useStore'
 import { Connection, ErNode, ErNodeType, Multiplicity } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { isSubset } from '../../utils/SetOperations'
-import { Vector2 } from '../../utils/Utils'
 import { Dropdown } from './Dropdown'
 import { DropdownItem } from './DropdownItem'
+import Vector2 from '../../utils/Vector2'
 
 interface NodeContextMenuProps {
   location: Vector2
@@ -58,6 +58,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
       updateNodeById(nodeId, (node) => (node as ErNode).identifiers.splice(index, 1))
     }
   }
+
   function getAddRemoveIdentifierTitle() {
     const neutral = 'Add/Remove as identifier'
     const add = 'Add as identifier'
@@ -69,6 +70,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
     if (index === -1) return add
     else return remove
   }
+
   return (
     <DropdownItem
       item={{ title: getAddRemoveIdentifierTitle() }}

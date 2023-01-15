@@ -6,14 +6,6 @@ import MovableSvgComponent from './MovableSvgComponent'
 import { useStore } from '../hooks/useStore'
 import { Draggable } from './Draggable'
 import { Point } from '../model/Point'
-import {
-  arrayRotate,
-  arrayRotated,
-  BezierPathStringBuilder,
-  clientToSvgCoordinates,
-  normalizeRadiansAngle,
-  Vector2,
-} from '../utils/Utils'
 // eslint-disable-next-line import/no-named-as-default
 import produce from 'immer'
 import { useDrop } from 'react-dnd'
@@ -21,6 +13,11 @@ import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
 import { getShortcut, Modifier } from '../model/MenuModel'
 import { plainToInstance } from 'class-transformer'
 import { NodeContextMenu } from './Menu/NodeContextMenu'
+import Vector2 from '../utils/Vector2'
+import BezierPathStringBuilder from '../utils/BezierPathStringBuilder'
+import { arrayRotate, arrayRotated } from '../utils/Array'
+import { normalizeRadiansAngle } from '../utils/Angle'
+import { clientToSvgCoordinates } from '../utils/Svg'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -216,6 +213,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
     })
     return false
   }
+
   function handleDragging(start: Point, now: Point) {
     if (svgRef.current === null) return
     const svg: SVGSVGElement = svgRef.current
@@ -226,9 +224,11 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
       viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
       viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
     }
+
     if (isZoomPanSynced) updateDiagram((d) => updateViewBox(d.viewBox))
     else setCustomViewBox(produce(updateViewBox))
   }
+
   function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
     // We cannot preventDefault() here, because wheel is a passive event listener.
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
@@ -246,16 +246,11 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
 
     function shouldPreventZoom(currentViewBox: Rectangle): boolean {
       const maxSize = 2500
-      if ((currentViewBox.width > maxSize || currentViewBox.height > maxSize) && scaleDelta > 1) {
-        // prevent zoom out
-        return true
-      }
       const minSize = 200
-      if ((currentViewBox.width < minSize || currentViewBox.height < minSize) && scaleDelta < 1) {
-        // prevent zoom in
-        return true
-      }
-      return false
+      return (
+        ((currentViewBox.width > maxSize || currentViewBox.height > maxSize) && scaleDelta > 1) ||
+        ((currentViewBox.width < minSize || currentViewBox.height < minSize) && scaleDelta < 1)
+      )
     }
 
     function updateViewBox(viewBox: Rectangle) {
@@ -265,6 +260,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
       viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
       viewBox.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
     }
+
     if (isZoomPanSynced) updateDiagram((d) => updateViewBox(d.viewBox))
     else setCustomViewBox(produce(updateViewBox))
   }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTemporalStore } from '../hooks/useStore'
-import { clientToSvgCoordinates } from '../utils/Utils'
+import { clientToSvgCoordinates } from '../utils/Svg'
 
 interface MovableSvgComponentProps {
   x: number

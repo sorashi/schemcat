@@ -1,5 +1,5 @@
 import React from 'react'
-import { toRadians } from '../utils/Utils'
+import { toRadians } from '../utils/Angle'
 
 function convertToFloat(value: number | string | undefined): number | undefined {
   if (typeof value === 'number') return value
@@ -35,6 +35,7 @@ function getPolygonPoints(props: React.SVGProps<SVGPolygonElement>): string {
   const pointD = `${b},${y + height + dPrime}`
   return `${pointA} ${pointB} ${pointC} ${pointD}`
 }
+
 function SvgDiamondShape(props: React.SVGProps<SVGPolygonElement>) {
   return <polygon {...props} points={getPolygonPoints(props)}></polygon>
 }
