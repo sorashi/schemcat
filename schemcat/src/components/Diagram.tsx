@@ -74,7 +74,7 @@ function DiagramConnection({ link }: { link: Connection }) {
   return (
     <>
       <SvgConnection points={points} />
-      <MultiplicityText multiplicity={link.multiplicity} x={points[1].x} y={points[1].y} />
+      <MultiplicityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
     </>
   )
 }
