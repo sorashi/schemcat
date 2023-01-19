@@ -16,16 +16,16 @@ export default class BezierPathStringBuilder {
   }
 
   addReflectedBezier(controlPoint2: Vector2, to: Vector2) {
-    this.checkStarted()
+    this.ensureStarted()
     this.path += ` S ${controlPoint2}, ${to}`
   }
 
   addBezier(controlPoint1: Vector2, controlPoint2: Vector2, to: Vector2) {
-    this.checkStarted()
+    this.ensureStarted()
     this.path += ` C ${controlPoint1}, ${controlPoint2}, ${to}`
   }
 
-  private checkStarted() {
+  private ensureStarted() {
     if (!this.bezierStarted) throw new Error("bezier start hasn't been specified yet")
   }
 
