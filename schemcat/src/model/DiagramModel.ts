@@ -114,6 +114,10 @@ export class Multiplicity {
     this.lowerBound = lower
     this.upperBound = upper
   }
+
+  isDefault(): boolean {
+    return this.lowerBound === MultiplicityLowerBound.One && this.upperBound === MultiplicityUpperBound.One
+  }
 }
 
 export class Connection {

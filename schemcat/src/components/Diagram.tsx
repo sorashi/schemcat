@@ -47,7 +47,8 @@ function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
 }
 
 function MultiplicityText(props: { multiplicity: Multiplicity; x: number; y: number }) {
-  const { multiplicity, x, y } = props
+  const { x, y } = props
+  const multiplicity = plainToInstance(Multiplicity, props.multiplicity)
   const [textWidth, setTextWidth] = useState(0)
   const [textHeight, setTextHeight] = useState(0)
   const textRef = useRef<SVGTextElement>(null)
@@ -58,6 +59,7 @@ function MultiplicityText(props: { multiplicity: Multiplicity; x: number; y: num
       setTextHeight(height)
     }
   }, [textRef])
+  if (multiplicity.isDefault()) return null
   return (
     <text ref={textRef} x={x - textWidth / 2} y={y - textHeight / 2} dominantBaseline='central' textAnchor='middle'>
       {multiplicity.lowerBound}..{multiplicity.upperBound}
