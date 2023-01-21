@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { Connection, ErNode as ErNodeModel, ErNodeType, Multiplicity, Rectangle } from '../model/DiagramModel'
 import ErNode from './ErNode'
-import SvgConnection from './SvgConnection'
 import MovableSvgComponent from './MovableSvgComponent'
 import { useStore } from '../hooks/useStore'
 import { Draggable } from './Draggable'
@@ -18,65 +17,11 @@ import BezierPathStringBuilder from '../utils/BezierPathStringBuilder'
 import { arrayRotate, arrayRotated } from '../utils/Array'
 import { normalizeRadiansAngle } from '../utils/Angle'
 import { clientToSvgCoordinates } from '../utils/Svg'
+import { DiagramConnection, linkToPoints } from './DiagramConnection'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
   isSelectedNodeInActiveTabSet: boolean
-}
-
-function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
-  // The link could be deserialized from persisted data JSON. We must
-  // assign the object to an instance of ErNodeModel to guarantee
-  // existence of its methods. This could be improved by implementing a
-  // custom deserializer.
-  const { from, to } = {
-    from: plainToInstance(ErNodeModel, fromNode),
-    to: plainToInstance(ErNodeModel, toNode),
-  }
-  let fromAnchorPoints: { x: number; y: number }[] = []
-  if (from.getAnchorPoints) fromAnchorPoints = from.getAnchorPoints()
-  let toAnchorPoints: { x: number; y: number }[] = []
-  if (to.getAnchorPoints) toAnchorPoints = to.getAnchorPoints()
-  return [
-    {
-      x: fromAnchorPoints[0]?.x || from.x,
-      y: fromAnchorPoints[0]?.y || from.y,
-    },
-    { x: toAnchorPoints[0]?.x || to.x, y: toAnchorPoints[0]?.y || to.y },
-  ]
-}
-
-function MultiplicityText(props: { multiplicity: Multiplicity; x: number; y: number }) {
-  const { x, y } = props
-  const multiplicity = plainToInstance(Multiplicity, props.multiplicity)
-  const [textWidth, setTextWidth] = useState(0)
-  const [textHeight, setTextHeight] = useState(0)
-  const textRef = useRef<SVGTextElement>(null)
-  useLayoutEffect(() => {
-    if (textRef.current) {
-      const { width, height } = textRef.current.getBBox()
-      setTextWidth(width)
-      setTextHeight(height)
-    }
-  }, [textRef])
-  if (multiplicity.isDefault()) return null
-  return (
-    <text ref={textRef} x={x - textWidth / 2} y={y - textHeight / 2} dominantBaseline='central' textAnchor='middle'>
-      {multiplicity.lowerBound}..{multiplicity.upperBound}
-    </text>
-  )
-}
-
-function DiagramConnection({ link }: { link: Connection }) {
-  const from = useStore((state) => state.diagram.nodes.find((n) => n.id === link.fromId))
-  const to = useStore((state) => state.diagram.nodes.find((n) => n.id === link.toId))
-  const points = linkToPoints(from as ErNodeModel, to as ErNodeModel)
-  return (
-    <>
-      <SvgConnection points={points} />
-      <MultiplicityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
-    </>
-  )
 }
 
 type IdentifiersToBezierReturnType = {
@@ -156,6 +101,22 @@ function identifiersToBezier(node: ErNodeModel, identifiers: ErNodeModel[]): Ide
     path: bezier.toString(),
     circle: bezierStart,
   }
+}
+
+/**
+ * Checks the current viewBox and determines whether further zoom-in or zoom-out is inadvisable.
+ * That is, further zoom would either be too small or too large.
+ * @param currentViewBox Current view rectangle.
+ * @param scaleDelta The requested scale change. >1 means zoom-in, <1 means zoom-out.
+ * @returns `true` iff further zoom-in or zoom-out is inadvisable
+ */
+function shouldPreventZoom(currentViewBox: Rectangle, scaleDelta: number): boolean {
+  const maxSize = 2500
+  const minSize = 200
+  return (
+    ((currentViewBox.width > maxSize || currentViewBox.height > maxSize) && scaleDelta > 1) ||
+    ((currentViewBox.width < minSize || currentViewBox.height < minSize) && scaleDelta < 1)
+  )
 }
 
 function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
@@ -246,17 +207,8 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
     p.y = e.clientY
     const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
 
-    function shouldPreventZoom(currentViewBox: Rectangle): boolean {
-      const maxSize = 2500
-      const minSize = 200
-      return (
-        ((currentViewBox.width > maxSize || currentViewBox.height > maxSize) && scaleDelta > 1) ||
-        ((currentViewBox.width < minSize || currentViewBox.height < minSize) && scaleDelta < 1)
-      )
-    }
-
     function updateViewBox(viewBox: Rectangle) {
-      if (shouldPreventZoom(viewBox)) return
+      if (shouldPreventZoom(viewBox, scaleDelta)) return
       viewBox.width *= scaleDelta
       viewBox.height *= scaleDelta
       viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
