@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
 import { useStore } from '../../hooks/useStore'
-import { Connection, ErNode, ErNodeType, Multiplicity } from '../../model/DiagramModel'
+import { Connection, ErNode, ErNodeType, Cardinality } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { isSubset } from '../../utils/SetOperations'
 import { Dropdown } from './Dropdown'
@@ -95,7 +95,7 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
     const newAttribute: ErNode = new ErNode('Attribute', ErNodeType.AttributeType, node.x, node.y + 100, true)
     updateDiagram((d) => {
       d.nodes.push(newAttribute)
-      d.links.push(new Connection(nodeId, newAttribute.id, new Multiplicity(), true))
+      d.links.push(new Connection(nodeId, newAttribute.id, new Cardinality(), true))
     })
   }
 

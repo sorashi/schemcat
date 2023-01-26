@@ -2,7 +2,7 @@ import React from 'react'
 import { Connection, ErNode as ErNodeModel } from '../model/DiagramModel'
 import SvgConnection from './SvgConnection'
 import { useStore } from '../hooks/useStore'
-import { MultiplicityText } from './MultiplicityText'
+import { CardinalityText } from './CardinalityText'
 import { plainToInstance } from 'class-transformer'
 
 export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
@@ -33,7 +33,7 @@ export function DiagramConnection({ link }: { link: Connection }) {
   return (
     <>
       <SvgConnection points={points} />
-      <MultiplicityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
+      <CardinalityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { Connection, ErNode as ErNodeModel, ErNodeType, Multiplicity, Rectangle } from '../model/DiagramModel'
+import { Connection, ErNode as ErNodeModel, ErNodeType, Cardinality, Rectangle } from '../model/DiagramModel'
 import ErNode from './ErNode'
 import MovableSvgComponent from './MovableSvgComponent'
 import { useStore } from '../hooks/useStore'
@@ -158,7 +158,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
         updateDiagram((d) => d.links.splice(existing, 1))
         return
       }
-      updateDiagram((d) => d.links.push(new Connection(node1, node2, new Multiplicity(), true)))
+      updateDiagram((d) => d.links.push(new Connection(node1, node2, new Cardinality(), true)))
     },
     [selectedNodeIds]
   )

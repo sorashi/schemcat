@@ -125,31 +125,31 @@ export class ErNode extends DiagramNode {
   }
 }
 
-export enum MultiplicityLowerBound {
+export enum CardinalityLowerBound {
   Zero = 0,
   One = 1,
 }
 
-export enum MultiplicityUpperBound {
+export enum CardinalityUpperBound {
   One = 1,
-  Many = 'n',
+  Many = '*',
 }
 
-export class Multiplicity {
+export class Cardinality {
   [immerable] = true
-  lowerBound: MultiplicityLowerBound
-  upperBound: MultiplicityUpperBound
+  lowerBound: CardinalityLowerBound
+  upperBound: CardinalityUpperBound
 
   constructor(
-    lower: MultiplicityLowerBound = MultiplicityLowerBound.One,
-    upper: MultiplicityUpperBound = MultiplicityUpperBound.One
+    lower: CardinalityLowerBound = CardinalityLowerBound.One,
+    upper: CardinalityUpperBound = CardinalityUpperBound.One
   ) {
     this.lowerBound = lower
     this.upperBound = upper
   }
 
   isDefault(): boolean {
-    return this.lowerBound === MultiplicityLowerBound.One && this.upperBound === MultiplicityUpperBound.One
+    return this.lowerBound === CardinalityLowerBound.One && this.upperBound === CardinalityUpperBound.One
   }
 }
 
@@ -158,9 +158,9 @@ export class Connection {
   id: number
   fromId: number
   toId: number
-  @Type(() => Multiplicity)
-  multiplicity: Multiplicity
-  constructor(fromId = -1, toId = -1, multiplicity = new Multiplicity(), newId = false) {
+  @Type(() => Cardinality)
+  multiplicity: Cardinality
+  constructor(fromId = -1, toId = -1, multiplicity = new Cardinality(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId
     this.toId = toId

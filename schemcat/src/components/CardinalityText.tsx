@@ -1,10 +1,10 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { Multiplicity } from '../model/DiagramModel'
+import { Cardinality } from '../model/DiagramModel'
 import { plainToInstance } from 'class-transformer'
 
-export function MultiplicityText(props: { multiplicity: Multiplicity; x: number; y: number }) {
+export function CardinalityText(props: { multiplicity: Cardinality; x: number; y: number }) {
   const { x, y } = props
-  const multiplicity = plainToInstance(Multiplicity, props.multiplicity)
+  const multiplicity = plainToInstance(Cardinality, props.multiplicity)
   const [textWidth, setTextWidth] = useState(0)
   const [textHeight, setTextHeight] = useState(0)
   const textRef = useRef<SVGTextElement>(null)
