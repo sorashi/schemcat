@@ -1,9 +1,10 @@
 import { Connection, DiagramModel, DiagramNode, ErNode, ErNodeType, Multiplicity } from '../model/DiagramModel'
-import create from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import { create } from 'zustand'
+import { devtools, persist, StorageValue } from 'zustand/middleware'
 import { temporal } from 'zundo'
 import { produce } from 'immer'
-import { instanceToPlain } from 'class-transformer'
+import { instanceToPlain, plainToInstance } from 'class-transformer'
+import { DeepPartial } from '../utils/Types'
 
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
@@ -117,21 +118,26 @@ export const useStore = create<StoreModel>()(
         }
       ),
       {
-        name: 'schemcat-state',
-        getStorage: () => localStorage,
-        partialize: partializeStoreModel,
-        serialize: (state) => JSON.stringify(state),
-        deserialize: (s) => {
-          const o = JSON.parse(s)
-          o.state.diagram.selectedNodeIds = new Set<number>()
-          return o
+        storage: {
+          // deserialize
+          getItem: (name: string) => {
+            const plain: StorageValue<DeepPartial<StoreModel>> = JSON.parse(localStorage.getItem(name) || '{}')
+            plain.state.diagram = plainToInstance(DiagramModel, plain.state.diagram)
+            return plain
+          },
+          // serialize
+          setItem: (name: string, value: StorageValue<DeepPartial<StoreModel>>) =>
+            localStorage.setItem(name, JSON.stringify(value)),
+          removeItem: (name: string) => localStorage.removeItem(name),
         },
+        name: 'schemcat-state',
+        partialize: partializeStoreModel,
       }
     )
   )
 )
 
-function partializeStoreModel(state: StoreModel) {
+function partializeStoreModel(state: StoreModel): DeepPartial<StoreModel> {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   // ignore a part of the state
   const {
@@ -139,7 +145,8 @@ function partializeStoreModel(state: StoreModel) {
     diagram: { selectedNodeIds, ...diagRest },
     ...rest
   } = state
-  return { diagram: { ...diagRest }, ...rest }
+  const partialized: DeepPartial<StoreModel> = { diagram: { ...diagRest }, ...rest }
+  return partialized
   /* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
