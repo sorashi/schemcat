@@ -32,7 +32,7 @@ import 'reflect-metadata'
 import { immerable } from 'immer'
 
 import globalIdGenerator from '../utils/GlobalIdGenerator'
-import { Type } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 
 export enum ControlPanelViewType {
   ViewOnly,
@@ -66,13 +66,37 @@ export interface Rectangle {
   height: number
 }
 
+export type ErDiagramEntity = ErNode | Connection | ErIdentifier
+
+/**
+ * Identifier in the context of an ER diagram.
+ * An identifier itself has an ID to uniquely identify it.
+ * An identifier consists of a set of IDs of nodes that are part of the identifier.
+ */
+export class ErIdentifier {
+  [immerable] = true
+  public id = -1
+  /** Which node by ID does this identifier identify */
+  public identifies = -1
+  @Transform((value) => new Set(value.value))
+  public identities: Set<number> = new Set<number>()
+  constructor(identifies = -1, identities: Iterable<number> | undefined = undefined, newId = false) {
+    if (newId) this.id = globalIdGenerator.nextId()
+    if (identities) this.identities = new Set(identities)
+    this.identifies = identifies
+  }
+}
+
 export class DiagramModel {
   [immerable] = true
-  @Type(() => DiagramNode)
-  public nodes: DiagramNode[] = []
+  @Type(() => ErNode)
+  public nodes: ErNode[] = []
   @Type(() => Connection)
   public links: Connection[] = []
+  @Transform((value) => new Set(value.value))
   public selectedNodeIds: Set<number> = new Set<number>()
+  @Type(() => ErIdentifier)
+  public identifiers: ErIdentifier[] = []
   public viewBox: Rectangle = { x: 0, y: 0, width: 800, height: 800 }
 }
 export class DiagramNode {
@@ -106,7 +130,9 @@ export class ErNode extends DiagramNode {
   @IncludeInControlPanel(ControlPanelViewType.ComboBox)
   @EnumType(ErNodeType)
   type: ErNodeType
-  identifiers: number[][] = []
+  /** Set of {@link ErIdentifier#id} */
+  @Transform((value) => new Set(value.value))
+  identifiers: Set<number> = new Set()
   constructor(label = 'Label', type: ErNodeType = ErNodeType.EntityType, x = 0, y = 0, newId = false) {
     super(label, x, y, newId)
     this.type = type

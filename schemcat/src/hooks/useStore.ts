@@ -1,8 +1,16 @@
-import { Connection, DiagramModel, DiagramNode, ErNode, ErNodeType, Cardinality } from '../model/DiagramModel'
+import {
+  Connection,
+  DiagramModel,
+  DiagramNode,
+  ErNode,
+  ErNodeType,
+  Cardinality,
+  ErIdentifier,
+} from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'
 import { temporal } from 'zundo'
-import { produce } from 'immer'
+import { produce, enableMapSet } from 'immer'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { DeepPartial } from '../utils/Types'
 
@@ -27,18 +35,20 @@ function exampleDiagram(): DiagramModel {
     new Connection(team.id, teamMember.id, new Cardinality(0, 1), true),
     new Connection(person.id, teamMember.id, new Cardinality(0, 1), true),
   ]
-  person.identifiers.push([givenName.id, surname.id, age.id])
-  // person.identifiers.push([givenName.id, surname.id])
-  person.identifiers.push([nationalId.id])
+  const identifier1 = new ErIdentifier(person.id, [givenName.id, surname.id, age.id], true)
+  const identifier2 = new ErIdentifier(person.id, [nationalId.id], true)
+  diagram.identifiers.push(identifier1, identifier2)
+  person.identifiers.add(identifier1.id)
+  person.identifiers.add(identifier2.id)
   // Simulate persistence serialization and deserialization. This is because
   // we need the state to be pure js objects, not class instances. State
   // managers compare class instances using reference equality and may not
   // detect global state change in some cases. This is the invariant to
   // preserve throughout the whole application.
   return {
-    ...instanceToPlain(diagram),
+    ...plainToInstance(DiagramModel, instanceToPlain(diagram)),
     selectedNodeIds: new Set<number>(),
-  } as DiagramModel
+  }
 }
 export interface StoreModel {
   diagram: DiagramModel
@@ -50,12 +60,14 @@ export interface StoreModel {
   removeNodeById: (id: number) => void
   /** calls and update function on the node */
   updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
+  removeIdentifierById: (id: number) => void
+  addIdentifier(identifier: ErIdentifier): void
 }
 export const useStore = create<StoreModel>()(
   devtools(
     persist(
       temporal(
-        (set) => ({
+        (set, get) => ({
           diagram: exampleDiagram(),
           isZoomPanSynced: false,
           setIsZoomPanSynced: (isZoomPanSynced: boolean) =>
@@ -111,6 +123,27 @@ export const useStore = create<StoreModel>()(
               })
             )
           },
+          removeIdentifierById: (id: number) => {
+            set(
+              produce((state: StoreModel) => {
+                const found = state.diagram.identifiers.find((i) => i.id === id)
+                if (!found) {
+                  console.error(`identifier ${id} not found`)
+                  return
+                }
+                state.diagram.nodes.find((n) => n.id === found.identifies)?.identifiers.delete(found.id)
+                state.diagram.identifiers = state.diagram.identifiers.filter((i) => i.id !== id)
+              })
+            )
+          },
+          addIdentifier: (identifier: ErIdentifier) => {
+            set(
+              produce((state: StoreModel) => {
+                state.diagram.identifiers.push(identifier)
+                state.diagram.nodes.find((n) => n.id === identifier.identifies)?.identifiers.add(identifier.id)
+              })
+            )
+          },
         }),
         {
           //limit: 50,
@@ -121,13 +154,18 @@ export const useStore = create<StoreModel>()(
         storage: {
           // deserialize
           getItem: (name: string) => {
-            const plain: StorageValue<DeepPartial<StoreModel>> = JSON.parse(localStorage.getItem(name) || '{}')
+            let plain: StorageValue<DeepPartial<StoreModel>> | null = JSON.parse(localStorage.getItem(name) || 'null')
+            if (plain === null) {
+              plain = { state: { diagram: exampleDiagram() } }
+            }
             plain.state.diagram = plainToInstance(DiagramModel, plain.state.diagram)
             return plain
           },
           // serialize
-          setItem: (name: string, value: StorageValue<DeepPartial<StoreModel>>) =>
-            localStorage.setItem(name, JSON.stringify(value)),
+          setItem: (name: string, value: StorageValue<DeepPartial<StoreModel>>) => {
+            value.state.diagram = instanceToPlain<DiagramModel>(value.state.diagram as DiagramModel)
+            localStorage.setItem(name, JSON.stringify(value))
+          },
           removeItem: (name: string) => localStorage.removeItem(name),
         },
         name: 'schemcat-state',
@@ -136,6 +174,19 @@ export const useStore = create<StoreModel>()(
     )
   )
 )
+
+/** Returns identifiers corresponding to a set of identifiers ids */
+export const getIdentifiersByIds = (ids: Set<number>, identifiers: StoreModel['diagram']['identifiers']) =>
+  identifiers.filter((identifier) => ids.has(identifier.id))
+
+export const getIdentifierById = (id: number, identifiers: StoreModel['diagram']['identifiers']) => {
+  const found = identifiers.find((identifier) => identifier.id === id)
+  if (!found) {
+    console.error(`Identifier ${id} not found`)
+    throw Error(`Identifier ${id} not found`)
+  }
+  return found
+}
 
 function partializeStoreModel(state: StoreModel): DeepPartial<StoreModel> {
   /* eslint-disable @typescript-eslint/no-unused-vars */

@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { StoreModel, useStore } from '../hooks/useStore'
+import { getIdentifierById, getIdentifiersByIds, StoreModel, useStore } from '../hooks/useStore'
 import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
 import isEqual from 'react-fast-compare'
@@ -32,15 +32,16 @@ function ErNodeByType(props: ErNodeProps) {
     )
   )
   const nodes = useStore((state: StoreModel) => state.diagram.nodes)
+  const identifiers = useStore((state: StoreModel) => state.diagram.identifiers)
   const circleConditionalStyle: Record<string, unknown> = useMemo(() => {
     return connections.some((x) =>
-      (nodes.find((y) => y.id === x.toId || y.id === x.fromId) as ErNodeModel).identifiers.some((id) =>
-        isEqual(id, [node.id])
+      Array.from((nodes.find((y) => y.id === x.toId || y.id === x.fromId) as ErNodeModel).identifiers).some(
+        (identifierId) => isEqual(getIdentifierById(identifierId, identifiers).identities, new Set([node.id]))
       )
     )
       ? { fill: 'black' }
       : {}
-  }, [connections, nodes, node.id])
+  }, [connections, nodes, node.id, identifiers])
   switch (node.type) {
     case ErNodeType.EntityType:
       // margin-y 10

@@ -1,5 +1,12 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { Connection, ErNode as ErNodeModel, ErNodeType, Cardinality, Rectangle } from '../model/DiagramModel'
+import {
+  Connection,
+  ErNode as ErNodeModel,
+  ErNodeType,
+  Cardinality,
+  Rectangle,
+  ErIdentifier,
+} from '../model/DiagramModel'
 import ErNode from './ErNode'
 import MovableSvgComponent from './MovableSvgComponent'
 import { useStore } from '../hooks/useStore'
@@ -122,6 +129,7 @@ function shouldPreventZoom(currentViewBox: Rectangle, scaleDelta: number): boole
 function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   const nodes = useStore((state) => state.diagram.nodes)
   const links = useStore((state) => state.diagram.links)
+  const identifiers = useStore((state) => state.diagram.identifiers)
   const viewBox = useStore((state) => state.diagram.viewBox)
   const updateNodeById = useStore((state) => state.updateNodeById)
   const updateDiagram = useStore((state) => state.updateDiagram)
@@ -272,7 +280,18 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
           }
           preserveAspectRatio='xMidYMid meet'>
           {links.map((link) => (
-            <DiagramConnection key={link.id} link={link} />
+            <DiagramConnection
+              key={link.id}
+              link={link}
+              onClick={(e) => {
+                if (e.ctrlKey) {
+                  // add this one to selection
+                } else {
+                  // clear selection, select only this one
+                  console.log('Click')
+                }
+              }}
+            />
           ))}
           {nodes.map((node) => [
             <MovableSvgComponent
@@ -313,8 +332,13 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
                 selected={(selectedNodeIds.has && selectedNodeIds.has(node.id)) || false}
               />
             </MovableSvgComponent>,
-            ...(node as ErNodeModel).identifiers
-              .map((x) => nodes.filter((y) => x.includes(y.id)))
+            ...Array.from((node as ErNodeModel).identifiers, (identifier) => {
+              const found = identifiers.find((x) => x.id === identifier)
+              if (!found) console.error('Identifier not found', identifier)
+              return found
+            })
+              .filter((x): x is ErIdentifier => !!x)
+              .map((x) => nodes.filter((y) => x.identities.has(y.id)))
               .map((identifiers) => {
                 if (identifiers.length < 2) return
                 const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[])

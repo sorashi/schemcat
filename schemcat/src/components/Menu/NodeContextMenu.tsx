@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import isEqual from 'react-fast-compare'
-import { useStore } from '../../hooks/useStore'
-import { Connection, ErNode, ErNodeType, Cardinality } from '../../model/DiagramModel'
+import { getIdentifiersByIds, useStore } from '../../hooks/useStore'
+import { Connection, ErNode, ErNodeType, Cardinality, ErIdentifier } from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { isSubset } from '../../utils/SetOperations'
 import { Dropdown } from './Dropdown'
@@ -21,10 +21,15 @@ interface ContextMenuItemProps {
 
 function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
   const updateNodeById = useStore((state) => state.updateNodeById)
+  const addIdentifier = useStore((state) => state.addIdentifier)
+  const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
+  const identifiers = useStore((state) => state.diagram.identifiers)
   const node: ErNode | undefined = useStore(
     useCallback((state) => state.diagram.nodes.find((n) => n.id === nodeId), [nodeId])
   ) as ErNode | undefined
+
+  const nodeIdentifiers = (node && getIdentifiersByIds(node.identifiers, identifiers)) || []
 
   const selectedNodeIdsWithoutSelf = new Set(selectedNodeIds)
   selectedNodeIdsWithoutSelf.delete(nodeId)
@@ -37,25 +42,27 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
     }
     // ignore when no nodes are selected
     if (!selectedNodeIds || selectedNodeIds.size === 0) return
-    const index = node.identifiers.findIndex((id) => isEqual(new Set(id), selectedNodeIdsWithoutSelf))
-    if (index === -1) {
+    const foundIdentifier = nodeIdentifiers.find((identifier) =>
+      isEqual(identifier.identities, selectedNodeIdsWithoutSelf)
+    )
+    if (!foundIdentifier) {
       // add identifier
-      if (node.identifiers.some((id) => isSubset(selectedNodeIdsWithoutSelf, new Set(id)))) {
+      if (nodeIdentifiers.some((identifier) => isSubset(selectedNodeIdsWithoutSelf, identifier.identities))) {
         alert(
           'A subset of an existing identifier cannot be added as an identifier. Please remove the larger identifier first.'
         )
         return
       }
-      if (node.identifiers.some((id) => isSubset(new Set(id), selectedNodeIds))) {
+      if (nodeIdentifiers.some((identifier) => isSubset(identifier.identities, selectedNodeIds))) {
         alert(
           'A superset of an existing identifier cannot be added as an identifier. Please remove the smaller identifier first.'
         )
         return
       }
-      updateNodeById(nodeId, (node) => (node as ErNode).identifiers.push(Array.from(selectedNodeIdsWithoutSelf)))
+      addIdentifier(new ErIdentifier(nodeId, selectedNodeIdsWithoutSelf, true))
     } else {
       // remove identifier
-      updateNodeById(nodeId, (node) => (node as ErNode).identifiers.splice(index, 1))
+      removeIdentifierById(foundIdentifier.id)
     }
   }
 
@@ -66,8 +73,10 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
     if (!node) return neutral
     if (node.type === ErNodeType.AttributeType) return neutral
     if (!selectedNodeIds || selectedNodeIds.size === 0) return neutral
-    const index = node.identifiers.findIndex((id) => isEqual(new Set(id), selectedNodeIdsWithoutSelf))
-    if (index === -1) return add
+    const foundIdentifier = nodeIdentifiers.find((identifier) =>
+      isEqual(identifier.identities, selectedNodeIdsWithoutSelf)
+    )
+    if (!foundIdentifier) return add
     else return remove
   }
 

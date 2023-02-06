@@ -26,13 +26,19 @@ export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
     { x: toAnchorPoints[0]?.x || to.x, y: toAnchorPoints[0]?.y || to.y },
   ]
 }
-export function DiagramConnection({ link }: { link: Connection }) {
+
+interface DiagramConnectionProps {
+  link: Connection
+  onClick?: (e: React.MouseEvent<SVGPathElement, MouseEvent>) => void
+}
+
+export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   const from = useStore((state) => state.diagram.nodes.find((n) => n.id === link.fromId))
   const to = useStore((state) => state.diagram.nodes.find((n) => n.id === link.toId))
   const points = linkToPoints(from as ErNodeModel, to as ErNodeModel)
   return (
     <>
-      <SvgConnection points={points} />
+      <SvgConnection onClick={onClick} points={points} />
       <CardinalityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
     </>
   )
