@@ -35,10 +35,14 @@ interface DiagramConnectionProps {
 export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   const from = useStore((state) => state.diagram.nodes.find((n) => n.id === link.fromId))
   const to = useStore((state) => state.diagram.nodes.find((n) => n.id === link.toId))
+  const selectedEntities = useStore((state) => state.diagram.selectedEntities)
   const points = linkToPoints(from as ErNodeModel, to as ErNodeModel)
+  const style: React.CSSProperties | undefined = selectedEntities.some((x) => x.id === link.id)
+    ? { stroke: 'green', strokeDasharray: '5,5' }
+    : undefined
   return (
     <>
-      <SvgConnection onClick={onClick} points={points} />
+      <SvgConnection onClick={onClick} points={points} style={style} />
       <CardinalityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
     </>
   )

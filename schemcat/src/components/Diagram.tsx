@@ -314,11 +314,14 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               link={link}
               onClick={(e) => {
                 if (e.ctrlKey) {
-                  // add this one to selection
-                } else {
-                  // clear selection, select only this one
-                  console.log('Click')
+                  // add to selection
+                  updateDiagram((d) => {
+                    d.selectedEntities.push({ id: link.id, type: 'ErConnection' })
+                  })
+                  return
                 }
+                // clear the selection, select only this one
+                updateDiagram((d) => (d.selectedEntities = [{ id: link.id, type: 'ErConnection' }]))
               }}
             />
           ))}
