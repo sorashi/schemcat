@@ -361,7 +361,9 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               <ErNode
                 key={node.id}
                 node={node as ErNodeModel}
-                selected={selectedEntityIds.some((selected) => selected.id === node.id) || false}
+                selected={
+                  selectedEntityIds.some((selected) => selected.id === node.id && selected.type === 'ErNode') || false
+                }
               />
             </MovableSvgComponent>,
             ...Array.from((node as ErNodeModel).identifiers, (identifier) => {
@@ -370,24 +372,54 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               return found
             })
               .filter((x): x is ErIdentifier => !!x)
-              .map((x) => nodes.filter((y) => x.identities.has(y.id)))
-              .map((identifiers) => {
+              .map((x) => ({ identifierId: x.id, identifiers: nodes.filter((y) => x.identities.has(y.id)) }))
+              .map((identifierInfo) => {
+                const { identifiers, identifierId } = identifierInfo
                 if (identifiers.length < 2) return
                 const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[])
+                const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
+                  ? {
+                      stroke: 'green',
+                      strokeDasharray: '5,5',
+                    }
+                  : undefined
+                const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
+                  if (e.ctrlKey) {
+                    updateDiagram((d) => {
+                      d.selectedEntities.push({ id: identifierId, type: 'ErIdentifier' })
+                    })
+                    return
+                  }
+                  updateDiagram((d) => {
+                    d.selectedEntities = [{ id: identifierId, type: 'ErIdentifier' }]
+                  })
+                }
                 return [
+                  // this path is the "hitbox", i.e. what the user can click to select the path
                   <path
-                    key={`identifiers-bezier-${node.id}-${identifiers.map((x) => x.id).join(' ')}`}
+                    key={`identifiers-bezier-hitbox-${identifierId}}`}
+                    fill='none'
+                    stroke='rgba(255,0,0,0)'
+                    strokeWidth={10}
+                    d={bezierResult.path}
+                    onClick={selectOnClick}
+                  />,
+                  <path
+                    key={`identifiers-bezier-${identifierId}`}
                     fill='none'
                     stroke='black'
                     strokeWidth={1}
+                    style={style}
                     d={bezierResult.path}
                   />,
                   <circle
-                    key={`identifiers-circle-${node.id}-${identifiers.map((x) => x.id).join(' ')}`}
+                    key={`identifiers-circle-${identifierId}`}
                     cx={bezierResult.circle.x}
                     cy={bezierResult.circle.y}
                     r='10'
                     fill='black'
+                    style={style}
+                    onClick={selectOnClick}
                   />,
                 ]
               })
