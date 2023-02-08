@@ -135,6 +135,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   const updateNodeById = useStore((state) => state.updateNodeById)
   const updateDiagram = useStore((state) => state.updateDiagram)
   const removeNodeById = useStore((state) => state.removeNodeById)
+  const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   const [nodeContextMenuState, setNodeContextMenuState] = useState({
@@ -144,6 +145,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   })
 
   useKeyboardShortcut(getShortcut([], 'Delete'), () => {
+    console.log(selectedEntityIds)
     if (selectedEntityIds) {
       selectedEntityIds.forEach((selected) => {
         switch (selected.type) {
@@ -151,14 +153,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
             removeNodeById(selected.id)
             break
           case 'ErIdentifier':
-            updateDiagram((d) => {
-              const index = d.identifiers.findIndex((i) => i.id === selected.id)
-              if (index === -1) {
-                console.error('Identifier for removal not found', selected.id)
-                return
-              }
-              d.identifiers.splice(index, 1)
-            })
+            removeIdentifierById(selected.id)
             break
           case 'ErConnection':
             updateDiagram((d) => {
@@ -167,6 +162,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
                 console.error('Connection for removal not found', selected.id)
                 return
               }
+              d.links.splice(index, 1)
             })
             break
           default:
