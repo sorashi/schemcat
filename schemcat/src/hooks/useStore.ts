@@ -6,6 +6,7 @@ import {
   ErNodeType,
   Cardinality,
   ErIdentifier,
+  ErDiagramEntityType,
 } from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'
@@ -47,7 +48,7 @@ function exampleDiagram(): DiagramModel {
   // preserve throughout the whole application.
   return {
     ...plainToInstance(DiagramModel, instanceToPlain(diagram)),
-    selectedNodeIds: new Set<number>(),
+    selectedEntities: [],
   }
 }
 export interface StoreModel {
@@ -61,7 +62,8 @@ export interface StoreModel {
   /** calls and update function on the node */
   updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
   removeIdentifierById: (id: number) => void
-  addIdentifier(identifier: ErIdentifier): void
+  addIdentifier: (identifier: ErIdentifier) => void
+  removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void
 }
 export const useStore = create<StoreModel>()(
   devtools(
@@ -144,6 +146,25 @@ export const useStore = create<StoreModel>()(
               })
             )
           },
+          removeErDiagramEntityById: (id: number, type: ErDiagramEntityType): void => {
+            set(
+              produce((state: StoreModel) => {
+                switch (type) {
+                  case 'ErNode':
+                    state.diagram.nodes = state.diagram.nodes.filter((n) => n.id !== id)
+                    break
+                  case 'ErConnection':
+                    state.diagram.links = state.diagram.links.filter((l) => l.id !== id)
+                    break
+                  case 'ErIdentifier':
+                    state.diagram.identifiers = state.diagram.identifiers.filter((i) => i.id !== id)
+                    break
+                  default:
+                    throw new Error(`unknown type ${type}`)
+                }
+              })
+            )
+          },
         }),
         {
           //limit: 50,
@@ -193,7 +214,7 @@ function partializeStoreModel(state: StoreModel): DeepPartial<StoreModel> {
   // ignore a part of the state
   const {
     isZoomPanSynced,
-    diagram: { selectedNodeIds, ...diagRest },
+    diagram: { selectedEntities: selectedNodeIds, ...diagRest },
     ...rest
   } = state
   const partialized: DeepPartial<StoreModel> = { diagram: { ...diagRest }, ...rest }

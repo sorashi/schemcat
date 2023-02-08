@@ -21,10 +21,7 @@ function TextEditView(props: ControlPanelViewProps) {
       type='text'
       defaultValue={String(props.node[props.propertyKey])}
       onChange={(e) => {
-        updateNodeById(
-          props.node.id,
-          (n) => ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] = e.target.value)
-        )
+        updateNodeById(props.node.id, (n) => ((n as Record<keyof ErNode, unknown>)[props.propertyKey] = e.target.value))
       }}
     />
   )
@@ -37,10 +34,7 @@ function ComboBoxView(props: ControlPanelViewProps) {
     <select
       defaultValue={String(props.node[props.propertyKey])}
       onChange={(e) =>
-        updateNodeById(
-          props.node.id,
-          (n) => ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] = e.target.value)
-        )
+        updateNodeById(props.node.id, (n) => ((n as Record<keyof ErNode, unknown>)[props.propertyKey] = e.target.value))
       }>
       {Object.values(enumType).map((v: unknown) => (
         <option key={`${props.node.id}: ${String(v)}`} value={String(v)}>
@@ -60,7 +54,7 @@ function NumericUpDownView(props: ControlPanelViewProps) {
       onChange={(e) =>
         updateNodeById(
           props.node.id,
-          (n) => ((n as Record<keyof DiagramNode, unknown>)[props.propertyKey] = Number(e.target.value))
+          (n) => ((n as Record<keyof ErNode, unknown>)[props.propertyKey] = Number(e.target.value))
         )
       }
     />
@@ -69,8 +63,8 @@ function NumericUpDownView(props: ControlPanelViewProps) {
 
 interface ControlPanelViewProps {
   metadata: IncludeInControlPanelMetadata
-  node: DiagramNode
-  propertyKey: keyof DiagramNode
+  node: ErNode
+  propertyKey: keyof ErNode
 }
 
 function ControlPanelView(props: ControlPanelViewProps) {
@@ -92,11 +86,12 @@ function ControlPanelView(props: ControlPanelViewProps) {
 }
 
 function ControlPanel() {
-  const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
+  const selectedEntities = useStore((state) => state.diagram.selectedEntities)
+  const selectedNodes = selectedEntities.filter((sel) => sel.type === 'ErNode')
 
-  const selectedNodeId = selectedNodeIds.size === 1 ? selectedNodeIds.values().next().value : undefined
+  const selectedNodeId = selectedNodes.length === 1 ? selectedNodes[0] : undefined
   const selectedNode = useStore(
-    useCallback((state) => state.diagram.nodes.find((n) => n.id === selectedNodeId), [selectedNodeIds])
+    useCallback((state) => state.diagram.nodes.find((n) => n.id === selectedNodeId?.id), [selectedEntities])
   )
   const convertedNode = plainToInstance(ErNode, selectedNode)
   return (
@@ -126,7 +121,7 @@ function ControlPanel() {
             )
           })) || (
           <div className='text-gray-500'>
-            {selectedNodeIds.size === 0 ? 'Select a node' : 'Multiple node editing is not supported yet'}
+            {selectedNodes.length === 0 ? 'Select a node' : 'Multiple node editing is not supported yet'}
           </div>
         )}
       </dl>

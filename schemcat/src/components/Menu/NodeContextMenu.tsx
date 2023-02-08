@@ -23,7 +23,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
   const updateNodeById = useStore((state) => state.updateNodeById)
   const addIdentifier = useStore((state) => state.addIdentifier)
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
-  const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
+  const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const identifiers = useStore((state) => state.diagram.identifiers)
   const node: ErNode | undefined = useStore(
     useCallback((state) => state.diagram.nodes.find((n) => n.id === nodeId), [nodeId])
@@ -31,8 +31,19 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
 
   const nodeIdentifiers = (node && getIdentifiersByIds(node.identifiers, identifiers)) || []
 
-  const selectedNodeIdsWithoutSelf = new Set(selectedNodeIds)
+  const selectedNodeIdsWithSelf = new Set(
+    selectedEntityIds.filter((selected) => selected.type === 'ErNode').map((selected) => selected.id)
+  )
+  const selectedNodeIdsWithoutSelf = new Set(selectedNodeIdsWithSelf)
   selectedNodeIdsWithoutSelf.delete(nodeId)
+
+  function canAddOrRemoveIdentifier(): boolean {
+    return (
+      node?.type === ErNodeType.EntityType &&
+      selectedEntityIds.every((selected) => selected.type === 'ErNode') &&
+      selectedEntityIds.length >= 1
+    )
+  }
 
   function handleAddRemoveIdentifier() {
     if (!node) return
@@ -41,7 +52,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
       return
     }
     // ignore when no nodes are selected
-    if (!selectedNodeIds || selectedNodeIds.size === 0) return
+    if (!canAddOrRemoveIdentifier()) return
     const foundIdentifier = nodeIdentifiers.find((identifier) =>
       isEqual(identifier.identities, selectedNodeIdsWithoutSelf)
     )
@@ -53,7 +64,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
         )
         return
       }
-      if (nodeIdentifiers.some((identifier) => isSubset(identifier.identities, selectedNodeIds))) {
+      if (nodeIdentifiers.some((identifier) => isSubset(identifier.identities, selectedNodeIdsWithSelf))) {
         alert(
           'A superset of an existing identifier cannot be added as an identifier. Please remove the smaller identifier first.'
         )
@@ -72,7 +83,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
     const remove = 'Remove from identifiers'
     if (!node) return neutral
     if (node.type === ErNodeType.AttributeType) return neutral
-    if (!selectedNodeIds || selectedNodeIds.size === 0) return neutral
+    if (!canAddOrRemoveIdentifier()) return neutral
     const foundIdentifier = nodeIdentifiers.find((identifier) =>
       isEqual(identifier.identities, selectedNodeIdsWithoutSelf)
     )

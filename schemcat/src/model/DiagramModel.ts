@@ -66,7 +66,12 @@ export interface Rectangle {
   height: number
 }
 
+export type ErDiagramEntityType = 'ErNode' | 'ErConnection' | 'ErIdentifier'
 export type ErDiagramEntity = ErNode | Connection | ErIdentifier
+export interface ErDiagramIdentityDiscriminator {
+  id: number
+  type: ErDiagramEntityType
+}
 
 /**
  * Identifier in the context of an ER diagram.
@@ -93,8 +98,9 @@ export class DiagramModel {
   public nodes: ErNode[] = []
   @Type(() => Connection)
   public links: Connection[] = []
-  @Transform((value) => new Set(value.value))
-  public selectedNodeIds: Set<number> = new Set<number>()
+  /** IDs of diagram entities selected by the user.
+   * This property does not need a `@Type` attribute, because the type is a list of interfaces, not of classes. */
+  public selectedEntities: ErDiagramIdentityDiscriminator[] = []
   @Type(() => ErIdentifier)
   public identifiers: ErIdentifier[] = []
   public viewBox: Rectangle = { x: 0, y: 0, width: 800, height: 800 }

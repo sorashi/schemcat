@@ -25,6 +25,7 @@ import { arrayRotate, arrayRotated } from '../utils/Array'
 import { normalizeRadiansAngle } from '../utils/Angle'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { DiagramConnection, linkToPoints } from './DiagramConnection'
+import { assertNever } from '../utils/Types'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -134,7 +135,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   const updateNodeById = useStore((state) => state.updateNodeById)
   const updateDiagram = useStore((state) => state.updateDiagram)
   const removeNodeById = useStore((state) => state.removeNodeById)
-  const selectedNodeIds = useStore((state) => state.diagram.selectedNodeIds)
+  const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   const [nodeContextMenuState, setNodeContextMenuState] = useState({
     show: false,
@@ -143,15 +144,43 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   })
 
   useKeyboardShortcut(getShortcut([], 'Delete'), () => {
-    if (selectedNodeIds) {
-      selectedNodeIds.forEach((id) => removeNodeById(id))
-      updateDiagram((d) => d.selectedNodeIds.clear())
+    if (selectedEntityIds) {
+      selectedEntityIds.forEach((selected) => {
+        switch (selected.type) {
+          case 'ErNode':
+            removeNodeById(selected.id)
+            break
+          case 'ErIdentifier':
+            updateDiagram((d) => {
+              const index = d.identifiers.findIndex((i) => i.id === selected.id)
+              if (index === -1) {
+                console.error('Identifier for removal not found', selected.id)
+                return
+              }
+              d.identifiers.splice(index, 1)
+            })
+            break
+          case 'ErConnection':
+            updateDiagram((d) => {
+              const index = d.links.findIndex((l) => l.id === selected.id)
+              if (index === -1) {
+                console.error('Connection for removal not found', selected.id)
+                return
+              }
+            })
+            break
+          default:
+            return assertNever(selected.type)
+        }
+      })
+      updateDiagram((d) => (d.selectedEntities = []))
     }
   })
   useKeyboardShortcut(
     getShortcut([Modifier.Ctrl], 'l'),
     (e) => {
-      if (selectedNodeIds.size !== 2) {
+      const selectedNodeIds = selectedEntityIds.filter((e) => e.type === 'ErNode').map((e) => e.id)
+      if (selectedNodeIds.length !== 2) {
         console.error('not supported yet')
         return
       }
@@ -168,7 +197,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
       }
       updateDiagram((d) => d.links.push(new Connection(node1, node2, new Cardinality(), true)))
     },
-    [selectedNodeIds]
+    [selectedEntityIds]
   )
   const [customViewBox, setCustomViewBox] = useState({ ...viewBox })
   const svgRef = useRef(null)
@@ -276,7 +305,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
           onWheel={(e) => handleWheel(e, svgRef)}
           // cancel selection on SVG left click
           onClick={(e) =>
-            e.target === svgRef.current && e.button === 0 && updateDiagram((d) => d.selectedNodeIds.clear())
+            e.target === svgRef.current && e.button === 0 && updateDiagram((d) => (d.selectedEntities = []))
           }
           preserveAspectRatio='xMidYMid meet'>
           {links.map((link) => (
@@ -307,13 +336,13 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               onClick={(e) => {
                 if (e.ctrlKey) {
                   updateDiagram((d) => {
-                    if (d.selectedNodeIds.has(node.id)) d.selectedNodeIds.delete(node.id)
-                    else d.selectedNodeIds.add(node.id)
+                    const foundIndex = d.selectedEntities.findIndex((selected) => selected.id === node.id)
+                    if (foundIndex >= 0) d.selectedEntities.splice(foundIndex, 1)
+                    else d.selectedEntities.push({ id: node.id, type: 'ErNode' })
                   })
                 } else {
                   updateDiagram((d) => {
-                    d.selectedNodeIds.clear()
-                    d.selectedNodeIds.add(node.id)
+                    d.selectedEntities = [{ id: node.id, type: 'ErNode' }]
                   })
                 }
               }}
@@ -329,7 +358,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               <ErNode
                 key={node.id}
                 node={node as ErNodeModel}
-                selected={(selectedNodeIds.has && selectedNodeIds.has(node.id)) || false}
+                selected={selectedEntityIds.some((selected) => selected.id === node.id) || false}
               />
             </MovableSvgComponent>,
             ...Array.from((node as ErNodeModel).identifiers, (identifier) => {
