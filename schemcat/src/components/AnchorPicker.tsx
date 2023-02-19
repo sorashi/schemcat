@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // define an enum for the anchor positions
-enum Anchor {
+export enum Anchor {
   TopLeft = 'top-left',
   Top = 'top',
   TopRight = 'top-right',
@@ -15,14 +15,21 @@ enum Anchor {
 
 interface AnchorPickerProps {
   onChanged?: (anchor: Anchor) => void
-  disableCenter?: boolean
+  enabled?: Anchor[]
   initialAnchor?: Anchor
 }
 
+export const enabledAnchorsCombinations = {
+  all: Object.values(Anchor),
+  allExceptCenter: Object.values(Anchor).filter((a) => a !== Anchor.Center),
+  diagonal: [Anchor.TopLeft, Anchor.TopRight, Anchor.BottomLeft, Anchor.BottomRight],
+  cardinal: [Anchor.Top, Anchor.Left, Anchor.Right, Anchor.Bottom],
+}
+
 export const AnchorPicker: React.FC<AnchorPickerProps> = ({
-  disableCenter = false,
+  enabled = enabledAnchorsCombinations.all,
   onChanged,
-  initialAnchor = Anchor.TopLeft,
+  initialAnchor = undefined,
 }: AnchorPickerProps) => {
   // useState hook to store the selected anchor position
   const [anchor, setAnchor] = useState(initialAnchor)
@@ -40,6 +47,12 @@ export const AnchorPicker: React.FC<AnchorPickerProps> = ({
     [Anchor.BottomRight, '⬊'],
   ])
 
+  useEffect(() => {
+    if (!anchor) return
+    if (enabled.includes(anchor)) return
+    console.error("Allowed anchors don't include the set anchor", enabled, anchor)
+  }, [enabled, anchor])
+
   const handleAnchorSelection = (position: Anchor) => {
     setAnchor(position)
     if (onChanged) onChanged(position)
@@ -54,7 +67,7 @@ export const AnchorPicker: React.FC<AnchorPickerProps> = ({
             anchor === position ? 'bg-blue-500' : 'bg-gray-300'
           }`}
           onClick={() => handleAnchorSelection(position)}
-          disabled={disableCenter && position === Anchor.Center}>
+          disabled={!enabled.includes(position)}>
           {anchorIcons.get(position)}
         </button>
       ))}
