@@ -26,6 +26,8 @@ import { normalizeRadiansAngle } from '../utils/Angle'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { DiagramConnection, linkToPoints } from './DiagramConnection'
 import { assertNever } from '../utils/Types'
+import EmptyTriangleMarker from './EmptyTriangleMarker'
+import ErIsaHierarchy from './ErIsaHierarchy'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -131,6 +133,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   const nodes = useStore((state) => state.diagram.nodes)
   const links = useStore((state) => state.diagram.links)
   const identifiers = useStore((state) => state.diagram.identifiers)
+  const hierarchies = useStore((state) => state.diagram.hierarchies)
   const viewBox = useStore((state) => state.diagram.viewBox)
   const updateNodeById = useStore((state) => state.updateNodeById)
   const updateDiagram = useStore((state) => state.updateDiagram)
@@ -304,6 +307,12 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
             e.target === svgRef.current && e.button === 0 && updateDiagram((d) => (d.selectedEntities = []))
           }
           preserveAspectRatio='xMidYMid meet'>
+          <defs>
+            <EmptyTriangleMarker />
+          </defs>
+          {hierarchies.map((hierarchy) => (
+            <ErIsaHierarchy key={`er-isa-hierarchy-${hierarchy.id}`} erIsaHierarchy={hierarchy} />
+          ))}
           {links.map((link) => (
             <DiagramConnection
               key={link.id}

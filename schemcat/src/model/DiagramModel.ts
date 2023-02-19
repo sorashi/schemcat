@@ -73,6 +73,19 @@ export interface ErDiagramIdentityDiscriminator {
   type: ErDiagramEntityType
 }
 
+export class ErIsaHierarchy {
+  [immerable] = true
+  public id = -1
+  public parent = -1
+  @Transform((value) => new Set(value.value))
+  public children: Set<number> = new Set()
+  constructor(parent = -1, children: Iterable<number> | undefined = undefined, newId = false) {
+    if (newId) this.id = globalIdGenerator.nextId()
+    if (children) this.children = new Set(children)
+    this.parent = parent
+  }
+}
+
 /**
  * Identifier in the context of an ER diagram.
  * An identifier itself has an ID to uniquely identify it.
@@ -98,11 +111,14 @@ export class DiagramModel {
   public nodes: ErNode[] = []
   @Type(() => Connection)
   public links: Connection[] = []
+  @Type(() => ErIdentifier)
+  public identifiers: ErIdentifier[] = []
+  @Type(() => ErIsaHierarchy)
+  public hierarchies: ErIsaHierarchy[] = []
+
   /** IDs of diagram entities selected by the user.
    * This property does not need a `@Type` attribute, because the type is a list of interfaces, not of classes. */
   public selectedEntities: ErDiagramIdentityDiscriminator[] = []
-  @Type(() => ErIdentifier)
-  public identifiers: ErIdentifier[] = []
   public viewBox: Rectangle = { x: 0, y: 0, width: 800, height: 800 }
 }
 export class DiagramNode {

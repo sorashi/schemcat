@@ -7,6 +7,7 @@ import {
   Cardinality,
   ErIdentifier,
   ErDiagramEntityType,
+  ErIsaHierarchy,
 } from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'
@@ -18,6 +19,8 @@ import { DeepPartial } from '../utils/Types'
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
   const person = new ErNode('Person', ErNodeType.EntityType, 20, 1, true)
+  const student = new ErNode('Student', ErNodeType.EntityType, 250, -55, true)
+  const teacher = new ErNode('Teacher', ErNodeType.EntityType, 250, 55, true)
   const givenName = new ErNode('givenName', ErNodeType.AttributeType, -90, 110, true)
   const surname = new ErNode('surname', ErNodeType.AttributeType, 10, 110, true)
   const nationalId = new ErNode('nationalId', ErNodeType.AttributeType, 65, -70, true)
@@ -26,7 +29,7 @@ function exampleDiagram(): DiagramModel {
   const team = new ErNode('Team', ErNodeType.EntityType, 20, 200, true)
   const teamName = new ErNode('name', ErNodeType.AttributeType, 20, 300, true)
   const teamMember = new ErNode('member', ErNodeType.RelationshipType, 200, 150, true)
-  diagram.nodes = [person, givenName, surname, age, nationalId, team, teamName, teamMember]
+  diagram.nodes = [person, student, teacher, givenName, surname, age, nationalId, team, teamName, teamMember]
   diagram.links = [
     new Connection(person.id, givenName.id, new Cardinality(0, 1), true),
     new Connection(person.id, surname.id, new Cardinality(0, 1), true),
@@ -41,11 +44,10 @@ function exampleDiagram(): DiagramModel {
   diagram.identifiers.push(identifier1, identifier2)
   person.identifiers.add(identifier1.id)
   person.identifiers.add(identifier2.id)
-  // Simulate persistence serialization and deserialization. This is because
-  // we need the state to be pure js objects, not class instances. State
-  // managers compare class instances using reference equality and may not
-  // detect global state change in some cases. This is the invariant to
-  // preserve throughout the whole application.
+  const hierarchy1 = new ErIsaHierarchy(person.id, [student.id, teacher.id], true)
+  diagram.hierarchies = [hierarchy1]
+  // Simulate serialization and deserialization in order to ensure persistent
+  // behavior across sessions.
   return {
     ...plainToInstance(DiagramModel, instanceToPlain(diagram)),
     selectedEntities: [],
