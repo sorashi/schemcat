@@ -66,7 +66,7 @@ export interface Rectangle {
   height: number
 }
 
-export type ErDiagramEntityType = 'ErNode' | 'ErConnection' | 'ErIdentifier'
+export type ErDiagramEntityType = 'ErNode' | 'ErConnection' | 'ErIdentifier' | 'ErIsaHierarchy'
 export type ErDiagramEntity = ErNode | Connection | ErIdentifier
 export interface ErDiagramIdentityDiscriminator {
   id: number

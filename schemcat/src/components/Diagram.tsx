@@ -148,7 +148,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   })
 
   useKeyboardShortcut(getShortcut([], 'Delete'), () => {
-    console.log(selectedEntityIds)
+    console.log('Deleting', selectedEntityIds)
     if (selectedEntityIds) {
       selectedEntityIds.forEach((selected) => {
         switch (selected.type) {
@@ -167,6 +167,9 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               }
               d.links.splice(index, 1)
             })
+            break
+          case 'ErIsaHierarchy':
+            updateDiagram((d) => (d.hierarchies = d.hierarchies.filter((h) => h.id !== selected.id)))
             break
           default:
             return assertNever(selected.type)
@@ -311,7 +314,28 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
             <EmptyTriangleMarker />
           </defs>
           {hierarchies.map((hierarchy) => (
-            <ErIsaHierarchy key={`er-isa-hierarchy-${hierarchy.id}`} erIsaHierarchy={hierarchy} />
+            <ErIsaHierarchy
+              key={`er-isa-hierarchy-${hierarchy.id}`}
+              erIsaHierarchy={hierarchy}
+              onClick={(e) => {
+                if (e.ctrlKey) {
+                  if (selectedEntityIds.some((x) => x.id === hierarchy.id)) {
+                    // remove from selection
+                    updateDiagram((d) => {
+                      d.selectedEntities = d.selectedEntities.filter((x) => x.id !== hierarchy.id)
+                    })
+                    return
+                  }
+                  // add to selection
+                  updateDiagram((d) => {
+                    d.selectedEntities.push({ id: hierarchy.id, type: 'ErIsaHierarchy' })
+                  })
+                  return
+                }
+                // clear the selection, select only this one
+                updateDiagram((d) => (d.selectedEntities = [{ id: hierarchy.id, type: 'ErIsaHierarchy' }]))
+              }}
+            />
           ))}
           {links.map((link) => (
             <DiagramConnection
@@ -319,6 +343,13 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               link={link}
               onClick={(e) => {
                 if (e.ctrlKey) {
+                  if (selectedEntityIds.some((x) => x.id === link.id)) {
+                    // remove from selection
+                    updateDiagram((d) => {
+                      d.selectedEntities = d.selectedEntities.filter((x) => x.id !== link.id)
+                    })
+                    return
+                  }
                   // add to selection
                   updateDiagram((d) => {
                     d.selectedEntities.push({ id: link.id, type: 'ErConnection' })
@@ -390,6 +421,12 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
                   : undefined
                 const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
                   if (e.ctrlKey) {
+                    if (selectedEntityIds.some((x) => x.id === identifierId)) {
+                      updateDiagram((d) => {
+                        d.selectedEntities = d.selectedEntities.filter((x) => x.id !== identifierId)
+                      })
+                      return
+                    }
                     updateDiagram((d) => {
                       d.selectedEntities.push({ id: identifierId, type: 'ErIdentifier' })
                     })
