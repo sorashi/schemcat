@@ -1,7 +1,14 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import isEqual from 'react-fast-compare'
 import { getIdentifiersByIds, useStore } from '../../hooks/useStore'
-import { Connection, ErNode, ErNodeType, Cardinality, ErIdentifier } from '../../model/DiagramModel'
+import {
+  Connection,
+  ErNode,
+  ErIsaHierarchy as ErIsaHierarchyModel,
+  ErNodeType,
+  Cardinality,
+  ErIdentifier,
+} from '../../model/DiagramModel'
 import { MenuItem } from '../../model/MenuModel'
 import { isSubset } from '../../utils/SetOperations'
 import { Dropdown } from './Dropdown'
@@ -95,8 +102,51 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
     <DropdownItem
       item={{ title: getAddRemoveIdentifierTitle() }}
       action={handleAddRemoveIdentifier}
-      onAfterAction={() => onAfterAction && onAfterAction()}
+      onAfterAction={onAfterAction}
       canDoAction={() => node?.type !== ErNodeType.AttributeType && selectedNodeIdsWithoutSelf.size > 0}></DropdownItem>
+  )
+}
+
+function AddRemoveFromHierarchyItemMenu({ nodeId, onAfterAction }: ContextMenuItemProps) {
+  const updateDiagram = useStore((state) => state.updateDiagram)
+  const node = useStore(useCallback((state) => state.diagram.nodes.find((x) => x.id === nodeId), [nodeId]))
+  const hierarchies = useStore((state) => state.diagram.hierarchies)
+  const selectedEntities = useStore((state) => state.diagram.selectedEntities)
+  const selectedNodeIds = useMemo(
+    () => new Set(selectedEntities.filter((x) => x.type === 'ErNode').map((x) => x.id)),
+    [selectedEntities]
+  )
+  if (selectedNodeIds.has(nodeId)) selectedNodeIds.delete(nodeId)
+  function canAddOrRemoveHierarchy(): boolean {
+    return node?.type === ErNodeType.EntityType && selectedNodeIds.size > 0
+  }
+  function getAddRemoveHierarchyTitle(add: string, remove: string, neutral: string) {
+    if (!node) return neutral
+    if (node.type !== ErNodeType.EntityType) return neutral
+    if (!canAddOrRemoveHierarchy()) return neutral
+
+    const foundHierarchy = hierarchies.find(
+      (hierarchy) => isEqual(hierarchy.children, selectedNodeIds) && hierarchy.parent === nodeId
+    )
+    return foundHierarchy ? remove : add
+  }
+  function handleAddRemoveHierarchyItemMenu() {
+    const addOrRemove = getAddRemoveHierarchyTitle('add', 'remove', 'neutral')
+    if (addOrRemove === 'add') {
+      const hierarchy = new ErIsaHierarchyModel(nodeId, selectedNodeIds, true)
+      updateDiagram((d) => d.hierarchies.push(hierarchy))
+    } else if (addOrRemove === 'remove') {
+      const foundHierarchy = hierarchies.findIndex((h) => isEqual(h.children, selectedNodeIds) && h.parent === nodeId)
+      updateDiagram((d) => d.hierarchies.splice(foundHierarchy, 1))
+    }
+  }
+
+  return (
+    <DropdownItem
+      item={{ title: getAddRemoveHierarchyTitle('Add hierarchy', 'Remove hierarchy', 'Add/Remove hierarchy') }}
+      action={handleAddRemoveHierarchyItemMenu}
+      canDoAction={canAddOrRemoveHierarchy}
+      onAfterAction={onAfterAction}></DropdownItem>
   )
 }
 
@@ -123,7 +173,7 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
     <DropdownItem
       item={{ title: 'Add attribute type' }}
       action={handleAddAttribute}
-      onAfterAction={() => onAfterAction && onAfterAction()}
+      onAfterAction={onAfterAction}
       canDoAction={() => node?.type === ErNodeType.EntityType}></DropdownItem>
   )
 }
@@ -146,6 +196,7 @@ export function NodeContextMenu({ location, nodeId, onAfterAction }: NodeContext
       }}>
       <AddRemoveIdentifierDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
       <AddAttributeTypeDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
+      <AddRemoveFromHierarchyItemMenu nodeId={nodeId} onAfterAction={onAfterAction} />
     </Dropdown>
   )
 }
