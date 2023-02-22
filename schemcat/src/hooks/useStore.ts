@@ -19,8 +19,8 @@ import { DeepPartial } from '../utils/Types'
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
   const person = new ErNode('Person', ErNodeType.EntityType, 20, 1, true)
-  const student = new ErNode('Student', ErNodeType.EntityType, 250, -55, true)
-  const teacher = new ErNode('Teacher', ErNodeType.EntityType, 250, 55, true)
+  const student = new ErNode('Student', ErNodeType.EntityType, -190, -90, true)
+  const teacher = new ErNode('Teacher', ErNodeType.EntityType, -190, 15, true)
   const givenName = new ErNode('givenName', ErNodeType.AttributeType, -90, 110, true)
   const surname = new ErNode('surname', ErNodeType.AttributeType, 10, 110, true)
   const nationalId = new ErNode('nationalId', ErNodeType.AttributeType, 65, -70, true)
