@@ -33,6 +33,7 @@ import { immerable } from 'immer'
 
 import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { Transform, Type } from 'class-transformer'
+import Vector2 from '../utils/Vector2'
 
 export enum ControlPanelViewType {
   ViewOnly,
@@ -57,6 +58,18 @@ export function IncludeInControlPanel(viewType: ControlPanelViewType) {
 
 export function EnumType(enumType: unknown) {
   return Reflect.metadata(EnumTypeMetadataKey, enumType)
+}
+
+export enum Anchor {
+  TopLeft = 'top-left',
+  Top = 'top',
+  TopRight = 'top-right',
+  Left = 'left',
+  Center = 'center',
+  Right = 'right',
+  BottomLeft = 'bottom-left',
+  Bottom = 'bottom',
+  BottomRight = 'bottom-right',
 }
 
 export interface Rectangle {
@@ -159,16 +172,42 @@ export class ErNode extends DiagramNode {
     super(label, x, y, newId)
     this.type = type
   }
-  getAnchorPoints = () => {
+  getAnchorPoints = (): Vector2[] => {
     switch (this.type) {
       case ErNodeType.EntityType:
-        return [{ x: this.x + this.width / 2, y: this.y }]
+        return [new Vector2(this.x + this.width / 2, this.y)]
       case ErNodeType.AttributeType:
-        return [{ x: this.x + 5, y: this.y + 5 }]
+        return [new Vector2(this.x + 5, this.y + 5)]
       case ErNodeType.RelationshipType:
-        return [{ x: this.x + this.width / 2, y: this.y }]
+        return [new Vector2(this.x + this.width / 2, this.y)]
       default:
-        return [{ x: this.x + this.width / 2, y: this.y }]
+        return [new Vector2(this.x + this.width / 2, this.y)]
+    }
+  }
+
+  getAnchorPoint(anchor: Anchor) {
+    const anchorPoints = this.getAnchorPoints()
+    switch (anchor) {
+      case Anchor.TopLeft:
+        return anchorPoints[0]
+      case Anchor.Top:
+        return anchorPoints[0]
+      case Anchor.TopRight:
+        return anchorPoints[0]
+      case Anchor.Left:
+        return anchorPoints[0]
+      case Anchor.Center:
+        return anchorPoints[0]
+      case Anchor.Right:
+        return anchorPoints[0]
+      case Anchor.BottomLeft:
+        return anchorPoints[0]
+      case Anchor.Bottom:
+        return anchorPoints[0]
+      case Anchor.BottomRight:
+        return anchorPoints[0]
+      default:
+        return anchorPoints[0]
     }
   }
 }
@@ -208,6 +247,8 @@ export class Connection {
   toId: number
   @Type(() => Cardinality)
   multiplicity: Cardinality
+  fromAnchor: Anchor = Anchor.Right
+  toAnchor: Anchor = Anchor.Left
   constructor(fromId = -1, toId = -1, multiplicity = new Cardinality(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId

@@ -4,8 +4,9 @@ import SvgConnection from './SvgConnection'
 import { useStore } from '../hooks/useStore'
 import { CardinalityText } from './CardinalityText'
 import { plainToInstance } from 'class-transformer'
+import Vector2 from '../utils/Vector2'
 
-export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
+export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel): Vector2[] {
   // The link could be deserialized from persisted data JSON. We must
   // assign the object to an instance of ErNodeModel to guarantee
   // existence of its methods. This could be improved by implementing a
@@ -19,11 +20,8 @@ export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
   let toAnchorPoints: { x: number; y: number }[] = []
   if (to.getAnchorPoints) toAnchorPoints = to.getAnchorPoints()
   return [
-    {
-      x: fromAnchorPoints[0]?.x || from.x,
-      y: fromAnchorPoints[0]?.y || from.y,
-    },
-    { x: toAnchorPoints[0]?.x || to.x, y: toAnchorPoints[0]?.y || to.y },
+    new Vector2(fromAnchorPoints[0]?.x || from.x, fromAnchorPoints[0]?.y || from.y),
+    new Vector2(toAnchorPoints[0]?.x || to.x, toAnchorPoints[0]?.y || to.y),
   ]
 }
 
