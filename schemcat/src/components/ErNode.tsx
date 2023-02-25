@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { getIdentifierById, getIdentifiersByIds, StoreModel, useStore } from '../hooks/useStore'
 import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
@@ -73,6 +73,10 @@ function ErNode(props: ErNodeProps) {
   const { node } = props
   const divRef = useRef<HTMLDivElement | null>(null)
   const [foreignObjectHeight, setForeignObjectHeight] = useState(height)
+  const updateNodeById = useStore((state: StoreModel) => state.updateNodeById)
+  useEffect(() => {
+    updateNodeById(node.id, (n) => (n.height = foreignObjectHeight))
+  }, [foreignObjectHeight])
   useLayoutEffect(() => {
     if (divRef.current) {
       setForeignObjectHeight(divRef.current.offsetHeight)

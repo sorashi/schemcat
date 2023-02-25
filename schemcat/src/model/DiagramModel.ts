@@ -34,6 +34,7 @@ import { immerable } from 'immer'
 import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { Transform, Type } from 'class-transformer'
 import Vector2 from '../utils/Vector2'
+import { assertNever } from '../utils/Types'
 
 export enum ControlPanelViewType {
   ViewOnly,
@@ -146,6 +147,7 @@ export class DiagramNode {
   y = 0
   @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
   width = 90
+  height = 0
   constructor(label = 'Label', x = 0, y = 0, newId = false) {
     this.x = x
     this.y = y
@@ -153,7 +155,7 @@ export class DiagramNode {
     else this.id = -1
     this.label = label
   }
-  getAnchorPoints?: () => { x: number; y: number }[]
+  getAnchorPoints?: () => Record<Anchor, Vector2>
 }
 export enum ErNodeType {
   EntityType = 'Entity Type',
@@ -172,43 +174,53 @@ export class ErNode extends DiagramNode {
     super(label, x, y, newId)
     this.type = type
   }
-  getAnchorPoints = (): Vector2[] => {
+  getAnchorPoints = (): Record<Anchor, Vector2> => {
     switch (this.type) {
       case ErNodeType.EntityType:
-        return [new Vector2(this.x + this.width / 2, this.y)]
+        return {
+          [Anchor.TopLeft]: new Vector2(this.x, this.y),
+          [Anchor.Top]: new Vector2(this.x + this.width / 2, this.y),
+          [Anchor.TopRight]: new Vector2(this.x + this.width, this.y),
+          [Anchor.Left]: new Vector2(this.x, this.y + this.height / 2),
+          [Anchor.Center]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Right]: new Vector2(this.x + this.width, this.y + this.height / 2),
+          [Anchor.BottomLeft]: new Vector2(this.x, this.y + this.height),
+          [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height),
+          [Anchor.BottomRight]: new Vector2(this.x + this.width, this.y + this.height),
+        }
       case ErNodeType.AttributeType:
-        return [new Vector2(this.x + 5, this.y + 5)]
+        // attribute type has all anchors in the center
+        return {
+          [Anchor.TopLeft]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Top]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.TopRight]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Left]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Center]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Right]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.BottomLeft]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.BottomRight]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+        }
       case ErNodeType.RelationshipType:
-        return [new Vector2(this.x + this.width / 2, this.y)]
+        return {
+          [Anchor.TopLeft]: new Vector2(this.x, this.y),
+          [Anchor.Top]: new Vector2(this.x + this.width / 2, this.y),
+          [Anchor.TopRight]: new Vector2(this.x + this.width, this.y),
+          [Anchor.Left]: new Vector2(this.x, this.y + this.height / 2),
+          [Anchor.Center]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.Right]: new Vector2(this.x + this.width, this.y + this.height / 2),
+          [Anchor.BottomLeft]: new Vector2(this.x, this.y + this.height),
+          [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height),
+          [Anchor.BottomRight]: new Vector2(this.x + this.width, this.y + this.height),
+        }
       default:
-        return [new Vector2(this.x + this.width / 2, this.y)]
+        return assertNever(this.type)
     }
   }
 
   getAnchorPoint(anchor: Anchor) {
     const anchorPoints = this.getAnchorPoints()
-    switch (anchor) {
-      case Anchor.TopLeft:
-        return anchorPoints[0]
-      case Anchor.Top:
-        return anchorPoints[0]
-      case Anchor.TopRight:
-        return anchorPoints[0]
-      case Anchor.Left:
-        return anchorPoints[0]
-      case Anchor.Center:
-        return anchorPoints[0]
-      case Anchor.Right:
-        return anchorPoints[0]
-      case Anchor.BottomLeft:
-        return anchorPoints[0]
-      case Anchor.Bottom:
-        return anchorPoints[0]
-      case Anchor.BottomRight:
-        return anchorPoints[0]
-      default:
-        return anchorPoints[0]
-    }
+    return anchorPoints[anchor]
   }
 }
 
