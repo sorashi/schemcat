@@ -43,11 +43,12 @@ function TextEditView(props: ControlPanelViewProps) {
 }
 
 function ComboBoxView(props: ControlPanelViewProps) {
-  const enumType = Reflect.getMetadata(EnumTypeMetadataKey, props.entity, props.propertyKey)
   const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
   const selectedEntity = useStore(
     useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
   )
+  const enumType =
+    (selectedEntity && Reflect.getMetadata(EnumTypeMetadataKey, selectedEntity, props.propertyKey)) || undefined
   return (
     <select
       defaultValue={String((selectedEntity as ErEntity)[props.propertyKey])}
