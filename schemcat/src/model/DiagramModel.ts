@@ -41,6 +41,7 @@ export enum ControlPanelViewType {
   NumericUpDown,
   TextEdit,
   ComboBox,
+  AnchorPicker,
 }
 
 export const IncludeInControlPanelMetadataKey: unique symbol = Symbol('IncludeInControlPanelMetadataKey')
@@ -259,7 +260,9 @@ export class Connection {
   toId: number
   @Type(() => Cardinality)
   multiplicity: Cardinality
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
   fromAnchor: Anchor = Anchor.Right
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
   toAnchor: Anchor = Anchor.Left
   constructor(fromId = -1, toId = -1, multiplicity = new Cardinality(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1

@@ -1,60 +1,99 @@
 import { useCallback } from 'react'
-import { useStore } from '../hooks/useStore'
+import { getErEntityByDiscriminator, useStore } from '../hooks/useStore'
 import {
+  Anchor,
+  Connection,
   ControlPanelViewType,
-  DiagramNode,
   EnumTypeMetadataKey,
+  ErDiagramIdentityDiscriminator,
+  ErIdentifier,
+  ErIsaHierarchy,
   ErNode,
   IncludeInControlPanelMetadata,
   IncludeInControlPanelMetadataKey,
 } from '../model/DiagramModel'
-import { plainToInstance } from 'class-transformer'
+import { assertNever } from '../utils/Types'
+import { AnchorPicker, enabledAnchorsCombinations } from './AnchorPicker'
+
+type ErEntity = ErNode & Connection & ErIsaHierarchy & ErIdentifier
+type ErEntityKey = keyof ErEntity
+type ErEntityRecord = Record<ErEntityKey, unknown>
 
 function SimpleView(props: ControlPanelViewProps) {
-  return <>{String(props.node[props.propertyKey])}</>
+  const selectedEntity = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
+  )
+  return (selectedEntity && <>{String((selectedEntity as ErEntityRecord)[props.propertyKey])}</>) || <></>
 }
 
 function TextEditView(props: ControlPanelViewProps) {
-  const updateNodeById = useStore((state) => state.updateNodeById)
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const selectedEntity = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
+  )
   return (
     <input
       type='text'
-      defaultValue={String(props.node[props.propertyKey])}
-      onChange={(e) => {
-        updateNodeById(props.node.id, (n) => ((n as Record<keyof ErNode, unknown>)[props.propertyKey] = e.target.value))
-      }}
+      defaultValue={(selectedEntity && String((selectedEntity as ErEntity)[props.propertyKey])) || ''}
+      onChange={(e) =>
+        updateErEntityByDiscriminator(props.entity, (n) => ((n as ErEntityRecord)[props.propertyKey] = e.target.value))
+      }
     />
   )
 }
 
 function ComboBoxView(props: ControlPanelViewProps) {
-  const enumType = Reflect.getMetadata(EnumTypeMetadataKey, props.node, props.propertyKey)
-  const updateNodeById = useStore((state) => state.updateNodeById)
+  const enumType = Reflect.getMetadata(EnumTypeMetadataKey, props.entity, props.propertyKey)
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const selectedEntity = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
+  )
   return (
     <select
-      defaultValue={String(props.node[props.propertyKey])}
+      defaultValue={String((selectedEntity as ErEntity)[props.propertyKey])}
       onChange={(e) =>
-        updateNodeById(props.node.id, (n) => ((n as Record<keyof ErNode, unknown>)[props.propertyKey] = e.target.value))
+        updateErEntityByDiscriminator(props.entity, (n) => ((n as ErEntityRecord)[props.propertyKey] = e.target.value))
       }>
-      {Object.values(enumType).map((v: unknown) => (
-        <option key={`${props.node.id}: ${String(v)}`} value={String(v)}>
-          {String(v)}
-        </option>
-      ))}
+      {(enumType &&
+        Object.values(enumType).map((v: unknown) => (
+          <option key={`${props.entity.id}: ${String(v)}`} value={String(v)}>
+            {String(v)}
+          </option>
+        ))) || <option>enumType undefined</option>}
     </select>
   )
 }
 
 function NumericUpDownView(props: ControlPanelViewProps) {
-  const updateNodeById = useStore((state) => state.updateNodeById)
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const selectedEntity = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
+  )
   return (
     <input
       type='number'
-      defaultValue={Number(props.node[props.propertyKey])}
+      defaultValue={Number((selectedEntity as ErEntity)[props.propertyKey])}
       onChange={(e) =>
-        updateNodeById(
-          props.node.id,
-          (n) => ((n as Record<keyof ErNode, unknown>)[props.propertyKey] = Number(e.target.value))
+        updateErEntityByDiscriminator(
+          props.entity,
+          (n) => ((n as ErEntityRecord)[props.propertyKey] = Number(e.target.value))
+        )
+      }
+    />
+  )
+}
+
+function AnchorPickerView(props: ControlPanelViewProps) {
+  const updateConnectionById = useStore((state) => state.updateConnectionById)
+  const link = props.entity as unknown as Connection
+  return (
+    <AnchorPicker
+      initialAnchor={link[props.propertyKey as keyof Connection] as Anchor}
+      enabled={enabledAnchorsCombinations.all}
+      onChanged={(anchor) =>
+        updateConnectionById(
+          link.id,
+          (c) => ((c as Record<keyof Connection, unknown>)[props.propertyKey as keyof Connection] = anchor)
         )
       }
     />
@@ -63,8 +102,8 @@ function NumericUpDownView(props: ControlPanelViewProps) {
 
 interface ControlPanelViewProps {
   metadata: IncludeInControlPanelMetadata
-  node: ErNode
-  propertyKey: keyof ErNode
+  entity: ErDiagramIdentityDiscriminator
+  propertyKey: ErEntityKey
 }
 
 function ControlPanelView(props: ControlPanelViewProps) {
@@ -77,51 +116,51 @@ function ControlPanelView(props: ControlPanelViewProps) {
       return <NumericUpDownView {...props} />
     case ControlPanelViewType.ComboBox:
       return <ComboBoxView {...props} />
+    case ControlPanelViewType.AnchorPicker:
+      return <AnchorPickerView {...props} />
     default:
       // eslint-disable-next-line no-case-declarations
       const message = 'Unknown ControlPanelViewType: ' + props.metadata.controlPanelViewType
       console.error(message)
-      return <span className='text-red-500'>{message}</span>
+      assertNever(props.metadata.controlPanelViewType)
   }
 }
 
 function ControlPanel() {
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
-  const selectedNodes = selectedEntities.filter((sel) => sel.type === 'ErNode')
 
-  const selectedNodeId = selectedNodes.length === 1 ? selectedNodes[0] : undefined
-  const selectedNode = useStore(
-    useCallback((state) => state.diagram.nodes.find((n) => n.id === selectedNodeId?.id), [selectedEntities])
+  const selectedEntityId = selectedEntities.length === 1 ? selectedEntities[0] : undefined
+  const selectedEntity = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, selectedEntityId), [selectedEntityId])
   )
-  const convertedNode = plainToInstance(ErNode, selectedNode)
   return (
     <div className='p-2'>
       <dl>
-        {(selectedNode &&
-          convertedNode &&
-          Reflect.ownKeys(selectedNode).map((prp) => {
+        {(selectedEntityId &&
+          selectedEntity &&
+          Reflect.ownKeys(selectedEntity).map((prp) => {
             const metadata: IncludeInControlPanelMetadata | undefined = Reflect.getMetadata(
               IncludeInControlPanelMetadataKey,
-              convertedNode,
-              prp as keyof typeof selectedNode
+              selectedEntity,
+              prp as keyof typeof selectedEntity
             )
             if (metadata === undefined) return null
             return (
-              <div key={`${selectedNodeId}-${String(prp)}`}>
+              <div key={`${selectedEntity}-${String(prp)}`}>
                 <dt className='font-bold'>{String(prp)}</dt>
                 <dd className='ml-4'>
                   <ControlPanelView
-                    key={`${selectedNodeId}-${String(prp)}`}
+                    key={`${selectedEntity}-${String(prp)}`}
                     metadata={metadata}
-                    node={convertedNode}
-                    propertyKey={prp as keyof typeof selectedNode}
+                    entity={selectedEntityId}
+                    propertyKey={prp as keyof typeof selectedEntity}
                   />
                 </dd>
               </div>
             )
           })) || (
           <div className='text-gray-500'>
-            {selectedNodes.length === 0 ? 'Select a node' : 'Multiple node editing is not supported yet'}
+            {selectedEntities.length === 0 ? 'Select a node' : 'Multiple node editing is not supported yet'}
           </div>
         )}
       </dl>

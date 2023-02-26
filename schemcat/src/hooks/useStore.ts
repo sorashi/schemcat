@@ -8,13 +8,14 @@ import {
   ErIdentifier,
   ErDiagramEntityType,
   ErIsaHierarchy,
+  ErDiagramIdentityDiscriminator,
 } from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'
 import { temporal } from 'zundo'
 import { produce, enableMapSet } from 'immer'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
-import { DeepPartial } from '../utils/Types'
+import { assertNever, DeepPartial } from '../utils/Types'
 
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
@@ -63,15 +64,37 @@ export interface StoreModel {
   removeNodeById: (id: number) => void
   /** calls and update function on the node */
   updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
+  updateConnectionById: (id: number, update: (node: Connection) => void) => void
+  updateErEntityByDiscriminator: (discriminator: ErDiagramIdentityDiscriminator, update: (entity: any) => void) => void
   removeIdentifierById: (id: number) => void
   addIdentifier: (identifier: ErIdentifier) => void
   removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void
 }
+
+export function getErEntityByDiscriminator(
+  state: StoreModel,
+  discriminator?: ErDiagramIdentityDiscriminator
+): ErNode | Connection | ErIdentifier | ErIsaHierarchy | undefined {
+  if (!discriminator) return undefined
+  switch (discriminator.type) {
+    case 'ErNode':
+      return state.diagram.nodes.find((n) => n.id === discriminator.id)
+    case 'ErConnection':
+      return state.diagram.links.find((n) => n.id === discriminator.id)
+    case 'ErIdentifier':
+      return state.diagram.identifiers.find((n) => n.id === discriminator.id)
+    case 'ErIsaHierarchy':
+      return state.diagram.hierarchies.find((n) => n.id === discriminator.id)
+    default:
+      assertNever(discriminator.type)
+  }
+}
+
 export const useStore = create<StoreModel>()(
   devtools(
     persist(
       temporal(
-        (set, get) => ({
+        (set) => ({
           diagram: exampleDiagram(),
           isZoomPanSynced: false,
           setIsZoomPanSynced: (isZoomPanSynced: boolean) =>
@@ -124,6 +147,45 @@ export const useStore = create<StoreModel>()(
                   return
                 }
                 update(state.diagram.nodes[index])
+              })
+            )
+          },
+          updateConnectionById: (id: number, update: (node: Connection) => void) => {
+            set(
+              produce((state) => {
+                const index = state.diagram.links.findIndex((l: Connection) => l.id === id)
+                if (index === -1) {
+                  console.error(`connection ${id} not found`)
+                  return
+                }
+                update(state.diagram.links[index])
+              })
+            )
+          },
+          updateErEntityByDiscriminator: (
+            discriminator: ErDiagramIdentityDiscriminator,
+            update: (entity: any) => void
+          ) => {
+            set(
+              produce((state: StoreModel) => {
+                let entity: any = undefined
+                switch (discriminator.type) {
+                  case 'ErNode':
+                    entity = state.diagram.nodes.find((n) => n.id === discriminator.id)
+                    break
+                  case 'ErIdentifier':
+                    entity = state.diagram.identifiers.find((i) => i.id === discriminator.id)
+                    break
+                  case 'ErConnection':
+                    entity = state.diagram.links.find((l) => l.id === discriminator.id)
+                    break
+                  case 'ErIsaHierarchy':
+                    entity = state.diagram.hierarchies.find((h) => h.id === discriminator.id)
+                    break
+                  default:
+                    assertNever(discriminator.type)
+                }
+                update(entity)
               })
             )
           },
