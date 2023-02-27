@@ -86,7 +86,9 @@ function NumericUpDownView(props: ControlPanelViewProps) {
 
 function AnchorPickerView(props: ControlPanelViewProps) {
   const updateConnectionById = useStore((state) => state.updateConnectionById)
-  const link = props.entity as unknown as Connection
+  const link = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
+  ) as Connection
   return (
     <AnchorPicker
       initialAnchor={link[props.propertyKey as keyof Connection] as Anchor}
