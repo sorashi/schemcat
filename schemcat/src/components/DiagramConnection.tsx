@@ -1,11 +1,12 @@
-import React from 'react'
-import { Connection, ErNode as ErNodeModel } from '../model/DiagramModel'
+import React, { useEffect, useLayoutEffect } from 'react'
+import { Anchor, Connection, ErNode as ErNodeModel } from '../model/DiagramModel'
 import SvgConnection from './SvgConnection'
 import { useStore } from '../hooks/useStore'
 import { CardinalityText } from './CardinalityText'
 import { plainToInstance } from 'class-transformer'
+import Vector2 from '../utils/Vector2'
 
-export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
+export function linkToPoints(link: Connection, fromNode: ErNodeModel, toNode: ErNodeModel): Vector2[] {
   // The link could be deserialized from persisted data JSON. We must
   // assign the object to an instance of ErNodeModel to guarantee
   // existence of its methods. This could be improved by implementing a
@@ -14,17 +15,17 @@ export function linkToPoints(fromNode: ErNodeModel, toNode: ErNodeModel) {
     from: plainToInstance(ErNodeModel, fromNode),
     to: plainToInstance(ErNodeModel, toNode),
   }
-  let fromAnchorPoints: { x: number; y: number }[] = []
-  if (from.getAnchorPoints) fromAnchorPoints = from.getAnchorPoints()
-  let toAnchorPoints: { x: number; y: number }[] = []
-  if (to.getAnchorPoints) toAnchorPoints = to.getAnchorPoints()
-  return [
-    {
-      x: fromAnchorPoints[0]?.x || from.x,
-      y: fromAnchorPoints[0]?.y || from.y,
-    },
-    { x: toAnchorPoints[0]?.x || to.x, y: toAnchorPoints[0]?.y || to.y },
-  ]
+  let fromAnchorPoint = from.getAnchorPoint(link.fromAnchor)
+  let toAnchorPoint = to.getAnchorPoint(link.toAnchor)
+  if (!fromAnchorPoint) {
+    fromAnchorPoint = new Vector2(from.x, from.y)
+    console.error(`fromAnchorPoint was undefined`)
+  }
+  if (!toAnchorPoint) {
+    toAnchorPoint = new Vector2(to.x, to.y)
+    console.error(`toAnchorPoint was undefined`)
+  }
+  return [fromAnchorPoint, toAnchorPoint]
 }
 
 interface DiagramConnectionProps {
@@ -35,15 +36,43 @@ interface DiagramConnectionProps {
 export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   const from = useStore((state) => state.diagram.nodes.find((n) => n.id === link.fromId))
   const to = useStore((state) => state.diagram.nodes.find((n) => n.id === link.toId))
+  const updateConnectionById = useStore((state) => state.updateConnectionById)
+  if (!from || !to) {
+    console.error(`Link ${link.id} from ${link.fromId} to ${link.toId} is missing one of the nodes.`)
+    throw new Error(`Link ${link.id} from ${link.fromId} to ${link.toId} is missing one of the nodes.`)
+  }
+
+  useLayoutEffect(() => {
+    const fromAnchors = from.getAnchorPoints()
+    const toAnchors = to.getAnchorPoints()
+    if (!fromAnchors[link.fromAnchor]) {
+      if (Object.keys(fromAnchors).length < 0) throw new Error(`Node ${from.id} has no anchors`)
+      console.info(
+        `Updating link "from" anchor from ${link.fromAnchor} to ${
+          Object.keys(fromAnchors)[0]
+        }, because the entity does not provide the former anchor.`
+      )
+      updateConnectionById(link.id, (c) => (c.fromAnchor = Object.keys(fromAnchors)[0] as Anchor))
+    } else if (!toAnchors[link.toAnchor]) {
+      if (Object.keys(toAnchors).length < 0) throw new Error(`Node ${from.id} has no anchors`)
+      console.info(
+        `Updating link "to" anchor from ${link.toAnchor} to ${
+          Object.keys(toAnchors)[0]
+        }, because the entity does not provide the former anchor.`
+      )
+      updateConnectionById(link.id, (c) => (c.toAnchor = Object.keys(toAnchors)[0] as Anchor))
+    }
+  }, [from, to])
+  const pathId = 'path-' + link.id
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
-  const points = linkToPoints(from as ErNodeModel, to as ErNodeModel)
+  const points = linkToPoints(link, from, to)
   const style: React.CSSProperties | undefined = selectedEntities.some((x) => x.id === link.id)
     ? { stroke: 'green', strokeDasharray: '5,5' }
     : undefined
   return (
     <>
-      <SvgConnection onClick={onClick} points={points} style={style} />
-      <CardinalityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
+      <SvgConnection pathId={pathId} onClick={onClick} points={points} style={style} />
+      <CardinalityText pathId={pathId} multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
     </>
   )
 }

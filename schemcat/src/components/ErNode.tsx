@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { getIdentifierById, getIdentifiersByIds, StoreModel, useStore } from '../hooks/useStore'
 import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
@@ -52,8 +52,8 @@ function ErNodeByType(props: ErNodeProps) {
       return (
         <circle
           r={10}
-          cx={5}
-          cy={height / 2}
+          cx={0}
+          cy={0}
           {...defaultNodeStyle}
           {...(selected && selectedNodeStyle)}
           {...circleConditionalStyle}
@@ -73,11 +73,16 @@ function ErNode(props: ErNodeProps) {
   const { node } = props
   const divRef = useRef<HTMLDivElement | null>(null)
   const [foreignObjectHeight, setForeignObjectHeight] = useState(height)
+  const updateNodeById = useStore((state: StoreModel) => state.updateNodeById)
   useLayoutEffect(() => {
     if (divRef.current) {
       setForeignObjectHeight(divRef.current.offsetHeight)
     }
   }, [divRef, node.label, node.width])
+  useLayoutEffect(() => {
+    if (foreignObjectHeight == 0) return
+    updateNodeById(node.id, (n) => (n.height = foreignObjectHeight))
+  }, [foreignObjectHeight])
   return (
     <>
       <ErNodeByType {...props} height={foreignObjectHeight} />

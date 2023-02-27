@@ -39,10 +39,20 @@ type IdentifiersToBezierReturnType = {
   circle: Vector2
 }
 
-function identifiersToBezier(node: ErNodeModel, identifiers: ErNodeModel[]): IdentifiersToBezierReturnType {
+function identifiersToBezier(
+  node: ErNodeModel,
+  identifiers: ErNodeModel[],
+  links: Connection[]
+): IdentifiersToBezierReturnType {
   if (identifiers.length <= 1) return { path: '', circle: Vector2.zero }
   let connectionLocations = identifiers
-    .map((id) => linkToPoints(node, id))
+    .map((id) => {
+      // find the link between the node and the identifier
+      const link = links.find((l) => l.fromId === node.id && l.toId === id.id)
+      if (!link)
+        throw new Error(`Could not find link between ${node.id} and ${id.id} for bezier rendering of an identifier.`)
+      return linkToPoints(link, node, id)
+    })
     .map((points) => ({
       from: new Vector2(points[0].x, points[0].y),
       to: new Vector2(points[1].x, points[1].y),
@@ -412,7 +422,7 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
               .map((identifierInfo) => {
                 const { identifiers, identifierId } = identifierInfo
                 if (identifiers.length < 2) return
-                const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[])
+                const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
                 const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
                   ? {
                       stroke: 'green',

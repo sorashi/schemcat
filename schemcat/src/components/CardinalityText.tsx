@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import { Cardinality } from '../model/DiagramModel'
 import { plainToInstance } from 'class-transformer'
 
-export function CardinalityText(props: { multiplicity: Cardinality; x: number; y: number }) {
+export function CardinalityText(props: { multiplicity: Cardinality; x: number; y: number; pathId: string }) {
   const { x, y } = props
   const multiplicity = plainToInstance(Cardinality, props.multiplicity)
   const [textWidth, setTextWidth] = useState(0)
@@ -17,8 +17,10 @@ export function CardinalityText(props: { multiplicity: Cardinality; x: number; y
   }, [textRef])
   if (multiplicity.isDefault()) return null
   return (
-    <text ref={textRef} x={x - textWidth / 2} y={y - textHeight / 2} dominantBaseline='central' textAnchor='middle'>
-      {multiplicity.lowerBound}..{multiplicity.upperBound}
+    <text ref={textRef} x={0} y={0} dy={-5} dominantBaseline='auto' textAnchor='middle'>
+      <textPath href={`#${props.pathId}`} startOffset='35'>
+        {multiplicity.lowerBound}..{multiplicity.upperBound}
+      </textPath>
     </text>
   )
 }

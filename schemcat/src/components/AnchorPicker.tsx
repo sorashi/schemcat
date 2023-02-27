@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
-// define an enum for the anchor positions
-export enum Anchor {
-  TopLeft = 'top-left',
-  Top = 'top',
-  TopRight = 'top-right',
-  Left = 'left',
-  Center = 'center',
-  Right = 'right',
-  BottomLeft = 'bottom-left',
-  Bottom = 'bottom',
-  BottomRight = 'bottom-right',
-}
+import { Anchor } from '../model/DiagramModel'
 
 interface AnchorPickerProps {
   onChanged?: (anchor: Anchor) => void

@@ -33,12 +33,15 @@ import { immerable } from 'immer'
 
 import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { Transform, Type } from 'class-transformer'
+import Vector2 from '../utils/Vector2'
+import { assertNever, PartialRecord } from '../utils/Types'
 
 export enum ControlPanelViewType {
   ViewOnly,
   NumericUpDown,
   TextEdit,
   ComboBox,
+  AnchorPicker,
 }
 
 export const IncludeInControlPanelMetadataKey: unique symbol = Symbol('IncludeInControlPanelMetadataKey')
@@ -57,6 +60,18 @@ export function IncludeInControlPanel(viewType: ControlPanelViewType) {
 
 export function EnumType(enumType: unknown) {
   return Reflect.metadata(EnumTypeMetadataKey, enumType)
+}
+
+export enum Anchor {
+  TopLeft = 'top-left',
+  Top = 'top',
+  TopRight = 'top-right',
+  Left = 'left',
+  Center = 'center',
+  Right = 'right',
+  BottomLeft = 'bottom-left',
+  Bottom = 'bottom',
+  BottomRight = 'bottom-right',
 }
 
 export interface Rectangle {
@@ -133,6 +148,7 @@ export class DiagramNode {
   y = 0
   @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
   width = 90
+  height = 0
   constructor(label = 'Label', x = 0, y = 0, newId = false) {
     this.x = x
     this.y = y
@@ -140,7 +156,7 @@ export class DiagramNode {
     else this.id = -1
     this.label = label
   }
-  getAnchorPoints?: () => { x: number; y: number }[]
+  getAnchorPoints?: () => PartialRecord<Anchor, Vector2>
 }
 export enum ErNodeType {
   EntityType = 'Entity Type',
@@ -159,17 +175,54 @@ export class ErNode extends DiagramNode {
     super(label, x, y, newId)
     this.type = type
   }
-  getAnchorPoints = () => {
+  getAnchorPoints = (): PartialRecord<Anchor, Vector2> => {
+    const top = this.y
+    const bottom = this.y + this.height
+    const left = this.x
+    const right = this.x + this.width
+    const centerX = this.x + this.width / 2
+    const centerY = this.y + this.height / 2
+    if (this.height === 0) console.warn('height is 0')
     switch (this.type) {
       case ErNodeType.EntityType:
-        return [{ x: this.x + this.width / 2, y: this.y }]
-      case ErNodeType.AttributeType:
-        return [{ x: this.x + 5, y: this.y + 5 }]
+        return {
+          [Anchor.TopLeft]: new Vector2(left, top),
+          [Anchor.Top]: new Vector2(centerX, top),
+          [Anchor.TopRight]: new Vector2(right, top),
+          [Anchor.Left]: new Vector2(left, centerY),
+          [Anchor.Center]: new Vector2(centerX, centerY),
+          [Anchor.Right]: new Vector2(right, centerY),
+          [Anchor.BottomLeft]: new Vector2(left, bottom),
+          [Anchor.Bottom]: new Vector2(centerX, bottom),
+          [Anchor.BottomRight]: new Vector2(right, bottom),
+        }
+      case ErNodeType.AttributeType: {
+        // attribute type has all anchors in the center of the circle
+        const pos = new Vector2(this.x, this.y)
+        return {
+          [Anchor.Center]: pos,
+        }
+      }
       case ErNodeType.RelationshipType:
-        return [{ x: this.x + this.width / 2, y: this.y }]
+        return {
+          [Anchor.TopLeft]: new Vector2(left, top),
+          [Anchor.Top]: new Vector2(centerX, top),
+          [Anchor.TopRight]: new Vector2(right, top),
+          [Anchor.Left]: new Vector2(left, centerY),
+          [Anchor.Center]: new Vector2(centerX, centerY),
+          [Anchor.Right]: new Vector2(right, centerY),
+          [Anchor.BottomLeft]: new Vector2(left, bottom),
+          [Anchor.Bottom]: new Vector2(centerX, bottom),
+          [Anchor.BottomRight]: new Vector2(right, bottom),
+        }
       default:
-        return [{ x: this.x + this.width / 2, y: this.y }]
+        return assertNever(this.type)
     }
+  }
+
+  getAnchorPoint(anchor: Anchor) {
+    const anchorPoints = this.getAnchorPoints()
+    return anchorPoints[anchor]
   }
 }
 
@@ -208,6 +261,10 @@ export class Connection {
   toId: number
   @Type(() => Cardinality)
   multiplicity: Cardinality
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  fromAnchor: Anchor = Anchor.Right
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  toAnchor: Anchor = Anchor.Left
   constructor(fromId = -1, toId = -1, multiplicity = new Cardinality(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId
