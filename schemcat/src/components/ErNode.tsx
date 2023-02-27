@@ -74,14 +74,15 @@ function ErNode(props: ErNodeProps) {
   const divRef = useRef<HTMLDivElement | null>(null)
   const [foreignObjectHeight, setForeignObjectHeight] = useState(height)
   const updateNodeById = useStore((state: StoreModel) => state.updateNodeById)
-  useEffect(() => {
-    updateNodeById(node.id, (n) => (n.height = foreignObjectHeight))
-  }, [foreignObjectHeight])
   useLayoutEffect(() => {
     if (divRef.current) {
       setForeignObjectHeight(divRef.current.offsetHeight)
     }
   }, [divRef, node.label, node.width])
+  useLayoutEffect(() => {
+    if (foreignObjectHeight == 0) return
+    updateNodeById(node.id, (n) => (n.height = foreignObjectHeight))
+  }, [foreignObjectHeight])
   return (
     <>
       <ErNodeByType {...props} height={foreignObjectHeight} />
