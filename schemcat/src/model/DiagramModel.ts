@@ -189,19 +189,21 @@ export class ErNode extends DiagramNode {
           [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height),
           [Anchor.BottomRight]: new Vector2(this.x + this.width, this.y + this.height),
         }
-      case ErNodeType.AttributeType:
-        // attribute type has all anchors in the center
+      case ErNodeType.AttributeType: {
+        // attribute type has all anchors in the center of the circle
+        const pos = new Vector2(this.x, this.y)
         return {
-          [Anchor.TopLeft]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Top]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.TopRight]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Left]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Center]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Right]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.BottomLeft]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.BottomRight]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
+          [Anchor.TopLeft]: pos,
+          [Anchor.Top]: pos,
+          [Anchor.TopRight]: pos,
+          [Anchor.Left]: pos,
+          [Anchor.Center]: pos,
+          [Anchor.Right]: pos,
+          [Anchor.BottomLeft]: pos,
+          [Anchor.Bottom]: pos,
+          [Anchor.BottomRight]: pos,
         }
+      }
       case ErNodeType.RelationshipType:
         return {
           [Anchor.TopLeft]: new Vector2(this.x, this.y),

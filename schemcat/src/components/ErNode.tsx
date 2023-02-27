@@ -52,8 +52,8 @@ function ErNodeByType(props: ErNodeProps) {
       return (
         <circle
           r={10}
-          cx={5}
-          cy={height / 2}
+          cx={0}
+          cy={0}
           {...defaultNodeStyle}
           {...(selected && selectedNodeStyle)}
           {...circleConditionalStyle}
