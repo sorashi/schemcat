@@ -1,5 +1,5 @@
-import React from 'react'
-import { Connection, ErNode as ErNodeModel } from '../model/DiagramModel'
+import React, { useEffect, useLayoutEffect } from 'react'
+import { Anchor, Connection, ErNode as ErNodeModel } from '../model/DiagramModel'
 import SvgConnection from './SvgConnection'
 import { useStore } from '../hooks/useStore'
 import { CardinalityText } from './CardinalityText'
@@ -15,8 +15,10 @@ export function linkToPoints(link: Connection, fromNode: ErNodeModel, toNode: Er
     from: plainToInstance(ErNodeModel, fromNode),
     to: plainToInstance(ErNodeModel, toNode),
   }
-  const fromAnchorPoint = from.getAnchorPoint(link.fromAnchor)
-  const toAnchorPoint = to.getAnchorPoint(link.toAnchor)
+  let fromAnchorPoint = from.getAnchorPoint(link.fromAnchor)
+  let toAnchorPoint = to.getAnchorPoint(link.toAnchor)
+  if (!fromAnchorPoint) fromAnchorPoint = new Vector2(from.x, from.y)
+  if (!toAnchorPoint) toAnchorPoint = new Vector2(to.x, to.y)
   return [fromAnchorPoint, toAnchorPoint]
 }
 
@@ -28,10 +30,34 @@ interface DiagramConnectionProps {
 export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   const from = useStore((state) => state.diagram.nodes.find((n) => n.id === link.fromId))
   const to = useStore((state) => state.diagram.nodes.find((n) => n.id === link.toId))
+  const updateConnectionById = useStore((state) => state.updateConnectionById)
   if (!from || !to) {
     console.error(`Link ${link.id} from ${link.fromId} to ${link.toId} is missing one of the nodes.`)
     throw new Error(`Link ${link.id} from ${link.fromId} to ${link.toId} is missing one of the nodes.`)
   }
+
+  useLayoutEffect(() => {
+    const fromAnchors = from.getAnchorPoints()
+    const toAnchors = to.getAnchorPoints()
+    if (!fromAnchors[link.fromAnchor]) {
+      if (Object.keys(fromAnchors).length < 0) throw new Error(`Node ${from.id} has no anchors`)
+      console.info(
+        `Updating link "from" anchor from ${link.fromAnchor} to ${
+          Object.keys(fromAnchors)[0]
+        }, because the entity does not provide the former anchor.`
+      )
+      updateConnectionById(link.id, (c) => (c.fromAnchor = Object.keys(fromAnchors)[0] as Anchor))
+    } else if (!toAnchors[link.toAnchor]) {
+      if (Object.keys(toAnchors).length < 0) throw new Error(`Node ${from.id} has no anchors`)
+      console.info(
+        `Updating link "to" anchor from ${link.toAnchor} to ${
+          Object.keys(toAnchors)[0]
+        }, because the entity does not provide the former anchor.`
+      )
+      updateConnectionById(link.id, (c) => (c.toAnchor = Object.keys(toAnchors)[0] as Anchor))
+    }
+  }, [from, to])
+
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
   const points = linkToPoints(link, from, to)
   const style: React.CSSProperties | undefined = selectedEntities.some((x) => x.id === link.id)

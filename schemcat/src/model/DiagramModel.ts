@@ -34,7 +34,7 @@ import { immerable } from 'immer'
 import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { Transform, Type } from 'class-transformer'
 import Vector2 from '../utils/Vector2'
-import { assertNever } from '../utils/Types'
+import { assertNever, PartialRecord } from '../utils/Types'
 
 export enum ControlPanelViewType {
   ViewOnly,
@@ -156,7 +156,7 @@ export class DiagramNode {
     else this.id = -1
     this.label = label
   }
-  getAnchorPoints?: () => Record<Anchor, Vector2>
+  getAnchorPoints?: () => PartialRecord<Anchor, Vector2>
 }
 export enum ErNodeType {
   EntityType = 'Entity Type',
@@ -175,7 +175,7 @@ export class ErNode extends DiagramNode {
     super(label, x, y, newId)
     this.type = type
   }
-  getAnchorPoints = (): Record<Anchor, Vector2> => {
+  getAnchorPoints = (): PartialRecord<Anchor, Vector2> => {
     switch (this.type) {
       case ErNodeType.EntityType:
         return {
@@ -193,15 +193,7 @@ export class ErNode extends DiagramNode {
         // attribute type has all anchors in the center of the circle
         const pos = new Vector2(this.x, this.y)
         return {
-          [Anchor.TopLeft]: pos,
-          [Anchor.Top]: pos,
-          [Anchor.TopRight]: pos,
-          [Anchor.Left]: pos,
           [Anchor.Center]: pos,
-          [Anchor.Right]: pos,
-          [Anchor.BottomLeft]: pos,
-          [Anchor.Bottom]: pos,
-          [Anchor.BottomRight]: pos,
         }
       }
       case ErNodeType.RelationshipType:
