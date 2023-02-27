@@ -63,7 +63,7 @@ export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
       updateConnectionById(link.id, (c) => (c.toAnchor = Object.keys(toAnchors)[0] as Anchor))
     }
   }, [from, to])
-
+  const pathId = 'path-' + link.id
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
   const points = linkToPoints(link, from, to)
   const style: React.CSSProperties | undefined = selectedEntities.some((x) => x.id === link.id)
@@ -71,8 +71,8 @@ export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
     : undefined
   return (
     <>
-      <SvgConnection onClick={onClick} points={points} style={style} />
-      <CardinalityText multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
+      <SvgConnection pathId={pathId} onClick={onClick} points={points} style={style} />
+      <CardinalityText pathId={pathId} multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
     </>
   )
 }
