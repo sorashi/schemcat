@@ -176,18 +176,25 @@ export class ErNode extends DiagramNode {
     this.type = type
   }
   getAnchorPoints = (): PartialRecord<Anchor, Vector2> => {
+    const top = this.y
+    const bottom = this.y + this.height
+    const left = this.x
+    const right = this.x + this.width
+    const centerX = this.x + this.width / 2
+    const centerY = this.y + this.height / 2
+    if (this.height === 0) console.warn('height is 0')
     switch (this.type) {
       case ErNodeType.EntityType:
         return {
-          [Anchor.TopLeft]: new Vector2(this.x, this.y),
-          [Anchor.Top]: new Vector2(this.x + this.width / 2, this.y),
-          [Anchor.TopRight]: new Vector2(this.x + this.width, this.y),
-          [Anchor.Left]: new Vector2(this.x, this.y + this.height / 2),
-          [Anchor.Center]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Right]: new Vector2(this.x + this.width, this.y + this.height / 2),
-          [Anchor.BottomLeft]: new Vector2(this.x, this.y + this.height),
-          [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height),
-          [Anchor.BottomRight]: new Vector2(this.x + this.width, this.y + this.height),
+          [Anchor.TopLeft]: new Vector2(left, top),
+          [Anchor.Top]: new Vector2(centerX, top),
+          [Anchor.TopRight]: new Vector2(right, top),
+          [Anchor.Left]: new Vector2(left, centerY),
+          [Anchor.Center]: new Vector2(centerX, centerY),
+          [Anchor.Right]: new Vector2(right, centerY),
+          [Anchor.BottomLeft]: new Vector2(left, bottom),
+          [Anchor.Bottom]: new Vector2(centerX, bottom),
+          [Anchor.BottomRight]: new Vector2(right, bottom),
         }
       case ErNodeType.AttributeType: {
         // attribute type has all anchors in the center of the circle
@@ -198,15 +205,15 @@ export class ErNode extends DiagramNode {
       }
       case ErNodeType.RelationshipType:
         return {
-          [Anchor.TopLeft]: new Vector2(this.x, this.y),
-          [Anchor.Top]: new Vector2(this.x + this.width / 2, this.y),
-          [Anchor.TopRight]: new Vector2(this.x + this.width, this.y),
-          [Anchor.Left]: new Vector2(this.x, this.y + this.height / 2),
-          [Anchor.Center]: new Vector2(this.x + this.width / 2, this.y + this.height / 2),
-          [Anchor.Right]: new Vector2(this.x + this.width, this.y + this.height / 2),
-          [Anchor.BottomLeft]: new Vector2(this.x, this.y + this.height),
-          [Anchor.Bottom]: new Vector2(this.x + this.width / 2, this.y + this.height),
-          [Anchor.BottomRight]: new Vector2(this.x + this.width, this.y + this.height),
+          [Anchor.TopLeft]: new Vector2(left, top),
+          [Anchor.Top]: new Vector2(centerX, top),
+          [Anchor.TopRight]: new Vector2(right, top),
+          [Anchor.Left]: new Vector2(left, centerY),
+          [Anchor.Center]: new Vector2(centerX, centerY),
+          [Anchor.Right]: new Vector2(right, centerY),
+          [Anchor.BottomLeft]: new Vector2(left, bottom),
+          [Anchor.Bottom]: new Vector2(centerX, bottom),
+          [Anchor.BottomRight]: new Vector2(right, bottom),
         }
       default:
         return assertNever(this.type)
