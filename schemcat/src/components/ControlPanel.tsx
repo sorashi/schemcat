@@ -127,6 +127,28 @@ function ControlPanelView(props: ControlPanelViewProps) {
   }
 }
 
+function ControlPanelPropertyDescription({
+  entityId,
+  prp,
+}: {
+  entityId: ErDiagramIdentityDiscriminator
+  prp: string | symbol
+}) {
+  const entity = useStore(useCallback((state) => getErEntityByDiscriminator(state, entityId), [entityId]))
+
+  const connection = entity as Connection
+  const nodeId = prp === 'fromAnchor' ? connection.fromId : connection.toId
+  const nodeName = useStore((state) => state.diagram.nodes.find((n) => n.id === nodeId)?.label)
+  return (
+    <dt className='font-bold'>
+      {(entityId.type === 'ErConnection' &&
+        (prp === 'fromAnchor' || prp === 'toAnchor') &&
+        `${String(prp)} (${nodeName})`) ||
+        String(prp)}
+    </dt>
+  )
+}
+
 function ControlPanel() {
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
 
@@ -148,7 +170,7 @@ function ControlPanel() {
             if (metadata === undefined) return null
             return (
               <div key={`${selectedEntity}-${String(prp)}`}>
-                <dt className='font-bold'>{String(prp)}</dt>
+                <ControlPanelPropertyDescription entityId={selectedEntityId} prp={prp} />
                 <dd className='ml-4'>
                   <ControlPanelView
                     key={`${selectedEntity}-${String(prp)}`}
