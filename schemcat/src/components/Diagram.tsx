@@ -1,23 +1,11 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
-import {
-  Connection,
-  ErNode as ErNodeModel,
-  ErNodeType,
-  Cardinality,
-  Rectangle,
-  ErIdentifier,
-} from '../model/DiagramModel'
+import React, { useRef, useState } from 'react'
+import { Connection, ErNode as ErNodeModel, ErNodeType, Cardinality, ErIdentifier } from '../model/DiagramModel'
 import ErNode from './ErNode'
 import MovableSvgComponent from './MovableSvgComponent'
 import { useStore } from '../hooks/useStore'
-import { Draggable } from './Draggable'
-import { Point } from '../model/Point'
-// eslint-disable-next-line import/no-named-as-default
-import produce from 'immer'
 import { useDrop } from 'react-dnd'
 import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
 import { getShortcut, Modifier } from '../model/MenuModel'
-import { plainToInstance } from 'class-transformer'
 import { NodeContextMenu } from './Menu/NodeContextMenu'
 import Vector2 from '../utils/Vector2'
 import BezierPathStringBuilder from '../utils/BezierPathStringBuilder'
@@ -28,6 +16,7 @@ import { DiagramConnection, linkToPoints } from './DiagramConnection'
 import { assertNever } from '../utils/Types'
 import EmptyTriangleMarker from './EmptyTriangleMarker'
 import ErIsaHierarchy from './ErIsaHierarchy'
+import PannableZoomableSvg from './PannableZommableSvg'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -123,34 +112,16 @@ function identifiersToBezier(
   }
 }
 
-/**
- * Checks the current viewBox and determines whether further zoom-in or zoom-out is inadvisable.
- * That is, further zoom would either be too small or too large.
- * @param currentViewBox Current view rectangle.
- * @param scaleDelta The requested scale change. >1 means zoom-in, <1 means zoom-out.
- * @returns `true` iff further zoom-in or zoom-out is inadvisable
- */
-function shouldPreventZoom(currentViewBox: Rectangle, scaleDelta: number): boolean {
-  const maxSize = 2500
-  const minSize = 200
-  return (
-    ((currentViewBox.width > maxSize || currentViewBox.height > maxSize) && scaleDelta > 1) ||
-    ((currentViewBox.width < minSize || currentViewBox.height < minSize) && scaleDelta < 1)
-  )
-}
-
-function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
+function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = false }: DiagramProps) {
   const nodes = useStore((state) => state.diagram.nodes)
   const links = useStore((state) => state.diagram.links)
   const identifiers = useStore((state) => state.diagram.identifiers)
   const hierarchies = useStore((state) => state.diagram.hierarchies)
-  const viewBox = useStore((state) => state.diagram.viewBox)
   const updateNodeById = useStore((state) => state.updateNodeById)
   const updateDiagram = useStore((state) => state.updateDiagram)
   const removeNodeById = useStore((state) => state.removeNodeById)
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
-  const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   const [nodeContextMenuState, setNodeContextMenuState] = useState({
     show: false,
     location: Vector2.zero,
@@ -211,75 +182,9 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
     },
     [selectedEntityIds]
   )
-  const [customViewBox, setCustomViewBox] = useState({ ...viewBox })
+
   const svgRef = useRef(null)
 
-  function handleDragStart(_start: Point, target: EventTarget): boolean {
-    if (svgRef.current === null) return true
-    const svg: SVGSVGElement = svgRef.current
-    if (svg !== target) return true
-    setNodeContextMenuState({ ...nodeContextMenuState, show: false })
-    setViewBoxOnDragStart({
-      x: svg.viewBox.baseVal.x,
-      y: svg.viewBox.baseVal.y,
-    })
-    return false
-  }
-
-  function handleDragging(start: Point, now: Point) {
-    if (svgRef.current === null) return
-    const svg: SVGSVGElement = svgRef.current
-    const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
-    const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
-
-    function updateViewBox(viewBox: Rectangle) {
-      viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
-      viewBox.y = viewBoxOnDragStart.y - (endPoint.y - startPoint.y)
-    }
-
-    if (isZoomPanSynced) updateDiagram((d) => updateViewBox(d.viewBox))
-    else setCustomViewBox(produce(updateViewBox))
-  }
-
-  function handleWheel(e: React.WheelEvent<SVGSVGElement>, svgRef: React.RefObject<SVGSVGElement>) {
-    // We cannot preventDefault() here, because wheel is a passive event listener.
-    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
-    // The scrolling capability must be properly disabled in the style layer. See #13.
-    const scaleFactor = 1.6
-    const delta = e.deltaY || e.detail || 0
-    const normalized = -(delta % 3 ? delta * 10 : delta / 3)
-    const scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor
-    if (svgRef.current === null) return
-    const svg: SVGSVGElement = svgRef.current
-    const p = svg.createSVGPoint()
-    p.x = e.clientX
-    p.y = e.clientY
-    const startPoint = p.matrixTransform(svg.getScreenCTM()?.inverse())
-
-    function updateViewBox(viewBox: Rectangle) {
-      if (shouldPreventZoom(viewBox, scaleDelta)) return
-      viewBox.width *= scaleDelta
-      viewBox.height *= scaleDelta
-      viewBox.x -= (startPoint.x - svg.viewBox.baseVal.x) * (scaleDelta - 1)
-      viewBox.y -= (startPoint.y - svg.viewBox.baseVal.y) * (scaleDelta - 1)
-    }
-
-    if (isZoomPanSynced) updateDiagram((d) => updateViewBox(d.viewBox))
-    else setCustomViewBox(produce(updateViewBox))
-  }
-
-  useLayoutEffect(() => {
-    if (!isZoomPanSynced) setCustomViewBox({ ...viewBox })
-    if (isZoomPanSynced && isSelectedNodeInActiveTabSet) {
-      // leader
-      updateDiagram((d) => (d.viewBox = { ...customViewBox }))
-    }
-  }, [isZoomPanSynced])
-
-  const [viewBoxOnDragStart, setViewBoxOnDragStart] = useState({
-    x: 0,
-    y: 0,
-  })
   const [, dropRef] = useDrop(
     () => ({
       accept: ['s'],
@@ -304,181 +209,171 @@ function Diagram({ isSelectedNodeInActiveTabSet = false }: DiagramProps) {
           nodeId={nodeContextMenuState.nodeId}
           onAfterAction={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}></NodeContextMenu>
       )}
-      <Draggable onDragStart={handleDragStart} onDragging={handleDragging}>
-        <svg
-          viewBox={
-            isZoomPanSynced
-              ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
-              : `${customViewBox.x} ${customViewBox.y} ${customViewBox.width} ${customViewBox.height}`
-          }
-          className='h-[100vh] w-[100vw] cursor-move'
-          ref={svgRef}
-          // zoom on mouse wheel
-          onWheel={(e) => handleWheel(e, svgRef)}
-          // cancel selection on SVG left click
-          onClick={(e) =>
-            e.target === svgRef.current && e.button === 0 && updateDiagram((d) => (d.selectedEntities = []))
-          }
-          preserveAspectRatio='xMidYMid meet'>
-          <defs>
-            <EmptyTriangleMarker />
-          </defs>
-          {hierarchies.map((hierarchy) => (
-            <ErIsaHierarchy
-              key={`er-isa-hierarchy-${hierarchy.id}`}
-              erIsaHierarchy={hierarchy}
-              onClick={(e) => {
-                if (e.ctrlKey) {
-                  if (selectedEntityIds.some((x) => x.id === hierarchy.id)) {
-                    // remove from selection
-                    updateDiagram((d) => {
-                      d.selectedEntities = d.selectedEntities.filter((x) => x.id !== hierarchy.id)
-                    })
-                    return
-                  }
-                  // add to selection
+      <PannableZoomableSvg
+        isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabSet}
+        onDragStart={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}
+        onLeftClick={(e) => {
+          updateDiagram((d) => (d.selectedEntities = []))
+        }}
+        svgRef={svgRef}>
+        <defs>
+          <EmptyTriangleMarker />
+        </defs>
+        {hierarchies.map((hierarchy) => (
+          <ErIsaHierarchy
+            key={`er-isa-hierarchy-${hierarchy.id}`}
+            erIsaHierarchy={hierarchy}
+            onClick={(e) => {
+              if (e.ctrlKey) {
+                if (selectedEntityIds.some((x) => x.id === hierarchy.id)) {
+                  // remove from selection
                   updateDiagram((d) => {
-                    d.selectedEntities.push({ id: hierarchy.id, type: 'ErIsaHierarchy' })
+                    d.selectedEntities = d.selectedEntities.filter((x) => x.id !== hierarchy.id)
                   })
                   return
                 }
-                // clear the selection, select only this one
-                updateDiagram((d) => (d.selectedEntities = [{ id: hierarchy.id, type: 'ErIsaHierarchy' }]))
-              }}
-            />
-          ))}
-          {links.map((link) => (
-            <DiagramConnection
-              key={link.id}
-              link={link}
-              onClick={(e) => {
-                if (e.ctrlKey) {
-                  if (selectedEntityIds.some((x) => x.id === link.id)) {
-                    // remove from selection
-                    updateDiagram((d) => {
-                      d.selectedEntities = d.selectedEntities.filter((x) => x.id !== link.id)
-                    })
-                    return
-                  }
-                  // add to selection
+                // add to selection
+                updateDiagram((d) => {
+                  d.selectedEntities.push({ id: hierarchy.id, type: 'ErIsaHierarchy' })
+                })
+                return
+              }
+              // clear the selection, select only this one
+              updateDiagram((d) => (d.selectedEntities = [{ id: hierarchy.id, type: 'ErIsaHierarchy' }]))
+            }}
+          />
+        ))}
+        {links.map((link) => (
+          <DiagramConnection
+            key={link.id}
+            link={link}
+            onClick={(e) => {
+              if (e.ctrlKey) {
+                if (selectedEntityIds.some((x) => x.id === link.id)) {
+                  // remove from selection
                   updateDiagram((d) => {
-                    d.selectedEntities.push({ id: link.id, type: 'ErConnection' })
+                    d.selectedEntities = d.selectedEntities.filter((x) => x.id !== link.id)
                   })
                   return
                 }
-                // clear the selection, select only this one
-                updateDiagram((d) => (d.selectedEntities = [{ id: link.id, type: 'ErConnection' }]))
-              }}
-            />
-          ))}
-          {nodes.map((node) => [
-            <MovableSvgComponent
-              key={node.id}
-              svgRef={svgRef}
-              x={node.x}
-              y={node.y}
-              onDrag={(newX, newY) => {
-                updateNodeById(node.id, (n) => {
-                  ;(n.x = newX), (n.y = newY)
+                // add to selection
+                updateDiagram((d) => {
+                  d.selectedEntities.push({ id: link.id, type: 'ErConnection' })
                 })
-              }}
-              onClick={(e) => {
-                if (e.ctrlKey) {
-                  updateDiagram((d) => {
-                    const foundIndex = d.selectedEntities.findIndex((selected) => selected.id === node.id)
-                    if (foundIndex >= 0) d.selectedEntities.splice(foundIndex, 1)
-                    else d.selectedEntities.push({ id: node.id, type: 'ErNode' })
-                  })
-                } else {
-                  updateDiagram((d) => {
-                    d.selectedEntities = [{ id: node.id, type: 'ErNode' }]
-                  })
-                }
-              }}
-              onContextMenu={(e) => {
-                e.preventDefault()
-                setNodeContextMenuState({
-                  ...nodeContextMenuState,
-                  location: new Vector2(e.clientX, e.clientY),
-                  show: !nodeContextMenuState.show,
-                  nodeId: node.id,
-                })
-              }}>
-              <ErNode
-                key={node.id}
-                node={node as ErNodeModel}
-                selected={
-                  selectedEntityIds.some((selected) => selected.id === node.id && selected.type === 'ErNode') || false
-                }
-              />
-            </MovableSvgComponent>,
-            ...Array.from((node as ErNodeModel).identifiers, (identifier) => {
-              const found = identifiers.find((x) => x.id === identifier)
-              if (!found) console.error('Identifier not found', identifier)
-              return found
-            })
-              .filter((x): x is ErIdentifier => !!x)
-              .map((x) => ({ identifierId: x.id, identifiers: nodes.filter((y) => x.identities.has(y.id)) }))
-              .map((identifierInfo) => {
-                const { identifiers, identifierId } = identifierInfo
-                if (identifiers.length < 2) return
-                const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
-                const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
-                  ? {
-                      stroke: 'green',
-                      strokeDasharray: '5,5',
-                    }
-                  : undefined
-                const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
-                  if (e.ctrlKey) {
-                    if (selectedEntityIds.some((x) => x.id === identifierId)) {
-                      updateDiagram((d) => {
-                        d.selectedEntities = d.selectedEntities.filter((x) => x.id !== identifierId)
-                      })
-                      return
-                    }
-                    updateDiagram((d) => {
-                      d.selectedEntities.push({ id: identifierId, type: 'ErIdentifier' })
-                    })
-                    return
-                  }
-                  updateDiagram((d) => {
-                    d.selectedEntities = [{ id: identifierId, type: 'ErIdentifier' }]
-                  })
-                }
-                return [
-                  // this path is the "hitbox", i.e. what the user can click to select the path
-                  <path
-                    key={`identifiers-bezier-hitbox-${identifierId}}`}
-                    fill='none'
-                    stroke='rgba(255,0,0,0)'
-                    strokeWidth={10}
-                    d={bezierResult.path}
-                    onClick={selectOnClick}
-                  />,
-                  <path
-                    key={`identifiers-bezier-${identifierId}`}
-                    fill='none'
-                    stroke='black'
-                    strokeWidth={1}
-                    style={style}
-                    d={bezierResult.path}
-                  />,
-                  <circle
-                    key={`identifiers-circle-${identifierId}`}
-                    cx={bezierResult.circle.x}
-                    cy={bezierResult.circle.y}
-                    r={7}
-                    fill='black'
-                    style={style}
-                    onClick={selectOnClick}
-                  />,
-                ]
+                return
+              }
+              // clear the selection, select only this one
+              updateDiagram((d) => (d.selectedEntities = [{ id: link.id, type: 'ErConnection' }]))
+            }}
+          />
+        ))}
+        {nodes.map((node) => [
+          <MovableSvgComponent
+            key={node.id}
+            svgRef={svgRef}
+            x={node.x}
+            y={node.y}
+            onDrag={(newX, newY) => {
+              updateNodeById(node.id, (n) => {
+                ;(n.x = newX), (n.y = newY)
               })
-              .flat(),
-          ])}
-        </svg>
-      </Draggable>
+            }}
+            onClick={(e) => {
+              if (e.ctrlKey) {
+                updateDiagram((d) => {
+                  const foundIndex = d.selectedEntities.findIndex((selected) => selected.id === node.id)
+                  if (foundIndex >= 0) d.selectedEntities.splice(foundIndex, 1)
+                  else d.selectedEntities.push({ id: node.id, type: 'ErNode' })
+                })
+              } else {
+                updateDiagram((d) => {
+                  d.selectedEntities = [{ id: node.id, type: 'ErNode' }]
+                })
+              }
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault()
+              setNodeContextMenuState({
+                ...nodeContextMenuState,
+                location: new Vector2(e.clientX, e.clientY),
+                show: !nodeContextMenuState.show,
+                nodeId: node.id,
+              })
+            }}>
+            <ErNode
+              key={node.id}
+              node={node as ErNodeModel}
+              selected={
+                selectedEntityIds.some((selected) => selected.id === node.id && selected.type === 'ErNode') || false
+              }
+            />
+          </MovableSvgComponent>,
+          ...Array.from((node as ErNodeModel).identifiers, (identifier) => {
+            const found = identifiers.find((x) => x.id === identifier)
+            if (!found) console.error('Identifier not found', identifier)
+            return found
+          })
+            .filter((x): x is ErIdentifier => !!x)
+            .map((x) => ({ identifierId: x.id, identifiers: nodes.filter((y) => x.identities.has(y.id)) }))
+            .map((identifierInfo) => {
+              const { identifiers, identifierId } = identifierInfo
+              if (identifiers.length < 2) return
+              const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
+              const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
+                ? {
+                    stroke: 'green',
+                    strokeDasharray: '5,5',
+                  }
+                : undefined
+              const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
+                if (e.ctrlKey) {
+                  if (selectedEntityIds.some((x) => x.id === identifierId)) {
+                    updateDiagram((d) => {
+                      d.selectedEntities = d.selectedEntities.filter((x) => x.id !== identifierId)
+                    })
+                    return
+                  }
+                  updateDiagram((d) => {
+                    d.selectedEntities.push({ id: identifierId, type: 'ErIdentifier' })
+                  })
+                  return
+                }
+                updateDiagram((d) => {
+                  d.selectedEntities = [{ id: identifierId, type: 'ErIdentifier' }]
+                })
+              }
+              return [
+                // this path is the "hitbox", i.e. what the user can click to select the path
+                <path
+                  key={`identifiers-bezier-hitbox-${identifierId}}`}
+                  fill='none'
+                  stroke='rgba(255,0,0,0)'
+                  strokeWidth={10}
+                  d={bezierResult.path}
+                  onClick={selectOnClick}
+                />,
+                <path
+                  key={`identifiers-bezier-${identifierId}`}
+                  fill='none'
+                  stroke='black'
+                  strokeWidth={1}
+                  style={style}
+                  d={bezierResult.path}
+                />,
+                <circle
+                  key={`identifiers-circle-${identifierId}`}
+                  cx={bezierResult.circle.x}
+                  cy={bezierResult.circle.y}
+                  r={7}
+                  fill='black'
+                  style={style}
+                  onClick={selectOnClick}
+                />,
+              ]
+            })
+            .flat(),
+        ])}
+      </PannableZoomableSvg>
     </div>
   )
 }
