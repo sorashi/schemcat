@@ -51,7 +51,7 @@ function ErNodeByType(props: ErNodeProps) {
     case ErNodeType.AttributeType:
       return (
         <circle
-          r={10}
+          r={7}
           cx={0}
           cy={0}
           {...defaultNodeStyle}
