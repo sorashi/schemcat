@@ -16,7 +16,7 @@ import { DiagramConnection, linkToPoints } from './DiagramConnection'
 import { assertNever } from '../utils/Types'
 import EmptyTriangleMarker from './EmptyTriangleMarker'
 import ErIsaHierarchy from './ErIsaHierarchy'
-import PannableZoomableSvg from './PannableZommableSvg'
+import PannableZoomableSvg from './PannableZoomableSvg'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */

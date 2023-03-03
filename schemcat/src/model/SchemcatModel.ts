@@ -23,7 +23,7 @@ export class Morphism {
   ordering = false
 }
 
-function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
+export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
   const schema = new SchemaCategory()
 
   // objects and identifiers

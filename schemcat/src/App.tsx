@@ -11,6 +11,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import DragAndDropPanel from './components/DragAndDropPanel'
 import { useLayoutEffect, useState } from 'react'
+import SchemcatDiagram from './components/SchemcatDiagram'
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
   global: {
@@ -69,6 +70,12 @@ const defaultLayoutModel = FlexLayout.Model.fromJson({
         children: [
           {
             type: 'tab',
+            name: 'Schemcat Diagram',
+            component: 'schemcat-diagram',
+            className: 'overflow-hidden',
+          },
+          {
+            type: 'tab',
             name: 'Schemcat Visualization',
             component: 'schemcat-visualization-diagram',
             className: 'overflow-hidden',
@@ -86,6 +93,8 @@ function factory(node: FlexLayout.TabNode) {
       return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'schemcat-visualization-diagram':
       return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
+    case 'schemcat-diagram':
+      return <SchemcatDiagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'control-panel':
       return <ControlPanel key={uuidv4()} />
     case 'drag-and-drop-panel':
