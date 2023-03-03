@@ -232,15 +232,15 @@ export class Connection {
   toId: number
   @Type(() => Cardinality)
   @IncludeInControlPanel(ControlPanelViewType.Cardinality)
-  multiplicity: Cardinality
+  cardinality: Cardinality
   @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
   fromAnchor: Anchor = Anchor.Right
   @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
   toAnchor: Anchor = Anchor.Left
-  constructor(fromId = -1, toId = -1, multiplicity = new Cardinality(), newId = false) {
+  constructor(fromId = -1, toId = -1, cardinality = new Cardinality(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId
     this.toId = toId
-    this.multiplicity = multiplicity
+    this.cardinality = cardinality
   }
 }

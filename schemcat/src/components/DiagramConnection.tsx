@@ -72,7 +72,7 @@ export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   return (
     <>
       <SvgConnection pathId={pathId} onClick={onClick} points={points} style={style} />
-      <CardinalityText pathId={pathId} multiplicity={link.multiplicity} x={points[0].x} y={points[0].y} />
+      <CardinalityText pathId={pathId} multiplicity={link.cardinality} x={points[0].x} y={points[0].y} />
     </>
   )
 }

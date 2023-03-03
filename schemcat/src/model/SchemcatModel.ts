@@ -47,7 +47,7 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
     // signature
     morphism.signature = []
     morphism.label = ''
-    morphism.cardinality = link.multiplicity
+    morphism.cardinality = link.cardinality
     morphism.duplicities = false
     morphism.ordering = false
     schema.morphisms.push(morphism)
