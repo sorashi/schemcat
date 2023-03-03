@@ -12,6 +12,7 @@ export enum ControlPanelViewType {
   TextEdit,
   ComboBox,
   AnchorPicker,
+  Cardinality,
 }
 
 export const IncludeInControlPanelMetadataKey: unique symbol = Symbol('IncludeInControlPanelMetadataKey')
@@ -230,6 +231,7 @@ export class Connection {
   fromId: number
   toId: number
   @Type(() => Cardinality)
+  @IncludeInControlPanel(ControlPanelViewType.Cardinality)
   multiplicity: Cardinality
   @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
   fromAnchor: Anchor = Anchor.Right

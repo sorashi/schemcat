@@ -2,6 +2,9 @@ import { useCallback } from 'react'
 import { getErEntityByDiscriminator, useStore } from '../hooks/useStore'
 import {
   Anchor,
+  Cardinality,
+  CardinalityLowerBound,
+  CardinalityUpperBound,
   Connection,
   ControlPanelViewType,
   EnumTypeMetadataKey,
@@ -84,6 +87,33 @@ function NumericUpDownView(props: ControlPanelViewProps) {
   )
 }
 
+function CardinalityView(props: ControlPanelViewProps) {
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const lowerBounds: CardinalityLowerBound[] = [CardinalityLowerBound.Zero, CardinalityLowerBound.One]
+  const upperBounds: CardinalityUpperBound[] = [CardinalityUpperBound.One, CardinalityUpperBound.Many]
+  const combinations = lowerBounds.flatMap((l) => upperBounds.map((u) => new Cardinality(l, u)))
+  function boundsToString(bounds: Cardinality): string {
+    return `${String(bounds.lowerBound)}..${String(bounds.upperBound)}`
+  }
+  const strToCardinality = new Map<String, Cardinality>()
+  combinations.forEach((c) => strToCardinality.set(boundsToString(c), c))
+  return (
+    <select
+      onChange={(e) =>
+        updateErEntityByDiscriminator(
+          props.entity,
+          (n) => ((n as ErEntityRecord)[props.propertyKey] = strToCardinality.get(e.target.value))
+        )
+      }>
+      {combinations.map((c) => (
+        <option key={boundsToString(c)} value={boundsToString(c)}>
+          {boundsToString(c)}
+        </option>
+      ))}
+    </select>
+  )
+}
+
 function AnchorPickerView(props: ControlPanelViewProps) {
   const updateConnectionById = useStore((state) => state.updateConnectionById)
   const link = useStore(
@@ -121,6 +151,8 @@ function ControlPanelView(props: ControlPanelViewProps) {
       return <ComboBoxView {...props} />
     case ControlPanelViewType.AnchorPicker:
       return <AnchorPickerView {...props} />
+    case ControlPanelViewType.Cardinality:
+      return <CardinalityView {...props} />
     default:
       // eslint-disable-next-line no-case-declarations
       const message = 'Unknown ControlPanelViewType: ' + props.metadata.controlPanelViewType
