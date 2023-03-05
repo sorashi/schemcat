@@ -53,5 +53,17 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
     schema.morphisms.push(morphism)
   })
 
+  diagram.hierarchies.forEach((hierarchy) => {
+    hierarchy.children.forEach((child) => {
+      const morphismUp = new Morphism()
+      morphismUp.domain = child
+      morphismUp.codomain = hierarchy.parent
+      const morphismDown = new Morphism()
+      morphismDown.domain = hierarchy.parent
+      morphismDown.codomain = child
+      schema.morphisms.push(morphismUp)
+      schema.morphisms.push(morphismDown)
+    })
+  })
   return schema
 }
