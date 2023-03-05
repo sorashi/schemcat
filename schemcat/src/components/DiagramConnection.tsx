@@ -65,14 +65,20 @@ export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   }, [from, to])
   const pathId = 'path-' + link.id
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
-  const points = linkToPoints(link, from, to)
+  const [pointFrom, pointTo] = linkToPoints(link, from, to)
+  const cardinalityPosition = pointFrom.add(pointTo.subtract(pointFrom).normalize().multiply(30))
   const style: React.CSSProperties | undefined = selectedEntities.some((x) => x.id === link.id)
     ? { stroke: 'green', strokeDasharray: '5,5' }
     : undefined
   return (
     <>
-      <SvgConnection pathId={pathId} onClick={onClick} points={points} style={style} />
-      <CardinalityText pathId={pathId} cardinality={link.cardinality} x={points[0].x} y={points[0].y} />
+      <SvgConnection pathId={pathId} onClick={onClick} points={[pointFrom, pointTo]} style={style} />
+      <CardinalityText
+        pathId={pathId}
+        cardinality={link.cardinality}
+        x={cardinalityPosition.x}
+        y={cardinalityPosition.y}
+      />
     </>
   )
 }

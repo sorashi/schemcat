@@ -17,10 +17,8 @@ export function CardinalityText(props: { cardinality: Cardinality; x: number; y:
   }, [textRef])
   if (cardinality.isDefault()) return null
   return (
-    <text ref={textRef} x={0} y={0} dy={-5} dominantBaseline='auto' textAnchor='middle'>
-      <textPath href={`#${props.pathId}`} startOffset='35'>
-        {cardinality.lowerBound}..{cardinality.upperBound}
-      </textPath>
+    <text ref={textRef} x={x} y={y}>
+      {cardinality.lowerBound}..{cardinality.upperBound}
     </text>
   )
 }
