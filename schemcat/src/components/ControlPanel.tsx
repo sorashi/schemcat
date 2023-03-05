@@ -205,11 +205,11 @@ function ControlPanel() {
             )
             if (metadata === undefined) return null
             return (
-              <div key={`${selectedEntity}-${String(prp)}`}>
+              <div key={`${selectedEntity.id}-${String(prp)}`}>
                 <ControlPanelPropertyDescription entityId={selectedEntityId} prp={prp} />
                 <dd className='ml-4'>
                   <ControlPanelView
-                    key={`${selectedEntity}-${String(prp)}`}
+                    key={`${selectedEntity.id}-${String(prp)}`}
                     metadata={metadata}
                     entity={selectedEntityId}
                     propertyKey={prp as keyof typeof selectedEntity}
