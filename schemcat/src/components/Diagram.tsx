@@ -14,7 +14,7 @@ import { normalizeRadiansAngle } from '../utils/Angle'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { DiagramConnection, linkToPoints } from './DiagramConnection'
 import { assertNever } from '../utils/Types'
-import EmptyTriangleMarker from './EmptyTriangleMarker'
+import { EmptyTriangleMarker } from './Markers'
 import ErIsaHierarchy from './ErIsaHierarchy'
 import PannableZoomableSvg from './PannableZoomableSvg'
 

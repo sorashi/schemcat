@@ -1,7 +1,7 @@
 import { StoreModel, useStore } from '../hooks/useStore'
 import { ErIsaHierarchy as ErIsaHierarchyModel, ErNode } from '../model/DiagramModel'
 import Vector2 from '../utils/Vector2'
-import { emptyTriangleMarkerId } from './EmptyTriangleMarker'
+import { emptyTriangleMarkerId } from './Markers/EmptyTriangleMarker'
 
 interface ErIsaHierarchyProps {
   erIsaHierarchy: ErIsaHierarchyModel

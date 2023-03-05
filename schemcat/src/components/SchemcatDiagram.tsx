@@ -1,7 +1,10 @@
 import { useRef } from 'react'
 import { useStore } from '../hooks/useStore'
 import { erDiagramToSchemcat } from '../model/SchemcatModel'
-import EmptyTriangleMarker from './EmptyTriangleMarker'
+import Vector2 from '../utils/Vector2'
+import { CardinalityText } from './CardinalityText'
+import { EmptyTriangleMarker, TwoSidedMarker } from './Markers'
+import { twoSidedMarkerId } from './Markers/TwoSidedMarker'
 import PannableZoomableSvg from './PannableZoomableSvg'
 
 interface SchemcatDiagramProps {
@@ -14,6 +17,7 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
 
   const svgRef = useRef(null)
   const schemcat = erDiagramToSchemcat(diagram)
+  const nodes = diagram.nodes
   return (
     <div
       className='w-full h-full overflow-hidden'
@@ -34,7 +38,54 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
         svgRef={svgRef}>
         <defs>
           <EmptyTriangleMarker />
+          <TwoSidedMarker />
         </defs>
+        {schemcat.objects.map((o) => {
+          const node = nodes.find((x) => x.id === o.key)
+          if (!node) return null
+          return (
+            <>
+              <circle
+                key={`raw-schemcat-object-${o.key}`}
+                cx={node.x}
+                cy={node.y}
+                r={7}
+                stroke='black'
+                strokeWidth={1}
+                fill='white'></circle>
+              <text x={node.x + 7} y={node.y + 4}>
+                {o.label}
+              </text>
+            </>
+          )
+        })}
+        {schemcat.morphisms.map((m) => {
+          const from = nodes.find((n) => n.id === m.domain)
+          const to = nodes.find((n) => n.id === m.codomain)
+          if (!from || !to) return null
+          const fromPos = new Vector2(from.x, from.y)
+          const toPos = new Vector2(to.x, to.y)
+          const cardinalityPosition = fromPos.add(toPos.subtract(fromPos).multiply(0.5))
+          return (
+            <>
+              <line
+                key={`raw=schemcat-morphism-${m.domain}-${m.codomain}-${m.direction}`}
+                x1={from.x}
+                y1={from.y}
+                x2={to.x}
+                y2={to.y}
+                markerEnd={`url(#${twoSidedMarkerId})`}
+                stroke='black'
+                strokeWidth={1}></line>
+              <CardinalityText
+                x={cardinalityPosition.x}
+                y={cardinalityPosition.y}
+                cardinality={m.cardinality}
+                pathId={''}
+              />
+            </>
+          )
+        })}
       </PannableZoomableSvg>
     </div>
   )
