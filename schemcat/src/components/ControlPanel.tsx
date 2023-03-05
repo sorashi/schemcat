@@ -89,6 +89,7 @@ function NumericUpDownView(props: ControlPanelViewProps) {
 
 function CardinalityView(props: ControlPanelViewProps) {
   const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const fetchedEntity = useStore((state) => getErEntityByDiscriminator(state, props.entity))
   const lowerBounds: CardinalityLowerBound[] = [CardinalityLowerBound.Zero, CardinalityLowerBound.One]
   const upperBounds: CardinalityUpperBound[] = [CardinalityUpperBound.One, CardinalityUpperBound.Many]
   const combinations = lowerBounds.flatMap((l) => upperBounds.map((u) => new Cardinality(l, u)))
@@ -99,6 +100,7 @@ function CardinalityView(props: ControlPanelViewProps) {
   combinations.forEach((c) => strToCardinality.set(boundsToString(c), c))
   return (
     <select
+      defaultValue={boundsToString((fetchedEntity as ErEntityRecord)[props.propertyKey] as Cardinality)}
       onChange={(e) =>
         updateErEntityByDiscriminator(
           props.entity,
@@ -106,7 +108,7 @@ function CardinalityView(props: ControlPanelViewProps) {
         )
       }>
       {combinations.map((c) => (
-        <option key={boundsToString(c)} value={boundsToString(c)}>
+        <option key={`${props.entity.id}: ${boundsToString(c)}`} value={boundsToString(c)}>
           {boundsToString(c)}
         </option>
       ))}
