@@ -14,7 +14,7 @@ export interface DropdownItemProps {
   item: MenuItemModel
   action?: () => void
   onAfterAction?: () => void
-  /** If this returns `true`, the item is disabled according to {@link DropdownItemdisableBehavior} */
+  /** If this returns `true`, the item is disabled according to {@link DropdownItemDisabledBehavior} */
   canDoAction?: () => boolean
   disableBehavior?: DropdownItemDisabledBehavior
 }
