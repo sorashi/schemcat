@@ -210,6 +210,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
           onAfterAction={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}></NodeContextMenu>
       )}
       <PannableZoomableSvg
+        svgId='erDiagram'
         isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabSet}
         onDragStart={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}
         onLeftClick={(e) => {

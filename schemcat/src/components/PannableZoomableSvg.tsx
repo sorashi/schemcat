@@ -13,6 +13,7 @@ interface PannableZoomableSvgProps {
   onLeftClick?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
   onDragStart?: (start: Point, target: EventTarget) => boolean | void
   svgRef?: React.MutableRefObject<SVGSVGElement | null>
+  svgId?: string
 }
 
 /**
@@ -37,6 +38,7 @@ function PannableZoomableSvg({
   onLeftClick,
   onDragStart,
   svgRef = useRef(null),
+  svgId,
 }: PannableZoomableSvgProps) {
   const viewBox = useStore((state) => state.diagram.viewBox)
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
@@ -111,6 +113,7 @@ function PannableZoomableSvg({
   return (
     <Draggable onDragStart={handleDragStart} onDragging={handleDragging}>
       <svg
+        id={svgId}
         viewBox={
           isZoomPanSynced
             ? `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`

@@ -91,8 +91,17 @@ function ErNode(props: ErNodeProps) {
         y='0'
         width={props.node.width}
         height={foreignObjectHeight == 0 ? 1 : foreignObjectHeight}
-        className='overflow-visible'>
-        <div ref={divRef} className='h-auto text-center w-full relative top-1/2 -translate-y-1/2'>
+        style={{ overflow: 'visible' }}>
+        <div
+          ref={divRef}
+          style={{
+            height: 'auto',
+            textAlign: 'center',
+            width: '100%',
+            position: 'relative',
+            top: '50%',
+            transform: 'translate(0, -50%)',
+          }}>
           <span>{node.label}</span>
         </div>
       </foreignObject>
