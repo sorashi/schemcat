@@ -1,3 +1,4 @@
+import { useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
 import { DropdownItem, DropdownItemProps } from './DropdownItem'
 
 /** Set the `xmlns` attribute of the whole element tree except the root recursively to xhtml.
@@ -7,6 +8,15 @@ function setXmlnsToXhtml(e: Element) {
   for (const child of e.children) {
     child.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml')
     setXmlnsToXhtml(child)
+  }
+}
+
+function useExportSvgDialog(onSubmit: (data: {}) => void) {
+  const setIsVisible = useExportSvgDialogState((state) => state.setIsVisible)
+  const setOnOk = useExportSvgDialogState((state) => state.setOnOk)
+  return () => {
+    setOnOk(onSubmit)
+    setIsVisible(true)
   }
 }
 
@@ -31,5 +41,6 @@ function exportSvg() {
 }
 
 export function ExportSvgMenuItem(props: DropdownItemProps) {
-  return <DropdownItem {...props} action={exportSvg} />
+  const makeVisible = useExportSvgDialog((data) => exportSvg())
+  return <DropdownItem {...props} action={() => makeVisible()} />
 }

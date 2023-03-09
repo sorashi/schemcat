@@ -12,6 +12,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import DragAndDropPanel from './components/DragAndDropPanel'
 import { useLayoutEffect, useState } from 'react'
 import SchemcatDiagram from './components/SchemcatDiagram'
+import { ExportSvgDialog } from './components/Dialog/ExportSvgDialog'
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
   global: {
@@ -128,6 +129,7 @@ function App() {
 
   return (
     <div className='App absolute left-0 right-0 bottom-0 top-0 flex flex-col'>
+      <ExportSvgDialog></ExportSvgDialog>
       <div className='border-b-2 border-gray-200 relative block'>
         <MenuBar />
       </div>
