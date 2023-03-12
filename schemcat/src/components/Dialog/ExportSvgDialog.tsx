@@ -42,6 +42,7 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
       <form>
         <Checkbox
           label='Include serialized diagram'
+          hoverHint='This makes the SVG file larger, but allows it to be opened and edited later.'
           value={data.includeSerialized}
           onChange={() => setData({ ...data, includeSerialized: !data.includeSerialized })}
         />
