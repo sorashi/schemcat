@@ -1,5 +1,16 @@
-import { useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
+import { instanceToPlain } from 'class-transformer'
+import { useStore } from '../../hooks/useStore'
+import { ExportSvgDialogData, useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
 import { DropdownItem, DropdownItemProps } from './DropdownItem'
+
+function useExportSvgDialog(onSubmit: (data: ExportSvgDialogData) => void) {
+  const setIsVisible = useExportSvgDialogState((state) => state.setIsVisible)
+  const setOnOk = useExportSvgDialogState((state) => state.setOnOk)
+  return () => {
+    setOnOk(onSubmit)
+    setIsVisible(true)
+  }
+}
 
 /** Set the `xmlns` attribute of the whole element tree except the root recursively to xhtml.
  * @param e - The root element where to start
@@ -10,23 +21,20 @@ function setXmlnsToXhtml(e: Element) {
     setXmlnsToXhtml(child)
   }
 }
-
-function useExportSvgDialog(onSubmit: (data: {}) => void) {
-  const setIsVisible = useExportSvgDialogState((state) => state.setIsVisible)
-  const setOnOk = useExportSvgDialogState((state) => state.setOnOk)
-  return () => {
-    setOnOk(onSubmit)
-    setIsVisible(true)
-  }
-}
-
-function exportSvg() {
+function exportSvg({ includeSerialized }: ExportSvgDialogData) {
   const svg = document.getElementById('erDiagram')
   if (!svg) return
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
 
   const foreignObjects = svg.getElementsByTagName('foreignObject')
   for (const foreignObject of foreignObjects) setXmlnsToXhtml(foreignObject)
+
+  if (includeSerialized) {
+    const erDiagram = useStore.getState().diagram
+    svg.setAttribute('content', btoa(JSON.stringify(instanceToPlain(erDiagram))))
+  } else {
+    svg.removeAttribute('content')
+  }
 
   const svgData = svg.outerHTML
   const preface = '<?xml version="1.0" standalone="no"?>\n'
@@ -41,6 +49,6 @@ function exportSvg() {
 }
 
 export function ExportSvgMenuItem(props: DropdownItemProps) {
-  const makeVisible = useExportSvgDialog((data) => exportSvg())
+  const makeVisible = useExportSvgDialog((data) => exportSvg(data))
   return <DropdownItem {...props} action={() => makeVisible()} />
 }
