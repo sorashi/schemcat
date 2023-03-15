@@ -1,6 +1,6 @@
 import { CSSProperties, useState } from 'react'
 
-const transitionStyle: CSSProperties = { transition: 'visibility 1s, opacity 0.5s ease-in-out' }
+const transitionStyle: CSSProperties = { transition: 'visibility 0.4s, opacity 0.3s ease-in-out' }
 interface DialogProps {
   children?: React.ReactNode
   visible: boolean
