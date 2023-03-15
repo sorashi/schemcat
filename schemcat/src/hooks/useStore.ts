@@ -16,6 +16,8 @@ import { temporal } from 'zundo'
 import { produce, enableMapSet } from 'immer'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { assertNever, DeepPartial } from '../utils/Types'
+import globalIdGenerator from '../utils/GlobalIdGenerator'
+import { RunningMaximum } from '../utils/RunningMaximum'
 
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
@@ -88,6 +90,15 @@ export function getErEntityByDiscriminator(
     default:
       assertNever(discriminator.type)
   }
+}
+
+function getMaxIdFromModel(model: DeepPartial<StoreModel>) {
+  let max = new RunningMaximum()
+  max.add(model.diagram?.links?.map((x) => x?.id || -Infinity))
+  max.add(model.diagram?.nodes?.map((x) => x?.id || -Infinity))
+  max.add(model.diagram?.hierarchies?.map((x) => x?.id || -Infinity))
+  max.add(model.diagram?.identifiers?.map((x) => x?.id || -Infinity))
+  return Math.max(max.currentMax, 0)
 }
 
 export const useStore = create<StoreModel>()(
@@ -244,6 +255,7 @@ export const useStore = create<StoreModel>()(
               plain = { state: { diagram: exampleDiagram() } }
             }
             plain.state.diagram = plainToInstance(DiagramModel, plain.state.diagram)
+            globalIdGenerator.id = getMaxIdFromModel(plain.state)
             return plain
           },
           // serialize
