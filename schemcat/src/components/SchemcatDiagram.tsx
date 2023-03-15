@@ -1,5 +1,4 @@
-import React from 'react'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { useStore } from '../hooks/useStore'
 import { erDiagramToSchemcat } from '../model/SchemcatModel'
 import Vector2 from '../utils/Vector2'

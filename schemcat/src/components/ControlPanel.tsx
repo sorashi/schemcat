@@ -96,7 +96,7 @@ function CardinalityView(props: ControlPanelViewProps) {
   function boundsToString(bounds: Cardinality): string {
     return `${String(bounds.lowerBound)}..${String(bounds.upperBound)}`
   }
-  const strToCardinality = new Map<String, Cardinality>()
+  const strToCardinality = new Map<string, Cardinality>()
   combinations.forEach((c) => strToCardinality.set(boundsToString(c), c))
   return (
     <select

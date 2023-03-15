@@ -93,7 +93,7 @@ export function getErEntityByDiscriminator(
 }
 
 function getMaxIdFromModel(model: DeepPartial<StoreModel>) {
-  let max = new RunningMaximum()
+  const max = new RunningMaximum()
   max.add(model.diagram?.links?.map((x) => x?.id || -Infinity))
   max.add(model.diagram?.nodes?.map((x) => x?.id || -Infinity))
   max.add(model.diagram?.hierarchies?.map((x) => x?.id || -Infinity))
