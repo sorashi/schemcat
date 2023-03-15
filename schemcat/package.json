@@ -16,7 +16,8 @@
     "ts:check": "tsc --noEmit",
     "ts:watch": "tsc --noEmit --watch",
     "format": "prettier -w '**/*.{ts,tsx,js,jsx}'",
-    "docs": "typedoc --entryPointStrategy expand src/"
+    "docs": "typedoc --entryPointStrategy expand src/",
+    "precommit": "pnpm ts:check && pnpm lint:fix && pnpm format && pnpm test"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",

@@ -3,7 +3,6 @@
   "trailingComma": "es5",
   "singleQuote": true,
   "jsxSingleQuote": true,
-  "editorconfig": true,
   "semi": false,
   "bracketSameLine": true
 }

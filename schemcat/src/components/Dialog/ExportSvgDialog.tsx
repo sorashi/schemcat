@@ -18,11 +18,13 @@ interface ExportSvgDialogState {
 
 export const useExportSvgDialogState = create<ExportSvgDialogState>()((set) => ({
   isVisible: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onOk: (data) => {},
   setIsVisible: (isVisible: boolean) => set((state) => ({ ...state, isVisible: isVisible })),
   setOnOk: (onOk: (data: ExportSvgDialogData) => void) => set((state) => ({ ...state, onOk: onOk })),
 }))
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ExportSvgDialogProps {}
 
 export function ExportSvgDialog(props: ExportSvgDialogProps) {
