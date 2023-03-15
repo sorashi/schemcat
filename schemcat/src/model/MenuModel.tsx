@@ -1,4 +1,4 @@
-import { DropdownItemProps } from '../components/Menu/DropdownItem'
+import { DropdownItem, DropdownItemProps } from '../components/Menu/DropdownItem'
 import { ExportSvgMenuItem } from '../components/Menu/ExportSvgMenuItem'
 import { RedoMenuItem } from '../components/Menu/RedoMenuItem'
 import { UndoMenuItem } from '../components/Menu/UndoMenuItem'
@@ -81,6 +81,7 @@ export const menuModel: MenuModel = [
           },
           {
             title: 'Export as PNG',
+            factory: (props: DropdownItemProps) => <DropdownItem {...props} canDoAction={() => false} />,
           },
         ],
       },
