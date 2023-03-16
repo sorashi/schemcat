@@ -1,4 +1,5 @@
 import { CSSProperties, useState } from 'react'
+import { PortalDivInBody } from '../PortalDivInBody'
 
 const transitionStyle: CSSProperties = { transition: 'visibility 0.4s, opacity 0.3s ease-in-out' }
 interface DialogProps {
@@ -15,7 +16,7 @@ export enum DialogResult {
 
 export function Dialog({ children, visible, onClosing, title = 'Title' }: DialogProps) {
   return (
-    <>
+    <PortalDivInBody>
       <div
         onClick={() => onClosing && onClosing(DialogResult.Cancel)}
         className={`w-[100vw] h-[100vh] bg-black backdrop-blur-sm bg-opacity-50 overflow-hidden absolute top-0 left-0 z-10 transition ${
@@ -50,6 +51,6 @@ export function Dialog({ children, visible, onClosing, title = 'Title' }: Dialog
           </button>
         </div>
       </div>
-    </>
+    </PortalDivInBody>
   )
 }
