@@ -71,6 +71,7 @@ export const menuModel: MenuModel = [
     submenu: [
       {
         title: 'New',
+        factory: (props: DropdownItemProps) => <DropdownItem {...props} canDoAction={() => false} />,
       },
       {
         title: 'Export',
