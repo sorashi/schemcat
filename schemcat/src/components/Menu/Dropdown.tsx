@@ -18,7 +18,7 @@ export function Dropdown({ dropdown, submenu, item, className = '', style, child
       className={`${
         dropdown ? 'block' : 'hidden'
       } bg-white absolute right-auto shadow-md z-[5] min-w-max py-2 rounded-lg ${
-        submenu ? 'left-full top-0' : 'left-0'
+        submenu ? 'left-full bottom-0' : 'left-0'
       } ${className}`}
       style={style}>
       {item.submenu.map(
