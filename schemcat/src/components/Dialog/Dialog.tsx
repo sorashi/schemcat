@@ -24,7 +24,7 @@ export function Dialog({ children, visible, onClosing, title = 'Title' }: Dialog
         }`}
         style={transitionStyle}></div>
       <div
-        className={`bg-white w-60 h-auto absolute z-20 rounded shadow top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] p-3 transition ${
+        className={`bg-white max-w-lg h-auto absolute z-20 rounded shadow top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] p-3 transition ${
           !visible ? 'opacity-0 pointer-events-none' : ''
         }`}
         style={transitionStyle}>
