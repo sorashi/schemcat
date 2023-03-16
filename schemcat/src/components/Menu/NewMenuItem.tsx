@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useStore } from '../../hooks/useStore'
 import { DiagramModel } from '../../model'
+import { Dialog, DialogResult } from '../Dialog/Dialog'
 import { DropdownItem, DropdownItemProps } from './DropdownItem'
 
 function setStateToEmptyDiagram() {
@@ -7,5 +9,25 @@ function setStateToEmptyDiagram() {
 }
 
 export function NewMenuItem(props: DropdownItemProps) {
-  return <DropdownItem {...props} action={setStateToEmptyDiagram} />
+  const [dialogVisible, setDialogVisible] = useState(false)
+
+  function action() {
+    setDialogVisible(true)
+  }
+  function handleDialogClosing(result: DialogResult) {
+    if (result === DialogResult.Ok) {
+      setStateToEmptyDiagram()
+    }
+  }
+
+  return (
+    <>
+      <Dialog visible={dialogVisible} onClosing={handleDialogClosing}>
+        Are you sure you want to create a new diagram?
+        <br />
+        <b>You will lose all unexported/unsaved changes.</b>
+      </Dialog>
+      <DropdownItem {...props} action={action} />
+    </>
+  )
 }
