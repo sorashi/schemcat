@@ -1,6 +1,7 @@
 import { DropdownItem, DropdownItemProps } from '../components/Menu/DropdownItem'
 import { ExportSvgMenuItem } from '../components/Menu/ExportSvgMenuItem'
 import { LoadFileMenuItem } from '../components/Menu/LoadFileMenuItem'
+import { NewMenuItem } from '../components/Menu/NewMenuItem'
 import { RedoMenuItem } from '../components/Menu/RedoMenuItem'
 import { UndoMenuItem } from '../components/Menu/UndoMenuItem'
 
@@ -72,7 +73,7 @@ export const menuModel: MenuModel = [
     submenu: [
       {
         title: 'New',
-        factory: (props: DropdownItemProps) => <DropdownItem {...props} canDoAction={() => false} />,
+        factory: (props: DropdownItemProps) => <NewMenuItem {...props} />,
       },
       {
         title: 'Load from file',
