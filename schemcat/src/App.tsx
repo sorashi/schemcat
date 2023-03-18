@@ -129,7 +129,6 @@ function App() {
 
   return (
     <div className='App absolute left-0 right-0 bottom-0 top-0 flex flex-col'>
-      <ExportSvgDialog></ExportSvgDialog>
       <div className='border-b-2 border-gray-200 relative block'>
         <MenuBar />
       </div>
