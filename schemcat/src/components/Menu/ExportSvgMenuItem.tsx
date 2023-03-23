@@ -1,6 +1,7 @@
 import { instanceToPlain } from 'class-transformer'
 import { useStore } from '../../hooks/useStore'
-import { ExportSvgDialogData, useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
+import { toKebabCase } from '../../utils/String'
+import { ExportSvgDialog, ExportSvgDialogData, useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
 import { DropdownItem, DropdownItemProps } from './DropdownItem'
 
 function useExportSvgDialog(onSubmit: (data: ExportSvgDialogData) => void) {
@@ -42,7 +43,7 @@ function exportSvg({ includeSerialized }: ExportSvgDialogData) {
   const svgUrl = URL.createObjectURL(svgBlob)
   const downloadLink = document.createElement('a')
   downloadLink.href = svgUrl
-  downloadLink.download = 'erdiagram.svg'
+  downloadLink.download = `${toKebabCase(useStore.getState().projectName)}.svg`
   document.body.appendChild(downloadLink)
   downloadLink.click()
   document.body.removeChild(downloadLink)
