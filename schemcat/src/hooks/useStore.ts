@@ -59,6 +59,7 @@ function exampleDiagram(): DiagramModel {
 export interface StoreModel {
   diagram: DiagramModel
   isZoomPanSynced: boolean
+  projectName: string
   setIsZoomPanSynced: (isLocked: boolean) => void
   updateDiagram: (update: (diagram: DiagramModel) => void) => void
   updateNode: (node: ErNode) => void
@@ -71,6 +72,7 @@ export interface StoreModel {
   removeIdentifierById: (id: number) => void
   addIdentifier: (identifier: ErIdentifier) => void
   removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void
+  setProjectName: (projectName: string) => void
 }
 
 export function getErEntityByDiscriminator(
@@ -108,6 +110,7 @@ export const useStore = create<StoreModel>()(
         (set) => ({
           diagram: exampleDiagram(),
           isZoomPanSynced: false,
+          projectName: 'Untitled Diagram',
           setIsZoomPanSynced: (isZoomPanSynced: boolean) =>
             set(
               produce((state) => {
@@ -237,6 +240,13 @@ export const useStore = create<StoreModel>()(
                   default:
                     throw new Error(`unknown type ${type}`)
                 }
+              })
+            )
+          },
+          setProjectName: (projectName: string): void => {
+            set(
+              produce((state) => {
+                state.projectName = projectName
               })
             )
           },
