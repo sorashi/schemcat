@@ -2,7 +2,7 @@ import { ChangeEvent, useLayoutEffect, useRef, useState } from 'react'
 import { isOnlyWhitespace } from '../utils/String'
 
 interface EditableTextProps {
-  onChange?: React.ChangeEventHandler<HTMLInputElement> // for now
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
   initialText: string
 }
 
