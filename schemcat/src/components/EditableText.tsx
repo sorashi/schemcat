@@ -10,7 +10,6 @@ export function EditableText({ onChange, initialText }: EditableTextProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [size, setSize] = useState<number | undefined>(undefined)
   useLayoutEffect(() => {
-    if (!inputRef.current) return
     if (inputRef.current) setSize(Math.max(10, inputRef.current.value.length))
   }, [inputRef.current?.value])
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
