@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { MenuItem } from './MenuItem'
 import { ToggleButton } from '../ToggleButton'
 import { useStore } from '../../hooks/useStore'
-import { EditableText } from '../EditableText'
+import { EditableText } from '../UserControls/EditableText'
 
 export function MenuBar() {
   const setIsZoomPanLocked = useStore((state) => state.setIsZoomPanSynced)
