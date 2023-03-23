@@ -45,8 +45,8 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
           if (!node) return null
           return (
             <React.Fragment key={`raw-schemcat-object-${o.key}`}>
-              <circle cx={node.x} cy={node.y} r={7} stroke='black' strokeWidth={1} fill='white'></circle>
-              <text x={node.x + 7} y={node.y + 4}>
+              <circle cx={node.x} cy={node.y} r={10} stroke='black' strokeWidth={1} fill='white'></circle>
+              <text x={node.x + 12} y={node.y + 5}>
                 {o.label}
               </text>
             </React.Fragment>
