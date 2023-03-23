@@ -14,6 +14,7 @@ import { isSubset } from '../../utils/SetOperations'
 import { Dropdown } from './Dropdown'
 import { DropdownItem } from './DropdownItem'
 import Vector2 from '../../utils/Vector2'
+import { DiagramConnection } from '../DiagramConnection'
 
 interface NodeContextMenuProps {
   location: Vector2
@@ -178,6 +179,44 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
   )
 }
 
+function NewConnectionDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
+  const selectedEntities = useStore((state) => state.diagram.selectedEntities)
+  const updateDiagram = useStore((state) => state.updateDiagram)
+  const links = useStore((state) => state.diagram.links)
+  // for now we can connect only 2 entities
+  // and they can have at most two connections between themselves
+  function canConnect(): boolean {
+    if (
+      !(
+        (selectedEntities.length == 2 && selectedEntities.some((x) => x.id == nodeId)) ||
+        (selectedEntities.length == 1 && selectedEntities[0].id != nodeId)
+      )
+    )
+      return false
+    const entity = selectedEntities.find((x) => x.id != nodeId)
+    if (
+      links.filter((x) => (x.fromId == entity?.id && x.toId == nodeId) || (x.toId == entity?.id && x.fromId == nodeId))
+        .length >= 2
+    )
+      return false
+    return true
+  }
+  function handleConnect() {
+    if (!canConnect()) return
+    const entity = selectedEntities.find((x) => x.id != nodeId)
+    if (!entity) return
+    updateDiagram((d) => d.links.push(new Connection(entity.id, nodeId, new Cardinality(), true)))
+  }
+  return (
+    <DropdownItem
+      item={{ title: 'New connection' }}
+      action={handleConnect}
+      onAfterAction={onAfterAction}
+      canDoAction={canConnect}
+    />
+  )
+}
+
 export function NodeContextMenu({ location, nodeId, onAfterAction }: NodeContextMenuProps) {
   const item: MenuItem = {
     title: 'Context Menu',
@@ -197,6 +236,7 @@ export function NodeContextMenu({ location, nodeId, onAfterAction }: NodeContext
       <AddRemoveIdentifierDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
       <AddAttributeTypeDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
       <AddRemoveFromHierarchyItemMenu nodeId={nodeId} onAfterAction={onAfterAction} />
+      <NewConnectionDropdownItem nodeId={nodeId} onAfterAction={onAfterAction} />
     </Dropdown>
   )
 }
