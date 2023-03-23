@@ -13,6 +13,7 @@ export class SchemaObject {
 }
 
 export class Morphism {
+  respectiveErConnectionId = -1
   signature: number[] = []
   domain = -1
   codomain = -1
@@ -42,6 +43,7 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
   // morphisms
   diagram.links.forEach((link) => {
     const morphism = new Morphism()
+    morphism.respectiveErConnectionId = link.id
     morphism.domain = link.fromId
     morphism.codomain = link.toId
     // signature

@@ -48,7 +48,8 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
           const toPos = new Vector2(to.x, to.y)
           const cardinalityPosition = fromPos.add(toPos.subtract(fromPos).multiply(0.5))
           return (
-            <React.Fragment key={`raw-schemcat-morphism-${m.domain}-${m.codomain}-${m.direction}`}>
+            <React.Fragment
+              key={`raw-schemcat-morphism-${m.domain}-${m.codomain}-${m.direction}-${m.respectiveErConnectionId}`}>
               <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke='rgba(50,50,50,0.5)' strokeWidth={1}></line>
               <CardinalityText
                 x={cardinalityPosition.x}
