@@ -182,24 +182,15 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
 function NewConnectionDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
   const updateDiagram = useStore((state) => state.updateDiagram)
-  const links = useStore((state) => state.diagram.links)
   // for now we can connect only 2 entities
   // and they can have at most two connections between themselves
   function canConnect(): boolean {
-    if (
-      !(
-        (selectedEntities.length == 2 && selectedEntities.some((x) => x.id == nodeId)) ||
-        (selectedEntities.length == 1 && selectedEntities[0].id != nodeId)
-      )
+    // either 2 entities are selected and one of them is the entity on which the context menu was triggered,
+    // or 1 entity is selected and another one is the entity on which the context menu was triggered
+    return (
+      (selectedEntities.length == 2 && selectedEntities.some((x) => x.id == nodeId)) ||
+      (selectedEntities.length == 1 && selectedEntities[0].id != nodeId)
     )
-      return false
-    const entity = selectedEntities.find((x) => x.id != nodeId)
-    if (
-      links.filter((x) => (x.fromId == entity?.id && x.toId == nodeId) || (x.toId == entity?.id && x.fromId == nodeId))
-        .length >= 2
-    )
-      return false
-    return true
   }
   function handleConnect() {
     if (!canConnect()) return
