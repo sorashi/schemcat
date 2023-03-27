@@ -3,17 +3,30 @@ export interface RadioProps {
   options: string[]
   defaultValue: string
   onChange?: React.ChangeEventHandler<HTMLInputElement>
+  name: string
 }
 
-export function Radio({ className, options, defaultValue, onChange }: RadioProps) {
+export function Radio({ className, options, defaultValue, onChange, name }: RadioProps) {
   return (
     <div className={className}>
-      {options.map((x) => (
-        <div key={`radio-option-${x}`}>
-          <input defaultValue={x} defaultChecked={defaultValue === x} type='radio' onChange={onChange} />
-          <label className='ml-1'>{x}</label>
-        </div>
-      ))}
+      {options.map((x) => {
+        const id = `${name}-${x}`
+        return (
+          <div key={`radio-option-${x}`}>
+            <input
+              defaultValue={x}
+              defaultChecked={defaultValue === x}
+              type='radio'
+              name={name}
+              id={id}
+              onChange={onChange}
+            />
+            <label htmlFor={id} className='ml-1'>
+              {x}
+            </label>
+          </div>
+        )
+      })}
     </div>
   )
 }
