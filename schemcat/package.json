@@ -20,6 +20,12 @@
     "docs": "typedoc --entryPointStrategy expand src/",
     "precommit": "pnpm ts:check && pnpm lint:fix && pnpm format && pnpm test"
   },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "prettier -w --ignore-unknown",
+      "eslint --fix"
+    ]
+  },
   "dependencies": {
     "class-transformer": "^0.5.1",
     "flexlayout-react": "^0.7.5",
@@ -48,6 +54,7 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.32.1",
+    "lint-staged": "^13.2.0",
     "postcss": "^8.4.21",
     "prettier": "2.8.3",
     "react-test-renderer": "^18.2.0",
