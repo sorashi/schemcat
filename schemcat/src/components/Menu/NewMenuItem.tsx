@@ -18,6 +18,7 @@ export function NewMenuItem(props: DropdownItemProps) {
     if (result === DialogResult.Ok) {
       setStateToEmptyDiagram()
     }
+    setDialogVisible(false)
   }
 
   return (
