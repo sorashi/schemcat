@@ -13,7 +13,7 @@ export function PortalDivInBody(props: PortalDivInBody) {
   const [portalRoot, setPortalRoot] = useState<HTMLDivElement | null>(null)
   useLayoutEffect(() => {
     const div = document.createElement('div')
-    document.body.appendChild(div)
+    document.body.prepend(div)
     setPortalRoot(div)
     return () => {
       setPortalRoot(null)
