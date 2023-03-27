@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { create } from 'zustand'
 import { useStore } from '../../hooks/useStore'
 import { Checkbox } from '../UserControls/Checkbox'
+import { Radio } from '../UserControls/Radio'
 import { Dialog, DialogResult } from './Dialog'
 
 export interface ExportSvgDialogData {
@@ -42,6 +43,12 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
   return (
     <Dialog visible={isVisible} onClosing={handleClosing} title='Export SVG'>
       <form>
+        <Radio
+          name='export-svg-diagram-choice'
+          className='w-full border border-gray-400 p-1 mb-1 rounded'
+          options={['ER Diagram', 'Schemcat Diagram', 'Schemcat Visualization Diagram']}
+          defaultValue='ER Diagram'
+        />
         <Checkbox
           label='Include serialized diagram'
           hoverHint='This makes the SVG file larger, but allows it to be opened and edited later.'
