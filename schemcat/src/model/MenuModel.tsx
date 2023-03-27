@@ -80,14 +80,14 @@ export const menuModel: MenuModel = [
         factory: (props: DropdownItemProps) => <LoadFileMenuItem {...props} />,
       },
       {
-        title: 'Export',
+        title: 'Export as',
         submenu: [
           {
-            title: 'Export as SVG',
+            title: 'SVG',
             factory: (props: DropdownItemProps) => <ExportSvgMenuItem {...props} />,
           },
           {
-            title: 'Export as PNG',
+            title: 'PNG',
             factory: (props: DropdownItemProps) => <DropdownItem {...props} canDoAction={() => false} />,
           },
         ],
