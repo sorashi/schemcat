@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "canvg": "^4.0.1",
     "class-transformer": "^0.5.1",
     "flexlayout-react": "^0.7.5",
     "immer": "^9.0.18",

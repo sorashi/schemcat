@@ -1,4 +1,5 @@
 import { DropdownItem, DropdownItemProps } from '../components/Menu/DropdownItem'
+import { ExportPngMenuItem } from '../components/Menu/ExportPngMenuItem'
 import { ExportSvgMenuItem } from '../components/Menu/ExportSvgMenuItem'
 import { LoadFileMenuItem } from '../components/Menu/LoadFileMenuItem'
 import { NewMenuItem } from '../components/Menu/NewMenuItem'
@@ -88,7 +89,7 @@ export const menuModel: MenuModel = [
           },
           {
             title: 'PNG',
-            factory: (props: DropdownItemProps) => <DropdownItem {...props} canDoAction={() => false} />,
+            factory: (props: DropdownItemProps) => <ExportPngMenuItem {...props} />,
           },
         ],
       },

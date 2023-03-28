@@ -76,7 +76,12 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
                 stroke='black'
                 strokeWidth={1}
                 fill='white'></circle>
-              <text dominantBaseline='middle' x={node.x + objectCircleRadius + 2} y={node.y} textAnchor='left'>
+              <text
+                dominantBaseline='middle'
+                x={node.x + objectCircleRadius + 2}
+                y={node.y}
+                textAnchor='left'
+                color='black'>
                 {o.label}
               </text>
             </React.Fragment>
