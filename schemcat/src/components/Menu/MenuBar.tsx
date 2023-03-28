@@ -14,6 +14,16 @@ export function MenuBar() {
       {menuModel.map((item) => (
         <MenuItem key={uuidv4()} item={item} />
       ))}
+      {process.env.NODE_ENV === 'development' && (
+        <button
+          onClick={() => {
+            localStorage.clear()
+            location.reload()
+          }}
+          className='border border-orange-400 bg-orange-100 p-1 hover:bg-orange-300 active:bg-orange-500 text-xs'>
+          RESET
+        </button>
+      )}
       <ToggleButton className='ml-5' label='Sync Pan & Zoom' onToggle={(locked) => setIsZoomPanLocked(locked)} />
       <EditableText initialText={projectName} onChange={(e) => setProjectName(e.target.value)} />
     </ul>
