@@ -5,12 +5,7 @@ import { useStore } from '../../hooks/useStore'
 import { Checkbox } from '../UserControls/Checkbox'
 import { Radio } from '../UserControls/Radio'
 import { Dialog, DialogResult } from './Dialog'
-import { DiagramType } from '../../model/Constats'
-
-function isDiagramEnumValue(s: string): s is DiagramType {
-  const values = Object.values(DiagramType)
-  return values.some((x) => x == s)
-}
+import { DiagramType, isDiagramTypeEnumValue } from '../../model/Constats'
 
 export interface ExportSvgDialogData {
   /** Whether to include a serialized version of this diagram in the exported SVG. */
@@ -49,7 +44,7 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
   }
   function handleDiagramRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
-    if (isDiagramEnumValue(value)) setData({ ...data, selectedDiagram: value })
+    if (isDiagramTypeEnumValue(value)) setData({ ...data, selectedDiagram: value })
     else throw new Error('invalid enum value: ' + value)
   }
   return (
