@@ -39,6 +39,7 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
   const isVisible = useExportSvgDialogState((state) => state.isVisible)
   const onOk = useExportSvgDialogState((state) => state.onOk)
   const setIsVisible = useExportSvgDialogState((state) => state.setIsVisible)
+  const activeDiagram = useStore((x) => x.activeDiagram)
 
   const [data, setData] = useState<ExportSvgDialogData>({ includeSerialized: true, selectedDiagram: DiagramType.Er })
 
@@ -51,15 +52,14 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
     if (isDiagramEnumValue(value)) setData({ ...data, selectedDiagram: value })
     else throw new Error('invalid enum value: ' + value)
   }
-
   return (
     <Dialog visible={isVisible} onClosing={handleClosing} title='Export SVG'>
       <form>
         <Radio
           name='export-svg-diagram-choice'
           className='w-full border border-gray-400 p-1 mb-1 rounded'
-          options={['ER Diagram', 'Schemcat Diagram', 'Schemcat Visualization Diagram']}
-          value='ER Diagram'
+          options={Object.values(DiagramType)}
+          value={activeDiagram || DiagramType.Er}
           onChange={handleDiagramRadioChange}
         />
         <Checkbox

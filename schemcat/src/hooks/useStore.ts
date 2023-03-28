@@ -18,6 +18,7 @@ import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { assertNever, DeepPartial } from '../utils/Types'
 import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { RunningMaximum } from '../utils/RunningMaximum'
+import { DiagramType } from '../model/Constats'
 
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
@@ -60,6 +61,7 @@ export interface StoreModel {
   diagram: DiagramModel
   isZoomPanSynced: boolean
   projectName: string
+  activeDiagram: DiagramType | null
   setIsZoomPanSynced: (isLocked: boolean) => void
   updateDiagram: (update: (diagram: DiagramModel) => void) => void
   updateNode: (node: ErNode) => void
@@ -73,6 +75,7 @@ export interface StoreModel {
   addIdentifier: (identifier: ErIdentifier) => void
   removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void
   setProjectName: (projectName: string) => void
+  setActiveDiagram: (activeDiagram: DiagramType) => void
 }
 
 export function getErEntityByDiscriminator(
@@ -111,6 +114,7 @@ export const useStore = create<StoreModel>()(
           diagram: exampleDiagram(),
           isZoomPanSynced: false,
           projectName: 'Untitled Diagram',
+          activeDiagram: null,
           setIsZoomPanSynced: (isZoomPanSynced: boolean) =>
             set(
               produce((state) => {
@@ -247,6 +251,13 @@ export const useStore = create<StoreModel>()(
             set(
               produce((state) => {
                 state.projectName = projectName
+              })
+            )
+          },
+          setActiveDiagram: (activeDiagram: DiagramType): void => {
+            set(
+              produce((state) => {
+                state.activeDiagram = activeDiagram
               })
             )
           },

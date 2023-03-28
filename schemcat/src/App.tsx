@@ -1,4 +1,4 @@
-import { enableMapSet } from 'immer'
+import produce, { enableMapSet } from 'immer'
 enableMapSet()
 
 import './App.css'
@@ -13,6 +13,8 @@ import DragAndDropPanel from './components/DragAndDropPanel'
 import { useLayoutEffect, useState } from 'react'
 import SchemcatDiagram from './components/SchemcatDiagram'
 import { ExportSvgDialog } from './components/Dialog/ExportSvgDialog'
+import { useStore } from './hooks/useStore'
+import { DiagramType } from './model/Constats'
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
   global: {
@@ -87,14 +89,25 @@ const defaultLayoutModel = FlexLayout.Model.fromJson({
   },
 })
 
+function setActiveDiagram(diagram: DiagramType) {
+  useStore.setState(
+    produce((state) => {
+      state.activeDiagram = diagram
+    })
+  )
+}
+
 function factory(node: FlexLayout.TabNode) {
   const isSelectedNodeInActiveTabset = node.getModel().getActiveTabset()?.getSelectedNode() === node
   switch (node.getComponent()) {
     case 'er-diagram':
+      isSelectedNodeInActiveTabset && setActiveDiagram(DiagramType.Er)
       return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'schemcat-visualization-diagram':
+      isSelectedNodeInActiveTabset && setActiveDiagram(DiagramType.SchemcatVis)
       return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'schemcat-diagram':
+      isSelectedNodeInActiveTabset && setActiveDiagram(DiagramType.Schemcat)
       return <SchemcatDiagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'control-panel':
       return <ControlPanel key={uuidv4()} />
