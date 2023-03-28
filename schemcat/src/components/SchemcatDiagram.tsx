@@ -12,6 +12,8 @@ interface SchemcatDiagramProps {
   isSelectedNodeInActiveTabSet?: boolean
 }
 
+const objectCircleRadius = 18
+
 function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps) {
   const diagram = useStore((state) => state.diagram)
   const updateDiagram = useStore((state) => state.updateDiagram)
@@ -67,8 +69,14 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
           if (!node) return null
           return (
             <React.Fragment key={`raw-schemcat-object-${o.key}`}>
-              <circle cx={node.x} cy={node.y} r={10} stroke='black' strokeWidth={1} fill='white'></circle>
-              <text x={node.x + 12} y={node.y + 5}>
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={objectCircleRadius}
+                stroke='black'
+                strokeWidth={1}
+                fill='white'></circle>
+              <text dominantBaseline='middle' x={node.x + objectCircleRadius + 2} y={node.y} textAnchor='left'>
                 {o.label}
               </text>
             </React.Fragment>
