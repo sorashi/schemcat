@@ -3,6 +3,7 @@ import { useStore } from '../hooks/useStore'
 import { erDiagramToSchemcat } from '../model/SchemcatModel'
 import Vector2 from '../utils/Vector2'
 import { CardinalityText } from './CardinalityText'
+import { DiagramType, DiagramSvgIds } from '../model/Constats'
 import { EmptyTriangleMarker, TwoSidedMarker } from './Markers'
 import { twoSidedMarkerId } from './Markers/TwoSidedMarker'
 import PannableZoomableSvg from './PannableZoomableSvg'
@@ -35,7 +36,8 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
         onLeftClick={(e) => {
           updateDiagram((d) => (d.selectedEntities = []))
         }}
-        svgRef={svgRef}>
+        svgRef={svgRef}
+        svgId={DiagramSvgIds[DiagramType.Schemcat]}>
         <defs>
           <EmptyTriangleMarker />
           <TwoSidedMarker />

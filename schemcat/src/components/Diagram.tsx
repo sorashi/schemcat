@@ -17,6 +17,7 @@ import { assertNever } from '../utils/Types'
 import { EmptyTriangleMarker } from './Markers'
 import ErIsaHierarchy from './ErIsaHierarchy'
 import PannableZoomableSvg from './PannableZoomableSvg'
+import { DiagramSvgIds, DiagramType } from '../model/Constats'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -210,7 +211,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
           onAfterAction={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}></NodeContextMenu>
       )}
       <PannableZoomableSvg
-        svgId='erDiagram'
+        svgId={DiagramSvgIds[DiagramType.Er]}
         isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabSet}
         onDragStart={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}
         onLeftClick={(e) => {

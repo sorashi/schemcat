@@ -5,10 +5,17 @@ import { useStore } from '../../hooks/useStore'
 import { Checkbox } from '../UserControls/Checkbox'
 import { Radio } from '../UserControls/Radio'
 import { Dialog, DialogResult } from './Dialog'
+import { DiagramType } from '../../model/Constats'
+
+function isDiagramEnumValue(s: string): s is DiagramType {
+  const values = Object.values(DiagramType)
+  return values.some((x) => x == s)
+}
 
 export interface ExportSvgDialogData {
   /** Whether to include a serialized version of this diagram in the exported SVG. */
   includeSerialized: boolean
+  selectedDiagram: DiagramType
 }
 interface ExportSvgDialogState {
   isVisible: boolean
@@ -33,11 +40,16 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
   const onOk = useExportSvgDialogState((state) => state.onOk)
   const setIsVisible = useExportSvgDialogState((state) => state.setIsVisible)
 
-  const [data, setData] = useState<ExportSvgDialogData>({ includeSerialized: true })
+  const [data, setData] = useState<ExportSvgDialogData>({ includeSerialized: true, selectedDiagram: DiagramType.Er })
 
   function handleClosing(result: DialogResult) {
     if (result === DialogResult.Ok) onOk(data)
     setIsVisible(false)
+  }
+  function handleDiagramRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value
+    if (isDiagramEnumValue(value)) setData({ ...data, selectedDiagram: value })
+    else throw new Error('invalid enum value: ' + value)
   }
 
   return (
@@ -47,7 +59,8 @@ export function ExportSvgDialog(props: ExportSvgDialogProps) {
           name='export-svg-diagram-choice'
           className='w-full border border-gray-400 p-1 mb-1 rounded'
           options={['ER Diagram', 'Schemcat Diagram', 'Schemcat Visualization Diagram']}
-          defaultValue='ER Diagram'
+          value='ER Diagram'
+          onChange={handleDiagramRadioChange}
         />
         <Checkbox
           label='Include serialized diagram'

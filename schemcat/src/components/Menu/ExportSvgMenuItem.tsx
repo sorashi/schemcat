@@ -1,7 +1,9 @@
 import { instanceToPlain } from 'class-transformer'
 import { useStore } from '../../hooks/useStore'
 import { toKebabCase } from '../../utils/String'
+import { assertNever } from '../../utils/Types'
 import { ExportSvgDialog, ExportSvgDialogData, useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
+import { DiagramSvgIds } from '../../model/Constats'
 import { DropdownItem, DropdownItemProps } from './DropdownItem'
 
 function useExportSvgDialog(onSubmit: (data: ExportSvgDialogData) => void) {
@@ -22,8 +24,8 @@ function setXmlnsToXhtml(e: Element) {
     setXmlnsToXhtml(child)
   }
 }
-function exportSvg({ includeSerialized }: ExportSvgDialogData) {
-  const svg = document.getElementById('erDiagram')
+function exportSvg({ includeSerialized, selectedDiagram }: ExportSvgDialogData) {
+  const svg = document.getElementById(DiagramSvgIds[selectedDiagram])
   if (!svg) return
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
 
