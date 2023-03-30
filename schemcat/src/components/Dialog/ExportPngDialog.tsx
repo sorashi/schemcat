@@ -1,4 +1,3 @@
-import produce from 'immer'
 import { useState } from 'react'
 import { useStore } from '../../hooks/useStore'
 import { DiagramSvgIds, DiagramType, isDiagramTypeEnumValue } from '../../model/Constats'
@@ -7,6 +6,11 @@ import { Checkbox } from '../UserControls/Checkbox'
 import { ColorSelect } from '../UserControls/ColorSelect'
 import { Radio } from '../UserControls/Radio'
 import { Dialog, DialogResult } from './Dialog'
+import extract from 'png-chunks-extract'
+import text from 'png-chunk-text'
+import encode from 'png-chunks-encode'
+import { Buffer } from 'buffer'
+import { instanceToPlain } from 'class-transformer'
 
 interface ExportPngDialogData {
   includeSerialized: boolean
@@ -56,6 +60,35 @@ async function exportPng({ includeSerialized, selectedDiagram, addBackground, ba
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     DOMURL.revokeObjectURL(url)
     const imgUri = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+
+    if (includeSerialized) {
+      canvas.toBlob(async (blob) => {
+        if (!blob) return
+        const buf = await blob.arrayBuffer()
+        const buff = Buffer.from(buf)
+        const chunks = extract(buff)
+        const erDiagram = useStore.getState().diagram
+        chunks.splice(-1, 0, text.encode('schemcat', btoa(JSON.stringify(instanceToPlain(erDiagram)))))
+        const encoded = encode(chunks)
+        const blb = new Blob([encoded], { type: 'image/png' })
+        const url = DOMURL.createObjectURL(blb)
+        const dwnld = document.createElement('a')
+        dwnld.href = url
+        dwnld.download = `${toKebabCase(useStore.getState().projectName)}.png`
+        document.body.appendChild(dwnld)
+        dwnld.click()
+
+        // cleanup
+        DOMURL.revokeObjectURL(url)
+        img.remove()
+        document.body.removeChild(dwnld)
+        document.body.removeChild(canvas)
+      }, 'image/png')
+      return
+    }
+
+    // else without including the serialized version
+
     // download
     const downloadLink = document.createElement('a')
     downloadLink.href = imgUri
@@ -115,8 +148,7 @@ export function ExportPngDialog({ visible, onClosing }: ExportPngDialogProps) {
           hoverHint='This makes the PNG file larger, but allows it to be opened and edited later in this application.'
           className='block'
           value={data.includeSerialized}
-          onChange={() => setData({ ...data, includeSerialized: !data.includeSerialized })}
-          disabled
+          onChange={(e) => setData({ ...data, includeSerialized: e.target.checked })}
         />
         <Checkbox
           label='Add background color'

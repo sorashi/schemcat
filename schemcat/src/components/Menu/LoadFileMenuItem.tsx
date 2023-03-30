@@ -2,16 +2,40 @@ import { DropdownItem, DropdownItemProps } from './DropdownItem'
 import { useStore, StoreModel } from '../../hooks/useStore'
 import { DiagramModel } from '../../model'
 import { plainToInstance } from 'class-transformer'
+import extract from 'png-chunks-extract'
+import text from 'png-chunk-text'
+import { Buffer } from 'buffer'
 
 function loadFromFile(file: File) {
-  if (file.type != 'image/svg+xml') {
+  if (file.type != 'image/svg+xml' && file.type != 'image/png') {
     alert('Unsupported file type: ' + file.type)
     return
   }
 
   const reader = new FileReader()
   reader.onload = (event) => {
-    if (typeof event.target?.result !== 'string') throw new Error('Invalid file')
+    if (typeof event.target?.result !== 'string') {
+      if (!event.target?.result) throw new Error('Invalid file')
+      const buffer = Buffer.from(event.target.result)
+      const chunks = extract(buffer)
+      const chunk = chunks
+        .filter(function (chnk: any) {
+          return chnk.name == 'tEXt'
+        })
+        .map(function (chunk: any) {
+          return text.decode(chunk.data)
+        })
+        .find((chunk: any) => chunk.keyword == 'schemcat')
+      if (!chunk) {
+        alert('Invalid PNG file (perhaps does not contain serialized data?)')
+        throw new Error('Invalid file')
+      }
+      const json = atob(chunk.text)
+      const plainObject = JSON.parse(json)
+      const erDiagram = plainToInstance(DiagramModel, plainObject)
+      useStore.setState((state) => ({ ...state, diagram: erDiagram }), true)
+      return
+    }
     const div = document.createElement('div')
     document.body.appendChild(div)
     div.insertAdjacentHTML('afterbegin', event.target.result)
@@ -27,13 +51,13 @@ function loadFromFile(file: File) {
 
     const json = atob(content)
     const plainObject = JSON.parse(json)
-    console.log(plainObject)
     const erDiagram = plainToInstance(DiagramModel, plainObject)
     useStore.setState((state) => ({ ...state, diagram: erDiagram }), true)
     // cleanup
     document.body.removeChild(div)
   }
-  reader.readAsText(file)
+  if (file.type == 'image/svg+xml') reader.readAsText(file)
+  else if (file.type == 'image/png') reader.readAsArrayBuffer(file)
 }
 
 function openFileDialogThenLoadFromFile() {
@@ -41,7 +65,7 @@ function openFileDialogThenLoadFromFile() {
   ofd.type = 'file'
   ofd.style.display = 'none'
   ofd.multiple = false
-  ofd.accept = 'image/svg+xml,application/json'
+  ofd.accept = 'image/svg+xml,application/json,image/png'
   ofd.onchange = (_) => {
     if (!ofd.files) return
     const files = Array.from(ofd.files)
