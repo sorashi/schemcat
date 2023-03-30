@@ -1,4 +1,3 @@
-import { Canvg } from 'canvg'
 import { useState } from 'react'
 import { useStore } from '../../hooks/useStore'
 import { DiagramSvgIds, DiagramType, isDiagramTypeEnumValue } from '../../model/Constats'
@@ -24,6 +23,8 @@ function setXmlnsToXhtml(e: Element) {
 async function exportPng({ includeSerialized, selectedDiagram }: ExportPngDialogData) {
   const svg = document.getElementById(DiagramSvgIds[selectedDiagram])
   if (!svg) return
+  svg.setAttribute('width', '1920')
+  svg.setAttribute('height', '1080')
   svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
   const foreignObjects = svg.getElementsByTagName('foreignObject')
   for (const foreignObject of foreignObjects) setXmlnsToXhtml(foreignObject)
@@ -35,20 +36,34 @@ async function exportPng({ includeSerialized, selectedDiagram }: ExportPngDialog
   const ctx = canvas.getContext('2d')
   if (!ctx) return
 
-  const v = await Canvg.from(ctx, svg.outerHTML)
-  await v.render()
+  const data = new XMLSerializer().serializeToString(svg)
+  const DOMURL = window.URL || window.webkitURL || window
+  const img = new Image(canvas.width, canvas.height)
+  img.crossOrigin = 'anonymous'
+  const svgBlob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' })
+  const url = DOMURL.createObjectURL(svgBlob)
 
-  // download
-  const downloadLink = document.createElement('a')
-  downloadLink.href = canvas.toDataURL('image/png')
-  downloadLink.download = `${toKebabCase(useStore.getState().projectName)}.png`
-  document.body.appendChild(downloadLink)
-  downloadLink.click()
+  img.onload = function () {
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    DOMURL.revokeObjectURL(url)
+    const imgUri = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    // download
+    const downloadLink = document.createElement('a')
+    downloadLink.href = imgUri
+    downloadLink.download = `${toKebabCase(useStore.getState().projectName)}.png`
+    document.body.appendChild(downloadLink)
+    downloadLink.click()
 
-  // cleanup
-  document.body.removeChild(downloadLink)
-  document.body.removeChild(canvas)
-  v.stop()
+    // cleanup
+    document.body.removeChild(downloadLink)
+    document.body.removeChild(canvas)
+    img.remove()
+    svg.removeAttribute('width')
+    svg.removeAttribute('height')
+  }
+
+  // trigger image load
+  img.src = url
 }
 
 export interface ExportPngDialogProps {
