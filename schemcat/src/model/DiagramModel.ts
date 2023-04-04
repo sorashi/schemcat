@@ -119,7 +119,7 @@ export class DiagramNode {
   y = 0
   @IncludeInControlPanel(ControlPanelViewType.NumericUpDown)
   width = 90
-  height = 0
+  height = 25
   constructor(label = 'Label', x = 0, y = 0, newId = false) {
     this.x = x
     this.y = y

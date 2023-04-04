@@ -23,7 +23,7 @@ const selectedNodeStyle = {
 }
 
 function ErNodeByType(props: ErNodeProps) {
-  const { node, selected, height = 70 } = props
+  const { node, selected } = props
   const { width } = node
   const connections = useStore(
     useCallback(
@@ -46,7 +46,13 @@ function ErNodeByType(props: ErNodeProps) {
     case ErNodeType.EntityType:
       // margin-y 10
       return (
-        <rect width={width} height={height + 20} y={-10} {...defaultNodeStyle} {...(selected && selectedNodeStyle)} />
+        <rect
+          width={width}
+          height={node.height + 20}
+          y={-10}
+          {...defaultNodeStyle}
+          {...(selected && selectedNodeStyle)}
+        />
       )
     case ErNodeType.AttributeType:
       return (
@@ -61,50 +67,28 @@ function ErNodeByType(props: ErNodeProps) {
       )
     case ErNodeType.RelationshipType:
       return (
-        <SvgDiamondShape width={width} height={height} {...defaultNodeStyle} {...(selected && selectedNodeStyle)} />
+        <SvgDiamondShape
+          width={width}
+          height={node.height}
+          {...defaultNodeStyle}
+          {...(selected && selectedNodeStyle)}
+        />
       )
     default:
       console.error(`Unknown node type: ${node.type}`)
-      return <rect width={width} height={height} {...defaultNodeStyle} />
+      return <rect width={width} height={node.height} {...defaultNodeStyle} />
   }
 }
 
 function ErNode(props: ErNodeProps) {
   const { node } = props
-  const divRef = useRef<HTMLDivElement | null>(null)
-  const [foreignObjectHeight, setForeignObjectHeight] = useState(height)
   const updateNodeById = useStore((state: StoreModel) => state.updateNodeById)
-  useLayoutEffect(() => {
-    if (divRef.current) {
-      setForeignObjectHeight(divRef.current.offsetHeight)
-    }
-  }, [divRef, node.label, node.width])
-  useLayoutEffect(() => {
-    if (foreignObjectHeight == 0) return
-    updateNodeById(node.id, (n) => (n.height = foreignObjectHeight))
-  }, [foreignObjectHeight])
   return (
     <>
-      <ErNodeByType {...props} height={foreignObjectHeight} />
-      <foreignObject
-        x='0'
-        y='0'
-        width={props.node.width}
-        height={foreignObjectHeight == 0 ? 1 : foreignObjectHeight}
-        style={{ overflow: 'visible' }}>
-        <div
-          ref={divRef}
-          style={{
-            height: 'auto',
-            textAlign: 'center',
-            width: '100%',
-            position: 'relative',
-            top: '50%',
-            transform: 'translate(0, -50%)',
-          }}>
-          <span>{node.label}</span>
-        </div>
-      </foreignObject>
+      <ErNodeByType {...props} />
+      <text x={props.node.width / 2} y={props.node.height / 2} dominantBaseline='middle' textAnchor='middle'>
+        {node.label}
+      </text>
     </>
   )
 }
