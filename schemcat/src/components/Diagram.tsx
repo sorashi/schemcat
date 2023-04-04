@@ -183,6 +183,11 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
     },
     [selectedEntityIds]
   )
+  useKeyboardShortcut(getShortcut([], 'Escape'), (e) => {
+    updateDiagram((d) => {
+      d.selectedEntities = []
+    })
+  })
 
   const svgRef = useRef(null)
 
