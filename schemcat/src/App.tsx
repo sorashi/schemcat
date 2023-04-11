@@ -15,6 +15,7 @@ import SchemcatDiagram from './components/SchemcatDiagram'
 import { ExportSvgDialog } from './components/Dialog/ExportSvgDialog'
 import { useStore } from './hooks/useStore'
 import { DiagramType } from './model/Constats'
+import { SchemcatVisualizationDiagram } from './components/SchemcatVisualizationDiagram'
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
   global: {
@@ -105,7 +106,7 @@ function factory(node: FlexLayout.TabNode) {
       return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'schemcat-visualization-diagram':
       isSelectedNodeInActiveTabset && setActiveDiagram(DiagramType.SchemcatVis)
-      return <Diagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
+      return <SchemcatVisualizationDiagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
     case 'schemcat-diagram':
       isSelectedNodeInActiveTabset && setActiveDiagram(DiagramType.Schemcat)
       return <SchemcatDiagram isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabset} />
