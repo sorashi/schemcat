@@ -1,6 +1,6 @@
 export const twoSidedMarkerId = 'marker-two-sided'
 
-function TwoSidedMarker() {
+export function TwoSidedMarker() {
   return (
     <marker
       id={twoSidedMarkerId}
@@ -16,5 +16,3 @@ function TwoSidedMarker() {
     </marker>
   )
 }
-
-export default TwoSidedMarker

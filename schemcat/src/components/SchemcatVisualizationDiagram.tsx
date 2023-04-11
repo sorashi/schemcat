@@ -5,7 +5,7 @@ import { DiagramSvgIds, DiagramType } from '../model/Constats'
 import { erDiagramToSchemcat, Morphism, SchemaObject } from '../model/SchemcatModel'
 import Vector2 from '../utils/Vector2'
 import { CardinalityText } from './CardinalityText'
-import { EmptyTriangleMarker, TwoSidedMarker } from './Markers'
+import { EmptyTriangleMarker, TwoSidedMarker, emptyTriangleMarkerId, getMarkerUrl } from './Markers'
 import PannableZoomableSvg from './PannableZoomableSvg'
 
 const objectCircleRadius = 18
@@ -60,7 +60,14 @@ export function SchemcatVisualizationMorphism({ morphism }: { morphism: Morphism
 
   return (
     <>
-      <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke='black' strokeWidth={1}></line>
+      <line
+        x1={from.x}
+        y1={from.y}
+        x2={to.x}
+        y2={to.y}
+        stroke='black'
+        strokeWidth={1}
+        markerEnd={getMarkerUrl(emptyTriangleMarkerId)}></line>
       <CardinalityText
         x={cardinalityPosition.x}
         y={cardinalityPosition.y}

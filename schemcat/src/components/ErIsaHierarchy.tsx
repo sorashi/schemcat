@@ -1,6 +1,7 @@
 import { StoreModel, useStore } from '../hooks/useStore'
 import { ErIsaHierarchy as ErIsaHierarchyModel, ErNode } from '../model/DiagramModel'
 import Vector2 from '../utils/Vector2'
+import { getMarkerUrl } from './Markers'
 import { emptyTriangleMarkerId } from './Markers/EmptyTriangleMarker'
 
 interface ErIsaHierarchyProps {
@@ -44,7 +45,7 @@ function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
     <>
       <g strokeWidth={1} stroke='black'>
         <line
-          markerEnd={`url(#${emptyTriangleMarkerId})`}
+          markerEnd={getMarkerUrl(emptyTriangleMarkerId)}
           x1={meetingPoint.x}
           y1={meetingPoint.y}
           x2={parentNode.x}

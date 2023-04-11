@@ -1,2 +1,3 @@
-export { default as EmptyTriangleMarker } from './EmptyTriangleMarker'
-export { default as TwoSidedMarker } from './TwoSidedMarker'
+export * from './EmptyTriangleMarker'
+export * from './TwoSidedMarker'
+export * from './getMarkerUrl'

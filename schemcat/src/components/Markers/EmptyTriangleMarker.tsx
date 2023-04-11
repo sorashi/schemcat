@@ -1,6 +1,6 @@
 export const emptyTriangleMarkerId = 'marker-triangle-empty'
 
-function EmptyTriangleMarker() {
+export function EmptyTriangleMarker() {
   return (
     <marker
       id={emptyTriangleMarkerId}
@@ -16,5 +16,3 @@ function EmptyTriangleMarker() {
     </marker>
   )
 }
-
-export default EmptyTriangleMarker
