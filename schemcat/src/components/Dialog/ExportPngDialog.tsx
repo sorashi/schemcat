@@ -137,7 +137,7 @@ export function ExportPngDialog({ visible, onClosing }: ExportPngDialogProps) {
     <Dialog visible={visible} title='Export PNG' onClosing={handleClosing}>
       <form>
         <Radio
-          name='export-svg-diagram-choice'
+          name='export-png-diagram-choice'
           className='w-full border border-gray-400 p-1 mb-1 rounded'
           options={Object.values(DiagramType)}
           value={data.selectedDiagram}

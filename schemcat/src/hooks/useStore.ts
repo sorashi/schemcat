@@ -76,6 +76,7 @@ export interface StoreModel {
   removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void
   setProjectName: (projectName: string) => void
   setActiveDiagram: (activeDiagram: DiagramType) => void
+  deselect: () => void
 }
 
 export function getErEntityByDiscriminator(
@@ -258,6 +259,13 @@ export const useStore = create<StoreModel>()(
             set(
               produce((state) => {
                 state.activeDiagram = activeDiagram
+              })
+            )
+          },
+          deselect: (): void => {
+            set(
+              produce((state) => {
+                state.diagram.selectedEntities = []
               })
             )
           },

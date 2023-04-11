@@ -53,9 +53,16 @@ function exportSvg({ includeSerialized, selectedDiagram }: ExportSvgDialogData) 
 
 export function ExportSvgMenuItem(props: DropdownItemProps) {
   const makeVisible = useExportSvgDialog((data) => exportSvg(data))
+  const deselect = useStore((state) => state.deselect)
   return (
     <>
-      <DropdownItem {...props} action={() => makeVisible()} />
+      <DropdownItem
+        {...props}
+        action={() => {
+          deselect()
+          makeVisible()
+        }}
+      />
       <ExportSvgDialog />
     </>
   )
