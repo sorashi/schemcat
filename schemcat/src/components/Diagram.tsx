@@ -34,7 +34,8 @@ function identifiersToBezier(
   identifiers: ErNodeModel[],
   links: Connection[]
 ): IdentifiersToBezierReturnType {
-  if (identifiers.length <= 1) return { path: '', circle: Vector2.zero }
+  const identifierIsRelationshipType = identifiers.length === 1 && identifiers[0].type === ErNodeType.RelationshipType
+  if (identifiers.length <= 1 && !identifierIsRelationshipType) return { path: '', circle: Vector2.zero }
   let connectionLocations = identifiers
     .map((id) => {
       // find the link between the node and the identifier
@@ -47,6 +48,10 @@ function identifiersToBezier(
       from: new Vector2(points[0].x, points[0].y),
       to: new Vector2(points[1].x, points[1].y),
     }))
+
+  // special case: RelationshipType
+  if (connectionLocations.length === 1) connectionLocations = [connectionLocations[0], connectionLocations[0]]
+
   // sort by counter-clockwise angle
   connectionLocations = connectionLocations.sort((a, b) => {
     const angleA = normalizeRadiansAngle(a.to.subtract(a.from).angle())
@@ -324,7 +329,11 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
             .map((x) => ({ identifierId: x.id, identifiers: nodes.filter((y) => x.identities.has(y.id)) }))
             .map((identifierInfo) => {
               const { identifiers, identifierId } = identifierInfo
-              if (identifiers.length < 2) return
+
+              const identifierIsRelationshipType =
+                identifiers.length === 1 && identifiers[0].type === ErNodeType.RelationshipType
+
+              if (identifiers.length < 2 && !identifierIsRelationshipType) return
               const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
               const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
                 ? {
