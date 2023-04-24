@@ -89,7 +89,7 @@ bp-build:
   artifacts:
     paths:
       - text/cs/prace.pdf
-      - text/cs/abstract.pdf
+      - text/cs/abstrakt.pdf
     expire_in: 1 week
 
 bp-verify:
