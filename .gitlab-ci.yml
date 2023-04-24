@@ -82,16 +82,6 @@ schemcat-gh-pages:
 bp-build:
   image: aergus/latex:latest
   stage: build
-  before_script:
-    - wget https://petr.olsak.net/ftp/olsak/vlna/vlna-1.5.tar.gz
-    - tar -xvzf vlna-1.5.tar.gz
-    - cd vlna-1.5
-    - ./configure
-    - make
-    - make install
-    - cd ..
-    - rm -rf vlna-1.5.tar.gz vlna-1.5/
-    - cd text/cs
   script:
     make all
   artifacts:
