@@ -78,3 +78,31 @@ schemcat-gh-pages:
   only: [ tags ]
   # ignore all branches except the default branch (i.e. must tag master)
   except: [ branches ]
+
+bp-build:
+  image: aergus/latex:latest
+  stage: build
+  before_script:
+    - wget https://petr.olsak.net/ftp/olsak/vlna/vlna-1.5.tar.gz
+    - tar -xvzf vlna-1.5.tar.gz
+    - cd vlna-1.5
+    - ./configure
+    - make
+    - make install
+    - cd ..
+    - rm -rf vlna-1.5.tar.gz vlna-1.5/
+    - cd text/cs
+  script:
+    make all
+  artifacts:
+    paths:
+      - text/cs/prace.pdf
+      - text/cs/abstract.pdf
+    expire_in: 1 week
+
+bp-verify:
+  image: ghcr.io/mff-cuni-cz/cuni-thesis-validator:latest
+  script:
+    - cd text/cs
+    - verify prace.pdf | grep 'isCompliant="true"'
+    - verify abstract.pdf | grep 'isCompliant="true"'
