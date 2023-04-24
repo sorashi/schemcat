@@ -97,4 +97,4 @@ bp-verify:
   script:
     - cd text/cs
     - verify prace.pdf | grep 'isCompliant="true"'
-    - verify abstract.pdf | grep 'isCompliant="true"'
+    - verify abstrakt.pdf | grep 'isCompliant="true"'
