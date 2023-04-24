@@ -82,8 +82,10 @@ schemcat-gh-pages:
 bp-build:
   image: aergus/latex:latest
   stage: build
+  before_script:
+    - cd text/cs
   script:
-    make all
+    - make all
   artifacts:
     paths:
       - text/cs/prace.pdf
