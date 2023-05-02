@@ -1,15 +1,15 @@
 \chapter{Specifikace}
 
-Sommerville~\cite{sommerville_software_2011} % strana 6
-uvádí fundamentální aktivity softwarového inženýrství: specifikace, vývoj, validace a evoluce.
-Dále definuje softwarovou specifikaci jako aktivitu, při které zákazníci a inženýři definují software, který má být vyprodukován, a omezení na jeho provoz. % strana 9
+% strana 6 a 9
+Sommerville~\cite{sommerville_software_2011} uvádí fundamentální aktivity softwarového inženýrství: specifikace, vývoj, validace a evoluce.
+Dále definuje softwarovou specifikaci jako aktivitu, při které zákazníci a inženýři definují software, který má být vyprodukován, a omezení na jeho provoz.
 
 V~této kapitole definujeme software, který budeme tvořit, pomocí požadavků uživatele, případů užití, diagramu tříd v~konceptuální vrstvě a procesů.
 
 \section{Požadavky}
 
 Požadavky na softwarový systém jsou popisy toho, co by měl systém dělat -- služby, které poskytuje, a omezení na jeho provoz.
-Tyto požadavky by měly reflektovat potřeby zákazníka na systém a jeho účel, uvádí Sommerville~\cite[s.~83]{sommerville_software_2011}. % strana 83
+Tyto požadavky by měly reflektovat potřeby zákazníka na systém a jeho účel, uvádí Sommerville~\cite[s.~83]{sommerville_software_2011}.
 
 Požadavky na funkce systému nazýváme funkční.
 Požadavky na provoz systému a jeho omezení nazýváme nefunkční.
@@ -23,33 +23,33 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
 \subsubsection*{Projekt}
 
 \begin{enumfp}
-    \item V~systému bude možné vytvořit nový projekt.
-    \item Projekt bude možné uložit.
-    \item Projekt bude možné načíst.
-    \item Projekt bude možné pojmenovat pro odlišení od ostatních projektů.
-    \item Jednotlivé diagramy bude možné exportovat do rastrového i vektorového formátu.
-    \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z~nich pak bude možné načíst.
-        Tímto bude projekt možné otevřít jak v~prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v~našem systému a pokračovat v~práci.
-    \item Zobrazení každého diagramu bude možné posouvat myší.
-    \item Zobrazení každého diagramu bude možné přibližovat a oddalovat kolečkem myši.
+  \item V~systému bude možné vytvořit nový projekt.
+  \item Projekt bude možné uložit.
+  \item Projekt bude možné načíst.
+  \item Projekt bude možné pojmenovat pro odlišení od ostatních projektů.
+  \item Jednotlivé diagramy bude možné exportovat do rastrového i vektorového formátu.
+  \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z~nich pak bude možné načíst.
+  Tímto bude projekt možné otevřít jak v~prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v~našem systému a pokračovat v~práci.
+  \item Zobrazení každého diagramu bude možné posouvat myší.
+  \item Zobrazení každého diagramu bude možné přibližovat a oddalovat kolečkem myši.
 \end{enumfp}
 
 \subsubsection*{ER Diagram}
 
 \begin{enumfp}[resume]
-    \item Do diagramu bude možné přidat entitní typ.
-    \item Do diagramu bude možné přidat vztahový typ.
-    \item Do diagramu bude možné přidat atribut.
-    \item Mezi entitním a vztahovým typem bude možné vytvořit spojení.
-    \item Mezi entitním typem a atributem bude možné vytvořit spojení.
-    \item Bude možné vytvořit ISA hierarchii mezi entitními typy. 
-    \item Vlastnosti všech objektů bude možné měnit (popisky, typ, pozice).
-    \item Objekty bude možné posunovat držením levého tlačítka myši a tažením.
-    \item Všechny objekty bude možné zvolit levým tlačítkem myší.
-    \item Při držení klávesy \keys{\ctrl} bude možné zvolit více objektů najednou postupným klikáním levého tlačítka myši.
-    \item Veškeré objekty bude možné z~diagramu mazat alespoň klávesou \keys{Delete}.
-    \item Uživatel bude moct využít předpřiprvené konstrukty, které bude možné vložit do diagramu.
-        Například se může jednat o~ISA hierarchie s~předpřipravenými entitami.
+  \item Do diagramu bude možné přidat entitní typ.
+  \item Do diagramu bude možné přidat vztahový typ.
+  \item Do diagramu bude možné přidat atribut.
+  \item Mezi entitním a vztahovým typem bude možné vytvořit spojení.
+  \item Mezi entitním typem a atributem bude možné vytvořit spojení.
+  \item Bude možné vytvořit ISA hierarchii mezi entitními typy.
+  \item Vlastnosti všech objektů bude možné měnit (popisky, typ, pozice).
+  \item Objekty bude možné posunovat držením levého tlačítka myši a tažením.
+  \item Všechny objekty bude možné zvolit levým tlačítkem myší.
+  \item Při držení klávesy \keys{\ctrl} bude možné zvolit více objektů najednou postupným klikáním levého tlačítka myši.
+  \item Veškeré objekty bude možné z~diagramu mazat alespoň klávesou \keys{Delete}.
+  \item Uživatel bude moct využít předpřiprvené konstrukty, které bude možné vložit do diagramu.
+  Například se může jednat o~ISA hierarchie s~předpřipravenými entitami.
 \end{enumfp}
 
 \subsection{Nefunkční požadavky}
@@ -57,7 +57,7 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
 \setlist[enumnfp]{label=\textbf{NFP-\arabic*},ref=NFP-\arabic*}
 
 \begin{enumnfp}
-    \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.
-    \item Nesmí dojít ke ztrátě práce při náhlém ukončení aplikace kvůli interním či externím vlivům.
-    \item Aplikaci bude možné používat i při výpadku internetového připojení.
+  \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.
+  \item Nesmí dojít ke ztrátě práce při náhlém ukončení aplikace kvůli interním či externím vlivům.
+  \item Aplikaci bude možné používat i při výpadku internetového připojení.
 \end{enumnfp}
