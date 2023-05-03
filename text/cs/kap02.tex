@@ -21,7 +21,6 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
 \setlist[enumfp]{label=\textbf{FP-\arabic*},ref=FP-\arabic*}
 
 \subsubsection*{Projekt}
-
 \begin{enumfp}
   \item V~systému bude možné vytvořit nový projekt.
   \item Projekt bude možné uložit.
@@ -32,39 +31,44 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
   Tímto bude projekt možné otevřít jak v~prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v~našem systému a pokračovat v~práci.
   \item Zobrazení každého diagramu bude možné posouvat myší.
   \item Zobrazení každého diagramu bude možné přibližovat a oddalovat kolečkem myši.
+  \item Posunutí a přiblížení bude volitelně možné synchronizovat mezi všemi diagramy.
   \item Systém bude kontrolovat validitu uživatelem vytvořených konstruktů.
 \end{enumfp}
 
 \subsubsection*{ER Diagram}
-
 \begin{enumfp}[resume]
   \item Do diagramu bude možné přidat entitní typ.
   \item Do diagramu bude možné přidat vztahový typ.
   \item Do diagramu bude možné přidat atribut.
   \item Mezi entitním a vztahovým typem bude možné vytvořit spojení.
   \item Mezi entitním typem a atributem bude možné vytvořit spojení.
+  \item U spojení bude možné specifikovat a zobrazit kardinalitu.
+  Dolní mez bude buď 0 nebo 1, horní mez 1 nebo $n$.
+  Výchozí kardinality ($1..1$) nebudou zobrazeny.
   \item Bude možné vytvořit ISA hierarchii mezi entitními typy.
   \item Vlastnosti všech objektů bude možné měnit (popisky, typ, pozice).
+  Tyto změny budou reflektovány v ostatních diagramech.
   \item Objekty bude možné posunovat držením levého tlačítka myši a tažením.
   \item Všechny objekty bude možné zvolit levým tlačítkem myší.
   \item Při držení klávesy \keys{\ctrl} bude možné zvolit více objektů najednou postupným klikáním levého tlačítka myši.
   \item Veškeré objekty bude možné z~diagramu mazat alespoň klávesou \keys{Delete}.
-  \item Uživatel bude moct využít předpřiprvené konstrukty, které bude možné vložit do diagramu.
+  \item Uživatel bude moct využít předpřipravené konstrukty, které bude možné vložit do diagramu.
   Například se může jednat o~ISA hierarchie s~předpřipravenými entitami.
 \end{enumfp}
 
 \subsubsection*{Schématická kategorie}
-
 \begin{enumfp}[resume]
-  \item Do schématické kategorie bude možné přidat objekt a morfismus.
-  \item Při zvolení objektu se barevně vyznačí všechny objekty v~okolí, které ho identifikují (a jinou barvou identifikátory vzálené).
+  \item Objekty a morfismy schématické kategorie bude možné přidávat a mazat, přičemž tato změna se odrazí v ostatních diagramech.
+  \item V diagramu se zobrazí data o objektech a morfismech včetně kardinalit a popisků.
+  Výchozí kardinality ($1..1$) se zobrazovat nebudou.
   \item Objekty bude možné posouvat a jejich posunutí se odrazí na ostatních diagramech.
+  \item Při zvolení objektu se barevně vyznačí všechny objekty v~okolí, které ho identifikují (a jinou barvou identifikátory vzdálené).
 \end{enumfp}
 
 \subsubsection*{Vizualizace schématické kategorie}
-
 \begin{enumfp}[resume]
-  \item Vizualizace schématické kategorie ze schématické kategorie vytěží sémantiku a vizualizuje ji různými konstrukty.
+  \item Vizualizace schématické kategorie ze schématické kategorie vytěží sémantiku a vizualizuje ji různými tvary.
+  \item Při zvolení objektu se barevně zvýrazní bezprostřední a vzdálené identifikátory různými barvami.
 \end{enumfp}
 
 \subsection{Nefunkční požadavky}
@@ -74,5 +78,8 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
 \begin{enumnfp}
   \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.
   \item Nesmí dojít ke ztrátě práce při náhlém ukončení aplikace kvůli interním či externím vlivům.
+  To může být zařízeno např. průběžným ukládáním práce.
   \item Aplikaci bude možné používat i při výpadku internetového připojení.
+  \item V rámci bezpečnosti žádná data týkající se práce na projektu neopustí zařízení klienta, pokud tak klient explicitně neučiní (například export a přesun souboru).
+  \item Aplikace bude navržena tak, aby bylo možné bez větších komplikací rozšířit její funkcionalitu (např. přidat podporu UML).
 \end{enumnfp}
