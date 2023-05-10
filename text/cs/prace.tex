@@ -45,6 +45,11 @@
 			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
 \usepackage{bm}             % tučné symboly (příkaz \bm)
 \usepackage{graphicx}       % vkládání obrázků
+% width=\maxwidth{\textwidth}
+\makeatletter
+\def\maxwidth#1{\ifdim\Gin@nat@width>#1 #1\else\Gin@nat@width\fi}
+\makeatother
+
 \usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
 \usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
 % \usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
@@ -59,8 +64,6 @@
 \usepackage[shortlabels]{enumitem}
 \usepackage{makecell}
 \usepackage[os=win]{menukeys}
-\usepackage{tikz}
-\usepackage{tikz-uml}
 \usepackage{listings}
 \renewcommand{\lstlistingname}{Kód}
 \definecolor{codegreen}{rgb}{0,0.6,0}
