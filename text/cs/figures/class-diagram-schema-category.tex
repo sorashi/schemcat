@@ -1,0 +1,24 @@
+% documentation https://perso.ensta-paris.fr/~kielbasi/tikzuml/var/files/html/web-tikz-uml-userguide.html
+\begin{tikzpicture}
+  \umlclass[x=0,y=0]{Schema Category}{
+    objects \\
+    morphisms
+  }{}
+  \umlclass[x=-3,y=-2,anchor=north]{Schema Object}{
+    label \\
+    data \\
+    identifiers
+  }{}
+  \umlHVcompo[pos=1.8,mult=0..*]{Schema Category}{Schema Object}
+  \umlclass[x=3,y=-2,anchor=north]{Morphism}{
+    signature \\
+    domain \\
+    codomain \\
+    direction \\
+    label \\
+    cardinality \\
+    duplicities: boolean \\
+    ordering: boolean
+  }{}
+  \umlHVcompo[pos=1.8,mult=0..*]{Schema Category}{Morphism}
+\end{tikzpicture}

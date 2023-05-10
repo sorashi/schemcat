@@ -1,22 +1,69 @@
+% documentation https://perso.ensta-paris.fr/~kielbasi/tikzuml/var/files/html/web-tikz-uml-userguide.html
 \begin{tikzpicture}
-  \umlclass[x=1,y=0]{Diagram}{
+  \umlclass[x=0,y=0]{Diagram}{
     nodes \\
-    links
+    links \\
+    identifiers \\
+    hierarchies
   }{}
-  \umlclass[x=0,y=-3]{ER Diagram}{
+  \umlclass[x=-2,y=3,anchor=east]{ER Diagram}{
 
   }{}
-  \umlclass[x=6,y=-3]{Schemcat Diagram}{
+  \umlclass[x=-2,y=0,anchor=east]{Schemcat Diagram}{
 
   }{}
-  \umlclass[x=8,y=0]{Schemcat Visualization Diagram}{
+  \umlclass[x=-2,y=-3]{Schemcat Visualization Diagram}{
 
   }{}
   \umlinherit{ER Diagram}{Diagram}
   \umlinherit{Schemcat Diagram}{Diagram}
   \umlinherit{Schemcat Visualization Diagram}{Diagram}
-  \umlclass[x=0,y=-6]{Node}{
+  \umlclass[x=2,y=6,anchor=west]{Node}{
     position \\
     label
   }{}
+  \umlclass[x=2,y=3,anchor=west]{ISA Hierarchy}{
+    parent \\
+    children [1..*]
+  }{}
+  \umlVHcompo[mult=0..*,pos=1.8]{Diagram}{ISA Hierarchy}
+  \umlclass[x=2,y=0,anchor=west]{Identifier}{
+    identifies \\
+    identities [1..*]
+  }{}
+  \umlcompo[mult=0..*]{Diagram}{Identifier}
+  \umlclass[x=-2,y=7]{ER Node}{
+    type \\
+    identifiers [0..*]
+  }{}
+  \umlVHcompo[mult=0..*,pos=1.8]{Diagram}{Node}
+  \umlinherit{ER Node}{Node}
+  \umlclass[x=-6,y=7,type=enumeration]{ER Node Type}{
+    entity type \\
+    relationship type \\
+    attribute type
+  }{}
+  \umluniassoc{ER Node}{ER Node Type}
+  \umlclass[x=3.5,y=-6]{Cardinality}{
+    lower bound \\
+    upper bound
+  }{}
+  \umlclass[x=-2,y=-6,type=enumeration]{Cardinality Lower Bound}{
+    zero \\
+    one
+  }{}
+  \umluniassoc{Cardinality}{Cardinality Lower Bound}
+  \umlclass[x=-2,y=-9,type=enumeration]{Cardinality Upper Bound}{
+    one \\
+    many
+  }{}
+  \umlVHuniassoc{Cardinality}{Cardinality Upper Bound}
+
+  \umlclass[x=2,y=-3,anchor=west]{Connection}{
+    from \\
+    to \\
+    cardinality
+  }{}
+  \umlcompo[mult=0..*]{Diagram}{Connection}
+  \umluniassoc{Connection}{Cardinality}
 \end{tikzpicture}
