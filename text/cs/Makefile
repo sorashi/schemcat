@@ -22,6 +22,7 @@ clean:
 	rm -f prace.pdf abstrakt.pdf
 	rm -f ../img/diagrams/*.svg ../img/diagrams/*.pdf
 
+# Local PDF/A-2u validation, podman is needed. CI uses something different for this, see ../../.gitlab-ci.yml .
 validate: prace.pdf abstrakt.pdf
 	podman run --rm -v .:/prace:Z ghcr.io/mff-cuni-cz/cuni-thesis-validator verify prace/prace.pdf | grep 'isCompliant="true"'
 	podman run --rm -v .:/prace:Z ghcr.io/mff-cuni-cz/cuni-thesis-validator verify prace/abstrakt.pdf | grep 'isCompliant="true"'
@@ -32,6 +33,7 @@ validate: prace.pdf abstrakt.pdf
 ../img/diagrams/%.pdf: ../img/diagrams/%.svg
 	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf
 
+# Convert StarUML project diagrams to PDFs for embedding in LaTeX. Needs StarUML for mdj -> svg, and Inkscape for svg -> pdf.
 diagrams: ../img/diagrams/schema-category-model.pdf ../img/diagrams/diagram-model.pdf
 
 .PHONY: all clean vlna validate diagrams
