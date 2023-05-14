@@ -10,7 +10,7 @@ Od té doby se však ER vyvíjel, jak se potřeby datového modelování rozši�
 ER není standardizováno, ale jednu moderní verzi představili Atzeni, Ceri, Paraboschi a Torlone~\cite[s.~163-179]{atzeni_database_1999}.
 Na jejich ER modelu založíme ten náš, který zde popíšeme.
 
-V tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty ER modelu.
+V~tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty ER modelu.
 Zde blíže popíšeme sématniku jendotlivých konstruktů:
 \begin{itemize}
   \item Entitní typ (Entity Type) reprezentuje entitu.
@@ -28,32 +28,32 @@ Zde blíže popíšeme sématniku jendotlivých konstruktů:
         Spodní hranice 0 znamená, že účast je volitelná; hranice 1 znamená, že účast je povinná.
         Horní hranice 1 znamená, že účast je nejvýše jedna; hranice $\star$ znamená, že účastí je libovolný počet.
         \begin{itemize}
-          \item Hranice kardinalit pro jednotlivé účastníky vztahů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v tomto vztahu.
-          \item Hranice kardinalit u atributů vyjadřují minimální a resp. maximální počet hodnot atributu, které se vztahují ke každé instanci entity/vztahu.
+          \item Hranice kardinalit pro jednotlivé účastníky vztahů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v~tomto vztahu.
+          \item Hranice kardinalit u~atributů vyjadřují minimální a resp. maximální počet hodnot atributu, které se vztahují ke každé instanci entity/vztahu.
         \end{itemize}
   \item Identifikátor (Identifier) umožňuje jednoznačně rozlišit (identifikovat) instance entit.
         Pro každý entitní typ je povinný alespoň jeden identifikátor, ale může jich být více.
         Každý identifikátor je tvořen buď
         \begin{itemize}
           \item jedním nebo více atributy daného entiního typu; takový identifikátor nazýváme interní, nebo
-          \item jedním, nebo více vztahovými typy, jehož se daná entita účastní, případně kombinací s předchozím; takový identifikátor nazýváme externí.
+          \item jedním, nebo více vztahovými typy, jehož se daná entita účastní, případně kombinací s~předchozím; takový identifikátor nazýváme externí.
         \end{itemize}
 \end{itemize}
 
 Entitní typy, které nemají ani jeden interní indentifikátor (musí mít tedy externí), nazýváme slabé entitní typy.
 Pokud mají interní identifikátor, nazýváme je silné entitní typy.
 
-Atributy v ER by měly být pouze elementární vlastnosti.
+Atributy v~ER by měly být pouze elementární vlastnosti.
 Například pokud by měla mít entita "Zákazník" atribut "Fyzická adresa", může být vhodnější fyzickou adresu modelovat jako entitu, neboť má sama atributy jako "Ulice" a "Město".
-Pokud ale víme, že jiná entita nebude v modelu mít fyzickou adresu, můžeme ji případně modelovat jako složený atribut.
+Pokud ale víme, že jiná entita nebude v~modelu mít fyzickou adresu, můžeme ji případně modelovat jako složený atribut.
 
-U kardinality poznamenáme, že se v ER modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\star}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\colon a < \star$).
+U~kardinality poznamenáme, že se v~ER modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\star}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\colon a < \star$).
 Dají se tak vyjádřit přesnější omezení, např. že jeden uživatel může mít maximálně 5 bankovních účtů.
 Ve většině případů ale stačí námi definované hranice kardinality, které vyjadřují volitelnost/povinnost pro spodní hranici a jednočetnost/mnohočetnost pro horní hranici.
 Toto vymezení nám umožní vyjádřit čtyři nejdůležitější případy, nad kterými se při modelování uvažuje.
 
-Dále upozorníme, že místo $\star$ se v ER modelu může použít symbol $n$ nebo $N$ pro vyjádření "libovolného počtu".
-Důležitá je ale konzistentnost, aby se v jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čternáře.
+Dále upozorníme, že místo $\star$ se v~ER modelu může použít symbol $n$ nebo $N$ pro vyjádření "libovolného počtu".
+Důležitá je ale konzistentnost, aby se v~jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čternáře.
 
 \begin{table}[!htb]
   \centering
@@ -73,7 +73,7 @@ Důležitá je ale konzistentnost, aby se v jednom modelu nevyskytovaly dva růz
 
 \section{Schématická kategorie}
 
-Nejdříve popíšeme kategorii z teorie kategorií, na níž je schématická kategorie založena.
+Nejdříve popíšeme kategorii z~teorie kategorií, na níž je schématická kategorie založena.
 
 Kateogrie je matematická struktura, která zobecňuje ostatní struktury.
 Umožňuje mimo jiné studovat vztahy mezi nimi.
@@ -93,7 +93,7 @@ z~\begin{itemize}
 Kategorie je často vizuálně reprezentována schématem, kde jsou vynechány složené morfismy a identity.
 Pokud je ale potřebujeme zdůraznit, pak jsou explicitně součástí schématu.
 Příklad vizualizace kategorie je na obrázku~\ref{fig:category-example}.
-Jedná se o kategoii se čtyřmi objekty $A, B, C, D$.
+Jedná se o~kategoii se čtyřmi objekty $A, B, C, D$.
 Všimněme si, že identity (např. $1_A$) a složené morfismy (např. $i\circ f$) ve schématu nejsou, tedy jsou implicitní.
 
 \begin{figure}[!htb]
@@ -110,7 +110,7 @@ Všimněme si, že identity (např. $1_A$) a složené morfismy (např. $i\circ 
 \end{figure}
 
 Schématická kategorie je zobecnění databázových schémat založená na teorii kateogrií.
-Jedná se o kategorii, jejíž objekty odpovídají jednotlivým entitním typům, atributům a vztahovým typům ER schématu.
+Jedná se o~kategorii, jejíž objekty odpovídají jednotlivým entitním typům, atributům a vztahovým typům ER schématu.
 Morfismy odpovídají vztahům mezi těmito objekty, přičemž aby byly splněny axiomy kategorie, musí se přidat ještě identity a tranzitivní uzávěr těchto morfismů.
 Tento koncept společně s~algoritmem převodu z~ER schématu do schématické kategorie uvádí
 RNDr.~Martin Svoboda, Ph.D.,
