@@ -1,108 +1,122 @@
-\chapter{Specifikace}
+\chapter{Teorie}
 
-% strana 6 a 9
-Sommerville~\cite{sommerville_software_2011} uvádí fundamentální aktivity softwarového inženýrství: specifikace, vývoj, validace a evoluce.
-Dále definuje softwarovou specifikaci jako aktivitu, při které zákazníci a inženýři definují software, který má být vyprodukován, a omezení na jeho provoz.
+V~této kapitole představíme potřebné teoretické koncepty, kterých bude využívat výsledná aplikace.
+Mezi tyto koncepty patří Entity Relationship (ER), schématická kateogire včetně teorie kategorií a vizuální diagram schématické kateogire.
 
-V~této kapitole definujeme software, který budeme tvořit, pomocí požadavků uživatele, případů užití, diagramu tříd v~konceptuální vrstvě a procesů.
+\section{Entity Relationship}
 
-\section{Požadavky}
+Datový model Entity Relationship (ER) poprvé představil Chen už v~roce 1976~\cite{chen_entity-relationship_1976}.
+Od té doby se však ER vyvíjel, jak se potřeby datového modelování rozšiřovaly.
+ER není standardizováno, ale jednu moderní verzi představili Atzeni, Ceri, Paraboschi a Torlone~\cite[s.~163-179]{atzeni_database_1999}.
+Na jejich ER modelu založíme ten náš, který zde popíšeme.
 
-Požadavky na softwarový systém jsou popisy toho, co by měl systém dělat -- služby, které poskytuje, a omezení na jeho provoz.
-Tyto požadavky by měly reflektovat potřeby zákazníka na systém a jeho účel, uvádí Sommerville~\cite[s.~83]{sommerville_software_2011}.
+V tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty ER modelu.
+Zde blíže popíšeme sématniku jendotlivých konstruktů:
+\begin{itemize}
+  \item Entitní typ (Entity Type) reprezentuje entitu.
+        Každá entita má jméno.
+  \item Vztahový typ (Relationship Type) reprezentuje vztah mezi dvěma a více (ne nutně různými) entitami.
+        Každý vztah má jméno.
+  \item Atribut (Attribute) reprezentuje atribut/vlastnost entitních nebo vztahových typů.
+        Každý atribut má jméno.
+  \item Složený atribut (Composite Attribute) je atribut, který má sám atributy.
+        Zakazujeme však další větvení, tedy atributy složeného atributu už samy nemohou být složené.
+        Každý složený atribut má sám jméno, podobně jako jeho vlastní atributy.
+  \item Kardinalita (Cardinality) je dvojice $(a, b) \in \set{0, 1}\times \set{1, \star}$, kde $a$ nazýváme minimální kardinalita (spodní hranice) a $b$ maximální kardinalita (horní hranice).
+        Kardinalitu musí mít všechny atributy a každý účastník vztahu.
+        Výchozí kardinalita je $(1, 1)$ a ve schématu se většinou neuvádí.
+        Spodní hranice 0 znamená, že účast je volitelná; hranice 1 znamená, že účast je povinná.
+        Horní hranice 1 znamená, že účast je nejvýše jedna; hranice $\star$ znamená, že účastí je libovolný počet.
+        \begin{itemize}
+          \item Hranice kardinalit pro jednotlivé účastníky vztahů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v tomto vztahu.
+          \item Hranice kardinalit u atributů vyjadřují minimální a resp. maximální počet hodnot atributu, které se vztahují ke každé instanci entity/vztahu.
+        \end{itemize}
+  \item Identifikátor (Identifier) umožňuje jednoznačně rozlišit (identifikovat) instance entit.
+        Pro každý entitní typ je povinný alespoň jeden identifikátor, ale může jich být více.
+        Každý identifikátor je tvořen buď
+        \begin{itemize}
+          \item jedním nebo více atributy daného entiního typu; takový identifikátor nazýváme interní, nebo
+          \item jedním, nebo více vztahovými typy, jehož se daná entita účastní, případně kombinací s předchozím; takový identifikátor nazýváme externí.
+        \end{itemize}
+\end{itemize}
 
-Požadavky na funkce systému nazýváme funkční.
-Požadavky na provoz systému a jeho omezení nazýváme nefunkční.
+Entitní typy, které nemají ani jeden interní indentifikátor (musí mít tedy externí), nazýváme slabé entitní typy.
+Pokud mají interní identifikátor, nazýváme je silné entitní typy.
 
-Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele systému.
+Atributy v ER by měly být pouze elementární vlastnosti.
+Například pokud by měla mít entita "Zákazník" atribut "Fyzická adresa", může být vhodnější fyzickou adresu modelovat jako entitu, neboť má sama atributy jako "Ulice" a "Město".
+Pokud ale víme, že jiná entita nebude v modelu mít fyzickou adresu, můžeme ji případně modelovat jako složený atribut.
 
-\subsection{Funkční požadavky}
-\newlist{enumfp}{enumerate}{1}
-\setlist[enumfp]{label=\textbf{FP-\arabic*},ref=FP-\arabic*}
+U kardinality poznamenáme, že se v ER modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\star}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\colon a < \star$).
+Dají se tak vyjádřit přesnější omezení, např. že jeden uživatel může mít maximálně 5 bankovních účtů.
+Ve většině případů ale stačí námi definované hranice kardinality, které vyjadřují volitelnost/povinnost pro spodní hranici a jednočetnost/mnohočetnost pro horní hranici.
+Toto vymezení nám umožní vyjádřit čtyři nejdůležitější případy, nad kterými se při modelování uvažuje.
 
-\subsubsection*{Projekt}
-\begin{enumfp}
-  \item V~systému bude možné vytvořit nový projekt.
-  \item Projekt bude možné uložit.
-  \item Projekt bude možné načíst.
-  \item Projekt bude možné pojmenovat pro odlišení od ostatních projektů.
-  \item Jednotlivé diagramy bude možné exportovat do rastrového i vektorového formátu.
-  \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z~nich pak bude možné načíst.
-  Tímto bude projekt možné otevřít jak v~prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v~našem systému a pokračovat v~práci.
-  \item Zobrazení každého diagramu bude možné posouvat myší.
-  \item Zobrazení každého diagramu bude možné přibližovat a oddalovat kolečkem myši.
-  \item Posunutí a přiblížení bude volitelně možné synchronizovat mezi všemi diagramy.
-  \item Systém bude kontrolovat validitu uživatelem vytvořených konstruktů.
-\end{enumfp}
+Dále upozorníme, že místo $\star$ se v ER modelu může použít symbol $n$ nebo $N$ pro vyjádření "libovolného počtu".
+Důležitá je ale konzistentnost, aby se v jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čternáře.
 
-\subsubsection*{ER Diagram}
-\begin{enumfp}[resume]
-  \item Do diagramu bude možné přidat entitní typ.
-  \item Do diagramu bude možné přidat vztahový typ.
-  \item Do diagramu bude možné přidat atribut.
-  \item Mezi entitním a vztahovým typem bude možné vytvořit spojení.
-  \item Mezi entitním typem a atributem bude možné vytvořit spojení.
-  \item U~spojení bude možné specifikovat a zobrazit kardinalitu.
-  Dolní mez bude buď 0 nebo 1, horní mez 1 nebo $n$.
-  Výchozí kardinality ($1..1$) nebudou zobrazeny.
-  \item Bude možné vytvořit ISA hierarchii mezi entitními typy.
-  \item Vlastnosti všech objektů bude možné měnit (popisky, typ, pozice).
-  Tyto změny budou reflektovány v~ostatních diagramech.
-  \item Objekty bude možné posunovat držením levého tlačítka myši a tažením.
-  \item Všechny objekty bude možné zvolit levým tlačítkem myší.
-  \item Při držení klávesy \keys{\ctrl} bude možné zvolit více objektů najednou postupným klikáním levého tlačítka myši.
-  \item Veškeré objekty bude možné z~diagramu mazat alespoň klávesou \keys{Delete}.
-  \item Uživatel bude moct využít předpřipravené konstrukty, které bude možné vložit do diagramu.
-  Například se může jednat o~ISA hierarchie s~předpřipravenými entitami.
-\end{enumfp}
+\begin{table}[!htb]
+  \centering
+  \begin{tabular}{@{}m{4cm}m{7cm}@{}} \toprule
+    Konstrukt & Grafická reprezentace \\ \midrule
+    Entitní typ & {\centering\includegraphics{../img/er-model/entity.pdf}} \\
+    Vztahový typ & \includegraphics{../img/er-model/relationship.pdf} \\
+    Atribut & \includegraphics{../img/er-model/attribute.pdf} \\
+    Složený atribut & \includegraphics{../img/er-model/composite-attribute.pdf} \\
+    Interní identifikátor & \includegraphics{../img/er-model/identifier.pdf} \\
+    Externí identifikátor & \includegraphics{../img/er-model/external-identifier.pdf} \\
+    Zobecnění & \includegraphics{../img/er-model/generalization.pdf} \\ \bottomrule
+  \end{tabular}
+  \caption{Grafická reprezentace konstruktů ER modelu, upraveno a přeloženo z~\cite[s.~164]{atzeni_database_1999}}
+  \label{tab:er-constructs}
+\end{table}
 
-\subsubsection*{Schématická kategorie}
-\begin{enumfp}[resume]
-  \item Objekty a morfismy schématické kategorie bude možné přidávat a mazat, přičemž tato změna se odrazí v~ostatních diagramech.
-  \item V~diagramu se zobrazí data o~objektech a morfismech včetně kardinalit a popisků.
-  Výchozí kardinality ($1..1$) se zobrazovat nebudou.
-  \item Objekty bude možné posouvat a jejich posunutí se odrazí na ostatních diagramech.
-  \item Při zvolení objektu se barevně vyznačí všechny objekty v~okolí, které ho identifikují (a jinou barvou identifikátory vzdálené).
-\end{enumfp}
+\section{Schématická kategorie}
 
-\subsubsection*{Vizualizace schématické kategorie}
-\begin{enumfp}[resume]
-  \item Vizualizace schématické kategorie ze schématické kategorie vytěží sémantiku a vizualizuje ji různými tvary.
-  \item Při zvolení objektu se barevně zvýrazní bezprostřední a vzdálené identifikátory různými barvami.
-\end{enumfp}
+Nejdříve popíšeme kategorii z teorie kategorií, na níž je schématická kategorie založena.
 
-\subsection{Nefunkční požadavky}
-\newlist{enumnfp}{enumerate}{1}
-\setlist[enumnfp]{label=\textbf{NFP-\arabic*},ref=NFP-\arabic*}
+Kateogrie je matematická struktura, která zobecňuje ostatní struktury.
+Umožňuje mimo jiné studovat vztahy mezi nimi.
+Poprvé byla představena Eilenbergem a MacLanem v~roce 1945~\cite{eilenberg_1945}.
 
-\begin{enumnfp}
-  \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.
-  \item Nesmí dojít ke ztrátě práce při náhlém ukončení aplikace kvůli interním či externím vlivům.
-  To může být zařízeno např. průběžným ukládáním práce.
-  \item Aplikaci bude možné používat i při výpadku internetového připojení.
-  \item V~rámci bezpečnosti žádná data týkající se práce na projektu neopustí zařízení klienta, pokud tak klient explicitně neučiní (například export a přesun souboru).
-  \item Aplikace bude navržena tak, aby bylo možné bez větších komplikací rozšířit její funkcionalitu (např. přidat podporu UML).
-\end{enumnfp}
+Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
+z~\begin{itemize}
+  \item třídy objektů $\mathcal O$,
+  \item třídy morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a říkáme $f: A\to B$ ($f$ je morfismus z~$A$ do $B$),
+  \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f\colon A\to B, g\colon B\to C$ musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí axiomy:
+        \begin{itemize}
+          \item asociativita -- pro morfismy $f\colon A\to B, g\colon B\to C, h\colon C\to D$ platí $h\circ (g \circ f) = (h\circ g)\circ f$,
+          \item identita -- pro každý objekt $A$ existuje identita $1_A$, tž. $f\circ 1_A = f = 1_B\circ f$ pro každý morfismus $f: A\to B$.
+        \end{itemize}
+\end{itemize}
 
-\section{Diagram tříd}
-
-V~této kapitole představíme konceptuální model.
-Jedná se o~část světa, na kterou vymezujeme svůj diskurz.
-
-Na obrázku~\ref{fig:class-diagram:diagram} je UML diagram tříd konceptuálního modelu diagramů.
-
-Diagram konceptuálního modelu schématické kategorie lze pozorovat na obrázku~\ref{fig:class-diagram:schemcat}.
+Kategorie je často vizuálně reprezentována schématem, kde jsou vynechány složené morfismy a identity.
+Pokud je ale potřebujeme zdůraznit, pak jsou explicitně součástí schématu.
+Příklad vizualizace kategorie je na obrázku~\ref{fig:category-example}.
+Jedná se o kategoii se čtyřmi objekty $A, B, C, D$.
+Všimněme si, že identity (např. $1_A$) a složené morfismy (např. $i\circ f$) ve schématu nejsou, tedy jsou implicitní.
 
 \begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/diagram-model.pdf}
-  \caption{Diagram tříd -- diagramy}
-  \label{fig:class-diagram:diagram}
-\end{figure}
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/schema-category-model.pdf}
-  \caption{Diagram tříd -- schématická kategorie}
-  \label{fig:class-diagram:schemcat}
+  \shorthandoff{"}
+  \begin{center}
+    \begin{tikzcd}
+      A~\arrow[r, "f"] \arrow[d, "g"] & B \arrow[d, "i"] \\
+      C \arrow[r, "h"]                & D
+    \end{tikzcd}
+  \end{center}
+  \shorthandon{"}
+  \caption{Příklad kategorie}
+  \label{fig:category-example}
 \end{figure}
 
+Schématická kategorie je zobecnění databázových schémat založená na teorii kateogrií.
+Jedná se o kategorii, jejíž objekty odpovídají jednotlivým entitním typům, atributům a vztahovým typům ER schématu.
+Morfismy odpovídají vztahům mezi těmito objekty, přičemž aby byly splněny axiomy kategorie, musí se přidat ještě identity a tranzitivní uzávěr těchto morfismů.
+Tento koncept společně s~algoritmem převodu z~ER schématu do schématické kategorie uvádí
+RNDr.~Martin Svoboda, Ph.D.,
+% nyní Pavel Koupil
+Ing.~Pavel Čontoš, Ph.D.
+a
+doc.~RNDr.~Irena Holubová, Ph.D.~\cite{svoboda_categorical_2021}.
+
+Pro naše účely se v~této práci nebudeme řídit přesně podle této originální publikace, nýbrž schématickou kategorii lehce upravíme.

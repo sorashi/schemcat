@@ -65,6 +65,13 @@
 \usepackage{makecell}
 \usepackage[os=win]{menukeys}
 \usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usepackage{tikz-cd}
+\usepackage{array}
+\usepackage{csquotes}
+\MakeOuterQuote{"}
 \renewcommand{\lstlistingname}{Kód}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -94,6 +101,7 @@
 
 \newcommand{\xmark}{\XSolidBrush}
 \newcommand{\cmark}{\CheckmarkBold}
+\newcommand{\set}[1]{\left\{#1\right\}}
 
 %%% Údaje o práci
 
@@ -179,6 +187,7 @@ Abstract.
 \include{uvod}
 \include{kap01}
 \include{kap02}
+\include{kap03}
 \include{zaver}
 
 %%% Seznam použité literatury

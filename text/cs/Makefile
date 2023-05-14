@@ -33,7 +33,11 @@ validate: prace.pdf abstrakt.pdf
 ../img/diagrams/%.pdf: ../img/diagrams/%.svg
 	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf
 
+../img/er-model/%.pdf: ../img/er-model/%.svg
+	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf
+
 # Convert StarUML project diagrams to PDFs for embedding in LaTeX. Needs StarUML for mdj -> svg, and Inkscape for svg -> pdf.
 diagrams: ../img/diagrams/schema-category-model.pdf ../img/diagrams/diagram-model.pdf
+ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-model/attribute.pdf ../img/er-model/identifier.pdf ../img/er-model/external-identifier.pdf ../img/er-model/composite-attribute.pdf ../img/er-model/generalization.pdf
 
-.PHONY: all clean vlna validate diagrams
+.PHONY: all clean vlna validate diagrams ermodel
