@@ -45,7 +45,7 @@ Formáty pro export lze rozdělit do několika kategorií:
         většina webových prohlížečů formát SVG podporuje a~soubor vykreslí;
         do této kategorie lze zařadit i~jiné otevřené strukturované formáty, např. VSDX\footnote{Microsoft Visio XML formát založený na ISO 29500 -- \url{https://interoperability.blob.core.windows.net/files/MS-VSDX/\%5bMS-VSDX\%5d.pdf}},
   \item zjednodušený export -- některé nástroje šetří práci uživatele tím, že diagram rovnou exportují do HTML\footnote{HyperText Markup Language -- \url{https://w3.org/TR/2021/SPSD-html52-20210128/}}, PDF\footnote{Portable Document Format, ISO 32000 -- \url{https://iso.org/standard/75839.html}} a~podobných finálních formátů pro okamžitou aplikaci, přestože uživatel může zvolit jiný formát a~finální vytvořit sám,
-  \item schématické formáty, např. SQL\footnote{Structured Query Language -- \url{https://iso.org/standard/63555.html}} -- téměř výhradně u~nástrojů lo\-gic\-ké vrst\-vy; umožňují rovnou vytvářet schémata pro databáze.
+  \item schematické formáty, např. SQL\footnote{Structured Query Language -- \url{https://iso.org/standard/63555.html}} -- téměř výhradně u~nástrojů lo\-gic\-ké vrst\-vy; umožňují rovnou vytvářet schémata pro databáze.
 \end{itemize}
 
 Stejně jako u~typu úložiště, čím více různých formátů exportu nástroj podporuje, tím lépe, neboť nástroj je flexibilní.
@@ -200,7 +200,7 @@ Srovnávací kritéria:
 \begin{itemize}
   \item kategorie -- logická vrstva,
   \item typ úložiště -- online, poskytované autory produktu
-  \item export -- schématický (obecný SQL i~platformě specifické formáty), rastrový PNG, serializovaný (JSON~\cite{json2017}, v~době psaní práce se chystá)
+  \item export -- schematický (obecný SQL i~platformě specifické formáty), rastrový PNG, serializovaný (JSON~\cite{json2017}, v~době psaní práce se chystá)
   \item interaktivní spolupráce -- pouze v~placené verzi,
   \item komercializace -- omezená verze navždy zdarma, různé měsíčně placené plány.
 \end{itemize}
@@ -459,7 +459,7 @@ Přehled analýzy zmíněných existujících řešení je vidět v~tabulce~\ref
         serializovaný ex.  & ano                                     & ne\tnote{\ref{tab:ec:plan}}      & ano              & ano                                \\
         rastrový ex.       & ano                                     & ano                              & ano              & ano                                \\
         vektorový ex.      & ano                                     & ne                               & ne               & ano                                \\
-        schématický ex.    & ne                                      & SQL                              & SQL              & ne                                 \\
+        schematický ex.    & ne                                      & SQL                              & SQL              & ne                                 \\
         zjednodušený ex.   & HTML, PDF                               & ano\tnote{\ref{tab:scaffolding}} & ne               & ne                                 \\
         poskytuje úložiště & ne\tnote{\ref{tab:ec:external-storage}} & ano                              & ano              & ano\tnote{\ref{tab:ec:urlsharing}} \\
         paměť prohlížeče   & ano                                     & ne                               & ne               & ano                                \\
