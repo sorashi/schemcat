@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.4378367"
-     inkscape:cx="430.16011"
-     inkscape:cy="77.894798"
+     inkscape:zoom="4.0668163"
+     inkscape:cx="129.21656"
+     inkscape:cy="249.58098"
      inkscape:window-width="1920"
      inkscape:window-height="979"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer7"
+     inkscape:current-layer="layer5"
      showguides="false" />
   <defs
      id="defs2" />
@@ -55,13 +55,13 @@
      inkscape:label="attribute">
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
-       d="m 16.518866,60.872407 h 10"
+       d="m 16.481612,54.005938 h 10"
        id="path4737" />
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
        id="path1008"
-       cx="26.518867"
-       cy="60.740116"
+       cx="26.481613"
+       cy="53.873646"
        r="2" />
   </g>
   <g
@@ -109,6 +109,11 @@
        x="17.052509"
        y="67.799454"
        rx="3" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 12.563624,70.799454 4.488885,0"
+       id="path4737-36"
+       sodipodi:nodetypes="cc" />
   </g>
   <g
      inkscape:groupmode="layer"
