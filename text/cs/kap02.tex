@@ -22,7 +22,7 @@ Zde blíže popíšeme sémantiku jednotlivých konstruktů:
   \item Složený atribut (Composite Attribute) je atribut, který má sám atributy.
         Zakazujeme však další větvení, tedy atributy složeného atributu už samy nemohou být složené.
         Každý složený atribut má sám jméno, podobně jako jeho vlastní atributy.
-  \item Kardinalita (Cardinality) je dvojice $(a, b) \in \set{\zero, \one}\times \set{\one, \many}$, kde $a$ nazýváme minimální kardinalita (spodní hranice) a $b$ maximální kardinalita (horní hranice).
+  \item \label{def:cardinality}Kardinalita (Cardinality) je dvojice $(a, b) \in \set{\zero, \one}\times \set{\one, \many}$, kde $a$ nazýváme minimální kardinalita (spodní hranice) a $b$ maximální kardinalita (horní hranice).
         Kardinalitu musí mít všechny atributy a každý účastník vztahu.
         Výchozí kardinalita je $(1, 1)$ a ve schématu se většinou neuvádí.
         Spodní hranice 0 znamená, že účast je volitelná; hranice 1 znamená, že účast je povinná.
@@ -148,6 +148,20 @@ Morfismus je osmice (signatura, doména, kodoména, směr, název, kardinalita, 
 Signatura vyjadřuje "cestu".
 Jedná se o~řetězec složený ze signatur jednotlivých morfismů, z~kterých se morfismus skládá.
 Pokud se z~dalších morfismů neskládá, je signatura unikátní identitou morfismu (symbol).
+Pro ilustraci viz obrázek~\ref{fig:morphism-signatures}.
+
+Doména a kodoména jsou identity příslušných objektů, odpovídají tak zdrojovému a cílovému objektu kategorie.
+
+Směr udává směr morfismu (který nemusí nutně odpovídat dvojici doména/kodoména).
+To proto, že pro každý morfismus bude existovat jeho protějšek.
+Směr má dvě možné hodnoty a budeme je značit \one{} (tam), \zero{} (zpět).
+
+Kardinalita odpovídá tomu, jak byla popsána pro ER v~sekci~\ref{def:cardinality} na straně~\pageref{def:cardinality}.
+Při skládání se kardinality transformují následovně: pro kardinality $(a, b)$ a $(c, d)$ je jejich složením $(\min(a, c), \max(b, d))$.
+Uspořádání nad symboly kardinalit je intuitivně $\zero < \one < \many$.
+
+Duplicity a uspořádání jsou booleovské hodnoty, které odpovídají tomu, jestli jsou povoleny tyto jevy. %todo
+Tyto hodnoty mají význam pouze pokud je maximální kardinalita~\many.
 
 Morfismy ve schematické kategorii rozdělíme na několik druhů, které jsou všechny vidět na obrázku~\ref{fig:morphism-signatures}:
 \begin{itemize}
