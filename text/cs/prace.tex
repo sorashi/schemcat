@@ -42,7 +42,7 @@
 \usepackage{amsfonts}       % matematické fonty
 \usepackage{amsthm}         % sazba vět, definic apod.
 \usepackage{bbding}         % balíček s nejrůznějšími symboly
-			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+% (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
 \usepackage{bm}             % tučné symboly (příkaz \bm)
 \usepackage{graphicx}       % vkládání obrázků
 % width=\maxwidth{\textwidth}
@@ -53,9 +53,9 @@
 \usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
 \usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
 % \usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
-			    % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+% stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
 \usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
-                            % obrázků a tabulek do obsahu
+% obrázků a tabulek do obsahu
 \usepackage{icomma}         % inteligetní čárka v matematickém módu
 \usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
 \usepackage{booktabs}       % lepší vodorovné linky v tabulkách
@@ -63,19 +63,27 @@
 \usepackage{xcolor}         % barevná sazba
 \usepackage[shortlabels]{enumitem}
 \usepackage{makecell}
+% nice typesetting of keyboard keys, shortcuts, and file paths
 \usepackage[os=win]{menukeys}
-\usepackage{listings}
+
+%%%% TIKZ
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{arrows}
 \usepackage{tikz-cd}
+%%%% END TIKZ
+
 \usepackage{array}
 \usepackage{caption}
 \usepackage{subcaption}
+
+% Make "quotes" typeset the Czech ,,quotes''
 \usepackage{csquotes}
-% TODO notes
-\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\MakeOuterQuote{"}
+
+%%%% TODO notes
+\usepackage{xargs} % Use more than one optional parameter in new commands
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
 \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
@@ -86,63 +94,70 @@
 \oddsidemargin=\dimexpr\oddsidemargin + 3cm\relax
 \evensidemargin=\dimexpr\evensidemargin + 3cm\relax
 \marginparwidth=\dimexpr \marginparwidth + 3cm\relax
-% END TODO notes
-\MakeOuterQuote{"}
+%%%% END TODO notes
+
+%%%% Listings
+\usepackage{listings}
 \renewcommand{\lstlistingname}{Kód}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolor}{rgb}{0.95,0.95,0.92}
-
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolor},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
+  backgroundcolor=\color{backcolor},
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
 }
-
 \lstset{style=mystyle}
+%%%% END Listings
 
+% better typography resulting in better justification, less overfull hboxes, and overall nicer document.
+\usepackage{microtype}
+% better hyphenation, use \hyp{} to suggest hyphen
+\usepackage[htt]{hyphenat}
+
+%%%% FONT
 % Use sans-serif in captions and floats (figures, tables)
 \usepackage[font=sf]{caption}
 \usepackage[font=sf]{floatrow}
-\usepackage{microtype}
-\usepackage[htt]{hyphenat}
-
+% this package provides a serif, sans, and mono font
 \usepackage[mono=true]{libertinus} % popular for comp-sci (ACM uses this)
 %\usepackage{tgschola} % Schoolbook-like (gives a bit of historic feel)
+%%%% END FONT
 
+%%%% convenience commands
 \newcommand{\xmark}{\XSolidBrush}
 \newcommand{\cmark}{\CheckmarkBold}
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\zero}{\texttt{0}}
 \newcommand{\one}{\texttt{1}}
 \newcommand{\many}{\texttt{*}}
-
+%%%% end convenience commands
 
 %%% Údaje o práci
 
 % Název práce v jazyce práce (přesně podle zadání)
 \def\NazevPrace{Návrh a implementace nástroje na vytváření diagramů
-unifikovaných konceptuálních schémat multi-modelových a dalších NoSQL
-databázových systémů pomocí prostředků schématických kategorií}
+  unifikovaných konceptuálních schémat multi-modelových a dalších NoSQL
+  databázových systémů pomocí prostředků schématických kategorií}
 
 % Název práce v angličtině
 \def\NazevPraceEN{Design and implementation of a tool for diagram creation of
-unified conceptual schemas of multi-model and other NoSQL database systems
-using schematic categories}
+  unified conceptual schemas of multi-model and other NoSQL database systems
+  using schematic categories}
 
 % Jméno autora
 \def\AutorPrace{Dennis Pražák}
