@@ -126,7 +126,7 @@ using schematic categories}
 \def\AutorPrace{Dennis Pražák}
 
 % Rok odevzdání
-\def\RokOdevzdani{2021}
+\def\RokOdevzdani{2023}
 
 % Název katedry nebo ústavu, kde byla práce oficiálně zadána
 % (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
@@ -138,7 +138,7 @@ using schematic categories}
 \def\TypPracovisteEN{Department}
 
 % Vedoucí práce: Jméno a příjmení s~tituly
-\def\Vedouci{RNDr. Martin Svoboda, Ph.D.}
+\def\Vedouci{RNDr.~Martin Svoboda, Ph.D.}
 
 % Pracoviště vedoucího (opět dle Organizační struktury MFF)
 \def\KatedraVedouciho{\Katedra}
@@ -151,23 +151,33 @@ using schematic categories}
 % Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
 % zapůjčil software, literaturu apod.)
 \def\Podekovani{%
-Poděkování.
+  Děkuji vedoucímu RNDr.~Martinu Svobodovi,~PhD., za odborné vedení práce a všechny poskytnuté rady a podněty.
 }
 
 % Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
 \def\Abstrakt{%
-Abstrakt.
+  Tato práce se zabývá vývojem grafické aplikace pro konceptuální modelování databázových schémat bez předem známého paradigmatu.
+  Dosahuje toho pomocí schematických kategorií, které jsou zobecněním dříve známých modelů jako jsou ER a UML.
+  Tyto modely jsou na schematické kategorie převoditelné a aplikace tuto funkcionalitu umožní.
+  Klasický postup tvorby databázového schématu je nejprve návrh konceptuálního modelu např.~ER, který je posléze převeden do logické vrstvy např.~na~tradiční relační model, který je uplatněn v relačních databázích.
+  V dnešní době je k dispozici mnoho nových modelů a prostředky ER často nestačí k jejich popisu.
+  Výsledná aplikace nabídne uživateli možnost modelovat ve známém schématu ER, automatický převod na schematickou kategorii i možnost modelovat přímo schematickou kategorii.
 }
 \def\AbstraktEN{%
-Abstract.
+  This thesis concerns development of a graphical application for conceptual modeling of database schemas without prior knowledge of the target database paradigm.
+  This is achieved by exploiting schema categories, that are a generalization of previously known models such as ER and UML.
+  These models can be converted into schematic categories and the resulting application will enable this functionality.
+  The traditional procedure for creating a database schema is first the design of a conceptual model using e.g.~ER, which is then converted into the logical layer, traditionally the relational model, which is in turn applied in relational databases.
+  Many novel database models are available these days and the resources of ER and UML are often not sufficient to describe them.
+  The resulting application will offer the option to model in the familiar ER schema, automatic conversion to a schematic category, and the option to edit or model the schematic category directly.
 }
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
 \def\KlicovaSlova{%
-{klíčová} {slova}
+  {konceptuální modelování}, {schematická kategorie}, {databázové systémy}
 }
 \def\KlicovaSlovaEN{%
-{key} {words}
+  {conceptual modeling}, {schema category}, {database systems}
 }
 
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
