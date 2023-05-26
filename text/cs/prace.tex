@@ -30,7 +30,6 @@
 
 %% Přepneme na českou sazbu a fonty Latin Modern
 \usepackage[czech]{babel}
-\usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 
@@ -56,7 +55,7 @@
 % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
 \usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
 % obrázků a tabulek do obsahu
-\usepackage{icomma}         % inteligetní čárka v matematickém módu
+% \usepackage{icomma}         % inteligetní čárka v matematickém módu
 \usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
 \usepackage{booktabs}       % lepší vodorovné linky v tabulkách
 \usepackage{paralist}       % lepší enumerate a itemize
@@ -124,18 +123,20 @@
 \lstset{style=mystyle}
 %%%% END Listings
 
-% better typography resulting in better justification, less overfull hboxes, and overall nicer document.
-\usepackage{microtype}
 % better hyphenation, use \hyp{} to suggest hyphen
 \usepackage[htt]{hyphenat}
 
 %%%% FONT
+\usepackage{lmodern}
 % Use sans-serif in captions and floats (figures, tables)
 \usepackage{caption}
 \usepackage[font=sf]{floatrow}
 % this package provides a serif, sans, and mono font
-\usepackage[mono=true]{libertinus} % popular for comp-sci (ACM uses this)
+% the T1 version does not result in a correct pdf/a-2u
+% \usepackage[mono=true]{libertinus-otf} % popular for comp-sci (ACM uses this)
 %\usepackage{tgschola} % Schoolbook-like (gives a bit of historic feel)
+% better typography resulting in better justification, less overfull hboxes, and overall nicer document.
+\usepackage{microtype}
 %%%% END FONT
 
 %%%% convenience commands
