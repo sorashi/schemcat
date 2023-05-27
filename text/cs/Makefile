@@ -20,7 +20,7 @@ abstrakt.pdf: abstrakt.tex abstrakt.xmpdata
 clean:
 	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg *.xmpi
 	rm -f prace.pdf abstrakt.pdf
-	rm -f ../img/diagrams/*.svg ../img/diagrams/*.pdf
+	rm -f ../img/diagrams/*.svg
 
 # Local PDF/A-2u validation, podman is needed. CI uses something different for this, see ../../.gitlab-ci.yml .
 validate: prace.pdf abstrakt.pdf
