@@ -1,23 +1,16 @@
 export TEXINPUTS=../tex//:
 
-all: vlna prace.pdf abstrakt.pdf
-
-# Note that vlna always touches all files even when they are not changed.
-# This causes make to always run vlna.
-vlna: $(wildcard *.tex)
-	vlna *.tex
+all: prace.pdf abstrakt.pdf
 
 # LaTeX je potreba spustit nekolikrat, aby spravne spocital odkazy
 prace.pdf: prace.tex $(wildcard *.tex) literatura.bib prace.xmpdata
-	pdflatex $<
-	bibtex prace
-	pdflatex $<
-	pdflatex $<
+	latexmk prace
 
 abstrakt.pdf: abstrakt.tex abstrakt.xmpdata
-	pdflatex $<
+	latexmk abstrakt
 
 clean:
+	latexmk -C
 	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg *.xmpi
 	rm -f prace.pdf abstrakt.pdf
 	rm -f ../img/diagrams/*.svg
@@ -43,4 +36,4 @@ diagrams: ../img/diagrams/schema-category-model.pdf ../img/diagrams/diagram-mode
 # Extract PDFs from Inkscape layers of ../img/er-model/base.svg. Need Inkscape and Python3.
 ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-model/attribute.pdf ../img/er-model/identifier.pdf ../img/er-model/external-identifier.pdf ../img/er-model/composite-attribute.pdf ../img/er-model/generalization.pdf
 
-.PHONY: all clean vlna validate diagrams ermodel
+.PHONY: all clean validate diagrams ermodel

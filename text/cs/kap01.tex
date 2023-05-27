@@ -85,7 +85,7 @@ Jednosouborový program v~jazyce Python (viz kód~\ref{code:mxfiledec}) přijím
 Použití algoritmu Inflate na syrová data je vynuceno podle dokumentace zlib\footnote{\url{https://www.zlib.net/manual.html}}.
 % specificky https://www.zlib.net/manual.html#:~:text=windowbits%20can%20also%20be%20%E2%80%938..%E2%80%9315%20for%20raw%20deflate
 Jedná se o~ukázku postupu dekódování a toho, že formát je otevřený.
-Organizace JGraph dokonce poskytuje online nástroj\footnote{k dispozici na adrese~\url{https://jgraph.github.io/drawio-tools/tools/convert.html}}, pomocí kterého lze dosáhnout téhož výsledku.
+Organizace JGraph dokonce poskytuje online nástroj\footnote{k dispozici na adrese \url{https://jgraph.github.io/drawio-tools/tools/convert.html}}, pomocí kterého lze dosáhnout téhož výsledku.
 
 Soubor s~diagramy lze také uložit do formátu SVG, který je navíc otevřený a~podporují ho jiné nástroje.
 Uživatel má při exportu k~dispozici možnost \textit{Include a~copy of my diagram}, která do SVG souboru zahrne již zmíněný Base64 řetězec, ve kterém je diagram serializovaný.
@@ -125,7 +125,7 @@ Jako úložiště si lze vybrat Google Drive,
 OneDrive\footnote{\url{https://aka.ms/onedrive}},
 Dropbox\footnote{\url{https://dropbox.com}},
 GitHub\footnote{\url{https://github.com}},
-GitLab\footnote{\url{https://gitlab.com}},
+Git\-Lab\footnote{\url{https://gitlab.com}},
 paměť prohlížeče a~místní úložiště (disk uživatele).
 Soubor lze ze stejných úložišť i~otevřít a~importovat, navíc k~tomu i~z~libovolné dostupné URL.
 
@@ -138,7 +138,7 @@ Ve skutečnosti je uživateli jen zobrazen odkaz na soubor ve vybraném úloži�
 Spolupracující uživatel tak musí tento soubor v~daném úložišti uložit k~sobě (sdíleně), aby mohla spolupráce začít.
 
 Jako další možnost jsme zvažovali desktopovou aplikaci s~načteným souborem, který je libovolným externím nástrojem sdílen mezi uživateli.
-Bohužel, soubor se nepřenačítá automaticky, ale musí být manuálně synchronizován tlačítkem \menu{File > Synchronize (Alt+Shift+S)}, které je dostupné pouze v~desktopové verzi aplikace.
+Soubor se nepřenačítá automaticky, ale musí být manuálně synchronizován tlačítkem \menu{File > Synchronize}, které je dostupné pouze v~desktopové verzi aplikace.
 Uživatel je při externí změně souboru upozorněn (avšak ne spolehlivě vždy) červeným nápisem.
 Algoritmus synchronizace funguje správně a~tak, jak uživatel očekává.
 
@@ -363,7 +363,7 @@ Různé šipky mají různé významy.
 Vztah \texttt{->} je \emph{asociace}, dále \texttt{o->} je \emph{agregace}, apod.
 
 V~jazyce lze také deklarovat direktivy, začínající znakem \texttt{\#}.
-Těmi lze upravit vzhled, vytvořit nové styly, a nastavit algoritmy, kterými bude zvoleno rozložení entit v~diagramu.
+Těmi může uživatel upravit vzhled, vytvořit nové styly, a nastavit algoritmy, kterými bude zvoleno rozložení entit v~diagramu.
 Algoritmy lze nastavit direktivou \texttt{\#ranker} a na výběr je ze tří možností: \texttt{network-simplex}, \texttt{tight-tree}, \texttt{longest-path}.
 Nástroj nomnoml používá k~vykreslování diagramu knihovnu dagre\footnote{\url{https://github.com/dagrejs/dagre}} pro JavaScript, jejíž vývoj byl však ukončen.
 Z~dokumentace této knihovny vyplývá, že možnost \emph{ranker} mění algoritmus, který vrcholům v~grafu (diagramu) přiřazuje důležitost, která se pak odráží v~pořadí zobrazení entit.

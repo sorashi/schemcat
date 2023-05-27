@@ -29,12 +29,15 @@
 \usepackage[a-2u]{pdfx}
 
 %% Přepneme na českou sazbu a fonty Latin Modern
-\usepackage[czech]{babel}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
+%\usepackage[czech]{babel}
+\usepackage{polyglossia}
+\setmainlanguage{czech}
+\setotherlanguages{english}
+%\usepackage[T1]{fontenc}
+%\usepackage{textcomp}
 
 %% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
-\usepackage[utf8]{inputenc}
+% \usepackage[utf8]{inputenc}
 
 %%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
 \usepackage{amsmath}        % rozšíření pro sazbu matematiky
@@ -124,7 +127,7 @@
 %%%% END Listings
 
 % better hyphenation, use \hyp{} to suggest hyphen
-\usepackage[htt]{hyphenat}
+\usepackage{hyphenat}
 
 %%%% FONT
 \usepackage{lmodern}
@@ -133,7 +136,7 @@
 \usepackage[font=sf]{floatrow}
 % this package provides a serif, sans, and mono font
 % the T1 version does not result in a correct pdf/a-2u
-% \usepackage[mono=true]{libertinus-otf} % popular for comp-sci (ACM uses this)
+\usepackage[mono=true]{libertinus-otf} % popular for comp-sci (ACM uses this)
 %\usepackage{tgschola} % Schoolbook-like (gives a bit of historic feel)
 % better typography resulting in better justification, less overfull hboxes, and overall nicer document.
 \usepackage{microtype}
@@ -223,6 +226,7 @@
 %% Většinu nastavítek přednastaví balíček pdfx.
 \hypersetup{unicode}
 \hypersetup{breaklinks=true}
+\usepackage{xurl}
 
 %% Definice různých užitečných maker (viz popis uvnitř souboru)
 \include{makra}
