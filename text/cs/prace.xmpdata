@@ -4,6 +4,11 @@
 \Title{Návrh a implementace nástroje na vytváření diagramů
 unifikovaných konceptuálních schémat multi-modelových a dalších NoSQL
 databázových systémů pomocí prostředků schématických kategorií}
-\Keywords{klíčová slova\sep další taková\sep ještě jiná}
-\Subject{Abstrakt práce}
+\Keywords{konceptuální modelování\sep schematická kategorie\sep databázové systémy}
+\Subject{Tato práce se zabývá vývojem grafické aplikace pro konceptuální modelování databázových schémat bez předem známého paradigmatu.
+Dosahuje toho pomocí schematických kategorií, které jsou zobecněním dříve známých modelů jako jsou ER a UML.
+Tyto modely jsou na schematické kategorie převoditelné a aplikace tuto funkcionalitu umožní.
+Klasický postup tvorby databázového schématu je nejprve návrh konceptuálního modelu např. ER, který je posléze převeden do logické vrstvy např. na tradiční relační model, který je uplatněn v relačních databázích.
+V dnešní době je k dispozici mnoho nových modelů a prostředky ER často nestačí k jejich popisu.
+Výsledná aplikace nabídne uživateli možnost modelovat ve známém schématu ER, automatický převod na schematickou kategorii i možnost modelovat přímo schematickou kategorii.}
 \Publisher{Univerzita Karlova}
