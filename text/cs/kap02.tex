@@ -38,13 +38,41 @@ Zde blíže popíšeme sémantiku jednotlivých konstruktů:
           \item jedním nebo více atributy daného entitního typu; takový identifikátor nazýváme interní, nebo
           \item jedním, nebo více vztahovými typy, jehož se daná entita účastní, případně kombinací s~předchozím; takový identifikátor nazýváme externí.
         \end{itemize}
+  \item Zobecnění (generalization), nebo také ISA hierarchie\footnote{ISA z anglického \enquote{is a}, analogicky ke vztahu \enquote{has a}} (ISA hierarchy), vyjadřuje vztah podobný dědičnosti v objektově orientovaném programování.
+        Jde o vztah mezi entiním typem $E$ zvaným \emph{rodič} a jedním nebo více \emph{dětmi} $E_1, \dots, E_n$.
+        Všechny vlastnosti rodiče (atributy, identifikátory, spojené vztahové typy a další ISA hierarchie) jsou i vlastnosti každého z dětí.
+        Každý výskyt dítěte je také výskytem rodiče.
 \end{itemize}
 
-Entitní typy, které nemají ani jeden interní identifikátor (musí mít tedy externí), nazýváme slabé entitní typy.
-Pokud mají interní identifikátor, nazýváme je silné entitní typy.
+Entitní typy, které nemají ani jeden interní identifikátor (musí mít tedy externí), nazýváme \emph{slabé} entitní typy (weak entity types).
+Pokud mají interní identifikátor, nazýváme je \emph{silné} entitní typy (strong entity types).
+
+Jednoho vztahu se může účastnit nejvýše jeden slabý entitní typ, protože pro dva takové by byla identifikace nesmyslná.
+Externí identifikace se však může řetězit, jako na obrázku~\ref{fig:er-external-identifier-chain}.
+Nesmí ovšem vzniknout cyklus a to ani v kombinaci s ISA hierarchiemi.
+Formálněji -- pokud vytvoříme orientovaný graf $G=(V,E)$ takový, že
+\begin{itemize}
+  \item $V = \textit{entitní typy }\cup\textit{vztahové typy}$ a
+  \item do hran $E$ přidáme
+        \begin{itemize}
+          \item pro externí identifikátory všechny hrany na orientované cestě od identifikovaného k identifikujícímu entitnímu typu,
+          \item pro ISA hierarchii pro každý vztah rodič-dítě, kde $a$ je dítě a $b$ je rodič, hranu $(a, b)$,
+        \end{itemize}
+\end{itemize}
+pak graf $G$ musí být acyklický.
+
+Slabý entitní typ musí být v daném vztahu s kardinalitou $(\one,\one)$.
+To proto, že když je instance entity identifikována vztahem, musí tento vztah být jednoznačný -- právě jeden.
+
+\begin{figure}[!htb]
+  \centering
+  \missingfigure{\Huge Zřetězení externích identifikátorů}
+  \caption{Zřetězení externích identifikátorů}
+  \label{fig:er-external-identifier-chain}
+\end{figure}
 
 Atributy v~ER by měly být pouze elementární vlastnosti.
-Například pokud by měla mít entita "Zákazník" atribut "Fyzická adresa", může být vhodnější fyzickou adresu modelovat jako entitu, neboť má sama atributy jako "Ulice" a "Město".
+Například pokud by měla mít entita \enquote{Zákazník} atribut \enquote{Fyzická adresa}, může být vhodnější fyzickou adresu modelovat jako entitu, neboť má sama atributy jako \enquote{Ulice} a \enquote{Město}.
 Pokud ale víme, že jiná entita nebude v~modelu mít fyzickou adresu, můžeme ji případně modelovat jako složený atribut.
 
 U~kardinality poznamenáme, že se v~ER modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\many}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\colon a < \many$).
@@ -52,7 +80,7 @@ Dají se tak vyjádřit přesnější omezení, např. že jeden uživatel můž
 Ve většině případů ale stačí námi definované hranice kardinality, které vyjadřují volitelnost/povinnost pro spodní hranici a jednočetnost/mnohočetnost pro horní hranici.
 Toto vymezení nám umožní vyjádřit čtyři nejdůležitější případy, nad kterými se při modelování uvažuje.
 
-Dále upozorníme, že místo~\many{} se v~ER modelu může použít symbol $n$ nebo $N$ pro vyjádření "libovolného počtu".
+Dále upozorníme, že místo~\many{} se v~ER modelu může použít symbol $n$ nebo $N$ pro vyjádření \enquote{libovolného počtu}.
 Důležitá je ale konzistentnost, aby se v~jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čtenáře.
 V~této práci budeme používat pouze symbol~\many{}.
 
@@ -72,7 +100,7 @@ V~této práci budeme používat pouze symbol~\many{}.
   \label{tab:er-constructs}
 \end{table}
 
-\section{Schématická kategorie}
+\section{Schematická kategorie}
 
 Nejdříve popíšeme kategorii z~teorie kategorií, na níž je schematická kategorie založena.
 
@@ -145,7 +173,7 @@ Musí platit $D\supseteq \bigcup I$.
 Pro ilustraci -- při převodu z~ER bude pro původní entitní typy a atributy platit $D = \bigcup I$, ale u~vztahových typů může být v~$D$ něco navíc.
 
 Morfismus je osmice (signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání).
-Signatura vyjadřuje "cestu".
+Signatura vyjadřuje \enquote{cestu}.
 Jedná se o~řetězec složený ze signatur jednotlivých morfismů, z~kterých se morfismus skládá.
 Pokud se z~dalších morfismů neskládá, je signatura unikátní identitou morfismu (symbol).
 Pro ilustraci viz obrázek~\ref{fig:morphism-signatures}.
@@ -160,8 +188,9 @@ Kardinalita odpovídá tomu, jak byla popsána pro ER v~sekci~\ref{def:cardinali
 Při skládání se kardinality transformují následovně: pro kardinality $(a, b)$ a $(c, d)$ je jejich složením $(\min(a, c), \max(b, d))$.
 Uspořádání nad symboly kardinalit je intuitivně $\zero < \one < \many$.
 
-Duplicity a uspořádání\unsure{Potřebuji dovysvětlit.} jsou booleovské hodnoty, které odpovídají tomu, jestli jsou povoleny tyto jevy.
-Tyto hodnoty mají význam pouze pokud je maximální kardinalita~\many.
+Duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}).
+Mají význam pouze pokud je maximální kardinalita~\many.
+Říkají, zda-li jsou v instanci modelu u objektů spojených daným morfismem povoleny duplicitní objekty, respektive jestli u nich záleží na pořadí.
 
 Morfismy ve schematické kategorii rozdělíme na několik druhů, které jsou všechny vidět na obrázku~\ref{fig:morphism-signatures}:
 \begin{itemize}
@@ -189,3 +218,12 @@ Morfismy ve schematické kategorii rozdělíme na několik druhů, které jsou v
   \caption{Signatury morfismů, $\cdot$ je operace konkatenace (zřetězování) symbolů}
   \label{fig:morphism-signatures}
 \end{figure}
+
+% \section{Převod ER na schematickou kategorii}
+% 
+% \begin{figure}[!htb]
+%   \centering
+%   \missingfigure{\Huge příklad ER modelu a jeho převodu na schematickou kategorii}
+%   \caption{ER model a jeho odpovídající schematická kategorie}
+%   \label{fig:test}
+% \end{figure}
