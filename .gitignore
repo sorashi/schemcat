@@ -304,3 +304,9 @@ Rubbish/
 
 # tmp soubory
 *.tmp
+
+# xmpdata se generují automaticky, viz ./text/cs/metadata/gen-xmpdata.sh, resp ./text/cs/Makefile
+prace.xmpdata
+abstrakt-en.xmpdata
+abstrakt-cz.xmpdata
+

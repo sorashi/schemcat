@@ -24,7 +24,8 @@ abstrakt-en.xmpdata: metadata/*.txt
 clean:
 	latexmk -C
 	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg *.xmpi
-	rm -f prace.pdf abstrakt.pdf
+	rm -f prace.pdf abstrakt.pdf abstrakt-en.pdf abstrakt-cz.pdf
+	rm -f prace.xmpdata abstrakt-en.xmpdata abstrakt-cz.xmpdata
 	rm -f ../img/diagrams/*.svg
 
 # Local PDF/A-2u validation, podman is needed. CI uses something different for this, see ../../.gitlab-ci.yml .
