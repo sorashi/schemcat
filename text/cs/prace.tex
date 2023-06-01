@@ -4,6 +4,10 @@
 % Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
 % (ale pozor, LaTeX si sám přidává 1in)
 \documentclass[12pt,a4paper]{report}
+
+\newif\iffinal
+\finalfalse
+
 \setlength\textwidth{145mm}
 \setlength\textheight{247mm}
 \setlength\oddsidemargin{15mm}
@@ -79,13 +83,20 @@
 \usepackage{array}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{xargs} % Use more than one optional parameter in new commands
 
 % Make "quotes" typeset the Czech ,,quotes''
 \usepackage{csquotes}
 \MakeOuterQuote{"}
 
 %%%% TODO notes
-\usepackage{xargs} % Use more than one optional parameter in new commands
+\iffinal
+\newcommandx{\unsure}[2][1=]{}
+\newcommandx{\change}[2][1=]{}
+\newcommandx{\info}[2][1=]{}
+\newcommandx{\improvement}[2][1=]{}
+\newcommandx{\missingfigure}[2][1=]{Chybí obrázek}
+\else
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
 \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
@@ -96,6 +107,7 @@
 \oddsidemargin=\dimexpr\oddsidemargin + 3cm\relax
 \evensidemargin=\dimexpr\evensidemargin + 3cm\relax
 \marginparwidth=\dimexpr \marginparwidth + 3cm\relax
+\fi
 %%%% END TODO notes
 
 %%%% Listings
