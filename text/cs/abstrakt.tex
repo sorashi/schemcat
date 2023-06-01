@@ -4,16 +4,16 @@
 
 \usepackage[a4paper, hmargin=1in, vmargin=1in]{geometry}
 \usepackage[a-2u]{pdfx}
-\usepackage[czech]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\usepackage{polyglossia}
+\setmainlanguage{czech}
+\setotherlanguages{english}
 \usepackage{lmodern}
 \usepackage{textcomp}
+\usepackage{microtype}
+\usepackage[mono=true]{libertinus-otf}
 
 \begin{document}
 
-%% Nezapomeňte upravit abstrakt.xmpdata.
-
-Toto je ukázkový abstrakt.
+\input{metadata/abstrakt-cz.txt}
 
 \end{document}
