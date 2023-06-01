@@ -29,9 +29,10 @@ clean:
 	rm -f ../img/diagrams/*.svg
 
 # Local PDF/A-2u validation, podman is needed. CI uses something different for this, see ../../.gitlab-ci.yml .
-validate: prace.pdf abstrakt.pdf
+validate: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 	podman run --rm -v .:/prace:Z ghcr.io/mff-cuni-cz/cuni-thesis-validator verify prace/prace.pdf | grep 'isCompliant="true"'
-	podman run --rm -v .:/prace:Z ghcr.io/mff-cuni-cz/cuni-thesis-validator verify prace/abstrakt.pdf | grep 'isCompliant="true"'
+	podman run --rm -v .:/prace:Z ghcr.io/mff-cuni-cz/cuni-thesis-validator verify prace/abstrakt-cz.pdf | grep 'isCompliant="true"'
+	podman run --rm -v .:/prace:Z ghcr.io/mff-cuni-cz/cuni-thesis-validator verify prace/abstrakt-en.pdf | grep 'isCompliant="true"'
 
 ../img/diagrams/%.svg: ../img/diagrams/Diagrams.mdj | ../img/diagrams
 	staruml image $< -f svg -o "../img/diagrams/<%=filenamify(element.name)%>.svg"
