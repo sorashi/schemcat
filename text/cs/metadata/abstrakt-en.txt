@@ -1,0 +1,6 @@
+This thesis concerns development of a graphical application for conceptual modeling of database schemas without prior knowledge of the target database paradigm.
+This is achieved by exploiting schema categories, that are a generalization of previously known models such as ER and UML.
+These models can be converted into schematic categories and the resulting application will enable this functionality.
+The traditional procedure for creating a database schema is first the design of a conceptual model using e.g. ER, which is then converted into the logical layer, traditionally the relational model, which is in turn applied in relational databases.
+Many novel database models are available these days and the resources of ER and UML are often not sufficient to describe them.
+The resulting application will offer the option to model in the familiar ER schema, automatic conversion to a schematic category, and the option to edit or model the schematic category directly.
