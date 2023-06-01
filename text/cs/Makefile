@@ -16,10 +16,10 @@ prace.xmpdata: metadata/*.txt
 	metadata/gen-xmpdata.sh prace > $@
 
 abstrakt-cz.xmpdata: metadata/*.txt
-	metadata/gen-xmpdata.sh cz > $@
+	./metadata/gen-xmpdata.sh cz > $@
 
 abstrakt-en.xmpdata: metadata/*.txt
-	metadata/gen-xmpdata.sh en > $@
+	./metadata/gen-xmpdata.sh en > $@
 
 clean:
 	latexmk -C
