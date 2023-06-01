@@ -1,19 +1,25 @@
 export TEXINPUTS=../tex//:
 
-all: prace.pdf abstrakt.pdf
+all: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 
 # LaTeX je potreba spustit nekolikrat, aby spravne spocital odkazy
 prace.pdf: prace.tex $(wildcard *.tex) literatura.bib prace.xmpdata metadata/*
 	latexmk prace
 
-abstrakt.pdf: abstrakt.tex abstrakt.xmpdata
-	latexmk abstrakt
+abstrakt-cz.pdf: abstrakt-cz.tex abstrakt-cz.xmpdata metadata/abstrakt-cz.txt
+	latexmk abstrakt-cz
+
+abstrakt-en.pdf: abstrakt-en.tex abstrakt-en.xmpdata metadata/abstrakt-en.txt
+	latexmk abstrakt-en
 
 prace.xmpdata: metadata/*.txt
 	metadata/gen-xmpdata.sh prace > $@
 
-abstrakt.xmpdata: metadata/*.txt
+abstrakt-cz.xmpdata: metadata/*.txt
 	metadata/gen-xmpdata.sh cz > $@
+
+abstrakt-en.xmpdata: metadata/*.txt
+	metadata/gen-xmpdata.sh en > $@
 
 clean:
 	latexmk -C

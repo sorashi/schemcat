@@ -89,7 +89,8 @@ bp-build:
   artifacts:
     paths:
       - text/cs/prace.pdf
-      - text/cs/abstrakt.pdf
+      - text/cs/abstrakt-cz.pdf
+      - text/cs/abstrakt-en.pdf
     expire_in: 1 week
 
 bp-verify:
@@ -97,4 +98,5 @@ bp-verify:
   script:
     - cd text/cs
     - verify prace.pdf | grep 'isCompliant="true"'
-    - verify abstrakt.pdf | grep 'isCompliant="true"'
+    - verify abstrakt-cz.pdf | grep 'isCompliant="true"'
+    - verify abstrakt-en.pdf | grep 'isCompliant="true"'
