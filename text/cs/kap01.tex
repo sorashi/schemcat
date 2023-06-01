@@ -92,7 +92,7 @@ Uživatel má při exportu k~dispozici možnost \textit{Include a~copy of my dia
 Ve výsledku to znamená, že takto exportované SVG soubory umí diagrams.net i~otevřít a~práce na nich může plnohodnotně pokračovat.
 Toto řešení se nám líbí, protože se jedná o~schování vlastního formátu do SVG, který je nejvhodnějším pro přechovávání a~zobrazování diagramů.
 
-\begin{lstlisting}[language=Python, caption=Dekódování mxfile, label=code:mxfiledec]
+\begin{lstlisting}[language=Python, caption=Dekódování mxfile, label=code:mxfiledec, float=htb]
 from sys import stdin
 from base64 import b64decode
 from zlib import decompress, MAX_WBITS
