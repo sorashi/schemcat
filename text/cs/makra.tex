@@ -96,3 +96,13 @@
 %%% Vychytávky pro tabulky
 \newcommand{\pulrad}[1]{\raisebox{1.5ex}[0pt]{#1}}
 \newcommand{\mc}[1]{\multicolumn{1}{c}{#1}}
+
+%% Dočasná implementace pro zkratky
+% \newacronym{gcd}{GCD}{Greatest Common Divisor}, \acrshort{gcd}
+\newcommand{\newacronym}[3]{%
+  \expandafter\newcommand\csname acrshort#1\endcsname{#2}%
+  \expandafter\newcommand\csname acrlong#1\endcsname{#3}%
+}
+\newcommand{\acrshort}[1]{\csname acrshort#1\endcsname}
+\newcommand{\acrlong}[1]{\csname acrlong#1\endcsname}
+\newcommand{\acrfull}[1]{\csname acrlong#1\endcsname\ (\csname acrshort#1\endcsname)}

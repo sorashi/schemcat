@@ -1,16 +1,17 @@
 \chapter{Teorie}
+\newacronym{er}{ER}{Entity-Relationship}
 
 V~této kapitole představíme potřebné teoretické koncepty, kterých bude využívat výsledná aplikace.
-Mezi tyto koncepty patří Entity Relationship (ER), schematická kategorie včetně teorie kategorií a vizuální diagram schematické kategorie.
+Mezi tyto koncepty patří \acrfull{er}, schematická kategorie včetně teorie kategorií a vizuální diagram schematické kategorie.
 
 \section{Entity Relationship}
 
-Datový model Entity Relationship (ER) poprvé představil Chen už v~roce 1976~\cite{chen_entity-relationship_1976}.
-Od té doby se však ER vyvíjel, jak se potřeby datového modelování rozšiřovaly.
-ER není standardizováno, ale jednu moderní verzi představili Atzeni, Ceri, Paraboschi a Torlone~\cite[s.~163-179]{atzeni_database_1999}.
-Na jejich ER modelu založíme ten náš, který zde popíšeme.
+Datový model \acrfull{er} poprvé představil Chen už v~roce 1976~\cite{chen_entity-relationship_1976}.
+Od té doby se však \acrshort{er} vyvíjel, jak se potřeby datového modelování rozšiřovaly.
+\acrshort{er} není standardizováno, ale jednu moderní verzi představili Atzeni, Ceri, Paraboschi a Torlone~\cite[s.~163-179]{atzeni_database_1999}.
+Na jejich \acrshort{er} modelu založíme ten náš, který zde popíšeme.
 
-V~tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty ER modelu.
+V~tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty \acrshort{er} modelu.
 Zde blíže popíšeme sémantiku jednotlivých konstruktů:
 \begin{itemize}
   \item Entitní typ (Entity Type) reprezentuje entitu.
@@ -71,16 +72,16 @@ To proto, že když je instance entity identifikována vztahem, musí tento vzta
   \label{fig:er-external-identifier-chain}
 \end{figure}
 
-Atributy v~ER by měly být pouze elementární vlastnosti.
+Atributy v~\acrshort{er} by měly být pouze elementární vlastnosti.
 Například pokud by měla mít entita \enquote{Zákazník} atribut \enquote{Fyzická adresa}, může být vhodnější fyzickou adresu modelovat jako entitu, neboť má sama atributy jako \enquote{Ulice} a \enquote{Město}.
 Pokud ale víme, že jiná entita nebude v~modelu mít fyzickou adresu, můžeme ji případně modelovat jako složený atribut.
 
-U~kardinality poznamenáme, že se v~ER modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\many}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\colon a < \many$).
+U~kardinality poznamenáme, že se v~\acrshort{er} modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\many}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\colon a < \many$).
 Dají se tak vyjádřit přesnější omezení, např. že jeden uživatel může mít maximálně 5 bankovních účtů.
 Ve většině případů ale stačí námi definované hranice kardinality, které vyjadřují volitelnost/povinnost pro spodní hranici a jednočetnost/mnohočetnost pro horní hranici.
 Toto vymezení nám umožní vyjádřit čtyři nejdůležitější případy, nad kterými se při modelování uvažuje.
 
-Dále upozorníme, že místo~\many{} se v~ER modelu může použít symbol \texttt{n} nebo \texttt{N} pro vyjádření \enquote{libovolného počtu}.
+Dále upozorníme, že místo~\many{} se v~\acrshort{er} modelu může použít symbol \texttt{n} nebo \texttt{N} pro vyjádření \enquote{libovolného počtu}.
 Důležitá je ale konzistentnost, aby se v~jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čtenáře.
 V~této práci budeme používat pouze symbol~\many{}.
 
@@ -96,7 +97,7 @@ V~této práci budeme používat pouze symbol~\many{}.
     Externí identifikátor & \includegraphics{../img/er-model/external-identifier.pdf} \\
     Zobecnění             & \includegraphics{../img/er-model/generalization.pdf}      \\ \bottomrule
   \end{tabular}
-  \caption[Grafická reprezentace konstruktů ER modelu]{Grafická reprezentace konstruktů ER modelu, upraveno a přeloženo~\cite[s.~164]{atzeni_database_1999}}
+  \caption[Grafická reprezentace konstruktů \acrshort{er} modelu]{Grafická reprezentace konstruktů \acrshort{er} modelu, upraveno a přeloženo~\cite[s.~164]{atzeni_database_1999}}
   \label{tab:er-constructs}
 \end{table}
 
@@ -156,9 +157,9 @@ Všimněme si, že identity (např. $1_A$) a složené morfismy (např. $i\circ 
 \end{figure}
 
 Schematická kategorie je zobecnění databázových schémat založená na teorii kategorií.
-Jedná se o~kategorii, jejíž objekty odpovídají jednotlivým entitním typům, atributům a vztahovým typům ER schématu.
+Jedná se o~kategorii, jejíž objekty odpovídají jednotlivým entitním typům, atributům a vztahovým typům \acrshort{er} schématu.
 Morfismy odpovídají vztahům mezi těmito objekty, přičemž aby byly splněny axiomy kategorie, musí se přidat navíc identity a tranzitivní uzávěr těchto morfismů.
-Tento koncept společně s~algoritmem převodu z~ER schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
+Tento koncept společně s~algoritmem převodu z~\acrshort{er} schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
 Pro naše účely se v~této práci nebudeme řídit přesně podle této originální publikace, nýbrž schematickou kategorii lehce upravíme.
 
 Schematická kategorie se tedy skládá z~třídy objektů a třídy morfismů.
@@ -170,7 +171,7 @@ Data je množina tzv. \emph{properties} a platí $I\subseteq \mathcal P(D)$, ted
 Každý identifikátor sestává z~properties a množina všech identifikátorů je pak množina sestávající z~identifikátorů daného objektu.
 Každý objekt musí mít nejméně jeden identifikátor.
 Musí platit $D\supseteq \bigcup I$.
-Pro ilustraci -- při převodu z~ER bude pro původní entitní typy a atributy platit $D = \bigcup I$, ale u~vztahových typů může být v~$D$ něco navíc.
+Pro ilustraci -- při převodu z~\acrshort{er} bude pro původní entitní typy a atributy platit $D = \bigcup I$, ale u~vztahových typů může být v~$D$ něco navíc.
 
 Morfismus je osmice (signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání).
 Signatura vyjadřuje \enquote{cestu}.
@@ -184,7 +185,7 @@ Směr udává směr morfismu (který nemusí nutně odpovídat dvojici doména/k
 To proto, že pro každý morfismus bude existovat jeho protějšek.
 Směr má dvě možné hodnoty a budeme je značit \one{} (tam), \zero{} (zpět).
 
-Kardinalita odpovídá tomu, jak byla popsána pro ER v~sekci~\ref{def:cardinality} na straně~\pageref{def:cardinality}.
+Kardinalita odpovídá tomu, jak byla popsána pro \acrshort{er} v~sekci~\ref{def:cardinality} na straně~\pageref{def:cardinality}.
 Při skládání se kardinality transformují následovně: pro kardinality $(a, b)$ a $(c, d)$ je jejich složením $(\min(a, c), \max(b, d))$.
 Uspořádání nad symboly kardinalit je intuitivně $\zero < \one < \many$.
 
@@ -219,11 +220,11 @@ Morfismy ve schematické kategorii rozdělíme na několik druhů, které jsou v
   \label{fig:morphism-signatures}
 \end{figure}
 
-% \section{Převod ER na schematickou kategorii}
+% \section{Převod \acrshort{er} na schematickou kategorii}
 % 
 % \begin{figure}[!htb]
 %   \centering
-%   \missingfigure{\Huge příklad ER modelu a jeho převodu na schematickou kategorii}
-%   \caption{ER model a jeho odpovídající schematická kategorie}
+%   \missingfigure{\Huge příklad \acrshort{er} modelu a jeho převodu na schematickou kategorii}
+%   \caption{\acrshort{er} model a jeho odpovídající schematická kategorie}
 %   \label{fig:test}
 % \end{figure}
