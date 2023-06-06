@@ -107,14 +107,16 @@ Poprvé byla představena Eilenbergem a MacLanem v~roce 1945~\cite{eilenberg_194
 
 Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
 z~\begin{itemize}
-  \item třídy objektů $\mathcal O$,
-  \item třídy morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z~$A$ do $B$),
-  \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f\in\mathcal M\colon A\to B, g\in\mathcal M\colon B\to C$ musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí axiomy:
+  \item množiny objektů $\mathcal O$,
+  \item množniy morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z~$A$ do $B$),
+  \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f,g\in\mathcal M$, tž. $f\colon A\to B, g\colon B\to C$, musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí axiomy:
         \begin{itemize}
-          \item asociativita -- pro morfismy $f\in\mathcal M\colon A\to B, g\in\mathcal M\colon B\to C, h\in\mathcal M\colon C\to D$ platí $h\circ (g \circ f) = (h\circ g)\circ f$,
-          \item identita -- pro každý morfismus $f\in\mathcal M\colon A\to B$ a jeho objekty $A, B\in\mathcal O$ existují morfismy $1_A, 1_B\in\mathcal M$, tž. $f\circ 1_A = f = 1_B\circ f$; morfismy $1_A, 1_B$ nazýváme identitami.
+          \item asociativita -- pro morfismy $f,g,h\in\mathcal M$ takové, že $f\colon A\to B, g\colon B\to C, h\colon C\to D$, platí $h\circ (g \circ f) = (h\circ g)\circ f$,
+          \item identitní morfismy -- pro každý morfismus $f\in\mathcal M, f\colon A\to B$ a jeho objekty $A$, resp. $B\in\mathcal O$ existují morfismy $1_A$, resp. $1_B\in\mathcal M$, tž. $f\circ 1_A = f = 1_B\circ f$; morfismy $1_A$, resp. $1_B$ nazýváme \emph{identitní morfismy}.
         \end{itemize}
 \end{itemize}
+
+Objekty a morfismy lze definovat i obecněji s použitím tříd místo množin, ale pro naše účely budou stačit množiny.
 
 Kategorie je možné vizuálně reprezentovat orientovaným multigrafem, kde vrcholy jsou objekty a hrany morfismy.
 Příklad této vizualizace je na Obrázku~\ref{fig:category-example}.
