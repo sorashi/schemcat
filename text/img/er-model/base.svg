@@ -24,16 +24,20 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="2.0334082"
-     inkscape:cx="359.00318"
-     inkscape:cy="169.1741"
+     inkscape:zoom="1.4378367"
+     inkscape:cx="534.4835"
+     inkscape:cy="283.75962"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer3"
-     showguides="false" />
+     inkscape:current-layer="layer9"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4735" />
+  </sodipodi:namedview>
   <defs
      id="defs2" />
   <g
@@ -59,6 +63,195 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans';stroke-width:0.264583"
          x="17.774248"
          y="38.91708">je člen</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer9"
+     inkscape:label="external-id-chain">
+    <rect
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="rect234-3-6-6-87"
+       width="16.799999"
+       height="10"
+       x="104.75618"
+       y="76.55072" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 125.01409,81.550719 8.22208,-4.882419 8.22208,4.882419 -8.22208,4.882421 z"
+       id="path954-1-9" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 145.08987,98.176177 8.22208,-4.88241 8.22208,4.88241 -8.22208,4.882433 z"
+       id="path954-1-9-9" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 117.93946,100.55309 h 6.89671"
+       id="path4737-79-2"
+       sodipodi:nodetypes="cc" />
+    <circle
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-20-0"
+       cx="117.93946"
+       cy="100.68538"
+       r="2" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-2-9-0-6-5-3-6"
+       cx="122.18488"
+       cy="95.71611"
+       r="0.5" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-2-9-0-6-5-3-6-2"
+       cx="122.1458"
+       cy="100.54736"
+       r="0.5" />
+    <rect
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="rect234-3-6-6-8-7"
+       width="16.799999"
+       height="10"
+       x="144.91618"
+       y="76.55072" />
+    <rect
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="rect234-3-6-6-8-7-8"
+       width="16.799999"
+       height="10"
+       x="124.83617"
+       y="93.176186" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 144.91617,81.550719 h -3.45792"
+       id="path6146-5" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 125.01409,81.550719 h -3.45792"
+       id="path6148-9" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006;stroke-opacity:1"
+       id="path1008-20-3-2-6"
+       cx="122.18609"
+       cy="91.624527"
+       r="2" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#000000;stroke-width:0.264583"
+       x="113.317"
+       y="82.398727"
+       id="text495-8"><tspan
+         sodipodi:role="line"
+         id="tspan493-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="113.317"
+         y="82.398727">pacient</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#000000;stroke-width:0.264583"
+       x="133.10919"
+       y="82.364113"
+       id="text499-7"><tspan
+         sodipodi:role="line"
+         id="tspan497-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="133.10919"
+         y="82.364113">má</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#000000;stroke-width:0.264583"
+       x="153.3028"
+       y="99.04731"
+       id="text499-7-4"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="153.3028"
+         y="99.04731"
+         id="tspan3978">má</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;display:inline;fill:#000000;stroke-width:0.264583"
+       x="153.21431"
+       y="80.370338"
+       id="text503-6"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="153.21431"
+         y="80.370338"
+         id="tspan505-2">karta zdrav.</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="153.21431"
+         y="84.302338"
+         id="tspan588">pojišťovny</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;line-height:1;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#000000;stroke-width:0.264583"
+       x="114.83161"
+       y="101.50288"
+       id="text344-9"><tspan
+         sodipodi:role="line"
+         style="text-align:end;text-anchor:end;stroke-width:0.264583"
+         x="114.83161"
+         y="101.50288"
+         id="tspan347-1">koncovka</tspan></text>
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       d="m 117.86849,95.716107 h 6.89671"
+       id="path4737-79-2-4"
+       sodipodi:nodetypes="cc" />
+    <circle
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-20-0-5"
+       cx="117.86847"
+       cy="95.848549"
+       r="2" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;line-height:1;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#000000;stroke-width:0.264583"
+       x="114.76064"
+       y="96.666069"
+       id="text344-9-0"><tspan
+         sodipodi:role="line"
+         style="text-align:end;text-anchor:end;stroke-width:0.264583"
+         x="114.76064"
+         y="96.666069"
+         id="tspan347-1-3">šestičíslí</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-opacity:1"
+       d="m 153.31618,86.55072 -0.004,6.743047"
+       id="path3143"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.264583;stroke-opacity:1"
+       d="m 145.08987,98.176177 -3.4537,8e-6"
+       id="path8367" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';text-align:center;text-anchor:middle;fill:none;stroke:#000000;stroke-width:0.264583;stroke-opacity:1"
+       x="133.17798"
+       y="97.292274"
+       id="text8476"><tspan
+         sodipodi:role="line"
+         id="tspan8474"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="133.17798"
+         y="97.292274">rodné</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="133.17798"
+         y="101.22427"
+         id="tspan8669">číslo</tspan></text>
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-2-9-0-6-5-3-3"
+       cx="144.1086"
+       cy="98.172821"
+       r="0.5" />
+    <path
+       id="rect13981"
+       style="fill:none;stroke:#000000;stroke-width:0.264583"
+       d="m 144.1172,94.80362 v 8.57301 c 0,1.108 -0.892,2 -2,2 h -17.88896 c -1.108,0 -2.04215,-0.96015 -2.04215,-2.06815 V 91.820452"
+       sodipodi:nodetypes="cssssc" />
   </g>
   <g
      inkscape:groupmode="layer"
