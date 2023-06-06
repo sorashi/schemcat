@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="4.0668163"
-     inkscape:cx="129.21656"
-     inkscape:cy="249.58098"
+     inkscape:zoom="2.0334082"
+     inkscape:cx="359.00318"
+     inkscape:cy="169.1741"
      inkscape:window-width="1920"
-     inkscape:window-height="979"
+     inkscape:window-height="1011"
      inkscape:window-x="0"
      inkscape:window-y="32"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer5"
+     inkscape:current-layer="layer3"
      showguides="false" />
   <defs
      id="defs2" />
@@ -48,6 +48,17 @@
        style="fill:none;stroke:#000000;stroke-width:0.26458333;stroke-dasharray:none;stroke-dashoffset:0.0627006"
        d="m 13.939654,38.297348 8.222082,-4.882419 8.222085,4.882419 -8.222085,4.882421 z"
        id="path954" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;fill:#000000;stroke-width:0.264583"
+       x="17.774248"
+       y="38.91708"
+       id="text348"><tspan
+         sodipodi:role="line"
+         id="tspan346"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans';stroke-width:0.264583"
+         x="17.774248"
+         y="38.91708">je člen</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -63,6 +74,17 @@
        cx="26.481613"
        cy="53.873646"
        r="2" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;fill:#000000;stroke-width:0.264583"
+       x="30.409643"
+       y="54.646458"
+       id="text352"><tspan
+         sodipodi:role="line"
+         id="tspan350"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans';stroke-width:0.264583"
+         x="30.409643"
+         y="54.646458">jméno</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -114,6 +136,50 @@
        d="m 12.563624,70.799454 4.488885,0"
        id="path4737-36"
        sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="18.757202"
+       y="71.603012"
+       id="text409"><tspan
+         sodipodi:role="line"
+         id="tspan407"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="18.757202"
+         y="71.603012">adresa</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.14560171px;fill:#000000;stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="43.92654"
+       y="66.031487"
+       id="text413"><tspan
+         sodipodi:role="line"
+         id="tspan411"
+         style="stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:3.14560171px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         x="43.92654"
+         y="66.031487">ulice</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.14560171px;fill:#000000;stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="44.72282"
+       y="71.467422"
+       id="text417"><tspan
+         sodipodi:role="line"
+         id="tspan415"
+         style="stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:3.14560171px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         x="44.72282"
+         y="71.467422">č.p.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.14560171px;fill:#000000;stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="43.946152"
+       y="77.392067"
+       id="text421"><tspan
+         sodipodi:role="line"
+         id="tspan419"
+         style="stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:3.14560171px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         x="43.946152"
+         y="77.392067">město</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -189,6 +255,61 @@
        cx="63.408455"
        cy="97.567299"
        r="0.5" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="19.181332"
+       y="95.386909"
+       id="text475"><tspan
+         sodipodi:role="line"
+         id="tspan473"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="19.181332"
+         y="95.386909">osoba</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="28.923895"
+       y="89.088608"
+       id="text479"><tspan
+         sodipodi:role="line"
+         id="tspan477"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="28.923895"
+         y="89.088608">rodné číslo</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="49.400318"
+       y="95.445"
+       id="text483"><tspan
+         sodipodi:role="line"
+         id="tspan481"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="49.400318"
+         y="95.445">kniha</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="69.68544"
+       y="92.931099"
+       id="text487"><tspan
+         sodipodi:role="line"
+         id="tspan485"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="69.68544"
+         y="92.931099">autor</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="69.638184"
+       y="98.102356"
+       id="text491"><tspan
+         sodipodi:role="line"
+         id="tspan489"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="69.638184"
+         y="98.102356">název</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -255,6 +376,60 @@
        cx="172.59189"
        cy="22.640804"
        r="2" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="121.19271"
+       y="21.658928"
+       id="text495"><tspan
+         sodipodi:role="line"
+         id="tspan493"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="121.19271"
+         y="21.658928">student</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:0.264583"
+       x="140.98489"
+       y="21.624313"
+       id="text499"><tspan
+         sodipodi:role="line"
+         id="tspan497"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="140.98489"
+         y="21.624313">má</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.14560171px;fill:#000000;stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="161.09001"
+       y="20.159706"
+       id="text503"><tspan
+         sodipodi:role="line"
+         id="tspan501"
+         style="font-size:3.14560171px;text-align:center;text-anchor:middle;stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         x="161.09001"
+         y="20.159706">identifikační</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:3.14560171px;text-align:center;text-anchor:middle;stroke-width:0.264583;-inkscape-font-specification:'Libertinus Sans, Normal';font-family:'Libertinus Sans';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+         x="161.09001"
+         y="23.687481"
+         id="tspan505">karta</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.1456px;line-height:1;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.264583"
+       x="179.70772"
+       y="16.438759"
+       id="text344"><tspan
+         sodipodi:role="line"
+         id="tspan342"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="179.70772"
+         y="16.438759">identifikační</tspan><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="179.70772"
+         y="19.584358"
+         id="tspan347">číslo</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -286,5 +461,16 @@
        height="10"
        x="13.71063"
        y="15.810922" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;fill:#000000;stroke-width:0.264583"
+       x="18.499311"
+       y="21.54188"
+       id="text290"><tspan
+         sodipodi:role="line"
+         id="tspan288"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Libertinus Sans';-inkscape-font-specification:'Libertinus Sans';stroke-width:0.264583"
+         x="18.499311"
+         y="21.54188">osoba</tspan></text>
   </g>
 </svg>
