@@ -67,7 +67,7 @@ To proto, že když je instance entity identifikována vztahovým typem, musí t
 
 \begin{figure}[!htb]
   \centering
-\includegraphics[width=\maxwidth{\textwidth}]{../img/er-model/external-id-chain.pdf}
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/er-model/external-id-chain.pdf}
   \caption{Zřetězení externích identifikátorů}
   \label{fig:er-external-identifier-chain}
 \end{figure}
@@ -99,6 +99,56 @@ V~této práci budeme používat pouze symbol~\many{}.
 
 \section{Schematická kategorie}
 
+V této sekci popíšeme mechanismus pro konceptuální modelování s názvem schematická kategorie společně s teorií kategorií, na které je založena.
+Nejdříve ale představíme motivaci za uvedením nového způsobu konceptuálního modelování.
+
+\subsection{Motivace}
+
+Při začátku vývoje databázových systémů bylo popsáno několik databázových modelů dat.
+Už v roce 1975 je ANSI rozdělila do tří vrstev~\cite{steeljr._interimreport_1975}.
+\begin{itemize}
+  \item Konceptuální vrstva popisuje část světa, na kterou vymezujeme svůj diskurz.
+  \item Logická vrstva popisuje logickou strukturu dat (např. graf, tabulka, \dots).
+  \item Fyzická vrstva popisuje, jak jsou data fyzicky uložena v paměťové jednotce.
+\end{itemize}
+
+Přestože databázových modelů bylo navrženo několik, časem se ukázalo, že nejužitečnější je ten relační.
+To proto, že data byla často tabulkové povahy.
+Pokud výjimečně nebyla takové povahy, musela se relačnímu modelu přizpůsobit.
+
+S příchodem velkých dat (big data) se ukázalo, že relační model není dostačující.
+Ve velkém množství dat, která spolu nutně nesouvisí, není totiž jednoduché najít tabulkovou strukturu.
+V různých situacích jsou tedy vhodné různé databázové systémy.
+Dokonce se začalo používat více databázových systémů najednou.
+Například pro cache lze použít key/value store, pro data různorodé povahy lze použít dokumentové databáze a pro strukturovaná data starší relační databáze.
+
+Vize do budoucna je mít jediný databázový systém, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk, ale zároveň není závislý na fyzické vrstvě.
+V současných systémech je často tvorba a iterace databázových schémat časově náročná a obtěžující.
+Chceme sloučit konceptuální a logickou vrstvu a předejít tak problémům a lidskému rozhodování při převodu mezi nimi.
+Vznikne tak pouze jedna vrstva, ve které se pracuje unifikovaným, konceptuálním způsobem.
+
+Prvním krokem v této vizi jsou schematické kategorie, které uživateli umožní popsat strukturu dat, se kterými chce v databázi pracovat.
+Jejich koncept popisují Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
+
+Prostředky \acrshort{er} jsou vhodné ke konceptuálnímu modelování, nicméně mají několik nevýhod.
+Některé z nich zde identifikujeme.
+\begin{itemize}
+  \item V~\acrshort{er} lze modelovat jeden případ mnoha způsoby a není předem jasné, který z nich je nejlepší.
+        Schematické kategorie většinu takových rozdílů smažou, zejména rozdíly mezi entitními typy, vztahovými typy a atributy.
+        Často totiž tyto rozdíly nejsou důležité.
+  \item \acrshort{er} zavádí několik omezení, např.~vztahové typy nemohou mít interní identifikátor a složené atributy se nemohou libovolně větvit.
+        Tato omezení vznikají, protože se historicky \acrshort{er} používalo zejména pro konceptuální modelování pro relační databáze.
+        Libovolně větvené atributy se těžko převedou do relačního modelu.
+        \acrshort{er} tedy zavádí omezení kvůli logické vrstvě.
+        Vyjadřovací síla schematických kategorií je větší, mj. protože není omezena na model logické vrstvy.
+        %todo dodat další nevýhody
+\end{itemize}
+
+% Hlavní nevýhodou UML je nižší vyjadřovací schopnost oproti ER.
+% Postupným vývojem se UML přibližuje \acrshort{er}, ale je poznat, že se jedná o dodatečné změny, které nejsou pro původní UML přirozené.
+
+\subsection{Teorie kategorií}
+
 Nejdříve popíšeme kategorii z~teorie kategorií, na níž je schematická kategorie založena.
 
 Kategorie je matematická struktura, která zobecňuje ostatní struktury.
@@ -120,64 +170,74 @@ Objekty a morfismy lze definovat i obecněji s použitím tříd místo množin,
 
 Kategorie je možné vizuálně reprezentovat orientovaným multigrafem, kde vrcholy jsou objekty a hrany morfismy.
 Příklad této vizualizace je na Obrázku~\ref{fig:category-example}.
-Jedná se o~kategorii se čtyřmi objekty $A, B, C, D$.
+Jedná se o kategorii se třemi objekty $A, B, C$.
+Všimněme si, že každý objekt má svůj identitní morfismus.
 
 \begin{figure}[!htb]
   \shorthandoff{"}
   \centering
-% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQBGclVqMWbAELdeIDNjwEio4ePrNWiEAGFu4mFADm8IqABmAJwgBbJGRA4ISURK1sLcyzfuI3zkgATNSaUjrG3iDWdg7UgYgh7uEgxgA6aQDGWFaZAARe1Ax0AEYwDAAK-MpCIFZYxgAWOFExfo4JjgwQEGhEQQDsZBaMcDDixWWV1YJs9U0toZLaIMIA+pw8PrH+8S67IN29RACcw6PjRaXlVUqzOvPNIEseOuuyW9G+wXs-hz19FBnUgjBhjCbXaZ3FQPBpPF4pdb6LgULhAA
-\begin{tikzcd}
-A \arrow[r, "f"] \arrow[rd, "g\circ f"'] \arrow["1_A"', loop, distance=2em, in=215, out=145] & B \arrow[d, "g"] \arrow["1_B"', loop, distance=2em, in=35, out=325] \\
-                                                                                             & C \arrow["1_C"', loop, distance=2em, in=35, out=325]               
-\end{tikzcd}
-\caption{Příklad kategorie}%
+  % https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQBGclVqMWbAELdeIDNjwEio4ePrNWiEAGFu4mFADm8IqABmAJwgBbJGRA4ISURK1sLcyzfuI3zkgATNSaUjrG3iDWdg7UgYgh7uEgxgA6aQDGWFaZAARe1Ax0AEYwDAAK-MpCIFZYxgAWOFExfo4JjgwQEGhEQQDsZBaMcDDixWWV1YJs9U0toZLaIMIA+pw8PrH+8S67IN29RACcw6PjRaXlVUqzOvPNIEseOuuyW9G+wXs-hz19FBnUgjBhjCbXaZ3FQPBpPF4pdb6LgULhAA
+  \begin{tikzcd}
+    A \arrow[r, "f"] \arrow[rd, "g\circ f"'] \arrow["1_A"', loop, distance=2em, in=215, out=145] & B \arrow[d, "g"] \arrow["1_B"', loop, distance=2em, in=35, out=325] \\
+    & C \arrow["1_C"', loop, distance=2em, in=35, out=325]
+  \end{tikzcd}
+  \caption{Příklad kategorie}%
   \label{fig:category-example}%
   \shorthandon{"}
 \end{figure}
 
+\subsection{Schematická kategorie}
+
 Schematická kategorie je mechanismus na popis konceptuálního schématu dat založený na teorii kategorií.
-Jedná se o~kategorii, jejíž objekty odpovídají jednotlivým entitním typům, atributům a vztahovým typům \acrshort{er} schématu.
-Morfismy odpovídají spojením mezi těmito objekty, přičemž aby byly splněny axiomy kategorie, musí se přidat navíc identity a tranzitivní uzávěr těchto morfismů.
-Tento koncept společně s~algoritmem převodu z~\acrshort{er} schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
-Pro naše účely se v~této práci nebudeme řídit přesně podle této originální publikace, nýbrž schematickou kategorii lehce upravíme.
+Oproti~\acrshort{er} má schematická kategorie větší vyjadřovací sílu.
+Její koncept společně s algoritmem převodu z~\acrshort{er} schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
+My však použijeme upravenou definici schematické kategorie navrženou vedoucím práce.
 
-Schematická kategorie se skládá z~množiny objektů a množiny morfismů.
+\begin{definition}[Signatura]\label{def:signature}
+  Signatura je řetězec nad libovolnou abecedou symbolů $\Sigma$.
+  Pokud je signatura řetězec složený z jediného symbolu, říkáme jí \emph{identita}.
+  Prázdný řetězec značíme $\varepsilon$.
+  Operaci zřetězení značíme symbolem $\cdot$ tečky.
+\end{definition}
 
-Objekt je čtveřice (identita, název, data $D$, množina identifikátorů $I$).
-Identita je libovolný symbol (např. z~$\mathbb N$), který rozlišuje a unikátně identifikuje všechny objekty, které mají ostatní složky totožné (tedy i pro případ, kdy by všechny ostatní složky byly totožné).
-Název reprezentuje textovým řetězcem uživatelské jméno daného objektu.
-Data je množina tzv. \emph{properties} a platí $I\subseteq \mathcal P(D)$, tedy je to nadmnožina jednotlivých properties zmíněných v~identifikátorech.
-Každý identifikátor sestává z~properties a množina všech identifikátorů je pak množina sestávající z~identifikátorů daného objektu.
-Každý objekt musí mít nejméně jeden identifikátor.
-Musí platit $D\supseteq \bigcup I$.
-Pro ilustraci -- při převodu z~\acrshort{er} bude pro původní entitní typy a atributy platit $D = \bigcup I$, ale u~vztahových typů může být v~$D$ něco navíc.
+\begin{example}[Signatury nad $\N$]
+  $\varepsilon$, $13$, $13\cdot 7$.
+\end{example}
 
-Morfismus je osmice (signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání).
-Signatura vyjadřuje \enquote{cestu}.
-Jedná se o~řetězec složený ze signatur jednotlivých morfismů, z~kterých se morfismus skládá.
-Pokud se z~dalších morfismů neskládá, je signatura unikátní identitou morfismu (symbol).
-Pro ilustraci viz Obrázek~\ref{fig:morphism-signatures}.
-
-Doména a kodoména jsou identity příslušných objektů, odpovídají tak zdrojovému a cílovému objektu kategorie.
-
-Směr udává směr morfismu (který nemusí nutně odpovídat dvojici doména/kodoména).
-To proto, že pro každý morfismus bude existovat jeho protějšek.
-Směr má dvě možné hodnoty a budeme je značit \one{} (tam), \zero{} (zpět).
-
-Kardinalita odpovídá tomu, jak byla popsána pro \acrshort{er} v~sekci~\ref{def:cardinality}.
-Při skládání se kardinality transformují následovně: pro kardinality $(a, b)$ a $(c, d)$ je jejich složením $(\min(a, c), \max(b, d))$.
-Uspořádání nad symboly kardinalit je intuitivně $\zero < \one < \many$.
-
-Duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}).
-Mají význam, pouze pokud je maximální kardinalita~\many.
-Říkají, zdali jsou v instanci modelu u objektů spojených daným morfismem povoleny duplicitní objekty, respektive jestli u nich záleží na pořadí.
-
-Morfismy ve schematické kategorii rozdělíme na několik druhů, které jsou všechny vidět na Obrázku~\ref{fig:morphism-signatures}:
+Formálně je schematická kategorie instance kategorie $(\mathcal O, \mathcal M, \circ)$ taková, že
 \begin{itemize}
-  \item \emph{bázové} (base) morfismy jsou ty, které odpovídají jednotlivým spojením a ISA hierarchiím mezi objekty; signatura je identita,
-  \item \emph{identitní} (identity) morfismy jsou ty, které vznikly kvůli axiomu identity; signatura je $\varepsilon$,
-  \item \emph{odvozené} (derived) morfismy jsou ty, které vznikly kvůli tranzitivitě; signatura je opravdová cesta (zřetězené signatury); zřetězování zapisujeme ve stejném pořadí jako skládání morfismů, aby bylo analogické.
+  \item každý objekt této kategorie má strukturu trojice: (identita, název, množina identifikátorů), kde
+        \begin{itemize}
+          \item identita je libovolný symbol (např.~z~$\N$), který rozlišuje a unikátně identifikuje všechny objekty, které mají ostatní složky totožné (tedy speciálně i pro případ, kdy by všechny ostatní složky byly totožné),
+          \item název reprezentuje textovým řetězcem uživatelské jméno daného objektu,
+          \item množina identifikátorů obsahuje identifikátory; každý identifikátor je množina identit a vyjadřuje, čím lze daný objekt konceptuálně identifikovat (podobně jako identifikátory z~\acrshort{er}),
+        \end{itemize}
+  \item každý morfismus má strukturu osmice: (signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání),
+        \begin{itemize}
+          \item signatura je řetězec z Definice~\ref{def:signature}; buď unikátně identifikuje morfismus v daném schématu (pak je to identita), nebo se jedná o řetězec vyjadřující orientovanou cestu, složený ze signatur jiných morfismů (zřetězujeme ve stejném pořadí jako se zapisuje skládání morfismů v kategorii, viz Obrázek~\ref{fig:morphism-signatures}),
+          \item doména a kodoména odpovídají zdrojovému a cílovému objektu tohoto morfismu,
+          \item směr je buď \zero{} (tam) nebo \one{} (zpět) s výchozí hodnotou \zero{}; hodnota \one{} vyjadřuje, že tento morfismus je pouze inverzí k jinému, dodanou pro úplnost modelu,
+          \item název je uživatelské jméno tohoto morfismu, může být i prázdné $\bot$,
+          \item kardinalita je dvojice (min, max), která odpovídá kardinalitě z~\acrshort{er} v Sekci~\ref{def:cardinality},
+          \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou vztažena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam pouze pokud je horní hranice kardinality tohto morfismu \many; výchozí hodnota obou složek je \texttt{false}.
+        \end{itemize}
 \end{itemize}
+
+Morfismy schematické kategorie rozdělíme na několik vzájemně disjunktních druhů.
+Příklad každého druhu lze pozorovat na Obrázku~\ref{fig:morphism-signatures}.
+\begin{itemize}
+  \item \emph{Bázové} (base) morfismy jsou ty, které vyjadřují konceptuální spojení dvou objektů ze schématu (tedy odpovídají jednotlivým spojením z ER); jejich signatura je identita (unikátní symbol z abecedy).
+  \item \emph{Identitní} (identity) morfismy jsou ty, které vznikly jen kvůli splnění stejnojmenného axiomu z definice kategorie; jejich signatura je $\varepsilon$.
+  \item \emph{Odvozené} (derived) morfismy jsou ty, které vznikly kvůli tranzitivitě (tedy aby byly morfismy uzavřené na operaci skládání); jejich signatura je opravdová cesta -- zřetězené signatury morfismů, ze kterých byl tento morfismus vytvořen.
+\end{itemize}
+
+Operaci skládání morfismů $\circ$ ve schematické kategorii lze definovat následovně.
+Pro dva morfismy $f,g\in\mathcal M$ a objekty $A,B,C\in \mathcal O$ takové, že $f\colon A\to B, g\colon B\to C$ a
+\begin{itemize}
+  \item $f$ se skládá z $(sig_1, dom_1, cod_1, dir_1, name_1, (min_1, max_1), dup_1, ord_1)$,
+  \item $g$ se skládá z $(sig_2, cod_1, cod_2, dir_2, name_2, (min_2, max_2), dup_2, ord_2)$,
+\end{itemize}
+je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z $$\left(sig_2\cdot sig_1, dom_1, cod_2, ?, \bot, \left(\min(min_1, min_2), \max(max_1, max_2)\right), \mathtt{false}, \mathtt{false}\right)\,.$$
 
 \begin{figure}[!htb]
   \centering
@@ -199,11 +259,6 @@ Morfismy ve schematické kategorii rozdělíme na několik druhů, které jsou v
   \label{fig:morphism-signatures}
 \end{figure}
 
-% \section{Převod \acrshort{er} na schematickou kategorii}
-% 
-% \begin{figure}[!htb]
-%   \centering
-%   \missingfigure{\Huge příklad \acrshort{er} modelu a jeho převodu na schematickou kategorii}
-%   \caption{\acrshort{er} model a jeho odpovídající schematická kategorie}
-%   \label{fig:test}
-% \end{figure}
+
+\section{Vizualizace schematické kategorie}
+\section{Převod ER na schematickou kategorii}

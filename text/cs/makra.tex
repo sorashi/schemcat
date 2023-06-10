@@ -45,17 +45,17 @@
 %%% Makra pro definice, věty, tvrzení, příklady, ... (vyžaduje baliček amsthm)
 
 \theoremstyle{plain}
-\newtheorem{veta}{Věta}
-\newtheorem{lemma}[veta]{Lemma}
-\newtheorem{tvrz}[veta]{Tvrzení}
+\newtheorem{theorem}{Věta}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{statement}[theorem]{Tvrzení}
 
-\theoremstyle{plain}
-\newtheorem{definice}{Definice}
+\theoremstyle{definition}
+\newtheorem{definition}{Definice}
 
 \theoremstyle{remark}
-\newtheorem*{dusl}{Důsledek}
-\newtheorem*{pozn}{Poznámka}
-\newtheorem*{prikl}{Příklad}
+\newtheorem*{corollary}{Důsledek}
+\newtheorem*{note}{Poznámka}
+\newtheorem*{example}{Příklad}
 
 %%% Prostředí pro důkazy
 
