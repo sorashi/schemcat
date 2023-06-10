@@ -4,11 +4,11 @@ V~této kapitole zanalyzujeme některé existující nástroje pro tvorbu diagra
 Všechny analyzované nástroje jsou dostupné online ve webovém prohlížeči, jelikož v~praktické části bude implementován nástroj pro stejné prostředí.
 Nástroji, které budeme porovnávat, jsou
 \begin{itemize}
-  \item diagrams.net~\cite{diagramsnet21} vhodné pro tvorbu libovolných diagramů,
-  \item drawSQL~\cite{drawsql21} určené pro tvorbu relačních schémat,
-  \item ERDPlus~\cite{erdplus21} k~vytváření zejména ER diagramů~\cite{chen_entity-relationship_1976}.
-  \item nomnoml~\cite{nomnoml22} k~tvorbě UML diagramů~\cite{uml2017} psaním textu,
-  \item Visual Paradigm Online~\cite{vpo22} pro tvorbu libovolných diagramů.
+  \item diagrams.net~\cite{drawio_2023} vhodné pro tvorbu libovolných diagramů,
+  \item drawSQL~\cite{drawsql_2021} určené pro tvorbu relačních schémat,
+  \item ERDPlus~\cite{erdplus_2023} k~vytváření zejména ER diagramů~\cite{chen_er_1976}.
+  \item nomnoml~\cite{nomnoml_2022} k~tvorbě UML diagramů~\cite{omg_uml_2017} psaním textu,
+  \item Visual Paradigm Online~\cite{vpo_2022} pro tvorbu libovolných diagramů.
 \end{itemize}
 
 Před představením existujících nástrojů určíme srovnávací kritéria, dle kterých budeme nástroje analyzovat.
@@ -40,7 +40,7 @@ Formáty pro export lze rozdělit do několika kategorií:
 \begin{itemize}
   \item serializovaný formát -- většinou se jedná o~vlastní formát aplikace a~takový soubor nelze jinou aplikací otevřít, ale lze jej programově zpracovat,
   \item rastrové formáty, např. PNG\footnote{Portable Network Graphics -- \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}} -- mají nejširší využití a~podporu, lze je použít v~dokumentech a~na webových stránkách,
-  \item vektorové formáty, např. SVG~\cite{Dirk18} -- nemají tak rozšířenou podporu, nicméně jsou vhodnější v~dokumentech po estetické stránce (zvlášť při tištění);
+  \item vektorové formáty, např. SVG~\cite{brinza_svg_2018} -- nemají tak rozšířenou podporu, nicméně jsou vhodnější v~dokumentech po estetické stránce (zvlášť při tištění);
         dále existují vektorové editory, pomocí nichž lze výsledek libovolně upravovat bez potřeby souboru ve serializovaném formátu;
         většina webových prohlížečů formát SVG podporuje a~soubor vykreslí;
         do této kategorie lze zařadit i~jiné otevřené strukturované formáty, např. VSDX\footnote{Microsoft Visio XML formát založený na ISO 29500 -- \url{https://interoperability.blob.core.windows.net/files/MS-VSDX/\%5bMS-VSDX\%5d.pdf}},
@@ -56,7 +56,7 @@ Nejčastějším komerčním modelem je verze zdarma s~omezenými funkcemi a~dá
 U~tohoto modelu je důležité vyrovnat funkce tak, aby byl nástroj použitelný i~v~bezplatné verzi, a~aby byly placené funkce atraktivní pro uživatele.
 Při srovnávání budeme věnovat pozornost i~tomu, jestli jsou placené funkce esenciální.
 
-\section{diagrams.net}\label{section:digramsnet}
+\section{draw.io}\label{section:drawio}
 
 Srovnávací kritéria:
 \begin{itemize}
@@ -68,15 +68,15 @@ Srovnávací kritéria:
         z~jiného pohledu lze počítat cenu externích úložišť, ale ta jsou volitelná.
 \end{itemize}
 
-Nástroj diagrams.net~\cite{diagramsnet21}, dříve draw.io, je obecný open-source kreslící nástroj
-(který však nepřijímá změny od externích vývojářů~\cite{drawio22}) % https://github.com/jgraph/drawio/blob/c7122cad617f52563c11d90890e64ab06db3a27a/README.md#open-source-not-open-contribution
+Nástroj diagrams.net~\cite{drawio_2023}, dříve draw.io, je obecný open-source kreslící nástroj
+(který však nepřijímá změny od externích vývojářů~\cite{drawio_gh_2022}) % https://github.com/jgraph/drawio/blob/c7122cad617f52563c11d90890e64ab06db3a27a/README.md#open-source-not-open-contribution
 vydaný s~licencí Apache License 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}, dostupný jako webová aplikace\footnote{na adrese \url{https://app.diagrams.net}} nebo jako desktopová aplikace.
-Desktopová verze aplikace je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy Electron~\cite{electron21} do okna Chromium.
+Desktopová verze aplikace je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy Electron~\cite{openjsfoundation_electron_2023} do okna Chromium.
 Je vyvinut v~běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script\footnote{Standardizován jako ECMAScript, ISO 16262 -- \url{https://iso.org/standard/55755.html}}, CSS\footnote{Cascading Style Sheets -- \url{https://www.w3.org/TR/css}}, HTML).
 
 Diagramy lze uložit do serializovaného XML\footnote{Extensible Markup Language -- \url{https://www.w3.org/TR/xml/}} formátu \texttt{.drawio}.
 V~tomto formátu je pro každý diagram XML element \texttt{diagram}, ve kterém se nachází data zakódována do Base64\footnote{RFC 2045 \S6.8 -- \url{https://datatracker.ietf.org/doc/html/rfc2045\#section-6.8}}.
-Tato data jsou komprimována pomocí zlib\footnote{\url{https://zlib.net}} a~obsahují další XML dokument (URL-encoded\footnote{RFC 3986 \S2.1 -- \url{https://datatracker.ietf.org/doc/html/rfc3986\#section-2.1}}, tj. zakódovaný), tentokrát již serializaci vlastního diagramu~\cite{seibert_extracting_2016}.
+Tato data jsou komprimována pomocí zlib\footnote{\url{https://zlib.net}} a~obsahují další XML dokument (URL-encoded\footnote{RFC 3986 \S2.1 -- \url{https://datatracker.ietf.org/doc/html/rfc3986\#section-2.1}}, tj. zakódovaný), tentokrát již serializaci vlastního diagramu~\cite{seibert_extractingxml_2016}.
 Formát tak není bez dekomprese čitelný člověkem.
 Výhodou je, že lze uložit více diagramů do jednoho souboru a~každý pojmenovat.
 Rozhraní k~tomu určené je identické s~listy souboru tabulkových procesorů, jako Microsoft Excel\footnote{\url{https://aka.ms/excel}} a~Google Sheets\footnote{\url{https://sheets.google.com}}.
@@ -153,7 +153,7 @@ K~poslednímu bodu je třeba podotknout, že jiná webová úložiště také po
 Diagrams.net sám o~sobě správu verzí neobsahuje, jen obvyklé "Undo, Redo" pro aktuálního uživatele.
 Úpravy ostatních uživatelů nelze vracet postupně, lze se pouze vrátit za bod synchronizace.
 
-Uživateli jsou v~levém postranním panelu k~dispozici standardní tvary ER diagramů, UML diagramů~\cite{uml2017}, flowchart diagramů a~další základní tvary pro kresbu diagramů.
+Uživateli jsou v~levém postranním panelu k~dispozici standardní tvary ER diagramů, UML diagramů~\cite{omg_uml_2017}, flowchart diagramů a~další základní tvary pro kresbu diagramů.
 Tvary lze libovolně kombinovat a~spojovat podržením levého tlačítka a~tažením myší z~a~do kotev na krajích objektů.
 Každý objekt a~spojovací čára má vlastnosti, které lze upravovat v~pravém postranním panelu.
 Upravovat lze přímo i~vlastnosti formátu SVG.
@@ -166,7 +166,7 @@ Případně lze zvolit \menu{Apply\dots}, kde lze aplikovat libovolnou transform
 Tato funkce však není perfektní, protože po změně rozložení se jednotlivé prvky diagramu překrývají a uživatel je musí přesunout manuálně do vhodné pozice.
 Přenastavení rozložení však alespoň položí prvky do zvolené obecné pozice.
 
-V~menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjax2022}.
+V~menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjaxconsortium_mathjax_2022}.
 Pokud pak v~nějakém textovém objektu uživatel zadá například \verb|\(x^2\)|, je vykresleno $x^2$.
 Správné vykreslení matematické notace je pak zachováno ve všech zmíněných exportovaných formátech.
 
@@ -200,12 +200,12 @@ Srovnávací kritéria:
 \begin{itemize}
   \item kategorie -- logická vrstva,
   \item typ úložiště -- online, poskytované autory produktu
-  \item export -- schematický (obecný SQL i~platformě specifické formáty), rastrový PNG, serializovaný (JSON~\cite{json2017}, v~době psaní práce se chystá)
+  \item export -- schematický (obecný SQL i~platformě specifické formáty), rastrový PNG, serializovaný (JSON~\cite{tc39group_jsondata_2017}, v~době psaní práce se chystá)
   \item interaktivní spolupráce -- pouze v~placené verzi,
   \item komercializace -- omezená verze navždy zdarma, různé měsíčně placené plány.
 \end{itemize}
 
-Nástroj drawSQL~\cite{drawsql21} je modelovací nástroj pro tvorbu relačních schémat.
+Nástroj drawSQL~\cite{drawsql_2021} je modelovací nástroj pro tvorbu relačních schémat.
 Aplikace je dostupná ve webovém prohlížeči\footnote{na adrese \url{https://drawsql.app}}.
 Je vyvinuta ve standardních webových technologiích a~používá framework Vue.js.
 Plán zdarma umožňuje tvorbu veřejně přístupných diagramů, které mohou mít maximálně 15 tabulek (entit).
@@ -278,10 +278,10 @@ a~nevýhody:
   \item komercializace -- zdarma.
 \end{itemize}
 
-Nástroj ERDPlus~\cite{erdplus21} je modelovací nástroj pro tvorbu ER diagramů, relačních schémat a~hvězdicových schémat.
+Nástroj ERDPlus~\cite{erdplus_2023} je modelovací nástroj pro tvorbu ER diagramů, relačních schémat a~hvězdicových schémat.
 Aplikace je dostupná ve webovém prohlížeči\footnote{na adrese \url{https://erdplus.com}}.
 Její uživatelské rozhraní je tedy vyvinuto ve standardních webových technologiích -- HTML, CSS a~JavaScript.
-Dále využívá framework React~\cite{react2021} pro tvorbu rozhraní v~jazyce JavaScript.
+Dále využívá framework React~\cite{react_2023} pro tvorbu rozhraní v~jazyce JavaScript.
 
 ERDPlus lze používat bez založení uživatelského účtu a~vytvořený diagram exportovat do speciálního formátu erdplus, nicméně uživatel tak přijde o~možnost využití úložiště diagramů na serveru aplikace.
 Diagramy (ERDPlus je nazývá \emph{dokumenty}) lze organizovat do složek a podsložek.
@@ -370,7 +370,7 @@ Z~dokumentace této knihovny vyplývá, že možnost \emph{ranker} mění algori
 Definitivní význam této možnosti není z~dokumentace zřejmý, u~nástroje nomnoml lze však pozorovat změnu v~pořadí a vzdálenostech entit (délce spojovacích čar).
 Uživatel tak může vyzkoušet různá rozložení a použít to, které je vizuálně nejpřehlednější.
 
-Diagram lze exportovat do formátu PNG a dále podobně jako v~sekci~\ref{section:digramsnet}, nomnoml také umožňuje export do SVG se zakomponovaným zdrojovým kódem.
+Diagram lze exportovat do formátu PNG a dále podobně jako v~sekci~\ref{section:drawio}, nomnoml také umožňuje export do SVG se zakomponovaným zdrojovým kódem.
 Uživatel tak může diagram distribuovat v~tomto formátu a zároveň tento formát v~nástroji nomnoml i otevřít a plnohodnotně pokračovat v~práci.
 Podobně je možné sdílet odkaz přímo na vytvořený diagram ve službě nomnoml.
 Odkaz je vytvořen tak, že do URL je jako parametr \texttt{source} zapsán přímo zdrojový kód diagramu.
@@ -414,22 +414,22 @@ Nástroj poskytuje předlohy tvarů pro diagramy tříd, use case diagramy, sekv
 Uživatel si před tvorbou diagramu musí vybrat jednu z~těchto kategorií, čímž vymezí tvary, které jsou v~uživatelském rozhraní dostupné k~použití v~levém postranním panelu.
 Ve stejném panelu lze ale posléze přidat libovolnou další kategorii tvarů dle výběru uživatele.
 
-Nástroj je svým rozhraním, designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:digramsnet}.
+Nástroj je svým rozhraním, designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:drawio}.
 Stejně tak spojování tvarů čarami má velmi podobné chování.
 Jeden rozdíl je ten, že kresba spojení z~jednoho tvaru do toho samého (tvorba "cyklu") je velmi nepředvídatelná.
 Čára se při tom samovolně přemisťuje do všech možných stran, až nakonec zůstane přilepena na jedné ze stran tvaru.
 
 Diagramy lze uložit do formátu \texttt{vpd}, který při otevření v~textovém editoru připomíná base64 kód.
-Vypadá velice podobně jako serializace pro diagrams.net ze sekce~\ref{section:digramsnet}.
+Vypadá velice podobně jako serializace pro diagrams.net ze sekce~\ref{section:drawio}.
 Nejedná se však o~validní base64 kód, protože ten kóduje 3 bajty do 4 znaků, jinak používá výplň 0-2 znaky \texttt{=}.
 Nicméně \texttt{vpd} obsahuje i sekvence jako je \texttt{M=Q8}, které tomu neodpovídají.
 Jedná se tak nejspíš o~nezdokumentovaný proprietární formát.
 
 Diagramy lze exportovat do formátu SVG a PDF, do kterých lze volitelně uložit i serializaci diagramu ve formátu \texttt{vpd} a případně tak plnohodnotně přenést editovatelný diagram i s~jeho vektorovou reprezentací.
 Rastrový export je možný ve formátu JPEG nebo PNG.
-Stejně jako u~diagrams.net ze sekce~\ref{section:digramsnet} je do PNG volitelně přidána serializace diagramu v~\texttt{tEXt} chunku formátu PNG.
+Stejně jako u~diagrams.net ze sekce~\ref{section:drawio} je do PNG volitelně přidána serializace diagramu v~\texttt{tEXt} chunku formátu PNG.
 Dokonce je použito stejné klíčové slovo identifikující tuto serializaci -- \texttt{mxfile}.
-To vzbuzuje podezření, že se jedná o~stejný formát, jako používá diagrams.net ze sekce \ref{section:digramsnet}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
+To vzbuzuje podezření, že se jedná o~stejný formát, jako používá diagrams.net ze sekce \ref{section:drawio}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
 O~tom, že Visual Paradigm Online používá stejný formát jsme ale nenašli žádné zmínky.
 Dále, jak už bylo zmíněno, \texttt{vpd} nemá stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
 
