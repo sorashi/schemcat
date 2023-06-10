@@ -24,9 +24,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.4378367"
-     inkscape:cx="534.4835"
-     inkscape:cy="283.75962"
+     inkscape:zoom="2.0334082"
+     inkscape:cx="674.23748"
+     inkscape:cy="335.88928"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -102,6 +102,18 @@
        r="0.5" />
     <circle
        style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-2-9-0-6-5-3-6-3"
+       cx="153.28946"
+       cy="89.492233"
+       r="0.5" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-2-9-0-6-5-3-6-7"
+       cx="123.28324"
+       cy="81.547913"
+       r="0.5" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
        id="path1008-2-9-0-6-5-3-6-2"
        cx="122.1458"
        cy="100.54736"
@@ -133,6 +145,18 @@
        id="path1008-20-3-2-6"
        cx="122.18609"
        cy="91.624527"
+       r="2" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006;stroke-opacity:1"
+       id="path1008-20-3-2-6-5"
+       cx="123.2873"
+       cy="74.75705"
+       r="2" />
+    <circle
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006;stroke-opacity:1"
+       id="path1008-20-3-2-6-5-5"
+       cx="160.31844"
+       cy="89.497955"
        r="2" />
     <text
        xml:space="preserve"
@@ -241,17 +265,19 @@
          x="133.17798"
          y="101.22427"
          id="tspan8669">číslo</tspan></text>
-    <circle
-       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
-       id="path1008-2-9-0-6-5-3-3"
-       cx="144.1086"
-       cy="98.172821"
-       r="0.5" />
     <path
        id="rect13981"
        style="fill:none;stroke:#000000;stroke-width:0.264583"
-       d="m 144.1172,94.80362 v 8.57301 c 0,1.108 -0.892,2 -2,2 h -17.88896 c -1.108,0 -2.04215,-0.96015 -2.04215,-2.06815 V 91.820452"
-       sodipodi:nodetypes="cssssc" />
+       d="M 122.18609,103.30848 V 91.820452"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583"
+       d="M 123.28513,85.3617 V 74.757046"
+       id="path1186" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583"
+       d="m 146.78101,89.492234 h 13.53742"
+       id="path1188" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -526,22 +552,16 @@
        id="path4737-79"
        sodipodi:nodetypes="cc" />
     <circle
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
        id="path1008-20"
        cx="176.84082"
        cy="17.678629"
        r="2" />
     <circle
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
-       id="path1008-2-9-0-6-7"
-       cx="151.06293"
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
+       id="path1008-2-9-0-6-7-6"
+       cx="131.15312"
        cy="20.810921"
-       r="0.5" />
-    <circle
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
-       id="path1008-2-9-0-6-5"
-       cx="172.59189"
-       cy="17.678629"
        r="0.5" />
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006"
@@ -558,16 +578,11 @@
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0.0627006"
        d="m 132.8898,20.810921 h -3.45792"
        id="path6148" />
-    <path
-       id="rect9119"
-       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-miterlimit:10;stroke-dashoffset:0.0627006"
-       d="m 151.06292,22.640804 1e-5,-6.880238 c 0,-1.108 0.892,-2 2,-2 h 17.52897 c 1.108,0 2,0.892 2,2 l -1e-5,6.880238"
-       sodipodi:nodetypes="cssssc" />
     <circle
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006;stroke-opacity:1"
-       id="path1008-20-3"
-       cx="172.59189"
-       cy="22.640804"
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-dasharray:none;stroke-dashoffset:0.0627006;stroke-opacity:1"
+       id="path1008-20-3-3"
+       cx="131.16656"
+       cy="13.628274"
        r="2" />
     <text
        xml:space="preserve"
@@ -623,6 +638,10 @@
          x="179.70772"
          y="19.584358"
          id="tspan347">číslo</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583"
+       d="M 131.16084,24.123164 V 13.628274"
+       id="path1012" />
   </g>
   <g
      inkscape:groupmode="layer"
