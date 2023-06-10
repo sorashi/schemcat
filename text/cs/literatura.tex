@@ -12,7 +12,7 @@
 % \bibliographystyle{czplainnat}    %% Autor (rok) s českými spojkami
 % \bibliographystyle{plainnat}    %% Autor (rok) s anglickými spojkami
 % \bibliographystyle{unsrt}       %% [číslo], unsorted
-\bibliographystyle{unsrturl}       %% [číslo], unsorted + url support
+% \bibliographystyle{unsrturl}       %% [číslo], unsorted + url support
 
 \renewcommand{\bibname}{Seznam použité literatury}
 
@@ -21,12 +21,13 @@
 % ani \hypersetup{breaklinks}. Řešení: bibliografie musí být left-aligned
 % (raggedright) místo justified.
 
-\raggedright
+% \raggedright
 
 %%% Vytvoření seznamu literatury. Pozor, pokud jste necitovali ani jednu
 %%% položku, seznam se automaticky vynechá.
 
-\bibliography{literatura}
+%\bibliography{literatura}
+\printbibliography[heading=bibintoc]
 
 %%% Kdybyste chtěli bibliografii vytvářet ručně (bez bibTeXu), lze to udělat
 %%% následovně. V takovém případě se řiďte normou ISO 690 a zvyklostmi v oboru.
