@@ -1,5 +1,6 @@
 \chapter{Teorie}
 \newacronym{er}{ER}{Entity-Relationship}
+\newacronym{uml}{UML}{Unified Modeling Language}
 
 V~této kapitole představíme potřebné teoretické koncepty, které bude využívat výsledná aplikace.
 Mezi tyto koncepty patří \acrfull{er} model a nově vyvíjený konceptuální model v podobě schematické kategorie~\cite{svoboda_categorical_2021} v rozšířené verzi navržené vedoucím práce.
@@ -116,7 +117,7 @@ Přestože databázových modelů bylo navrženo několik, časem se ukázalo, �
 To proto, že data byla často tabulkové povahy.
 Pokud výjimečně nebyla takové povahy, musela se relačnímu modelu přizpůsobit.
 
-S příchodem velkých dat (big data) se ukázalo, že relační model není dostačující.
+S příchodem potřeby zpracování velkých dat (big data) se ukázalo, že relační model není dostačující.
 Ve velkém množství dat, která spolu nutně nesouvisí, není totiž jednoduché najít tabulkovou strukturu.
 V různých situacích jsou tedy vhodné různé databázové systémy.
 Dokonce se začalo používat více databázových systémů najednou.
@@ -124,7 +125,7 @@ Například pro cache lze použít key/value store, pro data různorodé povahy 
 
 Vize do budoucna je mít jediný databázový systém, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk, ale zároveň není závislý na fyzické vrstvě.
 V současných systémech je často tvorba a iterace databázových schémat časově náročná a obtěžující.
-Chceme sloučit konceptuální a logickou vrstvu a předejít tak problémům a lidskému rozhodování při převodu mezi nimi.
+Chceme proto sloučit konceptuální a logickou vrstvu a předejít tak problémům a lidskému rozhodování při převodu mezi nimi.
 Vznikne tak pouze jedna vrstva, ve které se pracuje unifikovaným, konceptuálním způsobem.
 
 Prvním krokem v této vizi jsou schematické kategorie, které uživateli umožní popsat strukturu dat, se kterými chce v databázi pracovat.
@@ -141,18 +142,21 @@ Některé z nich zde identifikujeme.
         Libovolně větvené atributy se těžko převedou do relačního modelu.
         \acrshort{er} tedy zavádí omezení kvůli logické vrstvě.
         Vyjadřovací síla schematických kategorií je větší, mj. protože není omezena na model logické vrstvy.
-        %todo dodat další nevýhody
 \end{itemize}
 
-% Hlavní nevýhodou UML je nižší vyjadřovací schopnost oproti ER.
-% Postupným vývojem se UML přibližuje \acrshort{er}, ale je poznat, že se jedná o dodatečné změny, které nejsou pro původní UML přirozené.
+\acrfull{uml}~\cite{omg_uml_2017} také umožňuje vytvářet konceptuální schémata.
+Při vývoji software, zvlášť při práci v týmech, je většinou zvoleno \acrshort{uml} oproti \acrshort{er}.
+Je to dáno existencí rozličných nástrojů na kresbu \acrshort{uml} diagramů a nástrojů na automatizaci převodu do logické vrstvy.
+Vyjadřovací schopnost \acrshort{uml} je nicméně menší, než u \acrshort{er}.
+Postupným vývojem \acrshort{uml} se expresivnost dodává.
+Nicméně dosahuje se toho přes konstrukty (např.~stereotypy), u kterých lze poznat, že nesouhlasí s původní myšlenkou \acrshort{uml}.
 
 \subsection{Teorie kategorií}
 
 Nejdříve popíšeme kategorii z~teorie kategorií, na níž je schematická kategorie založena.
 
-Kategorie je matematická struktura, která zobecňuje ostatní struktury.
-Umožňuje mimo jiné studovat vztahy mezi nimi.
+Kategorie je matematická struktura, která zobecňuje mnoho jiných matematických struktur.
+Umožňuje tak mimo jiné studovat vztahy mezi nimi.
 Poprvé byla představena Eilenbergem a MacLanem v~roce 1945~\cite{eilenberg_generaltheory_1945}.
 
 Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
@@ -167,6 +171,37 @@ z~\begin{itemize}
 \end{itemize}
 
 Objekty a morfismy lze definovat i obecněji s použitím tříd místo množin, ale pro naše účely budou stačit množiny.
+
+Jako jednoduchý příklad kategorie uvedeme reálná čísla s neostrou nerovností $(\R, \leq)$. Objekty této kategorie jsou reálná čísla $\mathcal O=\R$.
+Pro každá reálná čísla $A,B\in\R$ a morfismus $f\colon A\to B$ je $f\in\mathcal M\iff A\leq B$.
+Pro všechny morfismy $f,g\in\mathcal M$ a objekty $A, B, C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$ definujme $g\circ f=A\to C$.
+
+\begin{statement*}
+  $(R, \leq)$ je kategorie.
+\end{statement*}
+\begin{proof}
+  Ověříme postupně všechny axiomy.
+  Vezměme libovolné $f,g\in\mathcal M$ a $A,B,C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$.
+  \begin{description}
+    \item[uzavřenost na skládání] z našich definic pro $f,g$ platí $A\leq B\land B\leq C$.
+      Z toho plyne $A\leq C$.
+      Protože z definice $g\circ f = A\to C$, platí $g\circ f\in\mathcal M$.
+    \item[asociativita] vezměme libovolný morfismus $h\in\mathcal M$ a objekt $D\in\mathcal O$ takový, že $h\colon C\to D$.
+      Ověříme, že $h\circ (g\circ f) = (h\circ g)\circ f$.
+      \begin{align*}
+        h\circ (A\to C) & = (B\to D) \circ f \\
+        A\to D          & = A\to D           \\
+      \end{align*}
+    \item[identitní morfismy] nechť $1_A =A\to A$ a $1_B = B\to B$.
+      Protože platí $A\leq A\land B\leq B$, pak $1_A\in \mathcal M\land 1_B\in\mathcal M$ z definice našich morfismů.
+      Nyní ověříme, že $1_A$ a $1_B$ splňují náš požadavek.
+      \begin{gather*}
+        f\circ 1_A = f = 1_B\circ f \\
+        (A\to B)\circ (A\to A) = (A\to B) = (B\to B)\circ (A\to B) \\
+        A\to B = A\to B = A\to B \\
+      \end{gather*}
+  \end{description}
+\end{proof}
 
 Kategorie je možné vizuálně reprezentovat orientovaným multigrafem, kde vrcholy jsou objekty a hrany morfismy.
 Příklad této vizualizace je na Obrázku~\ref{fig:category-example}.
