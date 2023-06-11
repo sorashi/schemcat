@@ -42,12 +42,19 @@ validate: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 
 ../img/er-model/%.pdf: ../img/er-model/base.svg
 	outp="$(basename $(notdir $@))"; \
-	export_id=$$(python3 ../img/er-model/find-layer-id.py "$<" $$outp); \
+	export_id=$$(python3 ../img/find-layer-id.py "$<" $$outp); \
+	inkscape "$<" --export-area-drawing --export-id="$$export_id" --export-id-only --batch-process --export-type=pdf --export-filename="$@"
+
+../img/schemcat-diagrams/%.pdf: ../img/schemcat-diagrams/base.svg
+	outp="$(basename $(notdir $@))"; \
+	export_id=$$(python3 ../img/find-layer-id.py "$<" $$outp); \
 	inkscape "$<" --export-area-drawing --export-id="$$export_id" --export-id-only --batch-process --export-type=pdf --export-filename="$@"
 
 # Convert StarUML project diagrams to PDFs for embedding in LaTeX. Needs StarUML for mdj -> svg, and Inkscape for svg -> pdf.
 diagrams: ../img/diagrams/schema-category-model.pdf ../img/diagrams/diagram-model.pdf
 # Extract PDFs from Inkscape layers of ../img/er-model/base.svg. Need Inkscape and Python3.
 ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-model/attribute.pdf ../img/er-model/identifier.pdf ../img/er-model/external-identifier.pdf ../img/er-model/composite-attribute.pdf ../img/er-model/generalization.pdf ../img/er-model/external-id-chain.pdf
+
+schemcat-diagrams: ../img/schemcat-diagrams/raw-schemcat-example.pdf ../img/schemcat-diagrams/schemcat-visualization-example.pdf ../img/schemcat-diagrams/scv-ord-dup.pdf
 
 .PHONY: all clean validate diagrams ermodel

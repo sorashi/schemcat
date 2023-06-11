@@ -1,6 +1,7 @@
 \chapter{Teorie}
 \newacronym{er}{ER}{Entity-Relationship}
 \newacronym{uml}{UML}{Unified Modeling Language}
+\newacronym{vsk}{VSK}{Vizualizace schematické kategorie}
 
 V~této kapitole představíme potřebné teoretické koncepty, které bude využívat výsledná aplikace.
 Mezi tyto koncepty patří \acrfull{er} model a nově vyvíjený konceptuální model v podobě schematické kategorie~\cite{svoboda_categorical_2021} v rozšířené verzi navržené vedoucím práce.
@@ -49,7 +50,7 @@ Zde blíže popíšeme sémantiku jednotlivých konstruktů:
 Entitní typy, které nemají ani jeden interní identifikátor (musí mít tedy externí), nazýváme \emph{slabé} entitní typy (weak entity types).
 Pokud mají interní identifikátor, nazýváme je \emph{silné} entitní typy (strong entity types).
 
-Jednoho vztahového typy se může účastnit nejvýše jeden slabý entitní typ, protože pro dva takové by byla identifikace nesmyslná.
+Jednoho vztahového typu se může účastnit nejvýše jeden slabý entitní typ, protože pro dva takové by byla identifikace nesmyslná.
 Externí identifikace se však může řetězit, jako na Obrázku~\ref{fig:er-external-identifier-chain}.
 Nesmí ovšem vzniknout orientovaný cyklus, a to ani v kombinaci s ISA hierarchiemi.
 Formálněji -- pokud vytvoříme orientovaný graf $G=(V,E)$ takový, že
@@ -183,16 +184,16 @@ Pro všechny morfismy $f,g\in\mathcal M$ a objekty $A, B, C\in\mathcal O$ takov�
   Ověříme postupně všechny axiomy.
   Vezměme libovolné $f,g\in\mathcal M$ a $A,B,C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$.
   \begin{description}
-    \item[uzavřenost na skládání] z našich definic pro $f,g$ platí $A\leq B\land B\leq C$.
+    \item[uzavřenost na skládání] Z našich definic pro $f,g$ platí $A\leq B\land B\leq C$.
       Z toho plyne $A\leq C$.
       Protože z definice $g\circ f = A\to C$, platí $g\circ f\in\mathcal M$.
-    \item[asociativita] vezměme libovolný morfismus $h\in\mathcal M$ a objekt $D\in\mathcal O$ takový, že $h\colon C\to D$.
+    \item[asociativita] Vezměme libovolný morfismus $h\in\mathcal M$ a objekt $D\in\mathcal O$ takový, že $h\colon C\to D$.
       Ověříme, že $h\circ (g\circ f) = (h\circ g)\circ f$.
       \begin{align*}
         h\circ (A\to C) & = (B\to D) \circ f \\
         A\to D          & = A\to D           \\
       \end{align*}
-    \item[identitní morfismy] nechť $1_A =A\to A$ a $1_B = B\to B$.
+    \item[identitní morfismy] Nechť $1_A =A\to A$ a $1_B = B\to B$.
       Protože platí $A\leq A\land B\leq B$, pak $1_A\in \mathcal M\land 1_B\in\mathcal M$ z definice našich morfismů.
       Nyní ověříme, že $1_A$ a $1_B$ splňují náš požadavek.
       \begin{gather*}
@@ -294,6 +295,131 @@ je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající
   \label{fig:morphism-signatures}
 \end{figure}
 
+Na Obrázku~\ref{fig:raw-schemcat} je příklad schematické kategorie se třemi objekty.
+Objekt \enquote{osoba} je identifikován dohromady dvojicí objektů \enquote{jméno} a \enquote{příjmení}.
+Objekty \enquote{jméno} a \enquote{příjmení} jsou každý identifikován sám sebou, proto jim náleží identifikátor $\set{\varepsilon}$.
+Na obrázku jsou dále bázové morfismy (černé čáry) se svými identitami a kardinalitami.
+Odvozené a identitní morfismy jsou vyznačeny šedivými křivkami.
+Jejich signatury jsou složené řetězce, resp. prázdné řetězce $\varepsilon$.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/raw-schemcat-example.pdf}
+  \caption[Příklad schematické kategorie]{Příklad schematické kategorie. Identifikátory jsou vyobrazeny množinovým zápisem. Výchozí kardinalita je (\one, \one) a neuvádí se.}
+  \label{fig:raw-schemcat}
+\end{figure}
 
 \section{Vizualizace schematické kategorie}
+
+Schematická kategorie je formální, pečlivě zadefinovaný model.
+Pro potenciálního uživatele schematické kategorie je její jednolitost a informativnost příliš nepřehledná.
+Navrhněme proto způsob vizualizace, který přinese odlišení a zvýraznění některých důležitých konstruktů, včetně vyobrazení některých složek objektů a morfismů.
+Pojmenujme ho \acrfull{vsk}.
+
+Objekt schematické kategorie, který má v identifikátorech $\set{\varepsilon}$ nazveme \emph{self-identifikovaný} objekt.
+Instance takových objektů jsou identifikovány svými hodnotami.
+Jsou tedy podobné atributům z \acrshort{er} a proto je budeme značit podobným tvarem.
+
+Objekty, které nejsou self-identifikované, jsou určitě identifikované jinými objekty.
+Jsou významově podobné entitním typům z \acrshort{er}, a proto je budeme značit stejným tvarem.
+
+Ve \acrshort{vsk} nebudou viditelné identity objektů.
+
+Morfismy budeme značit spojovacími čárami mezi objekty.
+Inverzní morfismy (ty, které mají směr \enquote{zpět}) vyobrazovat nebudeme.
+Nebudeme vizualizovat ani identitní a odvozené morfismy.
+Neukážeme ani signatury zbývajících morfismů.
+
+Kardinality morfismů budeme vykreslovat u patřičného morfismu stejným zápisem, jako u \acrshort{er}.
+Pokud je však kardinalita výchozí (\one, \one), budeme ji považovat za implicitní a nezobrazíme ji.
+Pokud má morfismus $A$ inverzní morfismus $A^{-1}$ (ten nezobrazíme), pak
+\begin{itemize}
+  \item kardinalitu morfismu $A$ budeme značit blízko cílového objektu $A$
+  \item a kardinalitu morfismu $A^{-1}$ budeme značit blízko zdrojového objektu $A$.
+\end{itemize}
+
+Identifikátory objektů budeme značit stejně jako v \acrshort{er} přeškrtnutím patřičných morfismů.
+
+Složky morfismu \emph{uspořádání} a \emph{duplicity} budou pro výchozí hodnoty (\texttt{false} a \texttt{false}) neviditelné.
+Jinak v cílovém objektu na konci spojovací čáry morfismu vyznačíme pravdivou hodnotu uspořádání symbolem $<$, resp. $+$ pro duplicity.
+
+Uživatelské názvy objektů i morfismů budeme vykreslovat, podobně jako v \acrshort{er}, u self-identifikovaných objektů v blízkosti objektu, jinak uvnitř obdélníku ne-self-identifikovaného objektu.
+
+Na Obrázku~\ref{fig:schemcat-visualization-example} vidíme \acrshort{vsk} odpovídající schematické kategorii z Obrázku~\ref{fig:raw-schemcat}.
+Sémantika kardinalit (\one, \many) u obou obrázků taková, že konceptuálně může jedno jméno, resp. příjmení patřit více osobám.
+
+Na Obrázku~\ref{fig:scv-ord-dup} lze vidět \acrshort{vsk} schematické kategorie, která má u jednoho z morfismů pravdivé uspořádání a duplicity.
+Význam tohoto konceptuálního modelu je takový, že jeden seznam úkolů může mít více úkolů se stejným popisem (duplicity) a že je důležité udržovat informaci o pořadí, ve kterém byly jednotlivé úkoly přidávány (uspořádání).
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/schemcat-visualization-example.pdf}
+  \caption{Příklad \acrfull{vsk}.}
+  \label{fig:schemcat-visualization-example}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/scv-ord-dup.pdf}
+  \caption{\acrshort{vsk} pro schematickou kategorii s využitými složkami \emph{uspořádání} a \emph{duplicity}.}
+  \label{fig:scv-ord-dup}
+\end{figure}
+
 \section{Převod ER na schematickou kategorii}
+
+Algoritmus převodu z~\acrshort{er} na schematickou kategorii už popsali Svoboda a kol.~\cite[s.~192-196]{svoboda_categorical_2021}.
+Pro naši upravenou verzi schematické kategorie musíme upravit i algoritmus převodu.
+
+Mějme tedy validní \acrshort{er} diagram. Převedeme ho na schematickou kategorii.
+
+\begin{algorithm}[htb]
+  \DontPrintSemicolon
+  \SetKwFor{For}{pro}{dělej}{konec}
+  \SetKwFor{While}{dokud}{dělej}{konec}
+  \SetKwProg{Fn}{funkce}{ je}{konec}
+  \SetKw{Return}{vrať}
+  $\mathcal S\gets$ prázdná schematická kategorie\;
+  \Fn{vytvořObjekt(název)}{
+    $i\gets$ nová unikátní identita např.~z~$\N$\;
+    \tcp{(identita, název, množina identifikátorů)}
+    $O\gets$ (i, název, $\set{}$)\;
+    vlož $O$ do objektů $\mathcal S$\;
+    \Return $O$\;
+  }
+  \Fn{vytvořBázovýMorfismus(dom, kod, název, kardinalitaTam, kardinalitaZpět)}{
+    $i\gets$ nová unikátní identita např.~z~$\N$\;
+    $j\gets$ nová unikátní identita např.~z~$\N$\;
+    \tcp{(signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání)}
+    $M\gets$ (i, dom, kod, 0, název, kardinalitaTam, \texttt{false}, \texttt{false})\;
+    $M^{-1}\gets$ (j, dom, kod, 1, název, kardinalitaZpět, \texttt{false}, \texttt{false})\;
+    vlož $M, M^{-1}$ do morfismů $\mathcal S$\;
+    \Return $M$\;
+  }
+  \For{složené atributy $C$ z \acrshort{er} diagramu}{
+    $O_C\gets$ vytvořObjekt(jméno $C$)\;
+    \For{atribut $A$, který náleží $C$}{
+      $O_A\gets$ vytvořObjekt(jméno $A$)\;
+      do množiny identifikátorů $O_A$ vlož $\set{\varepsilon}$\;
+      $M_A\gets$ vytvořBázovýMorfismus(identita $O_C$, identita $O_A$, $\bot$, (\one..\one), (\one..\one))\;
+    }
+    do množiny identifikátorů $O_C$ přidej množinu signatur právě výše vytvořených $M_A$\;
+  }
+  \For{entitní typ $E$ z \acrshort{er} diagramu}{
+    %todo dodělat entitní typy, hierarchie, vztahové typy, slabé identifikátory
+  }
+  \caption{Algoritmus převodu \acrshort{er} na schematickou kategorii}
+\end{algorithm}
+
+Pro každý entitní typ $E$ z~\acrshort{er} diagramu vytvoříme odpovídající objekt schematické kategorie s trojicí složek (identita, název, množina identifikátorů).
+Identitu přidělíme unikátní ze zvolené abecedy.
+Název nastavíme na jméno entity z~\acrshort{er}.
+
+Pro každý vlastní atribut nebo složený atribut $A$ entitního typy $E$.
+
+Uvědomme si, že $E$ nemusí mít ani jeden vlastní atribut ze dvou důvodů, které se vzájemně nevylučují:
+\begin{enumerate}
+  \item $E$ může být dítě v hierarchii, kdy dědí identifikátor od rodiče,
+  \item nebo se může jednat o slabý entitní typ (nemá ani jeden interní identifikátor).
+\end{enumerate}
+Hierarchie a externí identifikátory popíšeme později.
+
