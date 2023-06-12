@@ -104,7 +104,7 @@ V~této práci budeme používat pouze symbol~\many{}.
 V této sekci popíšeme mechanismus pro konceptuální modelování s názvem schematická kategorie společně s teorií kategorií, na které je založena.
 Nejdříve ale představíme motivaci za uvedením nového způsobu konceptuálního modelování.
 
-\subsection{Motivace}
+\subsection{Motivace}\mcomment{Nemám dát tuhle motivaci spíše do úvodu? Asi bych se měl trochu více rozepsat, ale zatím takhle.}
 
 Při začátku vývoje databázových systémů bylo popsáno několik databázových modelů dat.
 Už v roce 1975 je ANSI rozdělila do tří vrstev~\cite{steeljr._interimreport_1975}.
@@ -252,7 +252,7 @@ Formálně je schematická kategorie instance kategorie $(\mathcal O, \mathcal M
         \begin{itemize}
           \item signatura je řetězec z Definice~\ref{def:signature}; buď unikátně identifikuje morfismus v daném schématu (pak je to identita), nebo se jedná o řetězec vyjadřující orientovanou cestu, složený ze signatur jiných morfismů (zřetězujeme ve stejném pořadí jako se zapisuje skládání morfismů v kategorii, viz Obrázek~\ref{fig:morphism-signatures}),
           \item doména a kodoména odpovídají zdrojovému a cílovému objektu tohoto morfismu,
-          \item směr je buď \zero{} (tam) nebo \one{} (zpět) s výchozí hodnotou \zero{}; hodnota \one{} vyjadřuje, že tento morfismus je pouze inverzí k jinému, dodanou pro úplnost modelu,
+          \item směr je buď \zero{} (tam) nebo \one{} (zpět) s výchozí hodnotou \zero{}; hodnota \one{} vyjadřuje, že tento morfismus je pouze inverze k jinému, dodaná pro úplnost modelu,
           \item název je uživatelské jméno tohoto morfismu, může být i prázdné $\bot$,
           \item kardinalita je dvojice (min, max), která odpovídá kardinalitě z~\acrshort{er} v Sekci~\ref{def:cardinality},
           \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou vztažena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam pouze pokud je horní hranice kardinality tohto morfismu \many; výchozí hodnota obou složek je \texttt{false}.
@@ -273,7 +273,8 @@ Pro dva morfismy $f,g\in\mathcal M$ a objekty $A,B,C\in \mathcal O$ takové, že
   \item $f$ se skládá z $(sig_1, dom_1, cod_1, dir_1, name_1, (min_1, max_1), dup_1, ord_1)$,
   \item $g$ se skládá z $(sig_2, cod_1, cod_2, dir_2, name_2, (min_2, max_2), dup_2, ord_2)$,
 \end{itemize}
-je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z $$\left(sig_2\cdot sig_1, dom_1, cod_2, ?, \bot, \left(\min(min_1, min_2), \max(max_1, max_2)\right), \mathtt{false}, \mathtt{false}\right)\,.$$
+je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z
+$$(sig_2\cdot sig_1, dom_1, cod_2, \text{\hlmcomment[green]{?}{Co má být tady za směr? Nemůžu totiž předpokládat, že jsou stejné, ne?}}, \bot, (\min(min_1, min_2), \max(max_1, max_2)), \mathtt{false}, \mathtt{false})\,.$$
 
 \begin{figure}[!htb]
   \centering
@@ -305,6 +306,7 @@ Jejich signatury jsou složené řetězce, resp. prázdné řetězce $\varepsilo
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/raw-schemcat-example.pdf}
+  \mcomment{Je na obrázku korektní schematická kategorie?}
   \caption[Příklad schematické kategorie]{Příklad schematické kategorie. Identifikátory jsou vyobrazeny množinovým zápisem. Výchozí kardinalita je (\one, \one) a neuvádí se.}
   \label{fig:raw-schemcat}
 \end{figure}
@@ -507,4 +509,4 @@ Uvědomme si, že $E$ nemusí mít ani jeden vlastní atribut ze dvou důvodů, 
   \item nebo se může jednat o slabý entitní typ, který nemá ani jeden interní identifikátor.
 \end{enumerate}
 
-Algoritmus skončí, pokud dostane korektní \acrshort{er} diagram (takže nemá cykly a je konečný), protože v cyklu \emph{dokud} na řádce \ref{alg:dokud} se určitě v každé iteraci najde alespoň jeden řešitelný entitní typ, díky neexistenci cyklů.\mcomment{Musím ukázat i korektnost?}
+Algoritmus \hlcomment{skončí}{Musím ukázat i korektnost?}, pokud dostane korektní \acrshort{er} diagram (takže nemá cykly a je konečný), protože v cyklu \emph{dokud} na řádce \ref{alg:dokud} se určitě v každé iteraci najde alespoň jeden řešitelný entitní typ, díky neexistenci cyklů.
