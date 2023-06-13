@@ -6,7 +6,7 @@
 V~této kapitole představíme potřebné teoretické koncepty, které bude využívat výsledná aplikace.
 Mezi tyto koncepty patří \acrfull{er} model a nově vyvíjený konceptuální model v podobě schematické kategorie~\cite{svoboda_categorical_2021} v rozšířené verzi navržené vedoucím práce.
 
-\section{Entity Relationship}
+\section{Entity Relationship}\label{section:entity-relationship}
 
 Datový model \acrfull{er} poprvé představil Peter Pin-Shan Chen už v~roce 1976~\cite{chen_er_1976}.
 Od té doby se však \acrshort{er} vyvíjel, jak se potřeby datového modelování rozšiřovaly.
@@ -95,11 +95,11 @@ V~této práci budeme používat pouze symbol~\many{}.
     Externí identifikátor & \includegraphics{../img/er-model/external-identifier.pdf} \\
     Zobecnění             & \includegraphics{../img/er-model/generalization.pdf}      \\ \bottomrule
   \end{tabular}
-  \caption[Grafická reprezentace konstruktů \acrshort{er} modelu]{Grafická reprezentace konstruktů \acrshort{er} modelu, upraveno a přeloženo~\cite[s.~164]{atzeni_database_1999}}
+  \caption[Grafická reprezentace konstruktů \acrshort{er} modelu]{Grafická reprezentace konstruktů \acrshort{er} modelu, upraveno a přeloženo~\cite[s.~164, Obr.~5.4]{atzeni_database_1999}}
   \label{tab:er-constructs}
 \end{table}
 
-\section{Schematická kategorie}
+\section{Schematická kategorie}\label{section:schemcat}
 
 V této sekci popíšeme mechanismus pro konceptuální modelování s názvem schematická kategorie společně s teorií kategorií, na které je založena.
 Nejdříve ale představíme motivaci za uvedením nového způsobu konceptuálního modelování.
@@ -311,7 +311,7 @@ Jejich signatury jsou složené řetězce, resp. prázdné řetězce $\varepsilo
   \label{fig:raw-schemcat}
 \end{figure}
 
-\section{Vizualizace schematické kategorie}
+\section{Vizualizace schematické kategorie}\label{section:vsk}
 
 Schematická kategorie je formální, pečlivě zadefinovaný model.
 Pro potenciálního uživatele schematické kategorie je její jednolitost a informativnost příliš nepřehledná.
