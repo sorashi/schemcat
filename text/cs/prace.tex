@@ -6,7 +6,7 @@
 \documentclass[12pt,a4paper]{report}
 
 \newif\iffinal
-\finalfalse
+\finaltrue
 
 \setlength\textwidth{145mm}
 \setlength\textheight{247mm}
@@ -204,24 +204,17 @@
 
 %% Titulní strana a různé povinné informační strany
 \begin{document}
-% \title{\NazevPrace}
-% \author{\AutorPrace}
-% \date{Draft \today}
-
-%\include{titulka}
-
-%%% Strana s automaticky generovaným obsahem bakalářské práce
+\iffinal
+\include{titulka}
 
 \tableofcontents
 
-%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
-% \include{uvod}
-% \include{kap01}
+\include{uvod}
+\include{kap01}
 \include{kap02}
-% \include{kap03}
-% \include{zaver}
+\include{kap03}
+\include{zaver}
 
-%%% Seznam použité literatury
 \include{literatura}
 
 %%% Obrázky v bakalářské práci
@@ -231,7 +224,24 @@
 %%% Tabulky v bakalářské práci (opět nemusí být nutné uvádět)
 %%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
 \listoftables
+\else
+% DRAFT VERZE
+% \title{\NazevPrace}
+% \author{\AutorPrace}
+% \date{Draft \today}
 
+% \include{titulka}
+\tableofcontents
+% \include{uvod}
+% \include{kap01}
+\include{kap02}
+\include{kap03}
+% \include{zaver}
+\include{literatura}
+\listoffigures
+\listoftables
+
+\fi
 %%% Použité zkratky v bakalářské práci (opět nemusí být nutné uvádět)
 %%% U matematických prací může být lepší přemístit seznam zkratek na začátek práce.
 
