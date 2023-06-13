@@ -76,15 +76,16 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
 \setlist[enumnfp]{label=\textbf{NFP\hyp{}\arabic*},ref=NFP\hyp{}\arabic*}
 
 \begin{enumnfp}
-  \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.
+\item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.\label{nfp:can-use-everywhere}
   \item Nesmí dojít ke ztrátě práce při náhlém ukončení aplikace kvůli interním či externím vlivům.
   To může být zařízeno např. průběžným ukládáním práce.
   \item Aplikaci bude možné používat i při výpadku internetového připojení.
-  \item V~rámci bezpečnosti žádná data týkající se práce na projektu neopustí zařízení klienta, pokud tak klient explicitně neučiní (například export a přesun souboru).
+  \item V~rámci bezpečnosti žádná data týkající se práce na projektu neopustí zařízení klienta, pokud tak klient explicitně neučiní (například export a přesun souboru).\label{nfp:safety}
   \item Aplikace bude navržena tak, aby bylo možné bez větších komplikací rozšířit její funkcionalitu (např. přidat podporu UML).
+  \item Aplikace bude nenáročná na provoz a investice provozovatele.\label{nfp:nenarocnost}
 \end{enumnfp}
 
-\section{Diagram tříd}
+\section{Konceptuální model}
 
 V~této kapitole představíme konceptuální model aplikace.
 Jedná se o~část světa, na kterou vymezujeme svůj diskurz.
@@ -180,3 +181,39 @@ Další koncepty jsou totožné konceptuálním modelem schematické kategorie.
   \caption{Diagram tříd -- \acrlong{vsk}}
   \label{fig:class-diagram:scv}
 \end{figure}
+
+\section{Koncept řešení}
+
+Zejména kvůli požadavku~\ref{nfp:can-use-everywhere} za řešení volíme webovou aplikaci.
+Kvůli požadavkům~\ref{nfp:nenarocnost} a~\ref{nfp:safety} se však bude jednat o statickou webovou aplikaci.
+
+Statická webová aplikace se stahuje ze serveru jen při přístupu uživatele do aplikace.
+Dále už prohlížeč uživatele se serverem nijak nekomunikuje.
+Díky tomu bude aplikace nenáročná na provoz, protože stačí statický webový server, který ji pouze zpřístupní v prohlížeči.
+
+Dále je vhodné, že každé moderní desktopové zařízení s téměř libovolným desktopovým operačním systémem disponuje webovým prohlížečem.
+Tím umožníme nezávislost na cílové platformě zařízení, protože naší platformou bude právě webový prohlížeč.
+
+Aby se jednalo o statickou webovou aplikaci, server musí umět pouze odesílat webové stránky uživateli.
+Výsledný formát aplikace musí být tedy soubory webových technologií, které se budou bez úprav odesílat do prohlížeče uživatele.
+Docílí se toho překladem z moderních webových technologií vyššího řádu do starších webových technologií nižšího řádu (HTML, JavaScript, CSS).
+
+Programovací jazyk zvolíme TypeScript vytvořený společností Microsoft~\cite{microsoft_typescriptjavascript_2023}.
+Tento jazyk je nadstavbou JavaScriptu, která přidává mj. statické typové kontroly.
+Statické typové kontroly umožňují udržitelnost větších projektů, protože vytváří kontrakty mezi částmi aplikace (např. typy parametrů funkce), na rozdíl od JavaScriptu, který je dynamicky typovaný.
+Kontroly se uskutečňují při překladu do JavaScriptu.
+
+Jako framework zvolíme React od společnosti Meta Open Source~\cite{react_2023}.
+Jedná se o framework pro tvorbu webových aplikací a uživatelských rozhraní, který používá vývojové paradigma tzv. komponent.
+Idea je taková, že vývojář vytváří malé komponenty, které skládá do větších komponent, z kterých nakonec složí webovou aplikaci.
+Pod komponentou si lze představit nějaký ovládací prvek uživatelského rozhraní, např. tlačítko, nebo např. entitní typ z \acrshort{er}.
+React podporuje TypeScript, což odpovídá našemu zvolenému programovacímu jazyku.
+Tento framework byl v roce 2022 nejpoužívanější front-end webový framework~\cite{stackoverflow_developersurvey_2022}.
+Tím máme zaručenu velkou komunitu vývojářů a velký výběr knihoven.
+
+Diagramy budeme vykreslovat pomocí SVG~\cite{brinza_svg_2018}.
+To je přímo podporované v HTML většinou moderních webových prohlížečů.
+
+Hlavní komponentou aplikace bude SVG plátno, ve kterém budou položené komponenty jednotlivých konstruktů diagramů, které budou složeny ze SVG tvarů.
+Kromě pláten budeme potřebovat modul s uživatelskými prvky, jako jsou tlačítka pro menu a ovládací prvky pro změnu vlastností konstruktů v diagramech.
+Posledním hlavním modulem, bude modul s modelem aplikace, obsahující nejrůznější třídy a rozhraní, které budou odpovídat jednotlivým konstruktům a diagramům.
