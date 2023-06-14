@@ -1,0 +1,85 @@
+\chapter{Implementace}
+
+V této kapitole popíšeme postup implementace aplikace na kresbu diagramů \acrfull{er}, \acrfull{vsk} a syrových schematických kategorií.
+
+\section{Použité technologie}
+
+K vývoji jsme použili framework React~\cite{react_2023}.
+React zjednodušuje tvorbu webových uživatelských rozhraní a celých webových aplikací tím, že umožňuje vytvářet celé komponenty a skládat z nich další.
+
+Programovací jazyk jsme zvolili TypeScript~\cite{microsoft_typescriptjavascript_2023}, který k JavaScriptu přidává statické typování.
+Výsledkem kompilace je JavaScript, který lze interpretovat prohlížečem.
+
+Pro správu globálního stavu aplikace jsme použili knihovnu Zustand~\cite{daishikato_zustand_2023}.
+V React totiž každá komponenta má svůj stav, který předává jako vlastnosti svým dětem.
+Úprava stavu musí být uskutečněna dětmi pomocí události, kterou odebírá rodič.
+V našem případě, kdy v jednom diagramu bude mnoho volných komponent (konstruktů), které mezi sebou potřebují komunikovat tento přístup není vhodný.
+Přestože v React existují způsoby pro sdílení globálního stavu (React Context), jejich metoda sdílení stavu pro naši aplikaci není vhodná.
+Zustand umožňuje vytvořit React Hook, pomocí kterého můžeme v libovolné komponentě číst i upravovat jeden globální stav.
+
+Knihovna Zundo~\cite{kornoelje_zundo_2023} umožňuje globální stav vracet o stav zpět a dopředu (undo/redo).
+Ovšem zachytává i nepatrné změny a tak se sledování stavů musí vhodně vypínat a zapínat.
+
+Dále využijeme knihovnu Immer~\cite{michelweststrate_immer_2023}, která umožňuje v React stav mutovat.
+Při použití Reactu by se totiž stav přímo mutovat neměl, protože by nebyla zaregistrována jeho změna, React by na ni nemohl náležitě zareagovat a došlo by k nekonzistenci.
+React změnu stavu detekuje referenčním (ne hlubokým) porovnáním předchozího a nového stavu komponenty.
+Při každé změně stavu se proto běžně musí vytvořit nový objekt.
+Pokud je objekt hluboce zanořený, je tvorba nového objektu velmi explicitní a zdlouhavá na programování.
+React by se správně měl používat bez zanořených stavů, takže každá komponenta se stará o svůj minimální stav.
+Protože však používáme jeden složitý globální stav, Immer je vhodná pomoc.
+Immer udělá většinu práce za nás tím, že vytvoří tzv. draft (pracovní verze) stavu a sleduje změny, které na něm program dělá.
+Pomocí těchto změn pak vytvoří novou instanci stavu.
+Porovnání práce se stavem bez a s knihovnou Immer lze vidět v Kódu~\ref{code:immer}.
+
+Další důležitou použitou knihovnou je class-transformer~\cite{attilaolah_classtransformer_2023}.
+V JavaScriptu, resp. v TypeScriptu existují dva druhy objektů -- \emph{plain} a \emph{class} objekt.
+Při serializaci class objektů do JSON~\cite{tc39group_jsondata_2017} a zpět ztrácí objekt své metody, metody předků a další informace o třídě, z které byla zkonstruována jeho instance.
+Knihovna class-transformer umožňuje mezi těmito typy objektů převádět a my tak můžeme používat instanční metody na objektech deserializovaných z JSON.
+Knihovna nefunguje perfektně pro všechny druhy datových složek, a pokládá na třídy další určité restrikce.
+
+Pro zjednodušení práce s CSS styly používáme knihovnu Tailwind CSS~\cite{tailwindlabs_tailwindcss_2020}.
+Tailwind CSS proráží metodu nastavování stylů pomocí tzv. utilitních tříd.
+Velmi dobře se kombinuje s frameworkem React, protože místo psaní stylů do CSS souborů s arbitrárními názvy, Tailwind CSS umožňuje styl komponent upravovat přímo v jejich atributu \texttt{class}.
+Například, pokud chceme nastavit okraje ovládacího prvku na 24 pixelů, použijeme třídu \texttt{m-6}, kde \texttt{m} je zkratka ze slova margin (okraj) a \texttt{6} znamená \enquote{šestá úroveň}.
+Úrovně různých nastavení mají předdefinované (ale nastavitelné) hodnoty a umožňují konzistentní styl -- délky, barvy i celé kombinace několika vlastností.
+Při kompilaci aplikace se ve výsledném balíčku CSS zakomponují z Tailwind CSS pouze třídy, které byly v aplikaci opravdu použity.
+
+Pro kompilaci a vytvoření výsledného balíčku statické webové aplikace používáme nástroj Vite (čte se francouzsky, [vít]).
+Výstupem této kompilace je ideálně pouze jediný HTML soubor, jediný JavaScript soubor a jediný CSS soubor, které jsou připraveny na nasazení.
+Vite totiž přeloží TypeScript do JavaScriptu, najde a propojí všechny importované moduly a spojí vše do jediného souboru.
+\mcomment{Stačí pro použité technologie takhle strana? Mám ještě o čem psát, konkrétně třeba knihovny na úpravu datových chunků PNG souborů.}
+
+Stěžejní knihovnou, která poskytuje prvky uživatelského rozhraní, je FlexLayout~\cite{_flexlayout_2023}.
+Jedná se o rozhraní s okny, která se dají přesouvat, roztahovat a přepínat záložkami.
+Tato knihovna byla zvolena, protože je flexibilní a uživatel si své pracovní prostředí díky jejím prvkům může libovolně upravit.
+
+\begin{lstlisting}[language=JavaScript,float=htb,caption=Použití knihovny Immer,label=code:immer]
+// tvorba stavu v React
+const [state, setState] = useState({
+  person: {
+    name: "Name",
+    age: 30,
+    inventory: {
+      description: "Description",
+      productIds: [1,2,3]
+    }
+  }
+});
+
+// aktualizace stavu bez knihovny Immer
+setState(prevState => ({
+  ...prevState,
+  person: {
+    ...prevState.person,
+    inventory: {
+      ...prevState.person.inventory,
+      productIds: [...prevState.person.inventory.productIds, 4]
+    }
+  }
+}))
+
+// aktualizace stavu s knihovnou Immer
+setState(produce(draft => {
+  draft.person.inventory.productIds.push(4)
+}))
+\end{lstlisting}

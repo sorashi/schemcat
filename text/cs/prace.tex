@@ -159,6 +159,20 @@
   tabsize=2
 }
 \lstset{style=mystyle}
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
 %%%% END Listings
 
 % better hyphenation, use \hyp{} to suggest hyphen
@@ -213,6 +227,7 @@
 \include{kap01}
 \include{kap02}
 \include{kap03}
+\include{kap04}
 \include{zaver}
 
 \include{literatura}
@@ -236,6 +251,7 @@
 % \include{kap01}
 \include{kap02}
 \include{kap03}
+\include{kap04}
 % \include{zaver}
 \include{literatura}
 \listoffigures
