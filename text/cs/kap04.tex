@@ -83,3 +83,51 @@ setState(produce(draft => {
   draft.person.inventory.productIds.push(4)
 }))
 \end{lstlisting}
+
+\section{Vývoj}\label{section:development}
+
+K vývoji je potřeba mít nainstalovaný Node JS~\cite{openjsfoundation_nodejs_2023}.
+Naše prostředí má Node verze 20.
+Po instalaci by měl být k dispozici program \texttt{corepack}, kterým lze aktivovat náš upřednostňovaný správce balíčků \texttt{pnpm}.
+Spustíme příkaz\footnote{rozsah \texttt{\^{}8} specifikuje verzi použitou v době psaní práce, nejnovější verzi lze nainstalovat tím, že místo tohoto rozsahu použijeme \texttt{latest}}
+\begin{verbatim}
+corepack prepare --activate pnpm@^8
+\end{verbatim}
+a poté ve složce \texttt{schemcat} se zdrojovým kódem spustíme
+\begin{verbatim}
+pnpm install
+\end{verbatim}
+což nainstaluje všechny potřebné závislosti.
+
+Poté lze používat všechny příkazy, které jsme definovali v souboru \texttt{package.json}.
+Např.~příkaz
+\begin{verbatim}
+pnpm run dev
+\end{verbatim}
+spustí vývojový server, který sleduje změny ve zdrojovém kódu a sám stránku webového prohlížeče aktualizuje, když se kód změní.
+To umožňuje rapidní cyklus vývoje a testování změn.
+
+Příkaz
+\begin{verbatim}
+pnpm run build
+\end{verbatim}
+sestaví projekt a výsledné soubory připravené k nasazení uloží do složky \texttt{dist}.
+
+\section{Instalace a nasazení}
+
+Kromě zdrojového kódu je v \hlcomment{příloze}{Jak označovat externí přílohy?} také sestavený projekt.
+Stačí, aby správce soubory přesunul a nasadil na statický webový server.
+Tento statický server však musí souborům přiřazovat korektní MIME hlavičky, jinak není fungování projektu zaručeno.
+
+Uživatel musí mít moderní webový prohlížeč, který podporuje ES6 moduly\footnote{prohlížeče definované v tabulce na této adrese \url{https://caniuse.com/es6-module}}.
+Pokud je potřeba přidat podporu starších prohlížečů, je třeba postupovat podle Sekce~\ref{section:development}.
+Dále nainstalovat balíček \texttt{@vitejs/plugin-legacy}\footnote{\url{https://www.npmjs.com/package/@vitejs/plugin-legacy}}.
+Poté je třeba definovat v souboru \texttt{package.json} položku \texttt{browserslist} s rozsahem webových prohlížečů, které chceme podporovat podle specifikace\footnote{\url{https://browsersl.ist/}}.
+Nakonec je nutné projekt sestavit.
+
+Pokud chceme sestavený projekt spustit lokálně a máme nainstalovaný správce balíčků ze Sekce~\ref{section:development}, stačí spustit příkaz
+\begin{verbatim}
+pnpx http-server .
+\end{verbatim}
+ve složce se soubory sestaveného projektu.
+Na obrazovce se pak vypíší lokální adresy, na kterých běží tento statický server.
