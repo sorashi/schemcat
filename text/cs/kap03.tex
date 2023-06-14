@@ -22,13 +22,13 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
 
 \subsubsection*{Projekt}
 \begin{enumfp}
-  \item V~systému bude možné vytvořit nový projekt.
+  \item V systému bude možné vytvořit nový projekt.
   \item Projekt bude možné uložit.
   \item Projekt bude možné načíst.
   \item Projekt bude možné pojmenovat pro odlišení od ostatních projektů.
   \item Jednotlivé diagramy bude možné exportovat do rastrového i vektorového formátu.
-  \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z~nich pak bude možné načíst.
-  Tímto bude projekt možné otevřít jak v~prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v~našem systému a pokračovat v~práci.
+  \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z nich pak bude možné načíst.
+  Tímto bude projekt možné otevřít jak v prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v našem systému a pokračovat v práci.
   \item Zobrazení každého diagramu bude možné posouvat myší.
   \item Zobrazení každého diagramu bude možné přibližovat a oddalovat kolečkem myši.
   \item Posunutí a přiblížení bude volitelně možné synchronizovat mezi všemi diagramy.
@@ -180,6 +180,24 @@ Další koncepty jsou totožné konceptuálním modelem schematické kategorie.
   \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/scv-model.pdf}
   \caption{Diagram tříd -- \acrlong{vsk}}
   \label{fig:class-diagram:scv}
+\end{figure}
+
+\section{Případy užití}
+
+Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
+Každý případ užití popisuje jeden způsob, jak lze systém použít.
+Uživatelé systému (lidé, stroje, nebo jiné systémy) jsou v diagramu reprezentováni tzv. herci (actors).
+Model tak popisuje způsoby, kterými lze systém použít jeho okolím a jaké služby systém nabízí.~\cite[s.~65]{overgaard_usecases_2005}
+
+Případy užití rozdělíme do několik okruhů.
+Jedním okruhem je funkcionalita diagramů a jejich plátna, která je u všech diagramů \hlcomment{téměř stejná}{Mám udělat případy užití pro ER, schematickou kategorii a vizualizaci schematické kategorie zvlášť?}.
+Dále vydělíme funkcionalitu části systému, který se stará o správu projektu jako celku.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{0.7\textwidth}]{../img/diagrams/use-case-diagram.pdf}
+  \caption{Diagram případů užití}
+  \label{fig:use-case-diagram}
 \end{figure}
 
 \section{Koncept řešení}
