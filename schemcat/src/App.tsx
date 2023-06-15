@@ -1,4 +1,4 @@
-import produce, { enableMapSet } from 'immer'
+import { produce, enableMapSet } from 'immer'
 enableMapSet()
 
 import './App.css'

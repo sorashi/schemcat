@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-named-as-default
-import produce from 'immer'
+import { produce } from 'immer'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useStore } from '../hooks/useStore'
 import { Rectangle } from '../model'
