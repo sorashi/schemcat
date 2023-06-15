@@ -37,8 +37,9 @@ validate: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 ../img/diagrams/%.svg: ../img/diagrams/Diagrams.mdj | ../img/diagrams
 	staruml image $< -f svg -o "../img/diagrams/<%=filenamify(element.name)%>.svg"
 
-../img/diagrams/%.pdf: ../img/diagrams/%.svg
-	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf
+../img/diagrams/%.pdfb: ../img/diagrams/%.svg
+	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf --export-filename="$(basename $@)temp"
+	mv "$(basename $@)temp.pdf" "$@"
 
 ../img/er-model/%.pdf: ../img/er-model/base.svg
 	outp="$(basename $(notdir $@))"; \
@@ -49,6 +50,17 @@ validate: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 	outp="$(basename $(notdir $@))"; \
 	export_id=$$(python3 ../img/find-layer-id.py "$<" $$outp); \
 	inkscape "$<" --export-area-drawing --export-id="$$export_id" --export-id-only --batch-process --export-type=pdf --export-filename="$@"
+
+# Convert files to PDF/A-2u 1.5 using Ghostscript. To ensure correct rule order, this uses the temporary pdfb extension.
+%.pdf: %.pdfb
+	gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite \
+				-dPDFA=2 \
+				-dPDFACompatibilityPolicy=1 \
+				-dCompatibilityLeve=1.5 \
+				-sColorConversionStrategy=RGB -dOverrideICC=true \
+        -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dDownsampleColorImages=false \
+        -dAutoFilterGrayImages=false -dGrayImageFilter=/FlateEncode -dDownsampleGrayImages=false \
+        -sOutputFile=$@ $<
 
 # Convert StarUML project diagrams to PDFs for embedding in LaTeX. Needs StarUML for mdj -> svg, and Inkscape for svg -> pdf.
 diagrams: ../img/diagrams/schema-category-model.pdf ../img/diagrams/er-diagram-model.pdf ../img/diagrams/scv-model.pdf ../img/diagrams/use-case-diagram.pdf
