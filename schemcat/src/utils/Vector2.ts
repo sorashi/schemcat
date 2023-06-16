@@ -1,4 +1,4 @@
-import { toRadians } from './Angle'
+import { Angle, toRadians } from './Angle'
 
 export default class Vector2 {
   x: number
@@ -57,7 +57,7 @@ export default class Vector2 {
   }
 
   /** Returns the angle of this vector in radians. Returns in range [0, PI) + [-PI, 0) */
-  angle(): number {
-    return Math.atan2(-this.y, this.x)
+  angle(): Angle {
+    return Angle.fromRad(Math.atan2(-this.y, this.x))
   }
 }

@@ -54,8 +54,8 @@ function identifiersToBezier(
 
   // sort by counter-clockwise angle
   connectionLocations = connectionLocations.sort((a, b) => {
-    const angleA = normalizeRadiansAngle(a.to.subtract(a.from).angle())
-    const angleB = normalizeRadiansAngle(b.to.subtract(b.from).angle())
+    const angleA = a.to.subtract(a.from).angle().normalized().rad()
+    const angleB = b.to.subtract(b.from).angle().normalized().rad()
     return angleA - angleB
   })
   // find best array rotation by angle sum
@@ -65,8 +65,8 @@ function identifiersToBezier(
     const rotated = arrayRotated(connectionLocations, i)
     let sum = 0
     for (let j = 0; j < rotated.length - 1; j++) {
-      const angleA = normalizeRadiansAngle(rotated[j].to.subtract(rotated[j].from).angle())
-      const angleB = normalizeRadiansAngle(rotated[j + 1].to.subtract(rotated[j + 1].from).angle())
+      const angleA = rotated[j].to.subtract(rotated[j].from).angle().normalized().rad()
+      const angleB = rotated[j + 1].to.subtract(rotated[j + 1].from).angle().normalized().rad()
       sum += normalizeRadiansAngle(angleB - angleA)
     }
     if (sum < minAchieved) {
