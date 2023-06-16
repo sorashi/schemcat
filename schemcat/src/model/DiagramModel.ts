@@ -45,11 +45,24 @@ export enum Anchor {
   BottomRight = 'bottom-right',
 }
 
-export interface Rectangle {
-  x: number
-  y: number
-  width: number
-  height: number
+export class Rectangle {
+  [immerable] = true
+  x = 0
+  y = 0
+  width = 0
+  height = 0
+  
+  get left() { return this.x }
+  get right() { return this.x + this.width }
+  get top() { return this.y }
+  get bottom() { return this.y + this.height }
+
+  constructor(x = 0, y = 0, width = 0, height = 0) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+  }
 }
 
 export type ErDiagramEntityType = 'ErNode' | 'ErConnection' | 'ErIdentifier' | 'ErIsaHierarchy'
@@ -105,7 +118,8 @@ export class DiagramModel {
   /** IDs of diagram entities selected by the user.
    * This property does not need a `@Type` attribute, because the type is a list of interfaces, not of classes. */
   public selectedEntities: ErDiagramIdentityDiscriminator[] = []
-  public viewBox: Rectangle = { x: 0, y: 0, width: 800, height: 800 }
+  @Type(() => Rectangle)
+  public viewBox: Rectangle = new Rectangle(0, 0, 800, 800)
 }
 export class DiagramNode {
   [immerable] = true

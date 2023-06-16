@@ -6,6 +6,7 @@ import { Rectangle } from '../model'
 import { Point } from '../model/Point'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { Draggable } from './Draggable'
+import { shallowClone } from '../utils/Types'
 
 interface PannableZoomableSvgProps {
   children?: React.ReactNode
@@ -44,7 +45,7 @@ function PannableZoomableSvg({
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   const updateDiagram = useStore((state) => state.updateDiagram)
 
-  const [customViewBox, setCustomViewBox] = useState({ ...viewBox })
+  const [customViewBox, setCustomViewBox] = useState<Rectangle>(shallowClone(Rectangle, viewBox))
   const [viewBoxOnDragStart, setViewBoxOnDragStart] = useState({
     x: 0,
     y: 0,
@@ -103,10 +104,10 @@ function PannableZoomableSvg({
   }
 
   useLayoutEffect(() => {
-    if (!isZoomPanSynced) setCustomViewBox({ ...viewBox })
+    if (!isZoomPanSynced) setCustomViewBox(shallowClone(Rectangle, viewBox))
     if (isZoomPanSynced && isSelectedNodeInActiveTabset) {
       // leader
-      updateDiagram((d) => (d.viewBox = { ...customViewBox }))
+      updateDiagram((d) => (d.viewBox = shallowClone(Rectangle, customViewBox)))
     }
   }, [isZoomPanSynced])
 

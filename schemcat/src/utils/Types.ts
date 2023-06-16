@@ -11,3 +11,8 @@ export type PartialRecord<K extends keyof any, T> = {
 export function assertNever(x: never): never {
   throw new Error('Unexpected object: ' + x)
 }
+export type Constructor<T extends object = object> = new (...args: any[]) => T;
+export type ParameterlessConstructor<T extends object = object> = new () => T;
+export function shallowClone<T extends object = object>(activator: ParameterlessConstructor<T>, from: T): T {
+  return Object.assign(new activator(), from)
+}
