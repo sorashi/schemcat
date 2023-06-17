@@ -55,11 +55,19 @@ export class Rectangle {
   y = 0
   width = 0
   height = 0
-  
-  get left() { return this.x }
-  get right() { return this.x + this.width }
-  get top() { return this.y }
-  get bottom() { return this.y + this.height }
+
+  get left() {
+    return this.x
+  }
+  get right() {
+    return this.x + this.width
+  }
+  get top() {
+    return this.y
+  }
+  get bottom() {
+    return this.y + this.height
+  }
   getLineSegments(): LineSegment[] {
     const topLeft = new Vector2(this.x, this.y)
     const topRight = new Vector2(this.x + this.width, this.y)
