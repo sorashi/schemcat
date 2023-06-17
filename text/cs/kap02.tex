@@ -104,7 +104,7 @@ V~této práci budeme používat pouze symbol~\many{}.
 V této sekci popíšeme mechanismus pro konceptuální modelování s názvem schematická kategorie společně s teorií kategorií, na které je založena.
 Nejdříve ale představíme motivaci za uvedením nového způsobu konceptuálního modelování.
 
-\subsection{Motivace}\mcomment{Nemám dát tuhle motivaci spíše do úvodu? Asi bych se měl trochu více rozepsat, ale zatím takhle.}
+\subsection{Motivace}\mcomment{Tady se musím více rozepsat}
 
 Při začátku vývoje databázových systémů bylo popsáno několik databázových modelů dat.
 Už v roce 1975 je ANSI rozdělila do tří vrstev~\cite{steeljr._interimreport_1975}.
@@ -313,7 +313,6 @@ Jejich signatury jsou složené řetězce, resp. prázdné řetězce $\varepsilo
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/raw-schemcat-example.pdf}
-  \mcomment{Je na obrázku korektní schematická kategorie?}
   \caption[Příklad schematické kategorie]{Příklad schematické kategorie. Identifikátory jsou vyobrazeny množinovým zápisem. Výchozí kardinalita je (\one, \one) a neuvádí se.}
   \label{fig:raw-schemcat}
 \end{figure}
@@ -376,7 +375,7 @@ Význam tohoto konceptuálního modelu je takový, že jeden seznam úkolů mů�
 
 Všimněme si, že žádná informace schmetické kategorie se ve \acrshort{vsk} neztratí.
 Pokud nějaká informace není zobrazena, znamená to, že má definovanou výchozí hodnotu.
-Díky tomu lze říci, že \acrshort{vsk} a schematická kategorie jsou na sebe vzájemně převoditelné a tedy jsou \hlcomment{konceptuálně ekvivalentní}{Spíše asi logicky ekvivalentní? Ale možná by se pletlo s \enquote{ekvivalentní v logické vrstvě}}.
+Díky tomu lze říci, že \acrshort{vsk} a schematická kategorie jsou na sebe vzájemně převoditelné a tedy jsou ekvivalentní.
 
 \section{Převod ER na schematickou kategorii}
 
@@ -394,7 +393,6 @@ Představme k tomu Algoritmus~\ref{alg:conversion-er-schemcat}.
   \SetKwFor{ForAll}{pro\ každý}{dělej}{konec}
   \SetKwProg{Fn}{funkce}{ je}{konec}
   \SetKw{Return}{vrať}%
-  \mcomment[blue]{Nemám celý algoritmus popsat spíš slovy? Ze začátku jsem to zkoušel, ale je tam tolik zanořování, že to začne být rychle nepřehledné. Případně tohle můžu dát do přílohy, protože je to přes 3 stránky.}%
   $\mathcal S\gets$ prázdná schematická kategorie\;
   $\Sigma \gets $ libovolná abeceda, např.~$\N$\;
   \Fn{vytvořObjekt(název)}{
@@ -422,7 +420,7 @@ Představme k tomu Algoritmus~\ref{alg:conversion-er-schemcat}.
     $O_C\gets$ vytvořObjekt(jméno $C$)\;
     \For{atribut $A$, který náleží $C$}{
       $O_A\gets$ objekt z $\mathcal S$ odpovídající atributu $A$\;
-      $M_A\gets$ vytvořBázovýMorfismus(identita $O_C$, identita $O_A$, $\bot$, (\one{}..\one{}), \hlmcomment{(\one{}..\one{})}{neměla by být "zpětná" kardinalita složených atributů spíš \zero{}..\many{}?})\;
+      $M_A\gets$ vytvořBázovýMorfismus(identita $O_C$, identita $O_A$, $\bot$, (\one{}..\one{}), (\one{}..\many{}))\;
     }
     do množiny identifikátorů $O_C$ přidej množinu signatur právě výše vytvořených $M_A$\;
   }
@@ -516,4 +514,4 @@ Uvědomme si, že $E$ nemusí mít ani jeden vlastní atribut ze dvou důvodů, 
   \item nebo se může jednat o slabý entitní typ, který nemá ani jeden interní identifikátor.
 \end{enumerate}
 
-Algoritmus \hlcomment{skončí}{Musím ukázat i korektnost?}, pokud dostane korektní \acrshort{er} diagram (takže nemá cykly a je konečný), protože v cyklu \emph{dokud} na řádce \ref{alg:dokud} se určitě v každé iteraci najde alespoň jeden řešitelný entitní typ, díky neexistenci cyklů.
+Algoritmus skončí, pokud dostane korektní \acrshort{er} diagram (takže nemá cykly a je konečný), protože v cyklu \emph{dokud} na řádce \ref{alg:dokud} se určitě v každé iteraci najde alespoň jeden řešitelný entitní typ, díky neexistenci cyklů.

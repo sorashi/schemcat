@@ -114,13 +114,13 @@ Kardinalita se skládá ze dvou složek, jejichž možné hodnoty jsou dány enu
 To vyjadřuje naše omezení, která jsme na kardinalitu položili.
 
 ISA hierarchie se přesně podle definice skládá z jednoho entitního typu rodiče a jednoho či více entitních typů dětí.
-Mohli jsme místo toho modelovat vztah jednoho rodiče s jedním dítětem, \hlcomment{ale může být užitečné nad těmito vztahy uvažovat po $n$-ticích}{je to tak?}.
+Mohli jsme místo toho modelovat vztah jednoho rodiče s jedním dítětem, ale v \acrshort{er} je důležité nad těmito vztahy uvažovat po $n$-ticích.
 
-Identifikátory jsme namodelovali bez rozlišení významu \hlcomment{externích a interních}{měl bych je rozlišit?} identifikátorů, protože to je vlastnost, která pro každý identifikátor vyplyne až v instanci modelu.
+Identifikátory jsme namodelovali bez rozlišení významu externích a interních identifikátorů, protože to je vlastnost, která pro každý identifikátor vyplyne až v instanci modelu.
 Každý entitní typ musí mít z definice našeho \acrshort{er} modelu alespoň jeden identifikátor (nebo více).
 Ten se může skládat z libovolného množství atributů a vztahových typů.
 V instanci modelu bychom označili identifikátor mající alespoň jeden vztahový typ jako externí, jinak interní.
-Model povoluje i identifikátory bez členů, které \hlcomment{nejsou validní}{vadí to?}.
+Přestože model technicky povoluje i identifikátory bez členů, nejsou takové identifikátory validní.
 
 Na Obrázku~\ref{fig:class-diagram:schemcat} je konceptuální model schematické kategorie.
 Stěžejními třídami v modelu jsou objekt, morfismus a signatura.
@@ -136,7 +136,7 @@ Až v implementaci by se mělo dbát na správné pořadí při skládání morf
 
 V konceptuálním modelu vyjadřujeme, že každý objekt musí mít alespoň jeden identifikátor, který se skládá ze signatur.
 Speciálně tímto identifikátorem může být i $\set{\set{\varepsilon}}$, protože signatura může být prázdný řetězec.
-Jak jednotlivé identifikátory, tak celá jejich sada u daného objektu, by měla být množina, a proto se \hlcomment{nemusí dbát}{nevím, jak to vyjádřit v UML} na pořadí a duplicity.
+Jak jednotlivé identifikátory, tak celá jejich sada u daného objektu, by měla být množina, a proto se nemusí dbát na pořadí a duplicity.
 
 Pro morfismy je vyjádřeno, že by měl mít každý svou signaturu.
 Mohli bychom morfismy vydělit na námi definované druhy specializováním třídy morfismu na bázový, odvozený a identitní.
@@ -149,7 +149,7 @@ Další prvky konceptuálního modelu schematické kategorie jsou zřejmé a vyc
 
 Konceptuální model \acrfull{vsk}, který je na Obrázku~\ref{fig:class-diagram:scv}, je podobný konceptuálnímu modelu schematické kategorie, s několika málo rozdíly.
 Koncept signatury ve vizualizaci zaniká.
-Místo toho jsou identifikátory objektů tvořeny přímo \hlcomment{dalšími objekty}{Myslím tím i vzdálenými objekty. Nevím jestli není lepší tvořit identifikátory pomocí morfismů}.
+Místo toho jsou identifikátory objektů tvořeny přímo navazujícími morfismy.
 Objekty a morfismy ztrácí svoji identitu, resp. signaturu.
 Ta konceptuálně ve \acrshort{vsk} není.
 
@@ -190,7 +190,7 @@ Uživatelé systému (lidé, stroje, nebo jiné systémy) jsou v diagramu reprez
 Model tak popisuje způsoby, kterými lze systém použít jeho okolím a jaké služby systém nabízí.~\cite[s.~65]{overgaard_usecases_2005}
 
 Případy užití rozdělíme do několik okruhů.
-Jedním okruhem je funkcionalita diagramů a jejich plátna, která je u všech diagramů \hlcomment{téměř stejná}{Mám udělat případy užití pro ER, schematickou kategorii a vizualizaci schematické kategorie zvlášť?}.
+Jedním okruhem je funkcionalita diagramů a jejich plátna, která je u všech diagramů téměř stejná.
 Dále vydělíme funkcionalitu části systému, který se stará o správu projektu jako celku.
 
 \begin{figure}[!htb]
