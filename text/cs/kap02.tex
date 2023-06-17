@@ -270,11 +270,18 @@ Příklad každého druhu lze pozorovat na Obrázku~\ref{fig:morphism-signatures
 Operaci skládání morfismů $\circ$ ve schematické kategorii lze definovat následovně.
 Pro dva morfismy $f,g\in\mathcal M$ a objekty $A,B,C\in \mathcal O$ takové, že $f\colon A\to B, g\colon B\to C$ a
 \begin{itemize}
-  \item $f$ se skládá z $(sig_1, dom_1, cod_1, dir_1, name_1, (min_1, max_1), dup_1, ord_1)$,
-  \item $g$ se skládá z $(sig_2, cod_1, cod_2, dir_2, name_2, (min_2, max_2), dup_2, ord_2)$,
+  \item $f$ se skládá z $(\sig_1, \dom_1, \cod_1, \dir_1, \name_1, (\minn_1, \maxx_1), \dup_1, \ord_1)$,
+  \item $g$ se skládá z $(\sig_2, \cod_1, \cod_2, \dir_2, \name_2, (\minn_2, \maxx_2), \dup_2, \ord_2)$,
 \end{itemize}
 je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z
-$$(sig_2\cdot sig_1, dom_1, cod_2, \text{\hlmcomment[green]{?}{Co má být tady za směr? Nemůžu totiž předpokládat, že jsou stejné, ne?}}, \bot, (\min(min_1, min_2), \max(max_1, max_2)), \mathtt{false}, \mathtt{false})\,.$$
+\begin{multline*}
+  (\sig_2\cdot \sig_1, \dom_1, \cod_2, \dir_1, \bot, (\min(\minn_1, \minn_2), \max(\maxx_1, \maxx_2)),\\ 
+  \dup_1 \lor \dup_2, \ord_1\lor \ord_2)\,.
+\end{multline*}
+
+Protože $f$ a $g$ na sebe navazují, musí platit $dir_1=dir_2$, směr morfismů je stejný a směr složeného morfismu bude také stejný.
+Dále, protože $dom_1, cod_1, dom_2$ a $cod_2$ odpovídají identitám objektů objektů $A, B, C,$ resp. $D$, složený morfismus má doménu $dom_1$ a kodoménu $cod_2$.
+Když u jednoho z morfismů záleží na duplicitách, resp. uspořádání, \hlcomment{bude záležet u složeného morfismu také na duplicitách, resp. uspořádání}{je to pravda?}.
 
 \begin{figure}[!htb]
   \centering
