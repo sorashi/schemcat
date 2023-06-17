@@ -12,7 +12,18 @@ export default class Vector2 {
   static get zero() {
     return new Vector2(0, 0)
   }
-
+  static get left() {
+    return new Vector2(-1, 0)
+  }
+  static get up() {
+    return new Vector2(0, -1)
+  }
+  static get right() {
+    return new Vector2(1, 0)
+  }
+  static get down() {
+    return new Vector2(0, 1)
+  }
   static fromLengthAndAngle(length: number, degrees: number): Vector2 {
     return new Vector2(Math.cos(toRadians(360 - degrees)) * length, Math.sin(toRadians(360 - degrees)) * length)
   }
@@ -56,8 +67,15 @@ export default class Vector2 {
     return new Vector2(this.x / length, this.y / length)
   }
 
+  crossProductMagnitude(other: Vector2): number {
+    return this.x * other.y - this.y * other.x
+  }
+
   /** Returns the angle of this vector in radians. Returns in range [0, PI) + [-PI, 0) */
   angle(): Angle {
     return Angle.fromRad(Math.atan2(-this.y, this.x))
+  }
+  equals(other: Vector2) {
+    return this.x == other.x && this.y == other.y
   }
 }
