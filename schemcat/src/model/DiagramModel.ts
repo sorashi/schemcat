@@ -5,6 +5,7 @@ import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { Transform, Type } from 'class-transformer'
 import Vector2 from '../utils/Vector2'
 import { assertNever, PartialRecord } from '../utils/Types'
+import { LineSegment } from '../utils/LineSegment'
 
 export enum ControlPanelViewType {
   ViewOnly,
@@ -45,6 +46,9 @@ export enum Anchor {
   BottomRight = 'bottom-right',
 }
 
+/**
+ * Represents a non-rotated rectangle
+ */
 export class Rectangle {
   [immerable] = true
   x = 0
@@ -56,6 +60,18 @@ export class Rectangle {
   get right() { return this.x + this.width }
   get top() { return this.y }
   get bottom() { return this.y + this.height }
+  getLineSegments(): LineSegment[] {
+    const topLeft = new Vector2(this.x, this.y)
+    const topRight = new Vector2(this.x + this.width, this.y)
+    const bottomLeft = new Vector2(this.x, this.y + this.height)
+    const bottomRight = new Vector2(this.x + this.width, this.y + this.height)
+    return [
+      { from: bottomRight, to: topRight },
+      { from: topRight, to: topLeft },
+      { from: topLeft, to: bottomLeft },
+      { from: bottomLeft, to: bottomRight },
+    ]
+  }
 
   constructor(x = 0, y = 0, width = 0, height = 0) {
     this.x = x
