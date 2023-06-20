@@ -27,6 +27,9 @@ export default class Vector2 {
   static fromLengthAndAngle(length: number, degrees: number): Vector2 {
     return new Vector2(Math.cos(toRadians(360 - degrees)) * length, Math.sin(toRadians(360 - degrees)) * length)
   }
+  static fromDOMPoint(point: DOMPoint) {
+    return new Vector2(point.x, point.y)
+  }
 
   add(other: Vector2): Vector2 {
     return new Vector2(this.x + other.x, this.y + other.y)
@@ -46,6 +49,10 @@ export default class Vector2 {
 
   subtract(other: Vector2): Vector2 {
     return this.add(other.negate())
+  }
+
+  distanceTo(other: Vector2): number {
+    return other.subtract(this).length()
   }
 
   rotate(degrees: number): Vector2 {

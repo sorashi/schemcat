@@ -44,6 +44,9 @@ dependencies:
   reflect-metadata:
     specifier: ^0.1.13
     version: 0.1.13
+  svg-intersections:
+    specifier: ^0.4.0
+    version: 0.4.0
   uuid:
     specifier: ^9.0.0
     version: 9.0.0
@@ -61,6 +64,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.2.5
     version: 18.2.5
+  '@types/svg-intersections':
+    specifier: ^0.4.1
+    version: 0.4.1
   '@types/uuid':
     specifier: ^9.0.2
     version: 9.0.2
@@ -788,6 +794,10 @@ packages:
 
   /@types/sizzle@2.3.3:
     resolution: {integrity: sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==}
+    dev: true
+
+  /@types/svg-intersections@0.4.1:
+    resolution: {integrity: sha512-873+qismSMmAjEUZKBjsiGl7hz/3FR4IxRzpd5SYO3Lc0iIJh8duQn62eQonFMD7MqEWV7qyfCKlGXqIWl+KTg==}
     dev: true
 
   /@types/uuid@9.0.2:
@@ -2814,6 +2824,16 @@ packages:
       object.assign: 4.1.4
     dev: true
 
+  /kld-affine@2.0.0:
+    resolution: {integrity: sha512-UmP2/cQizPEE1PO1PVyk7GN7TIbGB1r6h3kGJcscPvE7F49Dsv0TnNgoLEBVBgDXx0LFUbhPBcc0MtwUL3VjgQ==}
+    engines: {node: '>= 0.10.4'}
+    dev: false
+
+  /kld-polynomial@0.1.1:
+    resolution: {integrity: sha512-ropyUXXdsbarUe+19taltkkJxbFr8jQCsZFPAzIK/qxcWjKWrnO7WR+8kjpIxB2BT7YjZdxLFF4TmGSJHS7B9g==}
+    engines: {node: '>= 0.10.4'}
+    dev: false
+
   /lazy-ass@1.6.0:
     resolution: {integrity: sha512-cc8oEVoctTvsFZ/Oje/kGnHbpWHYBe8IAJe4C0QNc3t8uM/0Y8+erSz/7Y1ALuXTEZTMvxXwO6YbX1ey3ujiZw==}
     engines: {node: '> 0.8'}
@@ -3970,6 +3990,14 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /svg-intersections@0.4.0:
+    resolution: {integrity: sha512-w/OhJFvOlpy8Qyf+IuNB6uk3EhwkzHzrbqnbD8ktgvVf3zk+VotPWOsUQtYOV9zSLEYWq0jFEh/uah/qVSzMiQ==}
+    engines: {node: '>= 0.10.4'}
+    dependencies:
+      kld-affine: 2.0.0
+      kld-polynomial: 0.1.1
+    dev: false
 
   /tailwindcss@3.3.2:
     resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { getIdentifierById, getIdentifiersByIds, StoreModel, useStore } from '../hooks/useStore'
 import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
@@ -10,11 +10,10 @@ interface ErNodeProps {
   selected: boolean
 }
 
-const height = 70
-
 const defaultNodeStyle = {
   fill: 'white',
   stroke: 'black',
+  strokeWidth: 1.5,
 }
 
 const selectedNodeStyle = {
@@ -44,12 +43,13 @@ function ErNodeByType(props: ErNodeProps) {
   }, [connections, nodes, node.id, identifiers])
   switch (node.type) {
     case ErNodeType.EntityType:
-      // margin-y 10
       return (
         <rect
           width={width}
-          height={node.height + 20}
-          y={-10}
+          height={node.height}
+          y={0}
+          x={0}
+          rx={2}
           {...defaultNodeStyle}
           {...(selected && selectedNodeStyle)}
         />
@@ -83,10 +83,32 @@ function ErNodeByType(props: ErNodeProps) {
 function ErNode(props: ErNodeProps) {
   const { node } = props
   const updateNodeById = useStore((state: StoreModel) => state.updateNodeById)
+  const textRef = useRef<SVGTextElement>(null)
+  useLayoutEffect(() => {
+    if (textRef.current !== null) {
+      const width = Math.max(textRef.current.clientWidth, 80)
+      const height = Math.max(textRef.current.clientHeight, 35)
+      let marginW = 0
+      let marginH = 0
+      if (node.type == ErNodeType.EntityType) {
+        marginW = 20
+        marginH = 20
+      }
+      updateNodeById(props.node.id, (node) => {
+        node.width = width + marginW
+        node.height = height + marginH
+      })
+    }
+  }, [textRef.current?.clientWidth, textRef.current?.clientHeight])
   return (
     <>
       <ErNodeByType {...props} />
-      <text x={props.node.width / 2} y={props.node.height / 2} dominantBaseline='middle' textAnchor='middle'>
+      <text
+        x={props.node.width / 2}
+        y={props.node.height / 2}
+        ref={textRef}
+        dominantBaseline='middle'
+        textAnchor='middle'>
         {node.label}
       </text>
     </>

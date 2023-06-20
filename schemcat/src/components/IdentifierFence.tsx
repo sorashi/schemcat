@@ -1,0 +1,198 @@
+import { useStore } from '../hooks/useStore'
+import { Connection, ErNode, Rectangle } from '../model/DiagramModel'
+import { LineSegment } from '../utils/LineSegment'
+import SvgPathStringBuilder from '../utils/SvgPathStringBuilder'
+import Vector2 from '../utils/Vector2'
+import { v4 as uuidv4 } from 'uuid'
+import { shape, intersect } from 'svg-intersections'
+import { arrayRotate, arrayRotated } from '../utils/Array'
+
+function closestDistanceOfPointToRectangle(rect: Rectangle, point: Vector2): number {
+  const dx = Math.max(rect.left - point.x, 0, point.x - rect.right)
+  const dy = Math.max(rect.top - point.y, 0, point.y - rect.bottom)
+  return Math.sqrt(dx * dx + dy * dy)
+}
+
+interface IdentifierPathReturnType {
+  path: string
+  lastPoint: Vector2
+  begginingLength: number
+  endingLength: number
+  totalLength: number
+  intersectionPoints: Vector2[]
+}
+
+function getFenceRectangle(d: number, original: Rectangle): Rectangle {
+  const dhalf = d / 2
+  return new Rectangle(original.x - dhalf, original.y - dhalf, original.width + d, original.height + d)
+}
+
+type IdentifierConnection = LineSegment
+
+function getPathLength(path: string) {
+  const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+  pathEl.setAttributeNS(null, 'd', path)
+  return pathEl.getTotalLength()
+}
+
+/**
+ * Does a linear search to find the length on a SVG `path` where the `point` lies.
+ * @param path The path commands from the d attribute of the path.
+ * @param point The point to look for.
+ * @param tolerance Tolerance of distance to point.
+ */
+function getPathLengthAtPoint(path: string, point: Vector2, tolerance: number): number {
+  const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+  pathEl.setAttributeNS(null, 'd', path)
+  const pathLength = pathEl.getTotalLength()
+  let currentLength = 0
+  while (currentLength <= pathLength) {
+    const currentPoint = Vector2.fromDOMPoint(pathEl.getPointAtLength(currentLength))
+    if (currentPoint.distanceTo(point) <= tolerance) {
+      return currentLength
+    }
+    currentLength += tolerance
+  }
+  console.error(`Point ${point} wasn't found on path ${path} with tolerance ${tolerance}`)
+  return -1
+}
+
+function identifiersToFence(
+  identifiee: Rectangle,
+  identifierConnections: IdentifierConnection[]
+): IdentifierPathReturnType {
+  const margin = 20
+  const cornerRadius = 30
+  // draw path
+  const pathBuilder = new SvgPathStringBuilder()
+  const drawingDirections = [Vector2.up, Vector2.left, Vector2.down, Vector2.right]
+  const segments = identifiee.getLineSegments()
+  const segmentLengths = [0]
+  for (let i = 0; i < 4; i++) {
+    // shift to make space for the arc
+    const from = segments[i].from.add(drawingDirections[i].multiply(cornerRadius))
+    const to = segments[i].to.add(drawingDirections[i].multiply(-cornerRadius))
+    if (pathBuilder.isEmpty) pathBuilder.start(from)
+    pathBuilder.lineTo(to)
+    segmentLengths.push(getPathLength(pathBuilder.getPath()))
+    // the arc ends at the start of the next segment
+    const nextSegmentFrom = segments[(i + 1) % 4].from.add(drawingDirections[(i + 1) % 4].multiply(cornerRadius))
+    pathBuilder.arc(cornerRadius, cornerRadius, 0, false, false, nextSegmentFrom)
+    segmentLengths.push(getPathLength(pathBuilder.getPath()))
+  }
+  pathBuilder.close()
+  const path = pathBuilder.getPath()
+
+  const pathShape = shape('path', { d: path })
+  const lineShapes = identifierConnections.map((conn) =>
+    shape('line', { x1: conn.from.x, y1: conn.from.y, x2: conn.to.x, y2: conn.to.y })
+  )
+  let returnEarly = false
+  const intersections = lineShapes.map((line, i) => {
+    const found = intersect(pathShape, line)
+    if (found.points.length !== 1) {
+      console.log(
+        `Found ${found.points.length} intersections with fence path for line from ${identifierConnections[i].from} to ${identifierConnections[i].to}`
+      )
+      returnEarly = true
+    }
+    return new Vector2(found.points[0].x, found.points[0].y)
+  })
+  if (returnEarly)
+    return {
+      intersectionPoints: [],
+      path: path,
+      lastPoint: Vector2.zero,
+      endingLength: 0,
+      begginingLength: 0,
+      totalLength: 0,
+    }
+
+  const totalPathLength = getPathLength(path)
+  const intersectionsInfo = intersections.map((inter) => ({
+    point: inter,
+    length: getPathLengthAtPoint(path, inter, 10),
+  }))
+  intersectionsInfo.sort((a, b) => a.length - b.length)
+  let bestRotation = 0
+  let bestRotationSum = Infinity
+  for (let i = 0; i < intersectionsInfo.length; i++) {
+    const rotation = arrayRotated(intersectionsInfo, i)
+    let rotationSum = 0
+    for (let j = 0; j < rotation.length - 1; j++) {
+      let diff = rotation[j + 1].length - rotation[j].length
+      if (diff < 0) diff += totalPathLength
+      rotationSum += diff
+    }
+    if (rotationSum < bestRotationSum) {
+      bestRotationSum = rotationSum
+      bestRotation = i
+    }
+  }
+  arrayRotate(intersectionsInfo, bestRotation)
+  let begginingLength = intersectionsInfo[0].length - margin
+  const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+  pathEl.setAttributeNS(null, 'd', path)
+  const endLength = (intersectionsInfo[intersectionsInfo.length - 1].length + margin) % totalPathLength
+  const lastPoint = Vector2.fromDOMPoint(pathEl.getPointAtLength(endLength))
+  if (begginingLength < 0) begginingLength += totalPathLength
+  return {
+    begginingLength: begginingLength,
+    endingLength: endLength,
+    totalLength: totalPathLength,
+    lastPoint: lastPoint,
+    path: path,
+    intersectionPoints: intersectionsInfo.map((i) => i.point),
+  }
+}
+
+export interface IdentifierFenceProps {
+  node: ErNode
+  identifiers: ErNode[]
+  links: Connection[]
+}
+
+export function IdentifierFence(props: IdentifierFenceProps) {
+  const rectangle = new Rectangle(props.node.x, props.node.y, props.node.width, props.node.height)
+  const nodes = useStore((state) => state.diagram.nodes)
+  if (props.identifiers.length <= 1) return <></>
+
+  const identifierLinks = props.identifiers.map((ident) => {
+    const link = props.links.find(
+      (link) =>
+        (link.fromId === ident.id && link.toId === props.node.id) ||
+        (link.toId === ident.id && link.fromId === props.node.id)
+    )
+    if (!link) throw Error('Not found')
+    return link
+  })
+
+  const segments = identifierLinks.map((x) => {
+    const toId = props.identifiers.find((id) => id.id === x.toId || id.id === x.fromId)
+    const from = props.node.getAnchorPoint(x.fromAnchor) || Vector2.zero
+    const to = toId?.getAnchorPoint(x.toAnchor) || Vector2.zero
+    return { from: from, to: to }
+  })
+
+  const minDistance = Math.min(...segments.map((s) => closestDistanceOfPointToRectangle(rectangle, s.to)))
+  const fenceRectangle = getFenceRectangle(minDistance, rectangle)
+
+  const fence = identifiersToFence(fenceRectangle, segments)
+  const dashArrayStroke = (fence.endingLength - fence.begginingLength + fence.totalLength) % fence.totalLength
+  const dashArrayGap = fence.totalLength - dashArrayStroke
+  return (
+    <>
+      <path
+        d={fence.path}
+        strokeWidth={1.5}
+        stroke='black'
+        fill='none'
+        strokeDasharray={`${dashArrayStroke} ${dashArrayGap}`}
+        strokeDashoffset={-fence.begginingLength}></path>
+      {fence.intersectionPoints.map((p, i) => (
+        <circle key={`intersection-point-${props.links[i]?.id || uuidv4()}`} cx={p.x} cy={p.y} r={3}></circle>
+      ))}
+      <circle cx={fence.lastPoint.x} cy={fence.lastPoint.y} r={7} fill='black'></circle>
+    </>
+  )
+}

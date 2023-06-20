@@ -95,6 +95,9 @@ export default class SvgPathStringBuilder {
     this.path.push(`a ${radiusX} ${radiusY} ${xAxisRotation} ${largeArc ? 1 : 0} ${sweep ? 1 : 0} ${location}`)
   }
 
+  get isEmpty(): boolean {
+    return this.path.length <= 0
+  }
   // returning
   getPath(): string {
     return this.path.join(' ')

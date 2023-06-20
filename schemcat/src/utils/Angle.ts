@@ -37,6 +37,9 @@ export class Angle {
   static get zero(): Angle {
     return Angle.fromDeg(0)
   }
+  static get rightAngle(): Angle {
+    return Angle.fromDeg(90)
+  }
 
   deg(): number {
     return this.degrees
@@ -47,5 +50,9 @@ export class Angle {
 
   normalized(): Angle {
     return Angle.fromDeg(((this.degrees % 360) + 360) % 360)
+  }
+
+  isInRangeInclusive(rangeFrom: Angle, rangeTo: Angle) {
+    return this.degrees >= rangeFrom.degrees && this.degrees <= rangeTo.degrees
   }
 }

@@ -40,6 +40,7 @@
     "react-dom": "^18.2.0",
     "react-fast-compare": "^3.2.2",
     "reflect-metadata": "^0.1.13",
+    "svg-intersections": "^0.4.0",
     "uuid": "^9.0.0",
     "zundo": "2.0.0-beta.20",
     "zustand": "^4.3.8"
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
+    "@types/svg-intersections": "^0.4.1",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
