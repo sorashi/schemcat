@@ -13,6 +13,7 @@ import {
   strokeWidthHitbox,
   strokeWidthMedium,
 } from '../Constants'
+import { notEmpty } from '../utils/Types'
 
 function closestDistanceOfPointToRectangle(rect: Rectangle, point: Vector2): number {
   const dx = Math.max(rect.left - point.x, 0, point.x - rect.right)
@@ -95,16 +96,19 @@ function identifiersToFence(
     shape('line', { x1: conn.from.x, y1: conn.from.y, x2: conn.to.x, y2: conn.to.y })
   )
   let returnEarly = false
-  const intersections = lineShapes.map((line, i) => {
-    const found = intersect(pathShape, line)
-    if (found.points.length !== 1) {
-      console.log(
-        `Found ${found.points.length} intersections with fence path for line from ${identifierConnections[i].from} to ${identifierConnections[i].to}`
-      )
-      returnEarly = true
-    }
-    return new Vector2(found.points[0].x, found.points[0].y)
-  })
+  const intersections = lineShapes
+    .map((line, i) => {
+      const found = intersect(pathShape, line)
+      if (found.points.length !== 1) {
+        console.log(
+          `Found ${found.points.length} intersections with fence path for line from ${identifierConnections[i].from} to ${identifierConnections[i].to}`
+        )
+        returnEarly = true
+        return undefined
+      }
+      return new Vector2(found.points[0].x, found.points[0].y)
+    })
+    .filter(notEmpty)
   if (returnEarly)
     return {
       intersectionPoints: [],
