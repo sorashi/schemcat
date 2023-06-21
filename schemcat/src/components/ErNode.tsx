@@ -1,25 +1,60 @@
-import { CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { getIdentifierById, getIdentifiersByIds, StoreModel, useStore } from '../hooks/useStore'
 import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
 import isEqual from 'react-fast-compare'
+import { attributeCircleRadius, attributeLabelMargin, rectangleCornerRadius, strokeWidthThick } from '../Constants'
 
 interface ErNodeProps {
   node: ErNodeModel
   height?: number
   selected: boolean
 }
+interface ErLabelProps {
+  node: ErNodeModel
+}
 
 const defaultNodeStyle = {
   fill: 'white',
   stroke: 'black',
-  strokeWidth: 1.5,
+  strokeWidth: strokeWidthThick,
 }
 
 const selectedNodeStyle = {
   stroke: 'green',
   strokeDasharray: '3,3',
 }
+
+const ErLabelByType = React.forwardRef<SVGTextElement, ErLabelProps>(
+  (props: ErLabelProps, textRef: React.ForwardedRef<SVGTextElement>) => {
+    const { node } = props
+    if (node.type === ErNodeType.AttributeType) {
+      return (
+        <text
+          x={attributeCircleRadius + attributeLabelMargin}
+          y={0}
+          dominantBaseline='middle'
+          alignmentBaseline='middle'
+          textAnchor='left'>
+          {node.label}
+        </text>
+      )
+    } else {
+      return (
+        <text
+          x={props.node.width / 2}
+          y={props.node.height / 2}
+          ref={textRef}
+          dominantBaseline='middle'
+          textAnchor='middle'
+          alignmentBaseline='middle'>
+          {node.label}
+        </text>
+      )
+    }
+  }
+)
+ErLabelByType.displayName = 'ErLabelByType'
 
 function ErNodeByType(props: ErNodeProps) {
   const { node, selected } = props
@@ -49,7 +84,7 @@ function ErNodeByType(props: ErNodeProps) {
           height={node.height}
           y={0}
           x={0}
-          rx={2}
+          rx={rectangleCornerRadius}
           {...defaultNodeStyle}
           {...(selected && selectedNodeStyle)}
         />
@@ -57,7 +92,7 @@ function ErNodeByType(props: ErNodeProps) {
     case ErNodeType.AttributeType:
       return (
         <circle
-          r={7}
+          r={attributeCircleRadius}
           cx={0}
           cy={0}
           {...defaultNodeStyle}
@@ -103,14 +138,7 @@ function ErNode(props: ErNodeProps) {
   return (
     <>
       <ErNodeByType {...props} />
-      <text
-        x={props.node.width / 2}
-        y={props.node.height / 2}
-        ref={textRef}
-        dominantBaseline='middle'
-        textAnchor='middle'>
-        {node.label}
-      </text>
+      <ErLabelByType node={props.node} ref={textRef} />
     </>
   )
 }
