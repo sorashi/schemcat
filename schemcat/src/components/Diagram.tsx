@@ -292,7 +292,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
     const identifierIsRelationshipType = identifiers.length === 1 && identifiers[0].type === ErNodeType.RelationshipType
 
     if (identifiers.length < 2 && !identifierIsRelationshipType) return
-    const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
+    // const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
     const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
       ? {
           stroke: 'green',
@@ -321,6 +321,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
         <IdentifierFence
           key={`fence-${node.id}`}
           node={plainToClass(ErNodeModel, { ...node })}
+          identifier={identifier}
           identifiers={[...identifiers.map((x) => plainToClass(ErNodeModel, { ...x }))] as ErNodeModel[]}
           links={[...links.map((x) => plainToClass(Connection, { ...x }))]}
         />

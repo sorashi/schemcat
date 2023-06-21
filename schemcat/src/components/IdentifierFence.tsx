@@ -1,11 +1,18 @@
 import { useStore } from '../hooks/useStore'
-import { Connection, ErNode, Rectangle } from '../model/DiagramModel'
+import { Connection, ErIdentifier, ErNode, Rectangle } from '../model/DiagramModel'
 import { LineSegment } from '../utils/LineSegment'
 import SvgPathStringBuilder from '../utils/SvgPathStringBuilder'
 import Vector2 from '../utils/Vector2'
 import { v4 as uuidv4 } from 'uuid'
 import { shape, intersect } from 'svg-intersections'
 import { arrayRotate, arrayRotated } from '../utils/Array'
+import {
+  attributeCircleRadius,
+  identifierIntersectionCircleRadius,
+  selectedStrokeStyle,
+  strokeWidthHitbox,
+  strokeWidthMedium,
+} from '../Constants'
 
 function closestDistanceOfPointToRectangle(rect: Rectangle, point: Vector2): number {
   const dx = Math.max(rect.left - point.x, 0, point.x - rect.right)
@@ -147,6 +154,7 @@ function identifiersToFence(
 }
 
 export interface IdentifierFenceProps {
+  identifier: ErIdentifier
   node: ErNode
   identifiers: ErNode[]
   links: Connection[]
@@ -155,6 +163,8 @@ export interface IdentifierFenceProps {
 export function IdentifierFence(props: IdentifierFenceProps) {
   const rectangle = new Rectangle(props.node.x, props.node.y, props.node.width, props.node.height)
   const nodes = useStore((state) => state.diagram.nodes)
+  const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
+  const updateDiagram = useStore((state) => state.updateDiagram)
   if (props.identifiers.length <= 1) return <></>
 
   const identifierLinks = props.identifiers.map((ident) => {
@@ -180,19 +190,76 @@ export function IdentifierFence(props: IdentifierFenceProps) {
   const fence = identifiersToFence(fenceRectangle, segments)
   const dashArrayStroke = (fence.endingLength - fence.begginingLength + fence.totalLength) % fence.totalLength
   const dashArrayGap = fence.totalLength - dashArrayStroke
+  const identifier = props.identifier
+  const identifierId = identifier.id
+  const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
+    if (e.ctrlKey) {
+      if (selectedEntityIds.some((x) => x.id === identifierId)) {
+        updateDiagram((d) => {
+          d.selectedEntities = d.selectedEntities.filter((x) => x.id !== identifierId)
+        })
+        return
+      }
+      updateDiagram((d) => {
+        d.selectedEntities.push({ id: identifierId, type: 'ErIdentifier' })
+      })
+      return
+    }
+    updateDiagram((d) => {
+      d.selectedEntities = [{ id: identifierId, type: 'ErIdentifier' }]
+    })
+  }
+  // If the selected stroke style contains a dasharray specification, we need to adjust our dasharray,
+  // because we use it to display just the desired length of the path. Note that this will work only
+  // if the dasharray contains an even number of numbers, so strokeDasharray: '5' will not work and
+  // the following lines need to be adjusted.
+  const dashArrayLength =
+    (selectedStrokeStyle.strokeDasharray &&
+      selectedStrokeStyle.strokeDasharray
+        .toString()
+        .split(' ')
+        .map((x) => parseFloat(x))
+        .reduce((a, c) => a + c, 0)) ||
+    1
+  const selectedStrokeDasharray =
+    (selectedStrokeStyle.strokeDasharray &&
+      (selectedStrokeStyle.strokeDasharray + ' ').repeat(dashArrayStroke / dashArrayLength) +
+        '0 ' +
+        dashArrayGap.toString()) ||
+    undefined
   return (
     <>
       <path
         d={fence.path}
-        strokeWidth={1.5}
+        strokeWidth={strokeWidthMedium}
         stroke='black'
         fill='none'
         strokeDasharray={`${dashArrayStroke} ${dashArrayGap}`}
-        strokeDashoffset={-fence.begginingLength}></path>
+        strokeDashoffset={-fence.begginingLength}
+        style={
+          (selectedEntityIds.some((x) => x.id === identifierId) && {
+            ...selectedStrokeStyle,
+            strokeDasharray: selectedStrokeDasharray,
+          }) ||
+          {}
+        }></path>
+      {/* the following is a hitbox for selecting the identifier */}
+      <path
+        d={fence.path}
+        stroke='rgba(255,0,0,0)'
+        fill='none'
+        strokeDasharray={`${dashArrayStroke} ${dashArrayGap}`}
+        strokeDashoffset={-fence.begginingLength}
+        strokeWidth={strokeWidthHitbox}
+        onClick={selectOnClick}></path>
       {fence.intersectionPoints.map((p, i) => (
-        <circle key={`intersection-point-${props.links[i]?.id || uuidv4()}`} cx={p.x} cy={p.y} r={3}></circle>
+        <circle
+          key={`intersection-point-${props.links[i]?.id || uuidv4()}`}
+          cx={p.x}
+          cy={p.y}
+          r={identifierIntersectionCircleRadius}></circle>
       ))}
-      <circle cx={fence.lastPoint.x} cy={fence.lastPoint.y} r={7} fill='black'></circle>
+      <circle cx={fence.lastPoint.x} cy={fence.lastPoint.y} r={attributeCircleRadius} fill='black'></circle>
     </>
   )
 }
