@@ -24,9 +24,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="2.9897026"
-     inkscape:cx="306.05051"
-     inkscape:cy="427.80175"
+     inkscape:zoom="1.4948513"
+     inkscape:cx="265.57826"
+     inkscape:cy="279.62648"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -172,46 +172,6 @@
          transform="rotate(180,0.125,0)"
          sodipodi:nodetypes="ccc" />
     </marker>
-    <marker
-       style="overflow:visible"
-       id="marker1737-1"
-       refX="0"
-       refY="0"
-       orient="auto-start-reverse"
-       inkscape:stockid="Arrow1"
-       markerWidth="4.0606599"
-       markerHeight="6.7071061"
-       viewBox="0 0 4.0606602 6.7071068"
-       inkscape:isstock="true"
-       inkscape:collect="always"
-       preserveAspectRatio="xMidYMid">
-      <path
-         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
-         d="M 3,-3 0,0 3,3"
-         id="path1735-27"
-         transform="rotate(180,0.125,0)"
-         sodipodi:nodetypes="ccc" />
-    </marker>
-    <marker
-       style="overflow:visible"
-       id="marker1737-1-0"
-       refX="0"
-       refY="0"
-       orient="auto-start-reverse"
-       inkscape:stockid="Arrow1"
-       markerWidth="4.0606599"
-       markerHeight="6.7071061"
-       viewBox="0 0 4.0606602 6.7071068"
-       inkscape:isstock="true"
-       inkscape:collect="always"
-       preserveAspectRatio="xMidYMid">
-      <path
-         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
-         d="M 3,-3 0,0 3,3"
-         id="path1735-27-6"
-         transform="rotate(180,0.125,0)"
-         sodipodi:nodetypes="ccc" />
-    </marker>
   </defs>
   <g
      inkscape:groupmode="layer"
@@ -265,7 +225,7 @@
        cy="87.863792"
        r="2" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:url(#marker1737)"
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:"
        d="m 101.38037,95.995092 0,9.258258"
        id="path4499"
        sodipodi:nodetypes="cc" />
@@ -292,7 +252,7 @@
          x="102.07026"
          y="106.81576">+</tspan></text>
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:url(#marker1737)"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:"
        d="m 114.66405,87.86379 h 7.53221"
        id="path4767" />
     <text
@@ -313,7 +273,7 @@
        cy="107.81546"
        r="2" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:url(#marker1737-1)"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:"
        d="m 114.66405,107.81546 h 7.53221"
        id="path4767-9" />
     <text
@@ -334,7 +294,7 @@
        cy="112.60698"
        r="2" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:url(#marker1737-1-0)"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:"
        d="m 114.66405,112.60697 h 7.53221"
        id="path4767-9-6" />
     <text
@@ -434,12 +394,12 @@
          x="122.78581"
          y="59.455086">příjmení</tspan></text>
     <path
-       style="fill:url(#Strips1_1);fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:url(#marker1737)"
+       style="fill:url(#Strips1_1);fill-opacity:1;stroke:#000000;stroke-width:0.264999;stroke-opacity:1;marker-end:"
        d="m 110.66628,41.036131 -6.84426,11.912344"
        id="path1499"
        sodipodi:nodetypes="cc" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker1737)"
+       style="fill:none;stroke:#000000;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1;marker-end:"
        d="m 110.66628,41.036131 5.14954,11.912344"
        id="path3691"
        sodipodi:nodetypes="cc" />
