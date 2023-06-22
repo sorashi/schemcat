@@ -169,7 +169,6 @@ export function IdentifierFence(props: IdentifierFenceProps) {
   const nodes = useStore((state) => state.diagram.nodes)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const updateDiagram = useStore((state) => state.updateDiagram)
-  if (props.identifiers.length <= 1) return <></>
 
   const identifierLinks = props.identifiers.map((ident) => {
     const link = props.links.find(
