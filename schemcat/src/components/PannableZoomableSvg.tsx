@@ -60,14 +60,15 @@ function PannableZoomableSvg({
   function handleDragStart(_start: Point, target: EventTarget): boolean {
     if (svgRef.current === null) return true
     const svg: SVGSVGElement = svgRef.current
-    if (svg !== target) {
-      return (onDragStart && onDragStart(_start, target)) || false
+    const preventDragging = onDragStart && onDragStart(_start, target)
+    if (svg == target && !preventDragging) {
+      setViewBoxOnDragStart({
+        x: svg.viewBox.baseVal.x,
+        y: svg.viewBox.baseVal.y,
+      })
+      return false
     }
-    setViewBoxOnDragStart({
-      x: svg.viewBox.baseVal.x,
-      y: svg.viewBox.baseVal.y,
-    })
-    return (onDragStart && onDragStart(_start, target)) || false
+    return true
   }
   function handleDragging(start: Point, now: Point) {
     if (svgRef.current === null) return
