@@ -2,7 +2,7 @@
 import { produce } from 'immer'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useStore } from '../hooks/useStore'
-import { Rectangle } from '../model'
+import { Rectangle, ErDiagramEntityType } from '../model'
 import { Point } from '../model/Point'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { Draggable } from './Draggable'
@@ -13,6 +13,8 @@ interface PannableZoomableSvgProps {
   isSelectedNodeInActiveTabSet?: boolean
   onLeftClick?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
   onDragStart?: (start: Point, target: EventTarget) => boolean | void
+  onDrag?: (svgPos: Point) => boolean | void
+  onMouseMove?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
   svgRef?: React.MutableRefObject<SVGSVGElement | null>
   svgId?: string
 }
@@ -38,12 +40,16 @@ function PannableZoomableSvg({
   isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabset = false,
   onLeftClick,
   onDragStart,
+  onDrag,
+  onMouseMove,
   svgRef = useRef(null),
   svgId,
 }: PannableZoomableSvgProps) {
   const viewBox = useStore((state) => state.diagram.viewBox)
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   const updateDiagram = useStore((state) => state.updateDiagram)
+  const updateEntity = useStore((state) => state.updateErEntityByDiscriminator)
+  const selectedEntities = useStore((state) => state.diagram.selectedEntities)
 
   const [customViewBox, setCustomViewBox] = useState<Rectangle>(shallowClone(Rectangle, viewBox))
   const [viewBoxOnDragStart, setViewBoxOnDragStart] = useState({
@@ -54,7 +60,9 @@ function PannableZoomableSvg({
   function handleDragStart(_start: Point, target: EventTarget): boolean {
     if (svgRef.current === null) return true
     const svg: SVGSVGElement = svgRef.current
-    if (svg !== target) return true
+    if (svg !== target) {
+      return (onDragStart && onDragStart(_start, target)) || false
+    }
     setViewBoxOnDragStart({
       x: svg.viewBox.baseVal.x,
       y: svg.viewBox.baseVal.y,
@@ -66,6 +74,8 @@ function PannableZoomableSvg({
     const svg: SVGSVGElement = svgRef.current
     const startPoint = clientToSvgCoordinates(start.x, start.y, svg)
     const endPoint = clientToSvgCoordinates(now.x, now.y, svg)
+
+    if (onDrag && onDrag(now)) return
 
     function updateViewBox(viewBox: Rectangle) {
       viewBox.x = viewBoxOnDragStart.x - (endPoint.x - startPoint.x)
@@ -125,6 +135,7 @@ function PannableZoomableSvg({
         // zoom on mouse wheel
         onWheel={(e) => handleWheel(e, svgRef)}
         onClick={(e) => e.target === svgRef.current && e.button === 0 && onLeftClick && onLeftClick(e)}
+        onMouseMove={onMouseMove}
         preserveAspectRatio='xMidYMid meet'>
         {children}
       </svg>

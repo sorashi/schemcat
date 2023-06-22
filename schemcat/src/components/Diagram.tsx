@@ -20,7 +20,7 @@ import { arrayRotate, arrayRotated } from '../utils/Array'
 import { normalizeRadiansAngle } from '../utils/Angle'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { DiagramConnection, linkToPoints } from './DiagramConnection'
-import { assertNever } from '../utils/Types'
+import { assertNever, notEmpty } from '../utils/Types'
 import { EmptyTriangleMarker } from './Markers'
 import ErIsaHierarchy from './ErIsaHierarchy'
 import PannableZoomableSvg from './PannableZoomableSvg'
@@ -28,6 +28,7 @@ import { DiagramSvgIds, DiagramType } from '../model/Constats'
 import { IdentifierFence } from './IdentifierFence'
 import { v4 as uuidv4 } from 'uuid'
 import { plainToClass } from 'class-transformer'
+import { Point } from '../model/Point'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -145,6 +146,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
   const updateDiagram = useStore((state) => state.updateDiagram)
   const removeNodeById = useStore((state) => state.removeNodeById)
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const [nodeContextMenuState, setNodeContextMenuState] = useState({
     show: false,
@@ -420,6 +422,35 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
       ...viewIdentifiers(node),
     ])
   }
+  const [draggedEntitiesStarts, setDraggedEntitiesStarts] = useState<Vector2[]>([])
+  const movableSelectedEntites = selectedEntityIds.filter((x) => x.type === 'ErNode')
+  function handleSvgDragStart(start: Point, target: EventTarget) {
+    setNodeContextMenuState({ ...nodeContextMenuState, show: false })
+    if (movableSelectedEntites.length > 0) {
+      setDraggedEntitiesStarts(
+        movableSelectedEntites
+          .map((x) => nodes.find((node) => node.id === x.id))
+          .filter(notEmpty)
+          .map((n) => {
+            const svgClick = clientToSvgCoordinates(start.x, start.y, svgRef.current)
+            return new Vector2(n.x - svgClick.x, n.y - svgClick.y)
+          })
+      )
+    }
+  }
+  function handleSvgDrag(p: Point) {
+    if (movableSelectedEntites.length > 0) {
+      const svgPos = clientToSvgCoordinates(p.x, p.y, svgRef.current)
+      movableSelectedEntites.forEach((en, i) => {
+        updateErEntityByDiscriminator(en, (n) => {
+          n.x = draggedEntitiesStarts[i].x + svgPos.x
+          n.y = draggedEntitiesStarts[i].y + svgPos.y
+        })
+      })
+      return true
+    }
+    return false
+  }
   return (
     <div className='w-full h-full overflow-hidden' ref={dropRef}>
       {nodeContextMenuState.show && (
@@ -431,7 +462,8 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
       <PannableZoomableSvg
         svgId={DiagramSvgIds[DiagramType.Er]}
         isSelectedNodeInActiveTabSet={isSelectedNodeInActiveTabSet}
-        onDragStart={() => setNodeContextMenuState({ ...nodeContextMenuState, show: false })}
+        onDragStart={handleSvgDragStart}
+        onDrag={handleSvgDrag}
         onLeftClick={(e) => {
           updateDiagram((d) => (d.selectedEntities = []))
         }}
