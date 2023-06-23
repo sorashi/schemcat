@@ -185,6 +185,100 @@ Další koncepty jsou totožné konceptuálním modelem schematické kategorie.
   \label{fig:class-diagram:scv}
 \end{figure}
 
+\section{Procesy}
+
+Součástí specifikace softwarového systému jsou i procesy.
+Jedná se o kroky, které vedou k dosažení cílového stavu.
+Tyto kroky jsou ale definovány pouze na konceptuální úrovni, takže bez vtahu např.~k plánovanému uživatelskému rozhraní.
+
+Požadavky popsaly, co systém má umět. Procesy je rozšíří o to, jakým způsobem toho aktéři chtějí dosáhnout a jaké kroky k výslednému stavu vedou.
+
+\subsubsection*{Modelování entitního typu v \acrshort{er} diagramu}
+
+Uživatel mezi existující elementy diagramu vloží nový entitní typ.
+Tento entitní typ bude chtít pojmenovat.
+K entitnímu typu bude uživatel potřebovat přidat atributy.
+Dále bude entitní typy potřebovat přidat do vztahů, tedy spojit s existujícími vztahovými typy.
+
+Entitní typ bude moci změnit na jiný druh elementu v \acrshort{er} diagramu (atribut, vztahový typ).
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Přidání nového prvku do diagramu.
+  \item Zvolení druhu prvku -- entitní typ.
+  \item Zadání popisku (názvu entitního typu).
+  \item Zvolení pozice entitního typu v diagramu.
+  \item Případné přidání atributů k entitnímu typu a volba jejich kardinality.
+  \item Přidání entitního typu do ISA hierarchie s jinými entitními typy.
+  \item Zvolení jednoho a více identifikátorů entitního typu.
+        Toto není třeba pokud byl entitní typ přidán do hierarchie, pak dědí identifikátory.
+  \item Případně přidání daného entitního typu jako účastníka libovolného počtu existujících vztahových typů.
+\end{enumerate}
+
+\subsubsection*{Modelování vztahového typu v \acrshort{er} diagramu}
+Uživatel bude dále chtít do \acrshort{er} diagramu přidat vztahový typ.
+Vztahový typ musí mít alespoň dva (ne nutně různé) účastníky, jimiž mohou být pouze entitní typy.
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Přidání nového prvku do diagramu.
+  \item Zvolení druhu prvku -- vztahový typ.
+  \item Zadání popisku (názvu vztahového typu).
+  \item Zvolení pozice vztahového typu v diagramu.
+  \item Zvolení účastníků vztahového typu.
+  \item Zvolení kardinalit účastníků vztahového typu.
+\end{enumerate}
+
+\subsubsection*{Mazání prvků v \acrshort{er} diagramu}
+
+Při modelování může uživatel přehodnotit model a odstranit některé prvky, načež je případně nahradit jinými.
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Zvolení prvku či prvků v diagramu, které chceme smazat.
+  \item Odstranění prvků z diagramu.
+  \item Odstranění souvisejících spojení s jinými prvky diagramu.
+  \item U entitních typů odstranění případných identifikátorů z diagramu.
+\end{enumerate}
+
+\subsubsection*{Volba identifikátoru entitního typu v \acrshort{er} diagramu}
+
+Při modelování entitního typu bude uživatel chtít přidat jeho identifikátory.
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Zvolení jednoho a více atributů či vztahových typů, které mají tvořit nový identifikátor.
+  \item Pokud je ve vztahovém typu zúčastněn entitní typ víckrát, je nutné zvolit spojení, které má být identifikátorem.
+  \item Validace neexsitence cyklů slabých entitních typů a hierarchií.
+\end{enumerate}
+
+\subsubsection*{Přesun a změna přiblížení plátna}
+
+Při modelování se uživatel bude chtít zaměřit na jednu část diagramu přesunem plátna a přiblížením.
+
+Kroky zahrnují
+\begin{enumerate}
+  \item Zvolit diagram, jehož plátno se bude přesouvat a přibližovat.
+  \item Pokud je zvolena synchronizace pláten, pak stejné přiblížení a přesun nastavit i v ostatních plátnech.
+  \item Omezit přiblížení na nějaké minimální a maximální, aby nedošlo k dezorientování uživatele v plátně.
+  \item Nastavit přiblížení a přesun plátna na uživatelem žádané.
+\end{enumerate}
+
+\subsubsection*{Export libovolného diagramu}
+
+Uživatel bude chtít diagram exportovat, pro přenos na jiné medium, případně vložení do externího dokumentu.
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Zvolení akce exportování diagramu.
+  \item Zvolení formátu výsledného souboru.
+  \item Zvolení diagramu, který bude exportován.
+        Výchozím zvoleným diagramem bude ten, na kterém uživatel naposledy pracoval.
+  \item Pokud je pro formu exportu zvolen obrázek, je nabídnuta volba vložení dat projektu do obrázku, aby šel později v systému upravit.
+  \item Pokud je formátem rastrový obrázek, je nabídnuto vložení pozadí s volitelnou barvou.
+  \item Diagram je exportován do zvoleného formátu.
+\end{enumerate}
+
 \section{Případy užití}
 
 Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
