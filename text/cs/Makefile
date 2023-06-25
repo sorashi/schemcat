@@ -2,7 +2,6 @@ export TEXINPUTS=../tex//:
 
 all: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 
-# LaTeX je potreba spustit nekolikrat, aby spravne spocital odkazy
 prace.pdf: prace.tex $(wildcard *.tex) literatura.bib prace.xmpdata metadata/*
 	latexmk prace
 
@@ -56,7 +55,7 @@ validate: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 	gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite \
 				-dPDFA=2 \
 				-dPDFACompatibilityPolicy=1 \
-				-dCompatibilityLeve=1.5 \
+				-dCompatibilityLevel=1.5 \
 				-sColorConversionStrategy=RGB -dOverrideICC=true \
         -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dDownsampleColorImages=false \
         -dAutoFilterGrayImages=false -dGrayImageFilter=/FlateEncode -dDownsampleGrayImages=false \
@@ -70,4 +69,9 @@ ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-m
 
 schemcat-diagrams: ../img/schemcat-diagrams/raw-schemcat-example.pdf ../img/schemcat-diagrams/schemcat-visualization-example.pdf ../img/schemcat-diagrams/scv-ord-dup.pdf
 
-.PHONY: all clean validate diagrams ermodel
+# convert to grayscale to preview how the PDF would looked if printed in grayscale
+grayscale: prace.pdf
+	gs -sOutputFile=prace-gs.pdf -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibilityLevel=1.5 $< < /dev/null
+	xdg-open prace-gs.pdf
+
+.PHONY: all clean validate diagrams ermodel grayscale
