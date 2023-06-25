@@ -65,7 +65,7 @@ validate: prace.pdf abstrakt-cz.pdf abstrakt-en.pdf
 diagrams: ../img/diagrams/schema-category-model.pdf ../img/diagrams/er-diagram-model.pdf ../img/diagrams/scv-model.pdf ../img/diagrams/use-case-diagram.pdf
 
 # Extract PDFs from Inkscape layers of ../img/er-model/base.svg. Need Inkscape and Python3.
-ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-model/attribute.pdf ../img/er-model/identifier.pdf ../img/er-model/external-identifier.pdf ../img/er-model/composite-attribute.pdf ../img/er-model/generalization.pdf ../img/er-model/external-id-chain.pdf
+ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-model/attribute.pdf ../img/er-model/identifier.pdf ../img/er-model/external-identifier.pdf ../img/er-model/composite-attribute.pdf ../img/er-model/generalization.pdf ../img/er-model/external-id-chain.pdf ../img/er-mode/redundant-ids.pdf
 
 schemcat-diagrams: ../img/schemcat-diagrams/raw-schemcat-example.pdf ../img/schemcat-diagrams/schemcat-visualization-example.pdf ../img/schemcat-diagrams/scv-ord-dup.pdf
 

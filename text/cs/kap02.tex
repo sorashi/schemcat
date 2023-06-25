@@ -64,6 +64,18 @@ Formálněji -- pokud vytvoříme orientovaný graf $G=(V,E)$ takový, že
 \end{itemize}
 pak graf $G$ musí být acyklický.
 
+V \acrshort{er} se nesmí vyskytovat identifikátory, které jsou redundantní.
+Pro každé dva identifikátory jednoho entitního typu $I, J$, pokud $J\subset I$, pak $I$ je \emph{redundantní}, protože k identifikaci entitního typu stačí $J$.
+Všechny atributy a vztahové typy v $I\setminus J$ nejsou potřeba k identifikaci.
+Ukázka redundantního identifikátoru je na Obrázku~\ref{fig:redundant-ids}.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/er-model/redundant-ids.pdf}
+  \caption{Ukázka redundantního (vlevo) a neredundantního identifikátoru (vpravo).}
+  \label{fig:redundant-ids}
+\end{figure}
+
 Entitní typ, který má externí identifikátor, musí být účastněn vztahového typu (jímž je identifikován) s kardinalitou $(\one,\one)$.
 To proto, že když je instance entity identifikována vztahovým typem, musí tento vztah být jednoznačný -- právě jeden.
 
