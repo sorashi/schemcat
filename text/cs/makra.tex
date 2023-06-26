@@ -8,16 +8,16 @@
 \makeatletter
 \def\@makechapterhead#1{
   {\parindent \z@ \raggedright \normalfont
-   \Huge\bfseries \thechapter. #1
-   \par\nobreak
-   \vskip 20\p@
-}}
+      \Huge\bfseries \thechapter. #1
+      \par\nobreak
+      \vskip 20\p@
+    }}
 \def\@makeschapterhead#1{
   {\parindent \z@ \raggedright \normalfont
-   \Huge\bfseries #1
-   \par\nobreak
-   \vskip 20\p@
-}}
+      \Huge\bfseries #1
+      \par\nobreak
+      \vskip 20\p@
+    }}
 \makeatother
 
 % Custom -- úprava mezer řádků
@@ -27,8 +27,8 @@
 
 % Toto makro definuje kapitolu, která není očíslovaná, ale je uvedena v obsahu.
 \def\chapwithtoc#1{
-\chapter*{#1}
-\addcontentsline{toc}{chapter}{#1}
+  \chapter*{#1}
+  \addcontentsline{toc}{chapter}{#1}
 }
 
 % Trochu volnější nastavení dělení slov, než je default.
@@ -37,9 +37,9 @@
 
 \iffinal
 \else
-% Zapne černé "slimáky" na koncích řádků, které přetekly, abychom si
-% jich lépe všimli.
-\overfullrule=1mm
+  % Zapne černé "slimáky" na koncích řádků, které přetekly, abychom si
+  % jich lépe všimli.
+  \overfullrule=1mm
 \fi
 
 %%% Makra pro definice, věty, tvrzení, příklady, ... (vyžaduje baliček amsthm)
@@ -64,8 +64,8 @@
   \par\medskip\noindent
   \textit{Důkaz}.
 }{
-\newline
-\rightline{$\qedsymbol$}
+  \newline
+  \rightline{$\qedsymbol$}
 }
 
 %%% Prostředí pro sazbu kódu, případně vstupu/výstupu počítačových
