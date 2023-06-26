@@ -88,11 +88,18 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z~pohledu uživatele s
   \item Aplikace bude nenáročná na provoz a investice provozovatele.\label{nfp:nenarocnost}
 \end{enumnfp}
 
-\section{Konceptuální model}
+\section{Konceptuální model}\label{section:conceptual-model}
 
 V~této kapitole představíme konceptuální model aplikace.
 Jedná se o~část světa, na kterou vymezujeme svůj diskurz.
 Využijeme k tomu prostředky \acrfull{uml}~\cite{omg_uml_2017}.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/er-diagram-model.pdf}
+  \caption{Konceptuální schéma -- ER diagram}
+  \label{fig:class-diagram:er-diagram}
+\end{figure}
 
 Na Obrázku~\ref{fig:class-diagram:er-diagram} je \acrshort{UML} konceptuální schéma modelující \acrshort{er} diagram.
 Obsahuje třídy odpovídající všem konstruktům popsaných v Sekci~\ref{section:entity-relationship} -- entitní typ, vztahový typ, atribut, složený atribut, ISA hierarchie, kardinalita a identifikátor.
@@ -125,6 +132,13 @@ Ten se může skládat z libovolného množství atributů a vztahových typů.
 V instanci modelu bychom označili identifikátor mající alespoň jeden vztahový typ jako externí, jinak interní.
 Přestože model technicky povoluje i identifikátory bez členů, nejsou takové identifikátory validní.
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/schema-category-model.pdf}
+  \caption{Konceptuální schéma -- schematická kategorie}
+  \label{fig:class-diagram:schemcat}
+\end{figure}
+
 Na Obrázku~\ref{fig:class-diagram:schemcat} je konceptuální model schematické kategorie.
 Stěžejními třídami v modelu jsou objekt, morfismus a signatura.
 
@@ -150,6 +164,13 @@ Toto rozdělení nám však pro konceptuální model přijde zbytečné, protož
 
 Další prvky konceptuálního modelu schematické kategorie jsou zřejmé a vycházejí přímo z definice schematické kategorie ze Sekce~\ref{section:schemcat}.
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/scv-model.pdf}
+  \caption{Konceptuální schéma -- \acrlong{vsk}}
+  \label{fig:class-diagram:scv}
+\end{figure}
+
 Konceptuální model \acrfull{vsk}, který je na Obrázku~\ref{fig:class-diagram:scv}, je podobný konceptuálnímu modelu schematické kategorie, s několika málo rozdíly.
 Koncept signatury ve vizualizaci zaniká.
 Místo toho jsou identifikátory objektů tvořeny přímo navazujícími morfismy.
@@ -166,32 +187,14 @@ Nicméně pro přehlednost a snahu o menší komplikaci konceptuálních rozdíl
 
 Další koncepty jsou totožné konceptuálním modelem schematické kategorie.
 
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/er-diagram-model.pdf}
-  \caption{Konceptuální schéma -- ER diagram}
-  \label{fig:class-diagram:er-diagram}
-\end{figure}
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/schema-category-model.pdf}
-  \caption{Konceptuální schéma -- schematická kategorie}
-  \label{fig:class-diagram:schemcat}
-\end{figure}
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/scv-model.pdf}
-  \caption{Konceptuální schéma -- \acrlong{vsk}}
-  \label{fig:class-diagram:scv}
-\end{figure}
-
 \section{Procesy}
 
 Součástí specifikace softwarového systému jsou i procesy.
-Jedná se o kroky, které vedou k dosažení cílového stavu.
-Tyto kroky jsou ale definovány pouze na konceptuální úrovni, takže bez vtahu např.~k plánovanému uživatelskému rozhraní.
+Každý proces popisuje konceptuální kroky, které vedou k dosažení nějakého cílového stavu.
+Tyto kroky jsou definovány pouze na konceptuální úrovni, takže bez vtahu např.~k plánovanému uživatelskému rozhraní.
 
-Požadavky popsaly, co systém má umět. Procesy je rozšíří o to, jakým způsobem toho aktéři chtějí dosáhnout a jaké kroky k výslednému stavu vedou.
+Požadavky popsaly, co systém má umět.
+Procesy je rozšíří o to, jakým způsobem toho aktéři mohou dosáhnout a jaké kroky k výslednému stavu vedou.
 
 \subsubsection*{Modelování entitního typu v \acrshort{er} diagramu}
 
@@ -249,7 +252,19 @@ Kroky zahrnují:
 \begin{enumerate}
   \item Zvolení jednoho a více atributů či vztahových typů, které mají tvořit nový identifikátor.
   \item Pokud je ve vztahovém typu zúčastněn entitní typ víckrát, je nutné zvolit spojení, které má být identifikátorem.
-  \item Validace neexsitence cyklů slabých entitních typů a hierarchií.
+  \item Kontrola neexistence redundantních identifikátorů, které byly popsány v Sekci~\ref{section:entity-relationship}.
+  \item Validace neexsitence cyklů slabých entitních typů a hierarchií, jak byla popsána v Sekci~\ref{section:entity-relationship}.
+\end{enumerate}
+
+\subsubsection*{Změna typu elementu \acrshort{er} diagramu}
+
+Uživatel potřebuje měnit typ elementu diagramu, například když se rozhodne, že je v daném případě lepší modelovat entitní typ jako složený atribut.
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Specifikace elementu diagramu, který bude uživatel měnit (entitní typ, vztahový typ, nebo atribut).
+  \item Volba typu elementu, na který se má element změnit.
+  \item Kontrola validity diagramu. Úpravou mohl vzniknout nevalidní \acrshort{er} diagram.
 \end{enumerate}
 
 \subsubsection*{Přesun a změna přiblížení plátna}
@@ -266,7 +281,7 @@ Kroky zahrnují
 
 \subsubsection*{Export libovolného diagramu}
 
-Uživatel bude chtít diagram exportovat, pro přenos na jiné medium, případně vložení do externího dokumentu.
+Uživatel bude chtít diagram exportovat, pro přenos na jiné médium, případně vložení do externího dokumentu.
 
 Kroky zahrnují:
 \begin{enumerate}
@@ -279,23 +294,27 @@ Kroky zahrnují:
   \item Diagram je exportován do zvoleného formátu.
 \end{enumerate}
 
-\section{Případy užití}
+\subsubsection*{Převod na schematickou kategorii}
 
-Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
-Každý případ užití popisuje jeden způsob, jak lze systém použít.
-Uživatelé systému (lidé, stroje, nebo jiné systémy) jsou v diagramu reprezentováni tzv. herci (actors).
-Model tak popisuje způsoby, kterými lze systém použít jeho okolím a jaké služby systém nabízí.~\cite[s.~65]{overgaard_usecases_2005}
+Změny \acrshort{er} diagramu se projeví ve schematické kategorii.
 
-Případy užití rozdělíme do několik okruhů.
-Jedním okruhem je funkcionalita diagramů a jejich plátna, která je u všech diagramů téměř stejná.
-Dále vydělíme funkcionalitu části systému, který se stará o správu projektu jako celku.
+\begin{enumerate}
+  \item Uživatel upraví \acrshort{er} diagram.
+  \item Změny se projeví v diagramu schematické kategorie.
+  \item Změny ve schematické kategorii se projeví ve \acrshort{vsk}.
+\end{enumerate}
 
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{0.7\textwidth}]{../img/diagrams/use-case-diagram.pdf}
-  \caption{Diagram případů užití}
-  \label{fig:use-case-diagram}
-\end{figure}
+\subsubsection*{Vizualizace identifikátorů ve schematické kategorii}
+V diagramu schematické kategorie nejsou nijak vyznačené identifikátory objektů, protože jinak by diagram byl moc explicitní a chaotický.
+K účelu komunikace informace o identifikátorech slouží tento proces, který zobrazí pouze identifikátory jednoho zvoleného objektu.
+
+Kroky zahrnují:
+\begin{enumerate}
+  \item Volba objektu, jehož identifikátory mají být zobrazeny.
+  \item Zvýraznění každého identifikátoru (např. barveně).
+  \item Volitelně zvýraznění i identifikátorů objektů, které jsou součástí identifikátorů z předchozího kroku.
+        Je tak viditelné vícero vrstev identifikace.
+\end{enumerate}
 
 \section{Koncept řešení}
 
@@ -313,7 +332,7 @@ Aby se jednalo o statickou webovou aplikaci, server musí umět pouze odesílat 
 Výsledný formát aplikace musí být tedy soubory webových technologií, které se budou bez úprav odesílat do prohlížeče uživatele.
 Docílí se toho překladem z moderních webových technologií vyššího řádu do starších webových technologií nižšího řádu (HTML, JavaScript, CSS).
 
-Programovací jazyk zvolíme TypeScript vytvořený společností Microsoft~\cite{microsoft_typescriptjavascript_2023}.
+Zvoleným programovací jazykem bude TypeScript, který byl vytvořen společností Microsoft~\cite{microsoft_typescriptjavascript_2023}.
 Tento jazyk je nadstavbou JavaScriptu, která přidává mj. statické typové kontroly.
 Statické typové kontroly umožňují udržitelnost větších projektů, protože vytváří kontrakty mezi částmi aplikace (např. typy parametrů funkce), na rozdíl od JavaScriptu, který je dynamicky typovaný.
 Kontroly se uskutečňují při překladu do JavaScriptu.
@@ -332,3 +351,37 @@ To je přímo podporované v HTML většinou moderních webových prohlížečů
 Hlavní komponentou aplikace bude SVG plátno, ve kterém budou položené komponenty jednotlivých konstruktů diagramů, které budou složeny ze SVG tvarů.
 Kromě pláten budeme potřebovat modul s uživatelskými prvky, jako jsou tlačítka pro menu a ovládací prvky pro změnu vlastností konstruktů v diagramech.
 Posledním hlavním modulem, bude modul s modelem aplikace, obsahující nejrůznější třídy a rozhraní, které budou odpovídat jednotlivým konstruktům a diagramům.
+
+\section{Diagram tříd}
+
+V této sekci definujeme třídy datového modelu našeho systému.
+Rozšíříme a konkretizujeme tím konceptuální model ze Sekce~\ref{section:conceptual-model}.
+
+Kvůli zvoleným knihovnám, které představíme později při implementaci systému, jsou na datový model kladeny určité restrikce.
+\begin{description}
+  \item[Každá třída musí mít bezparametrický konstruktor.]
+    Při deserializaci objektu z JSON v JavaScriptu, resp. TypeScriptu, dostaneme plain objekt.
+    Tento objekt navíc nebude mít ani funkce, ty totiž do JSON serializovat nelze.
+    Budeme tedy muset převést plain objekt na instanci třídy a k tomu budeme potřebovat zkonstruovat \enquote{výchozí} instanci.
+    Na tu posléze nasadíme data z plain objektu.
+    Každá třída tedy musí mít konstruktor bez parametrů, příp. musí mít všechny parametry nastavenou výchozí hodnotu.
+  \item []
+\end{description}
+
+\section{Případy užití}
+
+Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
+Každý případ užití popisuje jeden způsob, jak lze systém použít.
+Uživatelé systému (lidé, stroje, nebo jiné systémy) jsou v diagramu reprezentováni tzv. herci (actors).
+Model tak popisuje způsoby, kterými lze systém použít jeho okolím a jaké služby systém nabízí.~\cite[s.~65]{overgaard_usecases_2005}
+
+Případy užití rozdělíme do několik okruhů.
+Jedním okruhem je funkcionalita diagramů a jejich plátna, která je u všech diagramů téměř stejná.
+Dále vydělíme funkcionalitu části systému, který se stará o správu projektu jako celku.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{0.7\textwidth}]{../img/diagrams/use-case-diagram.pdf}
+  \caption{Diagram případů užití}
+  \label{fig:use-case-diagram}
+\end{figure}
