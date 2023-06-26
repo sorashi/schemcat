@@ -69,6 +69,9 @@ ermodel: ../img/er-model/entity.pdf ../img/er-model/relationship.pdf ../img/er-m
 
 schemcat-diagrams: ../img/schemcat-diagrams/raw-schemcat-example.pdf ../img/schemcat-diagrams/schemcat-visualization-example.pdf ../img/schemcat-diagrams/scv-ord-dup.pdf
 
+../img/react-references.pdf: ../img/react-references.svg
+	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf --export-filename="$@"
+
 # convert to grayscale to preview how the PDF would looked if printed in grayscale
 grayscale: prace.pdf
 	gs -sOutputFile=prace-gs.pdf -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibilityLevel=1.5 $< < /dev/null

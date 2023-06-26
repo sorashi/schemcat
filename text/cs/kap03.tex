@@ -358,15 +358,46 @@ V této sekci definujeme třídy datového modelu našeho systému.
 Rozšíříme a konkretizujeme tím konceptuální model ze Sekce~\ref{section:conceptual-model}.
 
 Kvůli zvoleným knihovnám, které představíme později při implementaci systému, jsou na datový model kladeny určité restrikce.
-\begin{description}
-  \item[Každá třída musí mít bezparametrický konstruktor.]
-    Při deserializaci objektu z JSON v JavaScriptu, resp. TypeScriptu, dostaneme plain objekt.
-    Tento objekt navíc nebude mít ani funkce, ty totiž do JSON serializovat nelze.
-    Budeme tedy muset převést plain objekt na instanci třídy a k tomu budeme potřebovat zkonstruovat \enquote{výchozí} instanci.
-    Na tu posléze nasadíme data z plain objektu.
-    Každá třída tedy musí mít konstruktor bez parametrů, příp. musí mít všechny parametry nastavenou výchozí hodnotu.
-  \item []
-\end{description}
+
+Každá třída musí mít bezparametrický konstruktor.
+Při deserializaci objektu z JSON v JavaScriptu, resp. TypeScriptu, dostaneme plain objekt.
+Tento objekt navíc nebude mít ani funkce, ty totiž do \acrshort{json} serializovat nelze.
+Budeme tedy muset převést plain objekt na instanci třídy a k tomu budeme potřebovat zkonstruovat \enquote{výchozí} instanci.
+Na tu posléze nasadíme data z plain objektu.
+Každá třída tedy musí mít konstruktor bez parametrů, příp. musí mít všechny parametry nastavenou výchozí hodnotu.
+
+Všechny datové složky každé třídy musí mít atributy specifikující jejich typ.
+Podobně jako předchozí restrikce má i tato jako důvod deserializaci.
+Stejně jako celé objekty musí být převedeny na instance, tak i jejich hluboce zanořené objekty.
+Při převádění musí být známo, jaká třída patří danému objektu.
+Protože TypeScript typové anotace jsou při kompilaci do JavaScriptu odstraněny, musí tohoto být dosaženo atributy, které jsou k dispozici za běhu.
+
+Každá třída modelu musí mít datovou složku \texttt{[immerable] = true}.
+Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2023}, kterou popíšeme později při implementaci.
+Zjednodušeně řečeno, tato datová složka říká knihovně, že instance dané třídy může považovat za použitelné pro svou funkcionalitu.
+
+Celý datový model musí tvořit orientovaný strom.
+Myslíme tím to, že v modelu nejsou vnitřní reference a na každou instanci třídy může držet referenci nejvýše jedna jiná instance (její majitel).
+Tato restrikce vzniká kvůli frameworku React~\cite{react_2023}.
+Ten totiž reaguje na změny v datovém modelu porovnáním referencí, a proto nemůžeme nikdy instance tříd přímo mutovat, vždy musíme vytvořit novou instanci.
+Jinak řečeno, instance tříd jsou immutable.
+Pokud by potom držely dvě různé instance referenci na nějakou jinou instanci, mohli bychom zapomenout přenastavit obě tyto reference.
+Navíc tento proces nedělá vývojář manuálně, ale používá knihovnu, která kvůli zjevným výkonnostním důvodům nemůže udržovat všechny reference v instanci modelu tímto způsobem.
+Vizualizace tohoto problému je vidět na Obrázku~\ref{fig:immutability-references}.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/react-references.pdf}
+  \caption{Ukázka problému immutability a referencí}
+  \label{fig:immutability-references}
+\end{figure}
+
+Problém s referencemi lze vyřešit tím, že každá třída v modelu bude mít datovou složku \texttt{id}.
+Potom instance jiných tříd budou referovat pomocí těchto složek.
+Podobně je tomu například v relačních databázích.
+
+Teď když známe všechny restrikce na náš model, můžeme ho začít navrhovat.
+Stejně jako pro konceptuální model k tomu použijeme \acrshort{uml} třídy s komentářem v textu.
 
 \section{Případy užití}
 
