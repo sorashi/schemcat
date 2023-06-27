@@ -360,7 +360,7 @@ Rozšíříme a konkretizujeme tím konceptuální model ze Sekce~\ref{section:c
 Kvůli zvoleným knihovnám, které představíme později při implementaci systému, jsou na datový model kladeny určité restrikce.
 
 Každá třída musí mít bezparametrický konstruktor.
-Při deserializaci objektu z JSON v JavaScriptu, resp. TypeScriptu, dostaneme plain objekt.
+Při deserializaci objektu z \acrshort{json} v JavaScriptu, resp. TypeScriptu, dostaneme plain objekt.
 Tento objekt navíc nebude mít ani funkce, ty totiž do \acrshort{json} serializovat nelze.
 Budeme tedy muset převést plain objekt na instanci třídy a k tomu budeme potřebovat zkonstruovat \enquote{výchozí} instanci.
 Na tu posléze nasadíme data z plain objektu.
@@ -398,14 +398,90 @@ Podobně je tomu například v relačních databázích.
 
 Teď když známe všechny restrikce na náš model, můžeme ho začít navrhovat.
 Stejně jako pro konceptuální model k tomu použijeme \acrshort{uml} třídy s komentářem v textu.
-Výše zmíněné povinné datové složky a atributy budeme v modelu považovat za implicitní.
+Některé výše zmíněné povinné datové složky a atributy budeme v modelu považovat za implicitní.
+
+Nebudeme popisovat úplně celý datový model kvůli jeho rozsahu.
+Některé záležitosti, které se týkají pouze zobrazování nebo nejsou důležité ve více částech aplikace, vynecháme.
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/diagram-class-diagram.pdf}
   \caption{Diagram tříd -- diagram}
   \label{fig:diagram-class-diagram}
+  \mcomment{Mohu zde odstranit atributy třídy DiagramNode? DiagramNode už byl popsán v předchozím diagramu, zde ho pouze využívám pro inheritanci.}
 \end{figure}
+
+Na Obrázku~\ref{fig:diagram-class-diagram} je diagram tříd popisující základní obecné konstrukty, které se týkají všech diagramů v systému.
+Třída \texttt{Cardinality} obsahuje mj. operaci \texttt{isDefault}, která říká, zda se jedná o výchozí kardinalitu (námi definovanou jako (\one{}..\one{})).
+V jazyce TypeScript, resp. JavaScript, nelze přetěžovat operátory, všechny operace musí být metody v dané třídě.
+Dále v nich neexistuje koncept hodnotového porovnání instancí tříd, resp. porovnání objektů.
+Pokud se porovnávají instance operátorem \texttt{==}, porovnávají se reference.
+
+Z těchto důvodů nelze kardinalitu porovnat s jinou instancí bez přítomnosti odpovídající metody.
+V našem případě je pouze potřeba zjistit, zda se jedná o výchozí kardinalitu, a proto definujeme odpovídající operaci.
+
+Třída \texttt{Anchor} (kotva) se týká pouze zobrazení.
+Říká, z a do které oblasti elementu diagramu vede odpovídající spojení.
+Každý element diagramu si sám definuje a vypočítá těchto 9 kotev, které by se měly nacházet po jeho obvodu.
+Tyto kotvy jsou relativní k rozměrům a umístění elementu, a proto je musí vždy přepočítat.
+
+Kvůli restrikci o více referencích má třída \texttt{DiagramNode} své \texttt{id}.
+Toto bude běžné u většiny tříd, které reprezentují elementy diagramů.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/er-class-diagram.pdf}
+  \caption{Diagram tříd -- \acrshort{er}}
+  \label{fig:er-class-diagram}
+\end{figure}
+
+Na Obrázku~\ref{fig:er-class-diagram} je diagram tříd, které se týkají \acrshort{er} diagramu.
+
+Hlavní třída \texttt{ErDiagramModel} je majitel svých \texttt{ErNode}, \texttt{Connection}, \texttt{ErIdentifier} a \texttt{ErIsaHierarchy}.
+Pro zobrazování a uživatelskou interakci drží také interface \texttt{ErDiagramIdentityDiscriminator}, který obaluje \texttt{id} uživatelem právě vybraných elementů diagramu.
+Tento obal navíc obsahuje typový diskriminátor \texttt{type}, jenž vyjadřuje, o jaký druh elementu se jedná.
+Tato typová diskriminace je důležitá, aby systém věděl, kde má daný element s daným \texttt{id} hledat, zdali mezi \texttt{nodes}, \texttt{links}, \texttt{identifiers}, nebo \texttt{hierarchies}.
+
+Podobně je určen typ \texttt{ErNode}, který pro element diagramu říká, jak se má zobrazovat.
+V \acrshort{er} jsme definoval tři hlavní elementy -- entitní typ, vztahový typ a atribut.
+Mohli jsme tyto elementy modelovat jako jednotlivé třídy, ale tento přístup je vhodnější, protože rozdíl mezi nimi je pouze ve vizualizaci.
+Také se tímto způsobem v TypeScriptu jednodušeji pozná, s jaký typ má aktuálně držená instance \texttt{ErNode}.
+V reakci na to lze jednodušeji implementovat v systému rozličnou logiku týkající se pouze jednotlivých typů elementů.
+
+V diagramu používáme množinový typ \texttt{Set}, který je v JavaScriptu zabudovaný.
+Jednodušeji se pak pracuje s odpovídajícími datovými složkami, kde nezáleží na pořadí a duplicitách.
+Atributy \texttt{children} a \texttt{identities}, které tento typ mají, mají teoreticky kardinalitu (\one{}..\many{}).
+V ISA hierarchii musí být alespoň jedno dítě a v identifikátoru alespoň jedna identita.
+
+U třídy \texttt{ErIdentifier} bylo nutné názvem rozlišit jednotlivé datové složky.
+Pojmenování může být matoucí, takže ho zde popíšeme.
+Identifikátor (identifier) se skládá z jednoho entitního typu, jehož tímto identifikuje (identifies).
+Součástí identifikátoru jsou pak jednotlivé elementy, ze kterých se identifikátor skládá.
+Říkáme jim identity (identities).
+
+Pro správné zobrazení diagramu má třída \texttt{ErDiagramModel} také datovou složku \texttt{viewBox}.
+Ta vyjadřuje, na jakou část diagramu se má plátno zaměřit.
+Jedná se o obdélník, který svou pozicí vyjadřuje přesun plátna a svou šířkou a výškou vyjadřuje přiblížení.
+Třída \texttt{Rectangle} je obecná a používá se proto i v jiných částech systému, kde je potřeba pracovat s obdélníky.
+
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/schemcat-class-diagram.pdf}
+  \caption{Diagram tříd -- schematická kategorie}
+  \label{fig:schemcat-class-diagram}
+\end{figure}
+
+Digram tříd, které se týkají schematické kategorie je na Obrázku~\ref{fig:schemcat-class-diagram}.
+Význam většiny obsahu tohoto diagramu je evidentní.
+Upozorníme pouze na atribut \texttt{respectiveErConnectionId}.
+
+Tento atribut vyjadřuje \texttt{id} \acrshort{er} spojení, z kterého daný morfismus vznikl.
+Tato informace je užitečná pro aktualizaci morfismu v návaznosti na úpravu \acrshort{er} diagramu.
+Také naopak lze při úpravě schematické kategorie některé změny převést zpět do \acrshort{er}.
+
+Objekty schematické kategorie, které vznikly převodem z \acrshort{er} budou mít stejnou hodnotu \texttt{key} jako \texttt{id} odpovídajícího objektu.
+Tím zaručíme stejnou svázanost diagramů jako tomu je u morfismů.
 
 \section{Případy užití}
 

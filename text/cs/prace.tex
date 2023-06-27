@@ -4,7 +4,7 @@
 % Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
 % (ale pozor, LaTeX si sám přidává 1in)
 \documentclass[12pt,a4paper]{report}
-
+\let\pdfcreationdate=\creationdate
 \newif\iffinal
 \finaltrue
 
@@ -121,6 +121,7 @@
 \newcommandx{\mcomment}[2][1=]{}
 \newcommandx{\hlcomment}[3][1=]{#2}
 \newcommandx{\hlmcomment}[3][1=]{#2}
+\newcommandx{\todotext}[2][1=]{}
 \else
 \usepackage{pdfcomment}
 \usepackage{ulem}
@@ -131,6 +132,7 @@
 \newcommandx{\mcomment}[2][1=yellow]{\pdfmargincomment[author={Dennis Pražák},color=#1,opacity=0.9]{#2}}
 \newcommandx{\hlcomment}[3][1=yellow]{\colorbox{#1}{#2}\comment[#1]{#3}}
 \newcommandx{\hlmcomment}[3][1=yellow]{\setulcolor{#1}\ul{#2}\mcomment[#1]{#3}}
+\newcommandx{\todotext}[2][1=purple]{\textcolor{#1}{#2}}
 \fi
 %%%% END PDF comment
 
@@ -217,43 +219,43 @@
 %% Titulní strana a různé povinné informační strany
 \begin{document}
 \iffinal
-\include{titulka}
+  \include{titulka}
 
-\tableofcontents
+  \tableofcontents
 
-\include{uvod}
-\include{kap01}
-\include{kap02}
-\include{kap03}
-\include{kap04}
-\include{zaver}
+  \include{uvod}
+  \include{kap01}
+  \include{kap02}
+  \include{kap03}
+  \include{kap04}
+  \include{zaver}
 
-\include{literatura}
+  \include{literatura}
 
-%%% Obrázky v bakalářské práci
-%%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
-\listoffigures
+  %%% Obrázky v bakalářské práci
+  %%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
+  \listoffigures
 
-%%% Tabulky v bakalářské práci (opět nemusí být nutné uvádět)
-%%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
-\listoftables
+  %%% Tabulky v bakalářské práci (opět nemusí být nutné uvádět)
+  %%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
+  \listoftables
 \else
-% DRAFT VERZE
-% \title{\NazevPrace}
-% \author{\AutorPrace}
-% \date{Draft \today}
+  % DRAFT VERZE
+  % \title{\NazevPrace}
+  % \author{\AutorPrace}
+  % \date{Draft \today}
 
-% \include{titulka}
-\tableofcontents
-% \include{uvod}
-% \include{kap01}
-\include{kap02}
-\include{kap03}
-\include{kap04}
-% \include{zaver}
-\include{literatura}
-\listoffigures
-\listoftables
+  % \include{titulka}
+  \tableofcontents
+  \include{uvod}
+  \include{kap01}
+  \include{kap02}
+  \include{kap03}
+  \include{kap04}
+  \include{zaver}
+  \include{literatura}
+  \listoffigures
+  \listoftables
 
 \fi
 %%% Použité zkratky v bakalářské práci (opět nemusí být nutné uvádět)
