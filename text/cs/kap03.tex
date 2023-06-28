@@ -483,6 +483,52 @@ Také naopak lze při úpravě schematické kategorie některé změny převést
 Objekty schematické kategorie, které vznikly převodem z \acrshort{er} budou mít stejnou hodnotu \texttt{key} jako \texttt{id} odpovídajícího objektu.
 Tím zaručíme stejnou svázanost diagramů jako tomu je u morfismů.
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/utils-class-diagram.pdf}
+  \caption{Diagram tříd -- vybrané další třídy}
+  \label{fig:utils-class-diagram}
+\end{figure}
+
+Další vybrané třídy, které ale nesouvisí přímo s diagramy, jsou na Obrázku~\ref{fig:utils-class-diagram}.
+Pro práci s 2D geometrií budeme potřebovat třídy \texttt{Vector2} a \texttt{Angle}.
+
+Třída \texttt{Vector2} reprezentuje dvourozměrný vektor s vhodnými operacemi včetně sčítání a odčítání s jinými vektory, násobení skalárem a negace (unární minus).
+Další operace jsou vidět na Obrázku~\ref{fig:utils-class-diagram} a jejich význam by měl být evidentní.
+Třída poskytuje také běžně používané vektory jako statické atributy.
+Operace, které pracují s úhly, používají k jejich reprezentaci třídu \texttt{Angle}.
+
+Třída \texttt{Angle} reprezentuje úhly nezávisle na jejich jednotkách.
+Je to vhodnější, než používat pouze pomocné metody, které by převáděly stupně na radiány a naopak.
+Interně je úhel reprezentován ve stupních, protože při počítání s radiány by kvůli menším číslům mohlo docházet ke ztrátě přesnosti.
+
+Metoda \texttt{normalized} převede úhel do rozsahu $[0°, 360°)$, resp. $[0, 2\pi)$.
+To jak pro negativní, tak pro pozitivní úhly mimo tyto rozsahy.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/cartesian-systems.pdf}
+  \caption[Pravotočivá a levotočivá kartézská soustava souřadnic]{Pravotočivá (vlevo) a levotočivá (vpravo) kartézská soustava souřadnic}
+  \label{fig:cartesian-systems}
+\end{figure}
+
+Na Obrázku~\ref{fig:cartesian-systems} jsou znázorněny dva typy kartézské soustavy souřadnic -- pravotočivá a levotočivá.
+V matematice a geometrii je nejběžnější pravotočivá soustava souřadnic, nicméně \acrshort{svg} používá levotočivou (angl. left-handed), jak je tomu běžné u počítačové grafiky.
+Pro převod úhlu z běžně uvažovaného pravotočivého do levotočivého \acrshort{svg} úhlu slouží právě metoda \texttt{toLeftHandedSystem}.
+Ta přijde vhod při rotování vektorů, či celých \acrshort{svg} konstruktů.
+
+Třída \texttt{GlobalIdGenerator} slouží jako generátor identifikátorů a klíčů pro naše objekty.
+Zajišťuje, že vždy vrátí unikátní číslo jako nový identifikátor.
+Jednoduchá implementace je začít s číslem 0 a každé další zvětšit o 1.
+Tato třída je singleton, jeden z objektově orientovaných designových vzorů uvedený Gammou a kol. (také známých jako \enquote{Gang of Four})~\cite[s.~144]{gamma_designpatterns_1995}.
+Tím může existovat nejvýše jedna její instance v běžícím systému.
+
+Třída \texttt{SvgPathStringBuilder} konstruuje \acrshort{svg} path data atribut \cite[\S~9.3]{brinza_svg_2018}.
+Obsahuje mnoho dalších metod kromě těch, které lze vidět na Obrázku~\ref{fig:utils-class-diagram}, například pro každý příkaz lze pozice (location) specifikovat i relativně (místo absolutně) k předchozí pozici.
+Třída odpovídá vzoru builder~\cite[s.~110]{gamma_designpatterns_1995}.
+Užívání této třídy odpovídá vypisování \enquote{příkazů} pro path data atribut.
+Užitečnost této třídy spočívá v přehlednosti -- je lepší používat její metody s deskriptivním názvem místo path data příkazů, které mají formu jednoho písmene a argumentů.
+
 \section{Případy užití}
 
 Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
