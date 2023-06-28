@@ -17,7 +17,7 @@ import { NodeContextMenu } from './Menu/NodeContextMenu'
 import Vector2 from '../utils/Vector2'
 import BezierPathStringBuilder from '../utils/BezierPathStringBuilder'
 import { arrayRotate, arrayRotated } from '../utils/Array'
-import { normalizeRadiansAngle } from '../utils/Angle'
+import { Angle, normalizeRadiansAngle } from '../utils/Angle'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { DiagramConnection, linkToPoints } from './DiagramConnection'
 import { assertNever, notEmpty } from '../utils/Types'
@@ -95,8 +95,8 @@ function identifiersToBezier(
   arrayRotate(connectionLocations, bestRotation)
 
   const connectionVectors = connectionLocations.map((loc) => loc.to.subtract(loc.from))
-  const bezierStartShift = (v: Vector2) => v.rotate(-90).normalize().multiply(20)
-  const bezierEndShift = (v: Vector2) => v.rotate(90).normalize().multiply(20)
+  const bezierStartShift = (v: Vector2) => v.rotate(Angle.rightAngle.negate()).normalize().multiply(20)
+  const bezierEndShift = (v: Vector2) => v.rotate(Angle.rightAngle).normalize().multiply(20)
   const t = 0.7
 
   const bezier = new BezierPathStringBuilder()
@@ -108,11 +108,11 @@ function identifiersToBezier(
 
   bezier.addFirstBezier(
     bezierStart,
-    bezierStart.add(connectionVectors[0].rotate(60).normalize().multiply(30)),
+    bezierStart.add(connectionVectors[0].rotate(Angle.fromDeg(60)).normalize().multiply(30)),
     connectionLocations[1].from
       .add(connectionVectors[1].multiply(t))
       .add(connectionLocations.length == 2 ? bezierEndShift(connectionVectors[1]) : Vector2.zero)
-      .add(connectionVectors[1].rotate(-60).normalize().multiply(30)),
+      .add(connectionVectors[1].rotate(Angle.fromDeg(-60)).normalize().multiply(30)),
     connectionLocations[1].from
       .add(connectionVectors[1].multiply(t))
       .add(connectionLocations.length == 2 ? bezierEndShift(connectionVectors[1]) : Vector2.zero)
@@ -122,7 +122,7 @@ function identifiersToBezier(
       connectionLocations[i].from
         .add(connectionVectors[i].multiply(t))
         .add(i == connectionLocations.length - 1 ? bezierEndShift(connectionVectors[i]) : Vector2.zero)
-        .add(connectionVectors[i].rotate(-60).normalize().multiply(30)),
+        .add(connectionVectors[i].rotate(Angle.fromDeg(-60)).normalize().multiply(30)),
       connectionLocations[i].from.add(
         connectionVectors[i]
           .multiply(t)

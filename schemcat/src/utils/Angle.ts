@@ -52,6 +52,19 @@ export class Angle {
     return Angle.fromDeg(((this.degrees % 360) + 360) % 360)
   }
 
+  negate(): Angle {
+    return Angle.fromDeg(-this.degrees)
+  }
+
+  /** Normally, angles are in the right-handed Cartesian coordinate system,
+   * but SVG uses the left-handed Cartesian coordinate system.
+   * This method flips the angle to the left-handed Cartesian coordinate system.
+   * In this system, angles start clockwise instead of counter-clockwise.
+   */
+  toLeftHandedSystem(): Angle {
+    return Angle.fromDeg(360 - this.normalized().deg())
+  }
+
   isInRangeInclusive(rangeFrom: Angle, rangeTo: Angle) {
     return this.degrees >= rangeFrom.degrees && this.degrees <= rangeTo.degrees
   }

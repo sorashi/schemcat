@@ -24,8 +24,9 @@ export default class Vector2 {
   static get down() {
     return new Vector2(0, 1)
   }
-  static fromLengthAndAngle(length: number, degrees: number): Vector2 {
-    return new Vector2(Math.cos(toRadians(360 - degrees)) * length, Math.sin(toRadians(360 - degrees)) * length)
+  static fromLengthAndAngle(length: number, angle: Angle): Vector2 {
+    const radians = angle.toLeftHandedSystem().rad()
+    return new Vector2(Math.cos(radians) * length, Math.sin(radians) * length)
   }
   static fromDOMPoint(point: DOMPoint) {
     return new Vector2(point.x, point.y)
@@ -55,13 +56,13 @@ export default class Vector2 {
     return other.subtract(this).length()
   }
 
-  rotate(degrees: number): Vector2 {
+  rotate(angle: Angle): Vector2 {
     // Because SVG coordinates use the left-handed Cartesian coordinate system
     // degrees would rotate clockwise.
     // We convert to counter-clockwise rotation.
-    const theta = toRadians(360 - degrees)
-    const sin = Math.sin(theta)
-    const cos = Math.cos(theta)
+    const radians = angle.toLeftHandedSystem().rad()
+    const sin = Math.sin(radians)
+    const cos = Math.cos(radians)
     return new Vector2(cos * this.x - sin * this.y, sin * this.x + cos * this.y)
   }
 
@@ -82,7 +83,7 @@ export default class Vector2 {
   angle(): Angle {
     return Angle.fromRad(Math.atan2(-this.y, this.x))
   }
-  equals(other: Vector2) {
+  equals(other: Vector2): boolean {
     return this.x == other.x && this.y == other.y
   }
 }
