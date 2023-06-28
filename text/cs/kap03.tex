@@ -513,7 +513,7 @@ To jak pro negativní, tak pro pozitivní úhly mimo tyto rozsahy.
 \end{figure}
 
 Na Obrázku~\ref{fig:cartesian-systems} jsou znázorněny dva typy kartézské soustavy souřadnic -- pravotočivá a levotočivá.
-V matematice a geometrii je nejběžnější pravotočivá soustava souřadnic, nicméně \acrshort{svg} používá levotočivou (angl. left-handed), jak je tomu běžné u počítačové grafiky.
+V matematice a geometrii je nejběžnější pravotočivá soustava souřadnic, nicméně \acrshort{svg} používá levotočivou (angl.~left-handed), jak je tomu běžné u počítačové grafiky.
 Pro převod úhlu z běžně uvažovaného pravotočivého do levotočivého \acrshort{svg} úhlu slouží právě metoda \texttt{toLeftHandedSystem}.
 Ta přijde vhod při rotování vektorů, či celých \acrshort{svg} konstruktů.
 
@@ -524,7 +524,7 @@ Tato třída je singleton, jeden z objektově orientovaných designových vzorů
 Tím může existovat nejvýše jedna její instance v běžícím systému.
 
 Třída \texttt{SvgPathStringBuilder} konstruuje \acrshort{svg} path data atribut \cite[\S~9.3]{brinza_svg_2018}.
-Obsahuje mnoho dalších metod kromě těch, které lze vidět na Obrázku~\ref{fig:utils-class-diagram}, například pro každý příkaz lze pozice (location) specifikovat i relativně (místo absolutně) k předchozí pozici.
+Obsahuje mnoho dalších metod kromě těch, které lze vidět na Obrázku~\ref{fig:utils-class-diagram}, například pro každý příkaz lze pozice (location) specifikovat i relativně k předchozí pozici (místo absolutně).
 Třída odpovídá vzoru builder~\cite[s.~110]{gamma_designpatterns_1995}.
 Užívání této třídy odpovídá vypisování \enquote{příkazů} pro path data atribut.
 Užitečnost této třídy spočívá v přehlednosti -- je lepší používat její metody s deskriptivním názvem místo path data příkazů, které mají formu jednoho písmene a argumentů.
