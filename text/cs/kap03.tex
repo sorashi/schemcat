@@ -376,7 +376,7 @@ Protože TypeScript typové anotace jsou při kompilaci do JavaScriptu odstraně
 Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2023}, kterou popíšeme později při implementaci.
 Zjednodušeně řečeno, tato datová složka říká knihovně, že instance dané třídy může považovat za použitelné pro svou funkcionalitu.
 
-\emph{Celý datový model musí tvořit orientovaný strom}.
+\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde po nahrazení orientovaných hran neorientovanými dostaneme acyklický graf, který ale není nutně souvislý).
 Myslíme tím to, že v modelu nejsou vnitřní reference a na každou instanci třídy může držet referenci nejvýše jedna jiná instance (její majitel).
 Tato restrikce vzniká kvůli frameworku React~\cite{react_2023}.
 Ten totiž reaguje na změny v datovém modelu porovnáním referencí, a proto nemůžeme nikdy instance tříd přímo mutovat, vždy musíme vytvořit novou instanci.
@@ -466,7 +466,7 @@ Součástí identifikátoru jsou pak jednotlivé elementy, ze kterých se identi
 Pro správné zobrazení diagramu má třída \texttt{ErDiagramModel} také datovou složku \texttt{viewBox}.
 Ta vyjadřuje, na jakou část diagramu se má plátno zaměřit.
 Jedná se o obdélník, který svou pozicí vyjadřuje přesun plátna a svou šířkou a výškou vyjadřuje přiblížení.
-Třída \texttt{Rectangle} je obecná a používá se proto i v jiných částech systému, kde je potřeba pracovat s obdélníky.
+Třída \texttt{Rectangle} je obecná, a používá se proto i v jiných částech systému, kde je potřeba pracovat s obdélníky.
 
 
 \begin{figure}[!htb]
