@@ -540,9 +540,9 @@ Každý případ užití popisuje jeden způsob, jak lze systém použít.
 Uživatelé systému (lidé, stroje, nebo jiné systémy) jsou v diagramu reprezentováni tzv. herci (actors).
 Model tak popisuje způsoby, kterými lze systém použít jeho okolím a jaké služby systém nabízí.~\cite[s.~65]{overgaard_usecases_2005}
 
-Případy užití rozdělíme do několik okruhů.
-Jedním okruhem je funkcionalita diagramů a jejich plátna, která je u všech diagramů téměř stejná.
-Dále vydělíme funkcionalitu části systému, který se stará o správu projektu jako celku.
+Případy užití nebudeme popisovat všechny, kvůli stručnosti.
+Dále některé případy užití jsou si velmi podobné, například export do \acrshort{svg} je téměř stejný jako export do \acrshort{png}, akorát se u \acrshort{svg} nevolí barva pozadí.
+Zvolíme tedy případy užití, které nějak modelové nebo zásadní.
 
 \begin{figure}[!htb]
   \centering
@@ -550,3 +550,111 @@ Dále vydělíme funkcionalitu části systému, který se stará o správu proj
   \caption{Diagram případů užití}
   \label{fig:use-case-diagram}
 \end{figure}
+
+\newcommand{\ucsub}[1]{\textbf{#1}}
+\newcommand{\uc}[1]{\subsection*{#1}}
+\def\ucstart{\ucsub{Počáteční stav}\\\indent}
+\def\ucnormal{\ucsub{Běžný průběh}}
+\def\ucerrors{\ucsub{Možné chyby}}
+\def\ucend{\ucsub{Stav systému po dokončení}\\\indent}
+
+\uc{Přidání entitního typu do \acrshort{er} diagramu}
+\ucstart{}
+V systému je rozdělaný projekt.
+\acrshort{er} diagram lze editovat.
+
+\ucnormal{}
+\begin{enumerate}
+  \item Uživatel přetáhne myší konstrukt \enquote{entitní typ} z panelu konstruktů do \acrshort{er} diagramu.
+  \item V diagramu je vytvořen nový entitní typ s výchozím názvem.
+  \item Uživatel zvolí právě vytvořený entitní typ myší.
+  \item V panelu \enquote{Control Panel} upraví vlastnost entitního typu \enquote{label}.
+  \item Název entitního typu se změní na uživatelem definovaný.
+\end{enumerate}
+
+\ucend{}
+V diagramu je nový entitní typ, který má uživatelem definovaný název.
+Změna se projeví i ve schematické kategorii, respektive ve \acrshort{vsk}.
+
+\uc{Přidání atributu k entitnímu typu v \acrshort{er} diagramu}
+\ucstart{}
+V \acrshort{er} diagramu je entitní typ. Diagram lze editovat.
+
+\ucnormal{}
+\begin{enumerate}
+  \item Uživatel pravým tlačítkem myši klikne na entitní typ.
+  \item Otevře se kontextové menu.
+  \item Uživatel zvolí položku \enquote{Add attribute type}.
+  \item Do \acrshort{er} diagramu je přidán nový atribut, který je spojen s entitním typem.
+  \item Uživatel zvolí právě vytvořený atribut myší.
+  \item V ovládacím panelu upraví vlastnost \enquote{label}.
+  \item Název atributu je nastaven na právě uživatelem definovaný.
+  \item Uživatel případně zvolí spojení mezi entitním typem a atributem myší.
+  \item V ovládacím panelu zvolí kardinalitu ze čtyř předdefinovaných možností.
+  \item Tato kardinalita je pro spojení nastavena.
+\end{enumerate}
+
+\ucend{}
+V modelu systému je uložen nový atribut entitního typu, který má daný název a kardinalitu.
+Změna se projeví i ve schematické kategorii, resp.~ve \acrshort{vsk}.
+
+\uc{Přidání spojení mezi dva \acrshort{er} elementy diagramu}
+\ucstart{}
+V \acrshort{er} diagramu dva existující elementy.
+
+\ucnormal{}
+\begin{enumerate}
+  \item Uživatel zvolí první element levým tlačítkem myši.
+  \item Uživatel klikne na druhý element pravým tlačítkem myši.
+  \item Zobrazí se kontextové menu.
+  \item Uživatel zvolí položku \enquote{New connection}.
+  \item Mezi elementy se vloží spojení.
+\end{enumerate}
+
+\ucerrors{}
+\begin{itemize}
+  \item Elementy mohou být nekompatibilní -- např. dva vztahové typy, dva entitní typy.
+\end{itemize}
+
+\ucend{}
+V modelu i v zobrazeném diagramu bude mezi elementy nové spojení.
+\uc{Přidání vztahového typu do \acrshort{er} diagramu}
+\ucstart{}
+V diagramu je entitní typ nebo více entitních typů, které se budou účastnit vztahového typu.
+Případně je lze vytvořit i v průběhu toho případu užití.
+Změna se projeví i ve schematické kategorii, resp.~ve \acrshort{vsk}.
+
+\ucnormal{}
+\begin{enumerate}
+  \item Uživatel z panelu s konstrukty myší přetáhne vztahový typ do \acrshort{er} diagramu.
+  \item V \acrshort{er} diagramu se objeví nový vztahový typ.
+  \item Uživatel v ovládacím panelu změní název vztahového typu.
+  \item Uživatel spojí entitní typ se vztahovým typem podle už popsaného případu užití spojování elementů. Tím přidá účastníka vztahového typu.
+  \item To zopakuje s dalšími účastníky (ne nutně jinými).
+\end{enumerate}
+
+\ucend{}
+V systému je nyní nový vztahový typ s účastníky. To se projeví i ve schematické kategorii, resp.~\acrshort{vsk}.
+
+\uc{Export libovolného diagramu do \acrshort{png}}
+\ucstart{}
+V systému je rozdělaný projekt.
+
+\ucnormal{}
+\begin{enumerate}
+  \item Uživatel zvolí položku \menu{File > Export as > PNG} v hlavním menu aplikace.
+  \item Otevře se dialog s možnostmi exportu s výběrem diagramu k exportu. Výchozí zvolený diagram bude ten, ve kterém naposledy uživatel pracoval.
+  \item V dialogu dále uživatel zvolí, jestli chce do \acrshort{png} souboru zahrnout i serializovanou verzi projektu, aby šel později \acrshort{png} soubor otevřít v aplikaci.
+  \item Uživatel v dialogu dále zvolí, jestli má \acrshort{png} mít barvu pozadí, případně jakou. Výchozí nastavení je \acrshort{png} bez pozadí, tedy transparentní.
+  \item Uživatel potvrdí dialog.
+  \item V prohlížeči uživatele se \enquote{stáhne} exportovaný \acrshort{png} soubor, který má název odpovídající názvu projektu.
+\end{enumerate}
+
+\ucerrors{}
+\begin{itemize}
+  \item V zařízení uživatele není dostatek persistentní paměti na uložení obrázku. O zachycení a obstarání této chyby se stará webový prohlížeč uživatele.
+  \item Uživatel zruší dialog místo potvrzení. V takovém případě se nic dalšího nestane (nedojde k exportu).
+\end{itemize}
+
+\ucend{}
+V uživtelské složce nastavené ve webovém prohlížeči na uložení stahovaných souborů bude uložen \acrshort{png} soubor s rasterizovaným diagramem.
