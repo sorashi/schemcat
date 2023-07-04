@@ -292,7 +292,17 @@ Uživatel má na výběr mezi vytvořením entity, atributu, relace, spojení me
 V pravé části rozhraní se nachází panel s vlastnostmi zvoleného objektu.
 V tomto panelu může uživatel také rychleji tvořit atributy entit a relací.
 Při zvolení relace lze v panelu zvolit entity, které mají být v relaci, a spojení je pak automaticky vytvořeno.
-Zároveň lze zvolit jednotlivé multiplicity relace.
+Zároveň lze zvolit jednotlivé kardinality relace.
+
+Co nám v tomto nástroji rozhodně chybí jsou složené identifikátory entitních typů.
+Nenašli jsme způsob, jak je v ERDPlus nastavit.
+Jednotlivé atributy lze označit za \enquote{unikátní} a nejspíš mají být považované za jednoduché identifikátory.
+Entitní typy lze označit za \enquote{slabé} a vztahové typy lze určit za \enquote{identifikující}.
+Nelze však nijak určit, kterými kombinacemi vlastních a případně externích atributů lze entitní typ identifikovat.
+
+Nástroj nepodporuje ani složené atributy (atributy, které mají své atributy).
+Jelikož \acrshort{er} není standardizováno, nelze hodnotit dokončenost \acrshort{er} modelu.
+Vyjadřovací schopnost nástroje hodnotíme jako velmi základní.
 
 Soubor s diagramem je v úložišti reprezentován vlastním formátem erdplus.
 Jedná se o textový soubor, jehož obsahem je JSON reprezentace diagramu.
