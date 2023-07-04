@@ -56,7 +56,7 @@ Nejčastějším komerčním modelem je verze zdarma s omezenými funkcemi a dá
 U tohoto modelu je důležité vyrovnat funkce tak, aby byl nástroj použitelný i v bezplatné verzi, a aby byly placené funkce atraktivní pro uživatele.
 Při srovnávání budeme věnovat pozornost i tomu, jestli jsou placené funkce esenciální.
 
-\section{draw.io}\label{section:drawio}
+\section{diagrams.net}\label{section:drawio}
 
 Srovnávací kritéria:
 \begin{itemize}
@@ -187,9 +187,9 @@ Výhodou i nevýhodou může být nutnost použití externího úložiště.
 Pro velké společnosti se může jednat o bezpečnostní opatření, protože diagrams.net k diagramům nemá přístup.
 Pro malé týmy se může jednat o nevýhodu, protože je potřeba účet na externím webu, nebo jiný způsob sdílení a správa tohoto úložiště.
 
-\begin{figure}
+\begin{figure}[!htb]
   \centering
-  \includegraphics[width = \textwidth]{../img/diagrams.net.png}
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/diagrams.net.png}
   \caption{Tvorba ER diagramu v aplikaci diagrams.net}
   \label{fig:diagrams.net}
 \end{figure}
@@ -262,9 +262,9 @@ a nevýhody:
   \item podporuje pouze relační databáze.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[!htb]
   \centering
-  \includegraphics[width = \textwidth]{../img/drawsql.png}
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/drawsql.png}
   \caption{Tvorba diagramu v drawSQL}
   \label{fig:drawsql}
 \end{figure}
@@ -322,9 +322,9 @@ a nevýhody:
   \item diagramy nelze stylizovat.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[!htb]
   \centering
-  \includegraphics[width = \textwidth]{../img/erdplus.png}
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/erdplus.png}
   \caption{Tvorba ER diagramu v ERDplus}
   \label{fig:erdplus}
 \end{figure}
@@ -385,9 +385,9 @@ S vizuální reprezentací grafu nelze přímo (např. myší) pracovat, vešker
 Nástroj dále nenabízí ani možnost pracovat s několika diagramy najednou.
 Z těchto důvodů určujeme produkt jako vhodný pouze pro jednotlivce a tvorbu méně rozsáhlých UML diagramů.
 
-\begin{figure}
+\begin{figure}[!htb]
   \centering
-  \includegraphics[width = \textwidth]{../img/nomnoml.png}
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/nomnoml.png}
   \caption{Tvorba UML diagramu v nomnoml}
   \label{fig:nomnoml}
 \end{figure}
@@ -398,7 +398,7 @@ Srovnávací kritéria:
 \begin{itemize}
   \item kategorie -- kresba libovolných diagramů,
   \item typ úložiště -- online, lokální, externí, prohlížeč,
-  \item export -- serializovaný, rastrový, vektorový,
+  \item export -- serializovaný, rastrový, vektorový, zjednodušený,
   \item interaktivní spolupráce -- podporována,
   \item komercializace -- verze zdarma, měsíčně/ročně placené plány několika úro\-vní.
 \end{itemize}
@@ -414,9 +414,9 @@ Nástroj poskytuje předlohy tvarů pro diagramy tříd, use case diagramy, sekv
 Uživatel si před tvorbou diagramu musí vybrat jednu z těchto kategorií, čímž vymezí tvary, které jsou v uživatelském rozhraní dostupné k použití v levém postranním panelu.
 Ve stejném panelu lze ale posléze přidat libovolnou další kategorii tvarů dle výběru uživatele.
 
-Nástroj je svým rozhraním, designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:drawio}.
+Nástroj je svým rozhraním (pozorovat ho lze Obrázku~\ref{fig:vpo}), designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:drawio}.
 Stejně tak spojování tvarů čarami má velmi podobné chování.
-Jeden rozdíl je ten, že kresba spojení z jednoho tvaru do toho samého (tvorba "cyklu") je velmi nepředvídatelná.
+Jeden rozdíl je ten, že kresba spojení z jednoho tvaru do toho samého (tvorba \enquote{cyklu}) je velmi nepředvídatelná.
 Čára se při tom samovolně přemisťuje do všech možných stran, až nakonec zůstane přilepena na jedné ze stran tvaru.
 
 Diagramy lze uložit do formátu \texttt{vpd}, který při otevření v textovém editoru připomíná base64 kód.
@@ -430,8 +430,11 @@ Rastrový export je možný ve formátu JPEG nebo \acrshort{png}.
 Stejně jako u diagrams.net ze sekce~\ref{section:drawio} je do \acrshort{png} volitelně přidána serializace diagramu v \texttt{tEXt} chunku formátu \acrshort{png}.
 Dokonce je použito stejné klíčové slovo identifikující tuto serializaci -- \texttt{mxfile}.
 To vzbuzuje podezření, že se jedná o stejný formát, jako používá diagrams.net ze sekce \ref{section:drawio}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
-O tom, že Visual Paradigm Online používá stejný formát jsme ale nenašli žádné zmínky.
-Dále, jak už bylo zmíněno, \texttt{vpd} nemá stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
+Tuto domněnku potvrdila i podpora diagrams.net v odpovědi na náš dotaz.
+Konkrétně, Visual Paradigm Online postavili celý svůj editor na open-source editoru diagrams.net.
+
+Jak už bylo zmíněno, \texttt{vpd} nemá úplně stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
+Nejspíše se jedná o zašifrovaný mxfile soubor, aby šel otevřít pouze v closed-source editoru Visual Paradigm Online.
 
 Komercializace Visual Paradigm Online je rozdělena do několik platebních úrovní.
 Každá úroveň má určenou cenu za uživatele za měsíc.
@@ -440,42 +443,116 @@ Každá úroveň má určenou cenu za uživatele za měsíc.
 Ten je v placených plánech odstraněn.
 Placené plány navíc obsahují více typů diagramů a více tvarů k použití, rastrový export vyššího rozlišení, historii verzí diagramu (při spolupráci) a další.
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/visual-paradigm-online.png}
+  \caption{Tvorba UML diagramu ve Visual Paradigm Online}
+  \label{fig:vpo}
+\end{figure}
 \section{Závěr existujících řešení}
 
-Přehled analýzy zmíněných existujících řešení je vidět v Tabulce~\ref{tab:existing-comparison}.
+V této kapitole jsme zanalyzovali některé existující nástroje na tvorbu diagramů.
+Zjistili jsme, že jich existuje více druhů a každý je vhodný pro jiný účel, ať už jimi jsou konceptuální či logická vrstva, spolupráce v týmu, nebo dokonce vývoj schématu pro relační databáze s exportem přímo do SQL.
+
+Přehled analýzy zmíněných existujících řešení je vidět v Tabulce~\ref{tab:general-comparison}.
+Tabulka pro každý nástroj uvádí evaluaci jeho hlavních srovnávacích kritérií a u některých z nich uvádí dodatečné vysvětlivky.
+
+Porovnání exportovaných formátů, které mají nástroje k dispozici, jsou vidět v Tabulce~\ref{tab:format-comparison}.
+Formáty \acrshort{xml} a \acrshort{json} jsme vyhodnotili jako splněné, pokud soubor jejich projektu tento formát používá pro serializaci, případně pokud nástroj přímo nabízí export do daného formátu.
+
+Srovnání podporovaných úložišť je uvedeno v Tabulce~\ref{tab:storage-comparison}.
+Pouze nástroj draw.io podporuje více externích úložišť.
+Visual Studio Paradigm podporuje pouze Google Drive.
+Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky poskytnutému lokálnímu nástroji si uživatel může nastavit pro tento účel všechna daná úložiště sám.
 
 \newcommand{\tnote}[1]{\textsuperscript{#1}}
-\begin{table}
+\begin{table}[!htb]
+  \renewcommand{\arraystretch}{1.5}
   \begin{center}
     \sffamily
-    \tabcolsep = 1pt\relax
+    \tabcolsep = 3pt\relax
     \footnotesize
     \makebox[\textwidth]{
-      \begin{tabular}{r|c|c|c|c}
-        \toprule
-        název produktu     & \textbf{diagrams.net}                   & \textbf{drawSQL}                 & \textbf{ERDPlus} & \textbf{nomnoml}                   \\
-        \midrule
-        kategorie (vrstva) & libovolné d.                            & logická                          & konceptuální     & omezené d.                         \\
-        serializovaný ex.  & ano                                     & ne\tnote{\ref{tab:ec:plan}}      & ano              & ano                                \\
-        rastrový ex.       & ano                                     & ano                              & ano              & ano                                \\
-        vektorový ex.      & ano                                     & ne                               & ne               & ano                                \\
-        schematický ex.    & ne                                      & SQL                              & SQL              & ne                                 \\
-        zjednodušený ex.   & HTML, PDF                               & ano\tnote{\ref{tab:scaffolding}} & ne               & ne                                 \\
-        poskytuje úložiště & ne\tnote{\ref{tab:ec:external-storage}} & ano                              & ano              & ano\tnote{\ref{tab:ec:urlsharing}} \\
-        paměť prohlížeče   & ano                                     & ne                               & ne               & ano                                \\
-        \midrule[\heavyrulewidth]
+      \begin{tabular}{p{0.7in}lp{0.7in}p{0.7in}p{0.8in}p{0.8in}p{0.9in}}\toprule
+        název                  & kategorie    & úložiště                            & interaktivní spolupráce                       & formát projektu                         & export                                           & komercializace                                                             \\ \midrule
+        draw.io                & libovolné    & lokální, externí, prohlížeč         & částečně\tnote{\ref{tab:gc:external-storage}} & mxfile                                  & serializovaný, rastrový, vektorový, zjednodušený & zdarma\tnote{\ref{tab:gc:price-external-storage},\ref{tab:gc:open-source}} \\
+        drawSQL                & logická      & online                              & placená                                       & JSON\tnote{\ref{tab:gc:plan}}           & schematický, rastrový                            & zdarma, předplacené plány\tnote{\ref{tab:gc:price-drawsql}}                \\
+        ERDPlus                & konceptuální & online                              & ne                                            & JSON                                    & rastrový                                         & zdarma                                                                     \\
+        nomnoml                & omezené      & ne\tnote{\ref{tab:gc:in-url}}       & ne                                            & nomnoml\tnote{\ref{tab:gc:custom-lang}} & rastrový, vektorový                              & zdarma\tnote{\ref{tab:gc:open-source}}                                     \\
+        Visual Paradigm Online & libovolné    & online, lokální, externí, prohlížeč & ano\tnote{\ref{tab:gc:vpo-collab}}            & vpd\tnote{\ref{tab:gc:mxfile-like}}     & serializovaný, rastrový, vektorový, zjednodušený & zdarma, předplacené plány\tnote{\ref{tab:gc:price-vpo}}                    \\ \bottomrule
       \end{tabular}
     }
   \end{center}
 
   \footnotesize
   \begin{enumerate}[a.,ref = \alph*,noitemsep]
-    \item plánovaná funkce \label{tab:ec:plan}
-    \item využívá úložiště třetích stran \label{tab:ec:external-storage}
-    \item platformně-specifický scaffolding -- automatické generování kódu pro specifické platformy a programovací jazyky \label{tab:scaffolding}
-    \item diagram je uložen v URL, pomocí které lze diagram sdílet \label{tab:ec:urlsharing}
+    \item využívá úložiště třetích stran \label{tab:gc:external-storage}
+    \item lze počítat navíc cenu externích úložišť \label{tab:gc:price-external-storage}
+    \item open-source projekt\label{tab:gc:open-source}
+    \item plánovaná funkce v době psaní práce\label{tab:gc:plan}
+    \item diagram může být ale součástí \acrshort{url}, pomocí které ho lze sdílet\label{tab:gc:in-url}
+    \item jedná se o vlastní jazyk pro tvorbu diagramů\label{tab:gc:custom-lang}
+    \item 3 účastníci živé spolupráce zdarma, jinak placené\label{tab:gc:vpo-collab}
+    \item nejspíše se jedná o zašifrovaný mxfile\label{tab:gc:mxfile-like}
+    \item zdarma 1 uživatel a 15 projektů, plány 19-179 \$/měsíc\label{tab:gc:price-drawsql}
+    \item zdarma základní diagramy, plány 4-15~\$/uživatel/měsíc\label{tab:gc:price-vpo}
   \end{enumerate}
 
   \caption{Srovnání existujících řešení}
-  \label{tab:existing-comparison}
+  \label{tab:general-comparison}
+\end{table}
+\begin{table}[!htb]
+  \renewcommand{\arraystretch}{1.5}
+  \begin{center}
+    \sffamily
+    \tabcolsep = 3pt\relax
+    \footnotesize
+    \makebox[\textwidth]{
+      \begin{tabular}{lcccccccc}\toprule
+        název                  & PNG & JPEG & SVG & PDF & HTML & SQL                                 & XML & JSON                                 \\ \midrule
+        draw.io                & ano & ano  & ano & ano & ano  & ne                                  & ano & ne                                   \\
+        drawSQL                & ano & ne   & ne  & ne  & ne   & ano                                 & ne  & ne\tnote{\ref{tab:fc:plan}}          \\
+        ERDPlus                & ano & ne   & ne  & ne  & ne   & ano\tnote{\ref{tab:fc:erdplus-sql}} & ne  & ano\tnote{\ref{tab:fc:erdplus-json}} \\
+        nomnoml                & ano & ne   & ano & ne  & ne   & ne                                  & ne  & ne                                   \\
+        Visual Paradigm Online & ano & ano  & ano & ano & ne   & ne                                  & ne  & ne                                   \\ \bottomrule
+      \end{tabular}
+    }
+  \end{center}
+
+  \footnotesize
+  \begin{enumerate}[a.,ref = \alph*,noitemsep]
+    \item plánovaná funkce v době psaní práce\label{tab:fc:plan}
+    \item převod \acrshort{er} \rightarrow{} relační schéma \rightarrow{} \acrshort{sql}\label{tab:fc:erdplus-sql}
+    \item soubor má příponu \texttt{erdplus}, ale jedná se o textový soubor s obsahem ve formátu \acrshort{json}\label{tab:fc:erdplus-json}
+  \end{enumerate}
+
+  \caption{Exportované formáty existujících řešení}
+  \label{tab:format-comparison}
+\end{table}
+
+\begin{table}[!htb]
+  \renewcommand{\arraystretch}{1.5}
+  \begin{center}
+    \sffamily
+    \tabcolsep = 3pt\relax
+    \footnotesize
+    \makebox[\textwidth]{
+      \begin{tabular}{lccccccc}
+        \toprule
+        název                             & online & \makecell{paměť                                                                                                                                                                                     \\prohlížeče} & \makecell{Google \\Drive} & OneDrive & GitHub & GitLab & Dropbox \\ \midrule
+        draw.io                           & ne     & ano             & ano                               & ano                               & ano                               & ano                               & ano                               \\
+        drawSQL                           & ano    & ne              & ne                                & ne                                & ne                                & ne                                & ne                                \\
+        ERDPlus                           & ano    & ne              & ne                                & ne                                & ne                                & ne                                & ne                                \\
+        nomnoml                           & ne     & ano             & ne\tnote{\ref{tab:sc:workaround}} & ne\tnote{\ref{tab:sc:workaround}} & ne\tnote{\ref{tab:sc:workaround}} & ne\tnote{\ref{tab:sc:workaround}} & ne\tnote{\ref{tab:sc:workaround}} \\
+        \makecell{Visual Paradigm Online} & ano    & ano             & ano                               & ne                                & ne                                & ne                                & ne                                \\  \bottomrule
+      \end{tabular}    }
+  \end{center}
+
+  \footnotesize
+  \begin{enumerate}[a.,ref = \alph*,noitemsep]
+    \item nomnoml kromě webové aplikace poskytuje i lokální program pro převod diagramů z nomnoml jazyka, takže lze nomnoml soubor uložit do těchto úložišť a spravovat jeho verze\label{tab:sc:workaround}
+  \end{enumerate}
+
+  \caption{Úložiště existujících řešení}
+  \label{tab:storage-comparison}
 \end{table}
