@@ -284,7 +284,7 @@ Pro dva morfismy $f,g\in\mathcal M$ a objekty $A,B,C\in \mathcal O$ takové, že
 \end{itemize}
 je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z
 \begin{multline*}
-  (\sig_2\cdot \sig_1, \dom_1, \cod_2, \dir_1, \bot, (\min(\minn_1, \minn_2), \max(\maxx_1, \maxx_2)),\\ 
+  (\sig_2\cdot \sig_1, \dom_1, \cod_2, \dir_1, \bot, (\min(\minn_1, \minn_2), \max(\maxx_1, \maxx_2)),\\
   \dup_1 \lor \dup_2, \ord_1\lor \ord_2)\,.
 \end{multline*}
 
@@ -393,134 +393,65 @@ Pro naši upravenou verzi schematické kategorie musíme upravit i algoritmus p�
 
 Mějme tedy validní \acrshort{er} diagram.
 Převedeme ho na schematickou kategorii.
-Představme k tomu Algoritmus~\ref{alg:conversion-er-schemcat}.
 
-\begin{algorithm}[htb]
-  \DontPrintSemicolon
-  \SetKwFor{For}{pro}{dělej}{konec}
-  \SetKwFor{While}{dokud}{dělej}{konec}
-  \SetKwFor{ForAll}{pro\ každý}{dělej}{konec}
-  \SetKwProg{Fn}{funkce}{ je}{konec}
-  \SetKw{Return}{vrať}%
-  $\mathcal S\gets$ prázdná schematická kategorie\;
-  $\Sigma \gets $ libovolná abeceda, např.~$\N$\;
-  \Fn{vytvořObjekt(název)}{
-    $i\gets$ unikátní symbol z $\Sigma$\;
-    \tcp{(identita, název, množina identifikátorů)}
-    $O\gets$ (i, název, $\set{}$)\;
-    vlož $O$ do objektů $\mathcal S$\;
-    \Return $O$\;
-  }
-  \Fn{vytvořBázovýMorfismus(dom, kod, název, kardinalitaTam, kardinalitaZpět)}{
-    $i\gets$ unikátní symbol z $\Sigma$\;
-    $j\gets$ unikátní symbol z $\Sigma$\;
-    \tcp{(signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání)}
-    $M\gets$ (i, dom, kod, 0, název, kardinalitaTam, \texttt{false}, \texttt{false})\;
-    $M^{-1}\gets$ (j, dom, kod, 1, název, kardinalitaZpět, \texttt{false}, \texttt{false})\;
-    vlož $M$ a $M^{-1}$ do morfismů $\mathcal S$\;
-    \Return $M$\;
-  }
-  označ všechny entitní typy z $\mathcal S$ za \emph{nevyřešené}\;
-  \ForAll{nesložený atribut $A$ z \acrshort{er} diagramu}{
-    $O_A\gets$ vytvořObjekt(jméno $A$)\;
-    do množiny identifikátorů $O_A$ vlož $\set{\varepsilon}$\;
-  }
-  \For{složený atribut $C$ z \acrshort{er} diagramu}{
-    $O_C\gets$ vytvořObjekt(jméno $C$)\;
-    \For{atribut $A$, který náleží $C$}{
-      $O_A\gets$ objekt z $\mathcal S$ odpovídající atributu $A$\;
-      $M_A\gets$ vytvořBázovýMorfismus(identita $O_C$, identita $O_A$, $\bot$, (\one{}..\one{}), (\one{}..\many{}))\;
-    }
-    do množiny identifikátorů $O_C$ přidej množinu signatur právě výše vytvořených $M_A$\;
-  }
-  \caption{Algoritmus převodu \acrshort{er} na schematickou kategorii}
-  \label{alg:conversion-er-schemcat}
-\end{algorithm}
-\begin{algorithm}[htb]
-  \DontPrintSemicolon
-  \setcounter{AlgoLine}{29}
-  \SetKwFor{For}{pro}{dělej}{konec}
-  \SetKwFor{While}{dokud}{dělej}{konec}
-  \SetKwFor{ForAll}{pro\ každý}{dělej}{konec}
-  \SetKwProg{Fn}{funkce}{ je}{konec}
-  \SetKwIF{If}{ElseIf}{Else}{pokud}{pak}{jinak pokud}{jinak}{konec}
-  \SetKw{Return}{vrať}
-  \ForAll{entitní typ $E$ z \acrshort{er} diagramu}{
-    %todo dodělat entitní typy, hierarchie, vztahové typy, slabé identifikátory
-    $O_E\gets$ vytvořObjekt(jméno $E$)\;
-    \ForAll{atribut $A$ entitního typu $E$}{
-      $O_A\gets$ objekt z $\mathcal S$ odpovídající atributu $A$
-      $M_A\gets$ vytvořBázovýMorfismus(identita $O_E$, identita $O_A$, $\bot$, kardinalita $A$ vzhledem k $E$, (\one..\one))\;
-    }
-    \ForAll{interní identifikátor $I$ entitního typu $E$}{
-      $M_I\gets$ množina morfismů z $\mathcal S$, které vedou k atributům z $I$\;
-      přidej do množiny identifikátorů objektu $O_E$ množinu $M_I$\;
-    }
-    \If{$E$ nemá externí identifikátor}{
-      označ $E$ za \emph{vyřešený}\;
-    }
-  }
-  \ForAll{vztahový typ $R$ z \acrshort{er} diagramu}{
-    $O_R\gets$ vytvořObjekt(jméno $R$)\;
-    \ForAll{atribut $A$ vztahového typu $R$}{
-      $O_A\gets$ objekt z $\mathcal S$ odpovídající atributu $A$\;
-      $M_A\gets$ vytvořBázovýMorfismus(identita $O_R$, identita $O_A$, $\bot$, kardinalita $A$ vzhledem k $R$, (\one..\one))\;
-    }
-    \ForAll{entitní typ $E$, který je účastníkem vztahového typu $R$}{
-      $O_E\gets$ objekty z $\mathcal S$ odpovídající entitě $E$\;
-      $M_E\gets$ vytvořBázovýMorfismus(identita $O_R$, identita $O_E$, $\bot$, kardinalita $E$ vzhledem k $R$, kardinalita $R$ vzhledem k $E$)\;
-    }
-  }
-  \While{existuje nevyřešený entitní typ $E$\label{alg:dokud}}{
-    \ForAll{externí identifikátor $I$ entitního typu $E$}{
-      $O_E\gets$ objekt z $\mathcal S$ odpovídající entitě $E$\;
-      \If{jsou všechny entitní typy $E_V$, do kterých vede externí identifikátor $I$, vyřešené}{
-        pro každý $E_i\in E_V$ označ odpovídající $O_i\in\mathcal S$\;
-        vytvoř orientovanou cestu přes odpovídající morfismy z $E$ do $E_i$, označ $C_i$\;
-        zřetězením vytvoř z každé $C_i$ signaturu $S_i$\;
-        \ForAll{identifikátor $I_k$ z množiny identifikátorů $O_i$}{
-          $S_f\gets\set{S\cdot S_i\mid S\in I_k}$\;
-          přidej $S_f$ do množiny identifikátorů objektu $O_E$\;
-        }
-        označ $E$ \emph{za vyřešenou}\;
-      }
-    }
-  }
-\end{algorithm}
-\begin{algorithm}[htb]
-  \DontPrintSemicolon
-  \setcounter{AlgoLine}{68}
-  \SetKwFor{For}{pro}{dělej}{konec}
-  \SetKwFor{While}{dokud}{dělej}{konec}
-  \SetKwFor{ForAll}{pro\ každý}{dělej}{konec}
-  \SetKwProg{Fn}{funkce}{ je}{konec}
-  \SetKwIF{If}{ElseIf}{Else}{pokud}{pak}{jinak pokud}{jinak}{konec}
-  \SetKw{Return}{vrať}
-  \ForAll{vztahový typ $R$ z \acrshort{er} diagramu}{
-    $O_R\gets$ objekt z $\mathcal S$ odpovídající $R$\;
-    \uIf{se $R$ účastní nějakého externího identifikátoru}{
-      do množiny identifikátorů objektu $O_R$ přidej nový identifikátor tvořený odpovídajícími signaturami podobně jako výše\;
-    }\uElseIf{alespoň jeden účastník $E$ vztahového typu $R$ je účastněn s kardinalitou, která má horní hranici \one{}}{
-      pro každého takového účastníka $E$ vlož do $O_R$ identifikátor odpovídající $E$\;
-    }\Else{
-      přidej pro každého účastníka $E$ vztahového typu $R$ nový identifikátor do $O_R$ odpovídající $E$\;
-    }
-  }
-  \ForAll{vztah rodič-dítě ($P,C$) z hierarchií \acrshort{er} diagramu}{
-    $O_P,O_C\gets$ odpovídající objekty z $\mathcal S$\;
-    $M_H\gets$ vytvořBázovýMorfismus(identita $O_C$, identita $O_P$, $\bot$, (\one{}..\one{}), (\one{}..\one{}))\;
-    správně dořetězené identifikátory odpovídající všem identifikátorům $O_P$ přidej do identifikátorů $O_C$\;
-  }
-  do $\mathcal S$ dodej operací skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru\;
-  pro každý objekt $O$ v $\mathcal S$ dodej do $\mathcal S$ identitní morfismus ($\set{\varepsilon}$, identita $O$, identita $O$, \zero{}, $\bot$, (\one{}..\one{}), \texttt{false}, \texttt{false})\;
-\end{algorithm}
-
-V algoritmu předpokládáme, že $\Sigma$ má dostatek symbolů, aby šlo po celou dobu běhu algoritmu volit unikátní symbol.
-
-Uvědomme si, že $E$ nemusí mít ani jeden vlastní atribut ze dvou důvodů, které se vzájemně nevylučují:
+Uvědomme si nejdříve, že v \acrshort{er} diagramu, který dostaneme nemusí mít entitní typy ani jeden vlastní atribut ze dvou důvodů, které se vzájemně nevylučují:
 \begin{enumerate}
-  \item $E$ může být dítě v hierarchii, kdy dědí identifikátor od rodiče,
+  \item entitní typ může být dítě v hierarchii, kdy dědí identifikátor od rodiče,
   \item nebo se může jednat o slabý entitní typ, který nemá ani jeden interní identifikátor.
 \end{enumerate}
 
-Algoritmus skončí, pokud dostane korektní \acrshort{er} diagram (takže nemá cykly a je konečný), protože v cyklu \emph{dokud} na řádce \ref{alg:dokud} se určitě v každé iteraci najde alespoň jeden řešitelný entitní typ, díky neexistenci cyklů.
+Zvolíme libovolnou abecedu $\Sigma$, z které budeme vybírat unikátní identifikátory.
+Abecedu musíme zvolit takovou, aby bylo dostatek symbolů pro celou schematickou kategorii.
+Triviálním příkladem je $\Sigma=\N$.
+Unikátní symboly z $\Sigma$ budeme značit $\sigma$.
+Použití $\sigma$ tedy znamená \enquote{zde použijme unikátní symbol ze $\Sigma$}.
+
+Začneme s prázdnou schematickou kategorií a postupně budeme převádět konstrukty \acrshort{er} do konstruktů schematické kategorie.
+Označme všechny entitní typy \acrshort{er} diagramu za \emph{nevyřešené}.
+
+Pro každý (jednoduchý nebo složený) atribut z \acrshort{er} vytvořme odpovídající objekt schematické kategorie (s odpovídajícím názvem a unikátní identitou).
+Množina identifikátorů objektu bude $\set{\varepsilon}$, tj. self-identifikovaný objekt.
+
+Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ vytvořme bázový morfismus mezi odpovídajícími objekty $O_C$ a $O_A$.
+$$ (\sigma, \mathit{identita}\ O_C, \mathit{identita}\ O_A, 0, \bot, (\one{}..\one{}), \texttt{false}, \texttt{false}) $$
+a také jeho duál
+$$ (\sigma, \mathit{identita}\ O_C, \mathit{identita}\ O_A, 1, \bot, (\one{}..\many{}), \texttt{false}, \texttt{false})\,. $$
+
+Pro každý entitní typ $E$ z \acrshort{er} diagramu vytvořme jemu odpovídající objekt $O_E$, podobně jako pro atributy, ale zatím nechme množinu identifikátorů prázdnou.
+Pro atributy $E$, vezměme každý odpovídající objekt $O_A$ a vytvořme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
+Kardinalitu směrem tam nastavme na kardinalitu $A$ vzhledem k $E$ a kardinalitu směrem zpět na (\one{}..\one{}).
+Pro každý interní identifikátor $I$ entitního typu $E$ přidejme do množiny identifikátorů objektu $O_E$ novou množinu složenou ze signatur morfismů, které vedou do jednotlivých atributů v $I$ (resp. odpovídajících objektů).
+Pokud $E$ nemá externí identifikátor, označíme ho za \emph{vyřešený}.
+
+Pro každý vztahový typ $R$ z \acrshort{er} diagramu vytvoříme odpovídající objekt $O_R$ stejně jako pro atributy -- s množinou identifikátorů $\set{\varepsilon}$.
+Všechny atributy a složené atributy $R$ spojíme s $O_R$ stejně jako tomu bylo u entitních typů a jejich atributů.
+Mezi $R$ a každým účastníkem tohoto vztahového typy, označme $E$ (resp. mezi jejich odpovídajícími objekty) vytvořme bázový morfismus s kardinalitou tam stejnou jako je kardinalita $E$ vzhledem k $R$.
+Kardinalita směrem zpět (tedy kardinalita duálního morfismu) bude stejná jako kardinalita $R$ vzhledem  k $E$.
+
+Nyní postupně \enquote{vyřešíme} všechny nevyřešené entitní typy $E$.
+Pro každý takový entitní typ se podíváme na jeho externí identifikátory.
+Vše opakujeme, dokud existují nevyřešené entitní typy.
+Externí identifikátor se může skládat z vlastních atributů a vztahových typů, kterých se $E$ účastní (ten musí být alespoň jeden).
+Pokud nejsou všechny entitní typy, do kterých vede nějaký externí identifikátor vyřešené, pak zvolíme jiný nevyřešený entitní typ a opakujeme znovu.
+Jinak pro každý externí identifikátor vytvoříme odpovídající množinu signatur, kterou posléze vložíme do $O_E$.
+Signatury vlastních atributů získáme z odpovídajících morfismů jako tomu bylo u interních identifikátorů, označme tuto množinu $W$.
+Jinak najdeme orientovanou cestu přes odpovídající morfismy z $E$ do každého $E_i$ entitního typu, do kterého vede externí identifikátor.
+Nechť $c$ je zřetězení signatur morfismů, přes které tato cesta vede.
+Nechť $O_i$ je objekt odpovídající $E_i$.
+Pro každý identifikátor $I_k$ z množiny identifikátorů $O_i$ vytvoříme $S\coloneqq \set{c_k\cdot c\mid c_k\in I_k}$.
+Do množiny identifikátorů objektu $O_E$ vložíme $W\cup S$.
+
+Zřetězili jsme tak signatury identifikátorů \enquote{vzdálených entit, které nás identifikují} se signaturami cest do těchto entit.
+Sjednocením s vlastními signaturami jsme získali množinu signatur, která odpovídá danému externímu identifikátoru.
+Protože jsme dostali korektní \acrshort{er}, kde nejsou cykly externích identifikátorů, cyklus výše určitě někdy skončí.
+To proto, že určitě najde alespoň jeden vyřešený entitní typ (list ve stromě externí identifikace).
+
+Nyní převedeme ISA hierarchie.
+Pro každý vztah rodič-dítě ($P, C$) z každé ISA hierarchie vezmeme odpovídající objekty $O_P, O_C$ a vytvoříme mezi nimi bázový morfismus (z $O_C$ do $O_P$) s kardinalitou (\one{}..\one{}) a k němu duální morfismus s kardinalitou (\one{}..\one{}).
+Správně \enquote{dořetězené} identifikátory (zřetězené přes právě vytvořený morfismus) z $O_P$ vložíme do $O_C$.
+Tím $O_C$ \enquote{zdědil} identifikátory od $O_P$.
+
+Do schematické kategorie dodáme pomocí operace skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru.
+Pro každý objekt $O$ dodáme identitní morfismus $O\to O$ s kardinalitou (\one{}..\one{}) a množinou identifikátorů $\set{e}$.
+
+Tím je algoritmus dokončen a máme korektní schematickou kategorii odpovídající \acrshort{er} diagramu.
