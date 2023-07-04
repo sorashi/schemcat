@@ -40,8 +40,8 @@ Formáty pro export lze rozdělit do několika kategorií:
 \begin{itemize}
   \item serializovaný formát -- většinou se jedná o~vlastní formát aplikace a~takový soubor nelze jinou aplikací otevřít, ale lze jej programově zpracovat,
   \item rastrové formáty, např. \acrfull{png}\footnote{Portable Network Graphics -- \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}} -- mají nejširší využití a~podporu, lze je použít v~dokumentech a~na webových stránkách,
-  \item vektorové formáty, např. \acrfull{svg}~\cite{brinza_svg_2018} -- nemají tak rozšířenou podporu, nicméně jsou vhodnější v~dokumentech po estetické stránce (zvlášť při tištění);
-        dále existují vektorové editory, pomocí nichž lze výsledek libovolně upravovat bez potřeby souboru ve serializovaném formátu;
+  \item vektorové formáty, např. \acrfull{svg}~\cite{brinza_svg_2018} -- nemají tak rozšířenou podporu, nicméně jsou vhodnější v~dokumentech po estetické stránce díky libovolnému rozlišení (zvlášť při tištění);
+        dále existují vektorové editory, pomocí nichž lze výsledek libovolně upravovat bez potřeby souboru v serializovaném formátu;
         většina webových prohlížečů formát \acrshort{svg} podporuje a~soubor vykreslí;
         do této kategorie lze zařadit i~jiné otevřené strukturované formáty, např. VSDX\footnote{Microsoft Visio XML formát založený na ISO 29500 -- \url{https://interoperability.blob.core.windows.net/files/MS-VSDX/\%5bMS-VSDX\%5d.pdf}},
   \item zjednodušený export -- některé nástroje šetří práci uživatele tím, že diagram rovnou exportují do HTML\footnote{HyperText Markup Language -- \url{https://w3.org/TR/2021/SPSD-html52-20210128/}}, PDF\footnote{Portable Document Format, ISO 32000 -- \url{https://iso.org/standard/75839.html}} a~podobných finálních formátů pro okamžitou aplikaci, přestože uživatel může zvolit jiný formát a~finální vytvořit sám,
@@ -85,7 +85,7 @@ Jednosouborový program v~jazyce Python (viz kód~\ref{code:mxfiledec}) přijím
 Použití algoritmu Inflate na syrová data je vynuceno podle dokumentace zlib\footnote{\url{https://www.zlib.net/manual.html}}.
 % specificky https://www.zlib.net/manual.html#:~:text=windowbits%20can%20also%20be%20%E2%80%938..%E2%80%9315%20for%20raw%20deflate
 Jedná se o~ukázku postupu dekódování a toho, že formát je otevřený.
-Organizace JGraph dokonce poskytuje online nástroj\footnote{k dispozici na adrese \url{https://jgraph.github.io/drawio-tools/tools/convert.html}}, pomocí kterého lze dosáhnout téhož výsledku.
+Organizace JGraph dokonce poskytuje online nástroj\footnote{\url{https://jgraph.github.io/drawio-tools/tools/convert.html}}, pomocí kterého lze dosáhnout téhož výsledku.
 
 Soubor s~diagramy lze také uložit do formátu \acrshort{svg}, který je navíc otevřený a~podporují ho jiné nástroje.
 Uživatel má při exportu k~dispozici možnost \textit{Include a~copy of my diagram}, která do \acrshort{svg} souboru zahrne již zmíněný Base64 řetězec, ve kterém je diagram serializovaný.
