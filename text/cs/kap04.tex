@@ -84,16 +84,104 @@ setState(produce(draft => {
 }))
 \end{lstlisting}
 
+\section{Uživatelská dokumentace}
+Pro potřeby uživatele popíšeme uživatelské rozhraní aplikace, jehož ukázku lze vidět na Obrázku~\ref{fig:user-interface}.
+
+\begin{figure}[!htb]
+ \centering 
+ \includegraphics[width=\maxwidth{\textwidth}]{../img/app/user-interface.png}
+ \caption{Ukázka uživatelského rozhraní aplikace}
+ \label{fig:user-interface}
+\end{figure}
+
+V horní liště aplikace se nachází menu.
+Tlačítko File obsahuje možnosti pro vytvoření nového projektu a pro export.
+Tlačítko Edit obsahuje možnosti Undo a Redo.
+Následuje přepínač \enquote{Sync Pan \& Zoom}, který zamkne synchronizaci pozice pláten.
+Přetažení a přiblížení v jednom plátně tak způsobí totožný přesun a přiblížení ve všech ostatních plátnech.
+Poslední položkou horní lišty je editovatelné textové pole s názvem diagramu.
+Tento název se odráží v názvu souboru při exportu diagramu.
+
+Rozhraní aplikace se skládá z oken, která obsahují záložky s různým obsahem.
+Záložky lze přesouvat mezi okny a přetahovat přes jiné záložky myší, čímž může být vytvořeno nové okno.
+Při přetahování je uživateli intuitivně vizuálně znázorněno, která z akcí se stane po puštění záložky.
+Okna lze zvětšovat a zmenšovat přetažením jejich krajů.
+Pokud v nějakém okně nezůstane ani jedna záložka, okno zanikne.
+\mcomment{K uživatelské dokumentaci ještě něco dodám, až budu mít dodělanou aplikaci.}
+
+Právě aktivní okno je zvýrazněno světle modrou barvou.
+Tato informace říká, kterým plátnem se bude řídit synchronizace pozic, a který diagram bude výchozí při exportování.
+
+Záložka s názvem Control Panel obsahuje ovládací panel, ve kterém lze upravovat hodnoty jednotlivých vlastností elementů diagramu.
+Lze ho pozorovat na Obrázku~\ref{fig:control-panel}, kde je zvoleno spojení, jehož kardinalitu a kotvy lze přenastavit v ovládacím panelu.
+
+Záložka s popiskem Drag and Drop, která je také vidět na Obrázku~\ref{fig:control-panel} v levém dolním rohu, obsahuje konstrukty, které lze podržet a přesunout myší do plátna, čímž dojde k vytvoření daného konstruktu v daném plátně.
+
+Význam záložek s popisky \acrshort{er} Diagram, Schemcat Diagram a Schemcat Visualization je zřejmý -- obsahují popořadě plátna pro \acrshort{er} diagram, schematickou kategorii a vizualizaci schematické kategorie.
+
+\begin{figure}[!htb]
+ \centering 
+ \includegraphics[width=\maxwidth{\textwidth}]{../img/app/control-panel.png}
+ \caption{Ukázka ovládacího panelu}
+ \label{fig:control-panel}
+\end{figure}
+
+\section{Technická dokumentace}
+
+Zdrojový kód aplikace je k dispozici elektronické příloze, viz Příloha~\ref{appendix:electronic}.
+Popíšeme zde některé důležité složky se zdrojovým kódem aplikace.
+
+\begin{description}
+  \item[\directory{src/components}] obsahuje React komponenty.
+    Podsložky seskupují více podobných komponent.
+    Některé z nich uvedeme.
+  \item[\directory{src/components/UserControls}] seskupuje komponenty základních uživatelských prvků -- zaškrtávací pole, komponenta pro výběr barvy uživatelem, atd.
+  \item[\directory{src/components/Menu}] seskupuje komponenty, které se týkají hlavního menu v horní liště aplikace a kontextového menu.
+  \item[\directory{src/components/Dialog}] seskupuje komponenty dialogů pro export a potvrzování akcí.
+  \item[\directory{src/hooks}] obsahuje React hooks, včetně důležitého \texttt{useStore.ts}, který obstarává instanci modelu s pomocí knihovny Zustand a jeho editaci pomocí knihovny Immer.
+  \item[\directory{src/model}] obsahuje soubory, ve kterých se nacházejí jednotlivé třídy modelu.
+  \item[\directory{src/utils}] obsahuje soubory s operacemi, které se týkají transformace textových řetězců, práce s poli, apod.
+\end{description}
+
+Vedle některých souborů, např.~\texttt{Array.ts}, sídlí i soubory se stejným názvem, pouze odlišnou příponou, např.~\texttt{Array.test.ts}.
+Tyto soubory obsahují unit testy, které ověřují funkcionalitu některých operací.
+
+Vstupním bodem aplikace je soubor \directory{index.html}, který volá jediný skript -- \directory{src/main.tsx}.
+Úkolem tohoto skriptu je do \acrshort{dom} stromu připojit framework React a vložit do něj hlavní komponentu aplikace.
+Soubor obsahující hlavní komponentu aplikace je \directory{src/App.tsx}.
+Tato komponenta se stará o přípravu uživatelského rozhraní za použití komponent z knihovny FlexLayout.
+Do nich poté nasazuje vlastní komponenty aplikace.
+Některé komponenty blíže popíšeme.
+
+\begin{description}
+  \item[ControlPanel] představuje ovládací panel, ve kterém uživatel mění hodnoty vlastností elementů diagramu.
+    V modelu je pomocí dekorátorů (funkce jazyku TypeScript) určeno, který ovládací prvek má být použit pro kterou vlastnost třídy daného elementu.
+    Tato informace je pak za běhu použita k použití správné komponenty.
+    Jde o způsob reflexe, který je v TypeScriptu v době psaní práce experimentální (\texttt{reflect-metadata}).
+  \item[AnchorPicker] slouží pro výběr kotvy, tj. bodu, kde má být přichyceno spojení na elementu diagramu.
+  \item[Draggable] je obecná komponenta, která očekává děti a umožňuje jejich přetahování uživatelem.
+  \item[ErNode] představuje element \acrshort{er} diagramu, tedy buď entitní typ, vztahový typ, nebo atribut.
+    Který tvar vykreslí, rozhodne pomocí hodnoty typu \texttt{ErNodeType} z modelu.
+  \item[IdentifierFence] je komponenta zodpovědná za vykreslování složených identifikátorů.
+    Ty jsou vykresleny jako část obvodu obdélníku s oblými rohy, kterému říkáme \emph{fence} (neboli plot).
+    V pracovní verzi se místo toho používaly Beziérovy křivky.
+    Výsledek však nebyl dostatečně estetický.
+  \item[PannableZoomableSvg] reprezentuje \acrshort{svg} plátno, které lze přesouvat, přibližovat a oddalovat myší.
+    Dosahuje toho přepočítáváním \acrshort{svg} atributu \texttt{viewBox}.
+\end{description}
+
+Většina souborů obsahuje komentáře a TSDoc~\cite{microsoft_whattsdoc_2023} dokumentaci.
+
 \section{Vývoj}\label{section:development}
 
 K vývoji je potřeba mít nainstalovaný Node JS~\cite{openjsfoundation_nodejs_2023}.
 Naše prostředí má Node verze 20.
-Po instalaci by měl být k dispozici program \texttt{corepack}, kterým lze aktivovat náš upřednostňovaný správce balíčků \texttt{pnpm}.
+Po instalaci by měl být k dispozici program \texttt{corepack}, kterým lze aktivovat náš upřednostňovaný správce balíčků \texttt{pnpm}~\cite{pnpm_pnpmfast_2023}.
 Spustíme příkaz\footnote{rozsah \texttt{\^{}8} specifikuje verzi použitou v době psaní práce, nejnovější verzi lze nainstalovat tím, že místo tohoto rozsahu použijeme \texttt{latest}}
 \begin{verbatim}
 corepack prepare --activate pnpm@^8
 \end{verbatim}
-a poté ve složce \texttt{schemcat} se zdrojovým kódem spustíme
+a poté ve složce \directory{schemcat} se zdrojovým kódem spustíme
 \begin{verbatim}
 pnpm install
 \end{verbatim}
@@ -115,9 +203,9 @@ sestaví projekt a výsledné soubory připravené k nasazení uloží do složk
 
 \section{Instalace a nasazení}
 
-Kromě zdrojového kódu je v \hlcomment{příloze}{Jak označovat externí přílohy?} také sestavený projekt.
+Kromě zdrojového kódu je v Příloze~\ref{appendix:electronic} také sestavený projekt.
 Stačí, aby správce soubory přesunul a nasadil na statický webový server.
-Tento statický server však musí souborům přiřazovat korektní MIME hlavičky, jinak není fungování projektu zaručeno.
+Tento statický server však musí při odesílání souborů přes \acrshort{http} přiřazovat korektní \acrshort{mime} hlavičky, jinak není fungování projektu zaručeno.
 
 Uživatel musí mít moderní webový prohlížeč, který podporuje ES6 moduly\footnote{prohlížeče definované v tabulce na této adrese \url{https://caniuse.com/es6-module}}.
 Pokud je potřeba přidat podporu starších prohlížečů, je třeba postupovat podle Sekce~\ref{section:development}.
