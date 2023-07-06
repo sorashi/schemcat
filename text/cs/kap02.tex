@@ -172,7 +172,7 @@ Poprvé byla představena Eilenbergem a MacLanem v roce 1945~\cite{eilenberg_gen
 Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
 z \begin{itemize}
   \item množiny objektů $\mathcal O$,
-  \item množniy morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
+  \item množiny morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
   \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f,g\in\mathcal M$, tž. $f\colon A\to B, g\colon B\to C$, musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí axiomy:
         \begin{itemize}
           \item asociativita -- pro morfismy $f,g,h\in\mathcal M$ takové, že $f\colon A\to B, g\colon B\to C, h\colon C\to D$, platí $h\circ (g \circ f) = (h\circ g)\circ f$,
@@ -264,7 +264,7 @@ Formálně je schematická kategorie instance kategorie $(\mathcal O, \mathcal M
           \item směr je buď \zero{} (tam) nebo \one{} (zpět) s výchozí hodnotou \zero{}; hodnota \one{} vyjadřuje, že tento morfismus je pouze inverze k jinému, dodaná pro úplnost modelu,
           \item název je uživatelské jméno tohoto morfismu, může být i prázdné $\bot$,
           \item kardinalita je dvojice (min, max), která odpovídá kardinalitě z \acrshort{er} v Sekci~\ref{def:cardinality},
-          \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou vztažena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam pouze pokud je horní hranice kardinality tohto morfismu \many; výchozí hodnota obou složek je \texttt{false}.
+          \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou vztažena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam pouze pokud je horní hranice kardinality tohoto morfismu \many; výchozí hodnota obou složek je \texttt{false}.
         \end{itemize}
 \end{itemize}
 
@@ -289,7 +289,7 @@ je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající
 \end{multline*}
 
 Protože $f$ a $g$ na sebe navazují, musí platit $dir_1=dir_2$, směr morfismů je stejný a směr složeného morfismu bude také stejný.
-Dále, protože $dom_1, cod_1, dom_2$ a $cod_2$ odpovídají identitám objektů objektů $A, B, C,$ resp. $D$, složený morfismus má doménu $dom_1$ a kodoménu $cod_2$.
+Dále, protože $dom_1, cod_1, dom_2$ a $cod_2$ odpovídají identitám objektů $A, B, C,$ resp. $D$, složený morfismus má doménu $dom_1$ a kodoménu $cod_2$.
 Když u jednoho z morfismů záleží na duplicitách, resp. uspořádání, \hlcomment{bude záležet u složeného morfismu také na duplicitách, resp. uspořádání}{je to pravda?}.
 
 \begin{figure}[!htb]
@@ -382,7 +382,7 @@ Význam tohoto konceptuálního modelu je takový, že jeden seznam úkolů mů�
   \label{fig:scv-ord-dup}
 \end{figure}
 
-Všimněme si, že žádná informace schmetické kategorie se ve \acrshort{vsk} neztratí.
+Všimněme si, že žádná informace schematické kategorie se ve \acrshort{vsk} neztratí.
 Pokud nějaká informace není zobrazena, znamená to, že má definovanou výchozí hodnotu.
 Díky tomu lze říci, že \acrshort{vsk} a schematická kategorie jsou na sebe vzájemně převoditelné a tedy jsou ekvivalentní.
 
