@@ -1,16 +1,16 @@
 \chapter{Teorie}
 
-V~této kapitole představíme potřebné teoretické koncepty, které bude využívat výsledná aplikace.
+V této kapitole představíme potřebné teoretické koncepty, které bude využívat výsledná aplikace.
 Mezi tyto koncepty patří \acrfull{er} model a nově vyvíjený konceptuální model v podobě schematické kategorie~\cite{svoboda_categorical_2021} v rozšířené verzi navržené vedoucím práce.
 
 \section{Entity Relationship}\label{section:entity-relationship}
 
-Datový model \acrfull{er} poprvé představil Peter Pin-Shan Chen už v~roce 1976~\cite{chen_er_1976}.
+Datový model \acrfull{er} poprvé představil Peter Pin-Shan Chen už v roce 1976~\cite{chen_er_1976}.
 Od té doby se však \acrshort{er} vyvíjel, jak se potřeby datového modelování rozšiřovaly.
 \acrshort{er} není standardizováno, ale jednu moderní verzi představili Atzeni, Ceri, Paraboschi a Torlone~\cite[s.~163-179]{atzeni_database_1999}.
 Na jejich \acrshort{er} modelu založíme ten náš, který zde popíšeme.
 
-V~Tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty \acrshort{er} modelu.
+V Tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty \acrshort{er} modelu.
 Zde blíže popíšeme sémantiku jednotlivých konstruktů:
 \begin{itemize}
   \item Entitní typ (Entity Type) reprezentuje předpis pro instance entit reálného světa.
@@ -28,15 +28,15 @@ Zde blíže popíšeme sémantiku jednotlivých konstruktů:
         Spodní hranice 0 znamená, že účast je volitelná; hranice 1 znamená, že účast je povinná.
         Horní hranice 1 znamená, že účast je nejvýše jedna; hranice~\many{} znamená, že účastí je libovolný počet.
         \begin{itemize}
-          \item Hranice kardinalit pro jednotlivé účastníky vztahů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v~tomto vztahu.
-          \item Hranice kardinalit u~atributů vyjadřují minimální a resp. maximální počet hodnot atributu, které se vztahují k dané instanci entity/vztahu.
+          \item Hranice kardinalit pro jednotlivé účastníky vztahů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v tomto vztahu.
+          \item Hranice kardinalit u atributů vyjadřují minimální a resp. maximální počet hodnot atributu, které se vztahují k dané instanci entity/vztahu.
         \end{itemize}
   \item Identifikátor (Identifier) umožňuje jednoznačně rozlišit (identifikovat) instance entitních typů.
         Pro každý entitní typ je povinný alespoň jeden identifikátor, ale může jich být více.
         Každý identifikátor je tvořen buď
         \begin{itemize}
           \item jedním nebo více atributy daného entitního typu; takový identifikátor nazýváme interní, nebo
-          \item jedním, nebo více vztahovými typy, jichž se daný entitní typ účastní, případně kombinací s~předchozím; takový identifikátor nazýváme externí.
+          \item jedním, nebo více vztahovými typy, jichž se daný entitní typ účastní, případně kombinací s předchozím; takový identifikátor nazýváme externí.
         \end{itemize}
   \item Zobecnění (generalization), nebo také ISA hierarchie\footnote{ISA z anglického \enquote{is a}, analogicky ke vztahu \enquote{has a}} (ISA hierarchy), vyjadřuje vztah podobný dědičnosti v objektově orientovaném programování.
         Jde o vztah mezi entiním typem $E$ zvaným \emph{rodič} a jedním nebo více \emph{dětmi} $E_1, \dots, E_n$.
@@ -83,14 +83,14 @@ To proto, že když je instance entity identifikována vztahovým typem, musí t
   \label{fig:er-external-identifier-chain}
 \end{figure}
 
-U~kardinality poznamenejme, že se v~\acrshort{er} modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\many}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\in\mathbb N_0\colon a < \many$).
+U kardinality poznamenejme, že se v \acrshort{er} modelu často dovoluje použít jako hranice libovolná nezáporná celá čísla, tedy $(a, b)\in \mathbb N_0\times \left(\mathbb N_0 \cup \set{\many}\right)$, tž.~$a\leq b$ (dodefinujeme $\forall a\in\mathbb N_0\colon a < \many$).
 Dají se tak vyjádřit přesnější omezení, např. že jeden uživatel může mít maximálně 5 bankovních účtů.
 Ovšem námi definované hranice kardinality vyjadřují volitelnost/povinnost pro spodní hranici a jednočetnost/mnohočetnost pro horní hranici.
 Pokryjeme jimi z teoretického pohledu a s ohledem na povahu konstruktů v nejrůznějších logických modelech všechny strukturálně odlišné situace, které by mohly nastat.
 
-Dále upozorněme, že místo~\many{} se v~\acrshort{er} modelu může použít symbol \texttt{n} nebo \texttt{N} pro vyjádření \enquote{libovolného počtu}.
-Důležitá je ale konzistentnost, aby se v~jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čtenáře.
-V~této práci budeme používat pouze symbol~\many{}.
+Dále upozorněme, že místo~\many{} se v \acrshort{er} modelu může použít symbol \texttt{n} nebo \texttt{N} pro vyjádření \enquote{libovolného počtu}.
+Důležitá je ale konzistentnost, aby se v jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čtenáře.
+V této práci budeme používat pouze symbol~\many{}.
 
 \begin{table}[!htb]
   \centering
@@ -144,7 +144,7 @@ Jejich koncept popisují Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{
 Prostředky \acrshort{er} jsou vhodné ke konceptuálnímu modelování, nicméně mají několik nevýhod.
 Některé z nich zde identifikujeme.
 \begin{itemize}
-  \item V~\acrshort{er} lze modelovat jeden případ mnoha způsoby a není předem jasné, který z nich je nejlepší.
+  \item V \acrshort{er} lze modelovat jeden případ mnoha způsoby a není předem jasné, který z nich je nejlepší.
         Schematické kategorie většinu takových rozdílů smažou, zejména rozdíly mezi entitními typy, vztahovými typy a atributy.
         Často totiž tyto rozdíly nejsou důležité.
   \item \acrshort{er} zavádí několik omezení, např.~vztahové typy nemohou mít interní identifikátor a složené atributy se nemohou libovolně větvit.
@@ -163,16 +163,16 @@ Nicméně dosahuje se toho přes konstrukty (např.~stereotypy), u kterých lze 
 
 \subsection{Teorie kategorií}
 
-Nejdříve popíšeme kategorii z~teorie kategorií, na níž je schematická kategorie založena.
+Nejdříve popíšeme kategorii z teorie kategorií, na níž je schematická kategorie založena.
 
 Kategorie je matematická struktura, která zobecňuje mnoho jiných matematických struktur.
 Umožňuje tak mimo jiné studovat vztahy mezi nimi.
-Poprvé byla představena Eilenbergem a MacLanem v~roce 1945~\cite{eilenberg_generaltheory_1945}.
+Poprvé byla představena Eilenbergem a MacLanem v roce 1945~\cite{eilenberg_generaltheory_1945}.
 
 Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
-z~\begin{itemize}
+z \begin{itemize}
   \item množiny objektů $\mathcal O$,
-  \item množniy morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z~$A$ do $B$),
+  \item množniy morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
   \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f,g\in\mathcal M$, tž. $f\colon A\to B, g\colon B\to C$, musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí axiomy:
         \begin{itemize}
           \item asociativita -- pro morfismy $f,g,h\in\mathcal M$ takové, že $f\colon A\to B, g\colon B\to C, h\colon C\to D$, platí $h\circ (g \circ f) = (h\circ g)\circ f$,
@@ -235,7 +235,7 @@ Všimněme si, že každý objekt má svůj identitní morfismus.
 
 Schematická kategorie je mechanismus na popis konceptuálního schématu dat založený na teorii kategorií.
 Oproti~\acrshort{er} má schematická kategorie větší vyjadřovací sílu.
-Její koncept společně s algoritmem převodu z~\acrshort{er} schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
+Její koncept společně s algoritmem převodu z \acrshort{er} schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
 My však použijeme upravenou definici schematické kategorie navrženou vedoucím práce.
 
 \begin{definition}[Signatura]\label{def:signature}
@@ -255,7 +255,7 @@ Formálně je schematická kategorie instance kategorie $(\mathcal O, \mathcal M
         \begin{itemize}
           \item identita je libovolný symbol (např.~z~$\N$), který rozlišuje a unikátně identifikuje všechny objekty, které mají ostatní složky totožné (tedy speciálně i pro případ, kdy by všechny ostatní složky byly totožné),
           \item název reprezentuje textovým řetězcem uživatelské jméno daného objektu,
-          \item množina identifikátorů obsahuje identifikátory; každý jednotlivý identifikátor je množina identit a vyjadřuje, čím lze daný objekt konceptuálně identifikovat (podobně jako identifikátory z~\acrshort{er}),
+          \item množina identifikátorů obsahuje identifikátory; každý jednotlivý identifikátor je množina identit a vyjadřuje, čím lze daný objekt konceptuálně identifikovat (podobně jako identifikátory z \acrshort{er}),
         \end{itemize}
   \item každý morfismus má strukturu osmice: (signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání),
         \begin{itemize}
@@ -263,7 +263,7 @@ Formálně je schematická kategorie instance kategorie $(\mathcal O, \mathcal M
           \item doména a kodoména odpovídají zdrojovému a cílovému objektu tohoto morfismu,
           \item směr je buď \zero{} (tam) nebo \one{} (zpět) s výchozí hodnotou \zero{}; hodnota \one{} vyjadřuje, že tento morfismus je pouze inverze k jinému, dodaná pro úplnost modelu,
           \item název je uživatelské jméno tohoto morfismu, může být i prázdné $\bot$,
-          \item kardinalita je dvojice (min, max), která odpovídá kardinalitě z~\acrshort{er} v Sekci~\ref{def:cardinality},
+          \item kardinalita je dvojice (min, max), která odpovídá kardinalitě z \acrshort{er} v Sekci~\ref{def:cardinality},
           \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou vztažena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam pouze pokud je horní hranice kardinality tohto morfismu \many; výchozí hodnota obou složek je \texttt{false}.
         \end{itemize}
 \end{itemize}
@@ -388,7 +388,7 @@ Díky tomu lze říci, že \acrshort{vsk} a schematická kategorie jsou na sebe 
 
 \section{Převod ER na schematickou kategorii}
 
-Algoritmus převodu z~\acrshort{er} na schematickou kategorii už popsali Svoboda a kol.~\cite[s.~192-196]{svoboda_categorical_2021}.
+Algoritmus převodu z \acrshort{er} na schematickou kategorii už popsali Svoboda a kol.~\cite[s.~192-196]{svoboda_categorical_2021}.
 Pro naši upravenou verzi schematické kategorie musíme upravit i algoritmus převodu.
 
 Mějme tedy validní \acrshort{er} diagram.
