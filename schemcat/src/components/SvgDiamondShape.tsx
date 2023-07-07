@@ -37,7 +37,7 @@ function getPolygonPoints(props: React.SVGProps<SVGPolygonElement>): string {
 }
 
 function SvgDiamondShape(props: React.SVGProps<SVGPolygonElement>) {
-  return <polygon {...props} points={getPolygonPoints(props)}></polygon>
+  return <polygon {...props} points={getPolygonPoints(props)} strokeLinejoin='round'></polygon>
 }
 
 export default SvgDiamondShape
