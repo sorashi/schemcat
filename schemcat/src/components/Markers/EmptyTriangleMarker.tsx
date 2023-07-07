@@ -5,14 +5,15 @@ export function EmptyTriangleMarker() {
     <marker
       id={emptyTriangleMarkerId}
       viewBox='0 0 10 10'
-      refX='10'
+      refX='9'
       refY='5'
       markerUnits='strokeWidth'
-      markerWidth='20'
-      markerHeight='20'
+      markerWidth='15'
+      markerHeight='15'
       strokeWidth='1'
+      strokeLinejoin='round'
       orient='auto'>
-      <path d='M 0 0 L 10 5 L 0 10 z' fill='white' stroke='black' />
+      <path d='M 1 1 L 9 5 L 1 9 z' fill='white' stroke='black' />
     </marker>
   )
 }

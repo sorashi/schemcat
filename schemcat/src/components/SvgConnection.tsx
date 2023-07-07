@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { strokeWidthMedium } from '../Constants'
 
 interface SvgConnectionProps {
   points: { x: number; y: number }[]
@@ -22,7 +23,14 @@ function SvgConnection({ points, onClick, style, pathId }: SvgConnectionProps) {
         stroke='rgba(255,0,0,0)'
         points={pointsString}
         onClick={(e) => onClick && onClick(e)}></polyline>
-      <polyline ref={ref} points={pointsString} fill='none' stroke='black' style={style} />
+      <polyline
+        ref={ref}
+        points={pointsString}
+        fill='none'
+        stroke='black'
+        strokeWidth={strokeWidthMedium}
+        style={style}
+      />
     </>
   )
 }

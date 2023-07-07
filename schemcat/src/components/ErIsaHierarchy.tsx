@@ -1,3 +1,4 @@
+import { strokeWidthMedium } from '../Constants'
 import { StoreModel, useStore } from '../hooks/useStore'
 import { ErIsaHierarchy as ErIsaHierarchyModel, ErNode } from '../model/DiagramModel'
 import Vector2 from '../utils/Vector2'
@@ -50,7 +51,8 @@ function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
           y1={meetingPoint.y}
           x2={parentNode.x}
           y2={parentNode.y}
-          style={selected ? selectedStyle : {}}></line>
+          style={selected ? selectedStyle : {}}
+          strokeWidth={strokeWidthMedium}></line>
 
         {childrenNodes.map((childNode) => (
           <line
@@ -59,7 +61,8 @@ function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
             y1={childNode.y}
             x2={meetingPoint.x}
             y2={meetingPoint.y}
-            style={selected ? selectedStyle : {}}></line>
+            style={selected ? selectedStyle : {}}
+            strokeWidth={strokeWidthMedium}></line>
         ))}
       </g>
       <g strokeWidth={15} stroke='rgba(0,0,0,0)' onClick={onClick}>
