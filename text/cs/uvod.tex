@@ -7,38 +7,39 @@ Ke konceptuálnímu modelování existuje několik uznávaných přístupů, jak
 Tyto modely však byly navrhovány v dobách, kdy relační databáze vládly softwarovým systémům, poněvadž tabulky byly nejvhodnějším logickým modelem pro potřeby doby.
 
 V posledních letech se v oboru začalo užívat rozličných databázových paradigmat.
-Každé z nich má svůj účel, své slabé a silné stránky.
-Zkušený softwarový inženýr vybere pro každý systém tu nejvhodnější databázi.
-Někdy se dokonce paradigmat v jednom systému používá více najednou, aby každé mohlo spravovat tu část dat systému, pro kterou je vhodné.
+Tím v praktické rovnině myslíme zejména různé modely na logické vrstvě modelování.
+Každý takový model má svůj účel, své slabé a silné stránky.
+Zkušený softwarový inženýr vybere pro každý systém tu nejvhodnější databázi s nejvhodnějším logickým modelem.
+Někdy se dokonce modelů v jednom systému používá více najednou, aby každý mohl spravovat tu část dat systému, pro kterou je vhodný.
 
-Mezi nejznámější paradigmata patří
-relační databáze (např.~MySQL\footnote{\url{https://www.mysql.com/}}),
-key-value databáze (Redis\footnote{\url{https://redis.io/}}),
-wide column databáze (Apache Cassandra\footnote{\url{https://cassandra.apache.org/}}),
-dokumentové databáze (MongoDB\footnote{\url{https://www.mongodb.com/}}),
-grafové databáze (Neo4J\footnote{\url{https://neo4j.com/}}),
-fulltextové vyhledávací databáze (Elasticsearch\footnote{\url{https://www.elastic.co/}})
-a multi-modelové databáze (FaunaDB\footnote{\url{https://fauna.com/}}).
+Mezi nejznámější logické modely databázových systémů patří
+relační model (např.~databázový systém MySQL\footnote{\url{https://www.mysql.com/}}),
+key-value model (Redis\footnote{\url{https://redis.io/}}),
+wide column model (Apache Cassandra\footnote{\url{https://cassandra.apache.org/}}),
+dokumentový model (MongoDB\footnote{\url{https://www.mongodb.com/}}) a 
+grafový model (Neo4J\footnote{\url{https://neo4j.com/}}.
+Kromě toho existují ještě např. fulltextové vyhledávací databáze (Elasticsearch\footnote{\url{https://www.elastic.co/}}) a
+multi-modelové databáze (FaunaDB\footnote{\url{https://fauna.com/}}), které používají různé relační modely, respektive jich používají více najednou.
 
 Naše stávající prostředky konceptuálního modelování nejsou mnohdy dostačující k modelování pro nerelační databáze.
-Ukazuje se mimo jiné, že byly navrženy s relačními databázemi na mysli a jsou tak bohužel svázány s modelem logické vrstvy.
+Ukazuje se mimo jiné, že byly navrženy s relačními databázemi na mysli, a jsou tak bohužel svázány s modelem logické vrstvy.
 Při konceptuálním modelování se chceme věnovat pouze vymezení a představě o části světa, na kterou vymezujeme svůj diskurz, nikoli na logickou strukturu dat v cílové databázi.
 
-Utopií, které se snaží dosáhnout kdejaký výzkumník v oboru databázových systémů, je jediný databázový systém, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk v konceptuální vrstvě.
+Utopií, které se snažíme dosáhnout, je mít jediný unifikovaný model, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk v konceptuální vrstvě.
 Jde o splynutí konceptuální a logické vrstvy do jedné, ve které se pracuje unifikovaným konceptuálním způsobem.
 Až ve fyzické vrstvě se zvolí vhodná struktura podle potřeby dat.
 
-Prvním krokem k přiblížení k tomuto cíli je schematická kategorie, kterou navrhli Martin Svoboda, Pavel Čontoš a Irena Holubová \cite{svoboda_categorical_2021}.
+Prvním hmatatelným krokem k přiblížení k tomuto cíli je schematická kategorie, kterou navrhli Martin Svoboda, Pavel Čontoš a Irena Holubová \cite{svoboda_categorical_2021}.
 Jedná se o prostředek k modelování struktury dat, který je založený na teorii kategorií~\cite{eilenberg_generaltheory_1945}.
 
-Cílem této práce je vytvořit softwarový nástroj, který umožní návrh konceptuálních modelů pomocí prostředků \acrshort{er} a jeho převod na schematickou kategorii.
+Cílem této práce je vytvořit softwarový nástroj, který umožní návrh konceptuálních schémat pomocí prostředků \acrshort{er} modelu a jeho převod na schematickou kategorii.
 Přiblíží tak tento nový koncept softwarovým inženýrům a analytikům, kteří jsou zběhlí v modelování pomocí \acrshort{er}.
 Nástroj dále usnadní výzkumníkům experimentování se schematickými kategoriemi.
 
 Práce je rozdělena do několika částí.
-Nejprve prozkoumáme a zanalyzujeme existující nástroje, které slouží ke konceptuálnímu modelování.
-Dále definujeme a popíšeme upravené varianty \acrshort{er} a schematické kategorie navržené vedoucím práce, společně se způsobem vizualizace schematické kategorie a podrobnější motivací za schematickou kategorií.
-Posléze navrhneme specifikaci softwarového nástroje na tvorbu diagramů konceptuálních schémat pomocí \acrshort{er} s konverzí do schematické kategorie a vizualizací schematické kategorie.
+Nejprve prozkoumáme a zanalyzujeme existující nástroje, které slouží ke konceptuálnímu modelování (Kapitola~\ref{chapter:existujici-nastroje}).
+Dále definujeme a popíšeme upravené varianty \acrshort{er} a schematické kategorie navržené vedoucím práce, společně se způsobem vizualizace schematické kategorie a podrobnější motivací za schematickou kategorií (Kapitola~\ref{chapter:teorie}).
+Posléze navrhneme specifikaci zamýšleného softwarového nástroje na tvorbu diagramů konceptuálních schémat pomocí \acrshort{er} s konverzí do schematické kategorie a vizualizací schematické kategorie (Kapitola~\ref{chapter:specifikace}).
 Specifikace bude zahrnovat funkční a nefunkční požadavky, konceptuální model, procesy, koncept řešení, diagram tříd a případy užití.
-Poté popíšeme implementaci a uvedeme dokumentaci tohoto softwarového nástroje včetně návodu k užití.
+Poté popíšeme implementaci a uvedeme dokumentaci tohoto softwarového nástroje včetně návodu k užití (Kapitola~\ref{chapter:implementace}).
 Nakonec zhodnotíme výsledky práce.

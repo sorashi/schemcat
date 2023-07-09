@@ -1,4 +1,4 @@
-\chapter{Specifikace}
+\chapter{Specifikace}\label{chapter:specifikace}
 
 % strana 6 a 9
 Sommerville~\cite{sommerville_softwareengineering_2011} uvádí fundamentální aktivity softwarového inženýrství: specifikace, vývoj, validace a evoluce.
@@ -88,7 +88,7 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z pohledu uživatele s
   \item Aplikace bude nenáročná na provoz a investice provozovatele.\label{nfp:nenarocnost}
 \end{enumnfp}
 
-\section{Konceptuální model}\label{section:conceptual-model}
+\section{Entity}\label{section:conceptual-model}
 
 V této kapitole představíme konceptuální model aplikace.
 Jedná se o část světa, na kterou vymezujeme svůj diskurz.
@@ -316,7 +316,7 @@ Kroky zahrnují:
         Je tak viditelné vícero vrstev identifikace.
 \end{enumerate}
 
-\section{Koncept řešení}
+\section{Koncept}
 
 Zejména kvůli požadavku~\ref{nfp:can-use-everywhere} za řešení volíme webovou aplikaci.
 Kvůli požadavkům~\ref{nfp:nenarocnost} a~\ref{nfp:safety} se však bude jednat o statickou webovou aplikaci.
@@ -352,7 +352,7 @@ Hlavní komponentou aplikace bude \acrshort{svg} plátno, ve kterém budou polo�
 Kromě pláten budeme potřebovat modul s uživatelskými prvky, jako jsou tlačítka pro menu a ovládací prvky pro změnu vlastností konstruktů v diagramech.
 Posledním hlavním modulem, bude modul s modelem aplikace, obsahující nejrůznější třídy a rozhraní, které budou odpovídat jednotlivým konstruktům a diagramům.
 
-\section{Diagram tříd}
+\section{Třídy}
 
 V této sekci definujeme třídy datového modelu našeho systému.
 Rozšíříme a konkretizujeme tím konceptuální model ze Sekce~\ref{section:conceptual-model}.
@@ -533,7 +533,7 @@ Třída odpovídá vzoru builder~\cite[s.~110]{gamma_designpatterns_1995}.
 Užívání této třídy odpovídá vypisování \enquote{příkazů} pro path data atribut.
 Užitečnost této třídy spočívá v přehlednosti -- je lepší používat její metody s deskriptivním názvem místo path data příkazů, které mají formu jednoho písmene a argumentů.
 
-\section{Případy užití}
+\section{Scénáře}
 
 Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
 Každý případ užití popisuje jeden způsob, jak lze systém použít.

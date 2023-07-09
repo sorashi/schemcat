@@ -4,4 +4,4 @@ V dnešní době se však často využívá mnoho různých logických modelů d
 Vyjadřovací prostředky známých konceptuálních modelů jako ER a UML někdy na popis struktury dat pro cílové logické modely nestačí.
 Využijeme proto nedávno vzniklého konceptu zvaného schematické kategorie, které jsou obecnější, mají vyšší vyjadřovací sílu a unifikují modelování dat pro různé databázové systémy včetně těch multi-modelových.
 Schematické kategorie tímto rovněž mažou hranice mezi konceptuální a logickou vrstvou datového modelování.
-Výsledná grafická webová aplikace umožní modelovat schémata ER modelu, který je velmi dobře známý, a jejich automatický převod na schematické kategorie s uživatelsky přívětivou vizualizací.
+Výsledná grafická webová aplikace umožňuje modelovat schémata ER modelu, který je velmi dobře známý, a jejich automatický převod na schematické kategorie s uživatelsky přívětivou vizualizací.

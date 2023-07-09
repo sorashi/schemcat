@@ -1,6 +1,8 @@
-\chapter{Existující nástroje}
+\chapter{Existující nástroje}\label{chapter:existujici-nastroje}
 
 V této kapitole zanalyzujeme některé existující nástroje pro tvorbu diagramů a porovnáme je dle navržených kritérií.
+Žádné nástroje pro naše pojetí konceptuálního modelování neexistují, takže se zde budeme věnovat jiným, ale podobným nástrojům.
+
 Všechny analyzované nástroje jsou dostupné online ve webovém prohlížeči, jelikož v praktické části bude implementován nástroj pro stejné prostředí.
 Nástroji, které budeme porovnávat, jsou
 \begin{itemize}
@@ -19,23 +21,23 @@ Prvním kritériem pro porovnání nástrojů je jejich kategorie, která vypov�
 Základní kategorie jsou
 \begin{itemize}
   \item konceptuální vrstva -- tyto nástroje jsou většinou určené pro tvorbu ER diagramů, případně jiným způsobem modelují vztahy a atributy entit, na které při datovém modelování vymezujeme svůj diskurz,
-  \item logická (též technologická) vrstva -- tyto nástroje umožňují tvorbu diagramů s ohledem na typ struktur, v kterých jsou data uchovávána, např. relační databáze,
-  \item kresba libovolných diagramů -- nástroje, které nejsou omezeny téměř žádným standardem či konvencí a umožňují kresbu libovolných diagramů,
-  \item kresba omezených diagramů -- nástroje, které umožňují kresbu diagramů omezených na existující schémata (ER, UML, \dots).
+  \item logická vrstva -- tyto nástroje umožňují tvorbu diagramů s ohledem na typ struktur, v kterých jsou data uchovávána, např. relační databáze,
+  \item kresba libovolných diagramů -- nástroje, které nejsou omezeny téměř žádným standardem či konvencí a umožňují kresbu libovolných diagramů jakožto obrázků,
+  \item kresba omezených diagramů -- nástroje, které umožňují kresbu diagramů omezených na existující modely (ER, UML, \dots).
 \end{itemize}
 
 Dalším kritériem je typ úložiště.
-Nástroje mohou ukládat svá data do paměti prohlížeče (lokálně pro uživatele), na své servery, nebo používat externí úložiště uživatele, například Google Drive\footnote{\url{https://www.google.com/drive/}}.
+Nástroje mohou ukládat svá data do paměti prohlížeče (lokálně pro uživatele), na své servery nebo používat externí úložiště uživatele, například Google Drive\footnote{\url{https://www.google.com/drive/}}.
 Čím více různých typů úložiště nástroj podporuje, tím lépe, neboť uživatel může flexibilně zvolit jeho účelům vyhovující způsob uchovávání dat.
 Pro interaktivní spolupráci s týmem je lepší sdílené úložiště a pro lokální práci je vhodnější lokální úložiště.
 
-Interaktivní spolupráce je dalším důležitým kritériem.
-U velkých projektů je vývoj modelu urychlen, pokud nástroj spolupráci umožňuje.
+Zmíněná interaktivní spolupráce je dalším důležitým kritériem.
+U velkých projektů je modelování schématu urychleno, pokud nástroj spolupráci umožňuje.
 
 Dále budeme porovnávat formát, do kterého nástroj diagram ukládá (pokud k uloženému souboru má uživatel přístup).
 Může se jednat o serializovaný dokument do dobře známého standardního formátu, nebo o vlastní formát, který je často nakonec také založený na nějakém standardu.
 
-Kromě uložení rozdělané práce do vhodného formátu musí nástroj umožnit export do formátu, který uživatelé využijí pro své účely.
+Kromě uložení rozpracovaného projektu do vhodného formátu musí nástroj umožnit export do formátu, který uživatelé využijí pro své účely.
 Formáty pro export lze rozdělit do několika kategorií:
 \begin{itemize}
   \item serializovaný formát -- většinou se jedná o vlastní formát aplikace a takový soubor nelze jinou aplikací otevřít, ale lze jej programově zpracovat,
@@ -58,21 +60,50 @@ Při srovnávání budeme věnovat pozornost i tomu, jestli jsou placené funkce
 
 \section{diagrams.net}\label{section:drawio}
 
-Srovnávací kritéria:
-\begin{itemize}
-  \item kategorie -- kresba libovolných diagramů,
-  \item typ úložiště -- lokální, externí, prohlížeč,
-  \item export -- serializovaný, rastrový, vektorový, zjednodušený,
-  \item interaktivní spolupráce -- částečně podporována (pomocí externích úložišť),
-  \item komercializace -- veškeré funkce jsou zdarma a není potřeba uživatelský účet;
-        z jiného pohledu lze počítat cenu externích úložišť, ale ta jsou volitelná.
-\end{itemize}
-
 Nástroj diagrams.net~\cite{drawio_2023}, dříve draw.io, je obecný open-source kreslící nástroj
 (který však nepřijímá změny od externích vývojářů~\cite{drawio_gh_2022}) % https://github.com/jgraph/drawio/blob/c7122cad617f52563c11d90890e64ab06db3a27a/README.md#open-source-not-open-contribution
 vydaný s licencí Apache License 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}, dostupný jako webová aplikace\footnote{na adrese \url{https://app.diagrams.net}} nebo jako desktopová aplikace.
 Desktopová verze aplikace je sestavena stejným způsobem jako webová, pouze je zabalena pomocí platformy Electron~\cite{openjsfoundation_electron_2023} do okna Chromium.
 Je vyvinut v běžných we\-bo\-vých tech\-no\-lo\-gi\-ích (Java\-Script\footnote{Standardizován jako ECMAScript, ISO 16262 -- \url{https://iso.org/standard/55755.html}}, CSS\footnote{Cascading Style Sheets -- \url{https://www.w3.org/TR/css}}, HTML).
+Srovnávací kritéria jsou vyhodnocena v Tabulce~\ref{tab:comparison-diagramsnet}.
+
+\begin{table}[!htb]
+  \begin{tabularx}{\textwidth}{lX}\toprule
+    kategorie      & kresba libovolných diagramů                                 \\
+    úložiště       & lokální, externí, prohlížeč                                 \\
+    export         & serializovaný, rastrový, vektorový, zjednodušený            \\
+    spolupráce     & částečně podporována (pomocí externích úložišť)             \\
+    komercializace & veškeré funkce jsou zdarma a není potřeba uživatelský účet;
+    z jiného pohledu lze počítat cenu externích úložišť, ale ta jsou volitelná
+    \\\bottomrule
+  \end{tabularx}
+  \caption{Vyhodnocení srovnávacích kritérií pro nástroj diagrams.net}
+  \label{tab:comparison-diagramsnet}
+\end{table}
+
+Uživateli jsou v levém postranním panelu k dispozici standardní tvary ER diagramů, UML diagramů~\cite{omg_uml_2017}, flowchart diagramů a další základní tvary pro kresbu diagramů.
+Tvary lze libovolně kombinovat a spojovat podržením levého tlačítka a tažením myší z a do kotev na krajích objektů.
+Každý objekt a spojovací čára má vlastnosti, které lze upravovat v pravém postranním panelu.
+Upravovat lze přímo i vlastnosti formátu \acrshort{svg}.
+
+Uživatelské rozhraní, které je vidět na Obrázku~\ref{fig:diagrams.net}, je velmi podobné kancelářským aplikacím Google.
+Je tak přívětivé pro nové uživatele, kteří již s aplikacemi Google dříve pracovali.
+
+Menu \menu{Arrange > Layout} umožňuje celý diagram uspořádat do zvoleného rozložení (Horizontal Flow, Vertical Flow, Horizontal Tree, Vertical Tree, Radial Tree, Organic, Circle, Org Chart, Parallels).
+Případně lze zvolit \menu{Apply\dots}, kde lze aplikovat libovolnou transformaci rozložení\footnote{Dokumentace dostupných transformací rozložení \url{https://jgraph.github.io/mxgraph/docs/js-api/files/layout/hierarchical/mxHierarchicalLayout-js.html}}.
+Tato funkce však není perfektní, protože po změně rozložení se jednotlivé prvky diagramu překrývají a uživatel je musí přesunout manuálně do vhodné pozice.
+Přenastavení rozložení však alespoň položí prvky do zvolené obecné pozice.
+
+V menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjaxconsortium_mathjax_2022}.
+Pokud pak v nějakém textovém objektu uživatel zadá například \verb|\(x^2\)|, je vykresleno $x^2$.
+Správné vykreslení matematické notace je pak zachováno ve všech zmíněných exportovaných formátech.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/diagrams.net.png}
+  \caption{Tvorba ER diagramu v aplikaci diagrams.net}
+  \label{fig:diagrams.net}
+\end{figure}
 
 Diagramy lze uložit do serializovaného XML\footnote{Extensible Markup Language -- \url{https://www.w3.org/TR/xml/}} formátu \texttt{.drawio}.
 V tomto formátu je pro každý diagram XML element \texttt{diagram}, ve kterém se nachází data zakódována do Base64\footnote{RFC 2045 \S6.8 -- \url{https://datatracker.ietf.org/doc/html/rfc2045\#section-6.8}}.
@@ -119,7 +150,7 @@ Zajímavou vlastností exportu do rastrového formátu \acrshort{png} je, že po
 Je toho dosaženo tím, že v \texttt{tEXt} chunku\footnote{dle \acrshort{png} formátu sekce 11.3.4.3 \url{https://www.w3.org/TR/2003/REC-PNG-20031110/}}
 je pod klíčovým slovem \texttt{mxfile} zahrnuta plnohodnotná serializace diagramu.
 
-Ze stejných souborů lze diagramy také importovat, ovšem editovat je lze jen pokud je v nich zahrnut formát drawio, čehož je dosaženo u některých formátů popsaných výše.
+Ze stejných souborů lze diagramy také importovat, ovšem editovat je lze, jen pokud je v nich zahrnut formát drawio, čehož je dosaženo u některých formátů popsaných výše.
 
 Jako úložiště si lze vybrat Google Drive,
 OneDrive\footnote{\url{https://aka.ms/onedrive}},
@@ -129,7 +160,7 @@ Git\-Lab\footnote{\url{https://gitlab.com}},
 paměť prohlížeče a místní úložiště (disk uživatele).
 Soubor lze ze stejných úložišť i otevřít a importovat, navíc k tomu i z libovolné dostupné URL.
 
-Interaktivní spolupráce je umožněna pouze pokud soubor jako úložiště využívá takové, ke kterému mají přístup zápisu (popř. pouze čtení) všichni účastnící se uživatelé (Google Drive, OneDrive, Dropbox, GitHub, GitLab).
+Interaktivní spolupráce je umožněna, pouze pokud soubor jako úložiště využívá takové, ke kterému mají přístup zápisu (popř. pouze čtení) všichni účastnící se uživatelé (Google Drive, OneDrive, Dropbox, GitHub, GitLab).
 Tato úložiště je však nutno manuálně vhodně nastavit (přístup ostatním uživatelům).
 U všech úložišť je rychlost reflektování změn ostatních uživatelů podobná -- vcelku pomalá, protože aplikace musí změny aktivně kontrolovat a načítat.
 
@@ -153,23 +184,6 @@ K poslednímu bodu je třeba podotknout, že jiná webová úložiště také po
 Diagrams.net sám o sobě správu verzí neobsahuje, jen obvyklé "Undo, Redo" pro aktuálního uživatele.
 Úpravy ostatních uživatelů nelze vracet postupně, lze se pouze vrátit za bod synchronizace.
 
-Uživateli jsou v levém postranním panelu k dispozici standardní tvary ER diagramů, UML diagramů~\cite{omg_uml_2017}, flowchart diagramů a další základní tvary pro kresbu diagramů.
-Tvary lze libovolně kombinovat a spojovat podržením levého tlačítka a tažením myší z a do kotev na krajích objektů.
-Každý objekt a spojovací čára má vlastnosti, které lze upravovat v pravém postranním panelu.
-Upravovat lze přímo i vlastnosti formátu \acrshort{svg}.
-
-Uživatelské rozhraní, které je vidět na Obrázku~\ref{fig:diagrams.net}, je velmi podobné kancelářským aplikacím Google.
-Je tak přívětivé pro nové uživatele, kteří již s aplikacemi Google dříve pracovali.
-
-Menu \menu{Arrange > Layout} umožňuje celý diagram aranžovat do zvoleného rozložení (Horizontal Flow, Vertical Flow, Horizontal Tree, Vertical Tree, Radial Tree, Organic, Circle, Org Chart, Parallels).
-Případně lze zvolit \menu{Apply\dots}, kde lze aplikovat libovolnou transformaci rozložení\footnote{Dokumentace dostupných transformací rozložení \url{https://jgraph.github.io/mxgraph/docs/js-api/files/layout/hierarchical/mxHierarchicalLayout-js.html}}.
-Tato funkce však není perfektní, protože po změně rozložení se jednotlivé prvky diagramu překrývají a uživatel je musí přesunout manuálně do vhodné pozice.
-Přenastavení rozložení však alespoň položí prvky do zvolené obecné pozice.
-
-V menu \menu{Extras > Mathmatical Typesetting} lze povolit vykreslování matematické notace pomocí knihovny MathJax~\cite{mathjaxconsortium_mathjax_2022}.
-Pokud pak v nějakém textovém objektu uživatel zadá například \verb|\(x^2\)|, je vykresleno $x^2$.
-Správné vykreslení matematické notace je pak zachováno ve všech zmíněných exportovaných formátech.
-
 Jako výhody určujeme
 \begin{itemize}
   \item univerzálnost a flexibilita -- nástroj lze použít pro tvorbu jakýchkoli diagramů,
@@ -187,23 +201,7 @@ Výhodou i nevýhodou může být nutnost použití externího úložiště.
 Pro velké společnosti se může jednat o bezpečnostní opatření, protože diagrams.net k diagramům nemá přístup.
 Pro malé týmy se může jednat o nevýhodu, protože je potřeba účet na externím webu, nebo jiný způsob sdílení a správa tohoto úložiště.
 
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width = \maxwidth{\textwidth}]{../img/diagrams.net.png}
-  \caption{Tvorba ER diagramu v aplikaci diagrams.net}
-  \label{fig:diagrams.net}
-\end{figure}
-
 \section{drawSQL}
-
-Srovnávací kritéria:
-\begin{itemize}
-  \item kategorie -- logická vrstva,
-  \item typ úložiště -- online, poskytované autory produktu
-  \item export -- schematický (obecný SQL i platformě specifické formáty), rastrový \acrshort{png}, serializovaný (JSON~\cite{tc39group_jsondata_2017}, v době psaní práce se chystá)
-  \item interaktivní spolupráce -- pouze v placené verzi,
-  \item komercializace -- omezená verze navždy zdarma, různé měsíčně placené plány.
-\end{itemize}
 
 Nástroj drawSQL~\cite{drawsql_2021} je modelovací nástroj pro tvorbu relačních schémat.
 Aplikace je dostupná ve webovém prohlížeči\footnote{na adrese \url{https://drawsql.app}}.
@@ -211,6 +209,19 @@ Je vyvinuta ve standardních webových technologiích a používá framework Vue
 Plán zdarma umožňuje tvorbu veřejně přístupných diagramů, které mohou mít maximálně 15 tabulek (entit).
 Měsíčně placené plány umožňují vytvářet neveřejné diagramy, více (až neomezeně mnoho) tabulek v diagramu, více uživatelů, kteří mohou na diagramu spolupracovat, a přístup k verzovacím nástrojům.
 K vyzkoušení i používání nástroje je potřeba uživatelský účet.
+Srovnávací kritéria jsou vyhodnocena v Tabulce~\ref{tab:comparison-drawsql}.
+
+\begin{table}[!htb]
+  \begin{tabularx}{\textwidth}{lX}\toprule
+    kategorie      & logická vrstva                                                                                                                                                      \\
+    úložiště       & online, poskytované autory produktu                                                                                                                                 \\
+    export         & schematický (obecný SQL i platformě specifické formáty), rastrový \acrshort{png}, serializovaný (JSON~\cite{tc39group_jsondata_2017}, v době psaní práce se chystá) \\
+    spolupráce     & pouze v placené verzi                                                                                                                                               \\
+    komercializace & omezená verze navždy zdarma, různé měsíčně placené plány                                                                                                            \\\bottomrule
+  \end{tabularx}
+  \caption{Vyhodnocení srovnávacích kritérií pro nástroj drawSQL}
+  \label{tab:comparison-drawsql}
+\end{table}
 
 Hlavní funkcí drawSQL je export schématu do SQL.
 Proto si uživatel při vytváření diagramu zvolí cílovou databázi, pro kterou schéma tvoří.
@@ -270,18 +281,25 @@ a nevýhody:
 \end{figure}
 
 \section{ERDPlus}
-\begin{itemize}
-  \item kategorie -- logická vrstva,
-  \item typ úložiště -- online, poskytované autory produktu
-  \item export -- rastrový \acrshort{png},
-  \item interaktivní spolupráce -- není,
-  \item komercializace -- zdarma.
-\end{itemize}
 
 Nástroj ERDPlus~\cite{erdplus_2023} je modelovací nástroj pro tvorbu ER diagramů, relačních schémat a hvězdicových schémat.
 Aplikace je dostupná ve webovém prohlížeči\footnote{na adrese \url{https://erdplus.com}}.
 Její uživatelské rozhraní je tedy vyvinuto ve standardních webových technologiích -- HTML, CSS a JavaScript.
 Dále využívá framework React~\cite{react_2023} pro tvorbu rozhraní v jazyce JavaScript.
+Srovnávací kritéria jsou vyhodnocena v Tabulce~\ref{tab:comparison-erdplus}
+
+\begin{table}[!htb]
+  \begin{tabularx}{\textwidth}{lX}\toprule
+    kategorie      & logická vrstva                     \\
+    úložiště       & online, poskytované autory produkt \\
+    export         & rastrový \acrshort{png}            \\
+    spolupráce     & není                               \\
+    komercializace & zdarma
+    \\\bottomrule
+  \end{tabularx}
+  \caption{Vyhodnocení srovnávacích kritérií pro nástroj ERDPlus}
+  \label{tab:comparison-erdplus}
+\end{table}
 
 ERDPlus lze používat bez založení uživatelského účtu a vytvořený diagram exportovat do speciálního formátu erdplus, nicméně uživatel tak přijde o možnost využití úložiště diagramů na serveru aplikace.
 Diagramy (ERDPlus je nazývá \emph{dokumenty}) lze organizovat do složek a podsložek.
@@ -341,16 +359,22 @@ a nevýhody:
 
 \section{nomnoml}
 
-\begin{itemize}
-  \item kategorie -- kresba omezených diagramů -- UML,
-  \item typ úložiště -- online,
-  \item export -- rastrový \acrshort{png}, vektorový \acrshort{svg},
-  \item interaktivní spolupráce -- není k dispozici,
-  \item komercializace -- zdarma s otevřeným zdrojovým kódem.
-\end{itemize}
-
 Nástroj nomnoml je modelovací nástroj pro tvorbu UML diagramů dostupný ve webovém prohlížeči\footnote{na adrese \url{https://nomnoml.com}}.
 Jeho klíčová vlastnost je, že místo interakce myší s webovou aplikací probíhá kresba deklarativně -- psaním.
+Srovnávací kritéria jsou vyhodnocena v Tabulce~\ref{tab:comparison-nomnoml}.
+
+\begin{table}[!htb]
+  \begin{tabularx}{\textwidth}{lX}\toprule
+    kategorie      & kresba omezených diagramů -- UML                  \\
+    úložiště       & online                                            \\
+    export         & rastrový \acrshort{png}, vektorový \acrshort{svg} \\
+    spolupráce     & není k dispozici                                  \\
+    komercializace & zdarma s otevřeným zdrojovým kódem
+    \\\bottomrule
+  \end{tabularx}
+  \caption{Vyhodnocení srovnávacích kritérií pro nástroj nomnoml}
+  \label{tab:comparison-nomnoml}
+\end{table}
 
 Uživatelské rozhraní (viz Obrázek~\ref{fig:nomnoml}) se skládá z oblasti pro textový vstup, nad kterou je zároveň (v reálném čase) vykreslován výsledný diagram.
 V pravé horní části se nachází několik tlačítek, při kliknutí na některé z nich se vždy otevře pravý postranní panel s odpovídajícími informacemi a funkcemi.
@@ -404,17 +428,22 @@ Z těchto důvodů určujeme produkt jako vhodný pouze pro jednotlivce a tvorbu
 
 \section{Visual Paradigm Online}
 
-Srovnávací kritéria:
-\begin{itemize}
-  \item kategorie -- kresba libovolných diagramů,
-  \item typ úložiště -- online, lokální, externí, prohlížeč,
-  \item export -- serializovaný, rastrový, vektorový, zjednodušený,
-  \item interaktivní spolupráce -- podporována,
-  \item komercializace -- verze zdarma, měsíčně/ročně placené plány několika úro\-vní.
-\end{itemize}
-
 Nástroj Visual Paradigm Online\footnote{\url{https://online.visual-paradigm.com}} je proprietární produkt od firmy Visual Paradigm.
 Tato firma je známá svou stejnojmennou desktopovou aplikací, která má stejný účel. Zde se zaměříme na její online verzi.
+Srovnávací kritéria jsou vyhodnocena v Tabulce~\ref{tab:comparison-vpo}.
+
+\begin{table}[!htb]
+  \begin{tabularx}{\textwidth}{lX}\toprule
+    kategorie      & kresba libovolných diagramů                                 \\
+    úložiště       & online, lokální, externí, prohlížeč                         \\
+    export         & serializovaný, rastrový, vektorový, zjednodušený            \\
+    spolupráce     & podporována                                                 \\
+    komercializace & verze zdarma, měsíčně/ročně placené plány několika úro\-vní
+    \\\bottomrule
+  \end{tabularx}
+  \caption{Vyhodnocení srovnávacích kritérií pro nástroj Visual Paradigm Online}
+  \label{tab:comparison-vpo}
+\end{table}
 
 Visual Paradigm Online je nástroj pro tvorbu různých typů diagramů.
 Mimo těch je určen i pro úpravu fotografií, tvorbu koláží, design infografiky, příspěvků na sociální sítě, uživatelských rozhraní, plakátů, dárkových poukazů apod.

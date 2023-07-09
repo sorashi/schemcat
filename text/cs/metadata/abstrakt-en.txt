@@ -4,4 +4,4 @@ These days, a lot of different logical data models are used in database systems.
 The expression capabilities of well-known conceptual models like ER or UML are sometimes insufficient for describing the structure of data for target logical models.
 For this reason, we will exploit a recent concept called schema categories, which is more general, has a higher power of expression, and unifies data modeling for different database systems, including multi-model ones.
 Furthermore, schema categories blur the line between the conceptual and logical layers of data modeling.
-The resulting graphical web application will allow modeling schemas of the well-known ER model and their automatic conversion into schema categories with a user-friendly visualization.
+The resulting graphical web application allows modeling schemas of the well-known ER model and their automatic conversion into schema categories with a user-friendly visualization.
