@@ -3,7 +3,7 @@
 V této kapitole představíme potřebné teoretické koncepty, které bude využívat výsledná aplikace.
 Mezi tyto koncepty patří \acrfull{er} model a nově vyvíjený konceptuální model v podobě schematické kategorie~\cite{svoboda_categorical_2021} v rozšířené verzi navržené vedoucím práce.
 
-\section{Entity Relationship}\label{section:entity-relationship}
+\section{\acrlong{er}}\label{section:entity-relationship}
 
 Datový model \acrfull{er} poprvé představil Peter Pin-Shan Chen už v roce 1976~\cite{chen_er_1976}.
 Od té doby se však \acrshort{er} vyvíjel, jak se potřeby datového modelování rozšiřovaly.
@@ -11,7 +11,24 @@ Od té doby se však \acrshort{er} vyvíjel, jak se potřeby datového modelová
 Na jejich \acrshort{er} modelu založíme ten náš, který zde popíšeme.
 
 V Tabulce~\ref{tab:er-constructs} jsou vyobrazeny jednotlivé konstrukty \acrshort{er} modelu.
-Zde blíže popíšeme sémantiku jednotlivých konstruktů:
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{@{}rm{9cm}@{}} \toprule
+    Konstrukt             & Vizuální reprezentace                                     \\ \midrule
+    Entitní typ           & {\centering\includegraphics{../img/er-model/entity.pdf}}  \\
+    Vztahový typ          & \includegraphics{../img/er-model/relationship.pdf}        \\
+    Atribut               & \includegraphics{../img/er-model/attribute.pdf}           \\
+    Složený atribut       & \includegraphics{../img/er-model/composite-attribute.pdf} \\
+    Interní identifikátor & \includegraphics{../img/er-model/identifier.pdf}          \\
+    Externí identifikátor & \includegraphics{../img/er-model/external-identifier.pdf} \\
+    Zobecnění             & \includegraphics{../img/er-model/generalization.pdf}      \\ \bottomrule
+  \end{tabular}
+  \caption[Grafická reprezentace konstruktů \acrshort{er} modelu]{Grafická reprezentace konstruktů \acrshort{er} modelu, upraveno a přeloženo~\cite[s.~164, Obr.~5.4]{atzeni_database_1999}}
+  \label{tab:er-constructs}
+\end{table}
+
+Zde blíže popíšeme jejich sémantiku:
 \begin{itemize}
   \item Entitní typ (Entity Type) reprezentuje předpis pro instance entit reálného světa.
         Každý entitní typ má jméno, které je unikátní v daném schématu.
@@ -23,22 +40,22 @@ Zde blíže popíšeme sémantiku jednotlivých konstruktů:
         Zakazujeme však další větvení, tedy atributy složeného atributu už samy nemohou být složené.
         Každý složený atribut má sám jméno, podobně jako jeho vlastní atributy.
   \item \label{def:cardinality}Kardinalita (Cardinality) je dvojice $(a, b) \in \set{\zero, \one}\times \set{\one, \many}$, kde $a$ nazýváme minimální kardinalita (spodní hranice) a $b$ maximální kardinalita (horní hranice).
-        Kardinalitu musí mít všechny atributy a každý účastník vztahového typu.
+        Kardinalitu musí mít každý atribut a každý účastník vztahového typu.
         Výchozí kardinalita je $(1, 1)$ a ve schématu se většinou neuvádí.
         Spodní hranice 0 znamená, že účast je volitelná; hranice 1 znamená, že účast je povinná.
         Horní hranice 1 znamená, že účast je nejvýše jedna; hranice~\many{} znamená, že účastí je libovolný počet.
         \begin{itemize}
-          \item Hranice kardinalit pro jednotlivé účastníky vztahů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v tomto vztahu.
+          \item Hranice kardinalit pro jednotlivé účastníky vztahových typů vyjadřují minimální a resp. maximální počet výskytů jednotlivých instancí účastníků v tomto vztahu.
           \item Hranice kardinalit u atributů vyjadřují minimální a resp. maximální počet hodnot atributu, které se vztahují k dané instanci entity/vztahu.
         \end{itemize}
   \item Identifikátor (Identifier) umožňuje jednoznačně rozlišit (identifikovat) instance entitních typů.
         Pro každý entitní typ je povinný alespoň jeden identifikátor, ale může jich být více.
         Každý identifikátor je tvořen buď
         \begin{itemize}
-          \item jedním nebo více atributy daného entitního typu; takový identifikátor nazýváme interní, nebo
-          \item jedním, nebo více vztahovými typy, jichž se daný entitní typ účastní, případně kombinací s předchozím; takový identifikátor nazýváme externí.
+          \item jedním nebo více atributy daného entitního typu; takový identifikátor nazýváme \emph{interní}, nebo
+          \item jedním, nebo více vztahovými typy, jichž se daný entitní typ účastní a žádným či libovolným množstvím atributů daného entitního typu; takový identifikátor nazýváme \emph{externí}.
         \end{itemize}
-  \item Zobecnění (generalization), nebo také ISA hierarchie\footnote{ISA z anglického \enquote{is a}, analogicky ke vztahu \enquote{has a}} (ISA hierarchy), vyjadřuje vztah podobný dědičnosti v objektově orientovaném programování.
+  \item Zobecnění (generalization), nebo také ISA hierarchie\footnote{ISA z anglického \enquote{is a}, analogicky ke vztahu \enquote{has a}} (ISA Hierarchy), vyjadřuje vztah podobný dědičnosti v objektově orientovaném programování.
         Jde o vztah mezi entiním typem $E$ zvaným \emph{rodič} a jedním nebo více \emph{dětmi} $E_1, \dots, E_n$.
         Všechny vlastnosti rodiče (atributy, identifikátory, spojené vztahové typy a další ISA hierarchie) jsou i vlastnosti každého z dětí.
         Každá instance dítěte je také instancí rodiče.
@@ -47,16 +64,18 @@ Zde blíže popíšeme sémantiku jednotlivých konstruktů:
 Entitní typy, které nemají ani jeden interní identifikátor (musí mít tedy externí), nazýváme \emph{slabé} entitní typy (weak entity types).
 Pokud mají interní identifikátor, nazýváme je \emph{silné} entitní typy (strong entity types).
 
-Jednoho vztahového typu se může účastnit nejvýše jeden slabý entitní typ, protože pro dva takové by byla identifikace nesmyslná.
-Externí identifikace se však může řetězit, jako na Obrázku~\ref{fig:er-external-identifier-chain}.
+Vztahový typ se externí identifikace může účastnit nejvýše od jednoho účastníka.
+Jinak řečeno, pokud je vztahový typ součástí slabého identifikátoru nějakého entitního typu, daný vztahový typ už nemůže být součástí slabého identifkátoru jiného entitního typu.
+Jeden entitní typ však může mít více externích identifikátorů, který každý zahrnuje daný vztahový typ.
+Nicméně, externí identifikace se může řetězit, jako na Obrázku~\ref{fig:er-external-identifier-chain}.
 Nesmí ovšem vzniknout orientovaný cyklus, a to ani v kombinaci s ISA hierarchiemi.
 Formálněji -- pokud vytvoříme orientovaný graf $G=(V,E)$ takový, že
 \begin{itemize}
   \item vrcholy $V$ jsou entitní typy a
-  \item hrany $E$ se skládají z
+  \item hrany $E$ jsou
         \begin{itemize}
-          \item pro externí identifikátory orientované hrany od identifikovaného k identifikujícímu entitnímu typu,
-          \item pro ISA hierarchii pro každý vztah rodič-dítě, kde $a$ je dítě a $b$ je rodič, orientovanou hranu $(a, b)$,
+          \item pro každý externí identifikátor od identifikovaného entitního typu $a$ k identifikujícímu entitnímu typu $b$ orientovaná hrana $(a, b)$,
+          \item pro každou ISA hierarchii pro každý vztah rodič-dítě, kde $a$ je dítě a $b$ je rodič, orientovaná hranu $(a, b)$,
         \end{itemize}
 \end{itemize}
 pak graf $G$ musí být acyklický.
@@ -69,12 +88,12 @@ Ukázka redundantního identifikátoru je na Obrázku~\ref{fig:redundant-ids}.
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/er-model/redundant-ids.pdf}
-  \caption[Ukázka redundantního a neredundantního identifikátoru]{Ukázka redundantního (vlevo) a neredundantního identifikátoru (vpravo).}
+  \caption{Ukázka redundantního a neredundantního identifikátoru}
   \label{fig:redundant-ids}
 \end{figure}
 
-Entitní typ, který má externí identifikátor, musí být účastněn vztahového typu (jímž je identifikován) s kardinalitou $(\one,\one)$.
-To proto, že když je instance entity identifikována vztahovým typem, musí tento vztah být jednoznačný -- právě jeden.
+Entitní typ, který má externí identifikátor, musí být účastněn vztahového typu (jímž je identifikován) s kardinalitou $(\one, \one)$.
+Teoreticky by se mohl účsatnit i jinou kardinalitou, ale pro naše účely tyto situace modelovat nebudeme.
 
 \begin{figure}[!htb]
   \centering
@@ -91,22 +110,6 @@ Pokryjeme jimi z teoretického pohledu a s ohledem na povahu konstruktů v nejr�
 Dále upozorněme, že místo~\many{} se v \acrshort{er} modelu může použít symbol \texttt{n} nebo \texttt{N} pro vyjádření \enquote{libovolného počtu}.
 Důležitá je ale konzistentnost, aby se v jednom modelu nevyskytovaly dva různé symboly, což by mohlo zmást čtenáře.
 V této práci budeme používat pouze symbol~\many{}.
-
-\begin{table}[!htb]
-  \centering
-  \begin{tabular}{@{}rm{9cm}@{}} \toprule
-    Konstrukt             & Vizuální reprezentace                                     \\ \midrule
-    Entitní typ           & {\centering\includegraphics{../img/er-model/entity.pdf}}  \\
-    Vztahový typ          & \includegraphics{../img/er-model/relationship.pdf}        \\
-    Atribut               & \includegraphics{../img/er-model/attribute.pdf}           \\
-    Složený atribut       & \includegraphics{../img/er-model/composite-attribute.pdf} \\
-    Interní identifikátor & \includegraphics{../img/er-model/identifier.pdf}          \\
-    Externí identifikátor & \includegraphics{../img/er-model/external-identifier.pdf} \\
-    Zobecnění             & \includegraphics{../img/er-model/generalization.pdf}      \\ \bottomrule
-  \end{tabular}
-  \caption[Grafická reprezentace konstruktů \acrshort{er} modelu]{Grafická reprezentace konstruktů \acrshort{er} modelu, upraveno a přeloženo~\cite[s.~164, Obr.~5.4]{atzeni_database_1999}}
-  \label{tab:er-constructs}
-\end{table}
 
 \section{Schematická kategorie}\label{section:schemcat}
 
@@ -127,43 +130,41 @@ Přestože databázových modelů bylo navrženo několik, časem se ukázalo, �
 To proto, že data byla často tabulkové povahy.
 Pokud výjimečně nebyla takové povahy, musela se relačnímu modelu přizpůsobit.
 
-S příchodem potřeby zpracování velkých dat (big data) se ukázalo, že relační model není dostačující.
+S příchodem potřeby zpracování velkých dat (Big Data)~\cite{cron_bigdata_2012} se ukázalo, že relační model není dostačující.
 Ve velkém množství dat, která spolu nutně nesouvisí, není totiž jednoduché najít tabulkovou strukturu.
 V různých situacích jsou tedy vhodné různé databázové systémy.
 Dokonce se začalo používat více databázových systémů najednou.
-Například pro cache lze použít key/value store, pro data různorodé povahy lze použít dokumentové databáze a pro strukturovaná data starší relační databáze.
+Například pro cache lze použít key/value store, pro data různorodé povahy lze použít dokumentové databáze a pro silně strukturovaná data starší relační databáze.
 
-Vize do budoucna je mít jediný databázový systém, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk, ale zároveň není závislý na fyzické vrstvě.
+Naše vize do budoucna je mít jediný databázový systém, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk, ale zároveň není závislý na fyzické vrstvě.
 V současných systémech je často tvorba a iterace databázových schémat časově náročná a obtěžující.
 Chceme proto sloučit konceptuální a logickou vrstvu a předejít tak problémům a lidskému rozhodování při převodu mezi nimi.
 Vznikne tak pouze jedna vrstva, ve které se pracuje unifikovaným, konceptuálním způsobem.
 
-Prvním krokem v této vizi jsou schematické kategorie, které uživateli umožní popsat strukturu dat, se kterými chce v databázi pracovat.
+Prvním krokem v této vizi by mohly být schematické kategorie, které uživateli umožní popsat strukturu dat, se kterými chce v databázi pracovat.
 Jejich koncept popisují Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
 
 Prostředky \acrshort{er} jsou vhodné ke konceptuálnímu modelování, nicméně mají několik nevýhod.
 Některé z nich zde identifikujeme.
 \begin{itemize}
-  \item V \acrshort{er} lze modelovat jeden případ mnoha způsoby a není předem jasné, který z nich je nejlepší.
+  \item V \acrshort{er} lze často modelovat jeden případ mnoha způsoby a není předem jasné, který z nich je nejlepší.
         Schematické kategorie většinu takových rozdílů smažou, zejména rozdíly mezi entitními typy, vztahovými typy a atributy.
         Často totiž tyto rozdíly nejsou důležité.
   \item \acrshort{er} zavádí několik omezení, např.~vztahové typy nemohou mít interní identifikátor a složené atributy se nemohou libovolně větvit.
         Tato omezení vznikají, protože se historicky \acrshort{er} používalo zejména pro konceptuální modelování pro relační databáze.
         Libovolně větvené atributy se těžko převedou do relačního modelu.
-        \acrshort{er} tedy zavádí omezení kvůli logické vrstvě.
-        Vyjadřovací síla schematických kategorií je větší, mj. protože není omezena na model logické vrstvy.
 \end{itemize}
 
 \acrfull{uml}~\cite{omg_uml_2017} také umožňuje vytvářet konceptuální schémata.
 Při vývoji software, zvlášť při práci v týmech, je většinou zvoleno \acrshort{uml} oproti \acrshort{er}.
-Je to dáno existencí rozličných nástrojů na kresbu \acrshort{uml} diagramů a nástrojů na automatizaci převodu do logické vrstvy.
+Je to dáno existencí rozličných nástrojů na vytváření \acrshort{uml} diagramů a nástrojů na automatizaci převodu do logické vrstvy.
 Vyjadřovací schopnost \acrshort{uml} je nicméně menší, než u \acrshort{er}.
 Postupným vývojem \acrshort{uml} se expresivnost dodává.
 Nicméně dosahuje se toho přes konstrukty (např.~stereotypy), u kterých lze poznat, že nesouhlasí s původní myšlenkou \acrshort{uml}.
 
 \subsection{Teorie kategorií}
 
-Nejdříve popíšeme kategorii z teorie kategorií, na níž je schematická kategorie založena.
+Nejdříve popíšeme obecný pojem kategorie z teorie kategorií, na níž je schematická kategorie založena.
 
 Kategorie je matematická struktura, která zobecňuje mnoho jiných matematických struktur.
 Umožňuje tak mimo jiné studovat vztahy mezi nimi.
@@ -172,8 +173,8 @@ Poprvé byla představena Eilenbergem a MacLanem v roce 1945~\cite{eilenberg_gen
 Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
 z \begin{itemize}
   \item množiny objektů $\mathcal O$,
-  \item množiny morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$, cílový objekt $B\in\mathcal O$ a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
-  \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f,g\in\mathcal M$, tž. $f\colon A\to B, g\colon B\to C$, musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí axiomy:
+  \item množiny morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$ (budeme naývat také \emph{doména}), cílový objekt $B\in\mathcal O$ (také \emph{kodoména}), ne nutně různý, a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
+  \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f,g\in\mathcal M$, tž. $f\colon A\to B, g\colon B\to C$, musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí vlastnosti
         \begin{itemize}
           \item asociativita -- pro morfismy $f,g,h\in\mathcal M$ takové, že $f\colon A\to B, g\colon B\to C, h\colon C\to D$, platí $h\circ (g \circ f) = (h\circ g)\circ f$,
           \item identitní morfismy -- pro každý morfismus $f\in\mathcal M, f\colon A\to B$ a jeho objekty $A$, resp. $B\in\mathcal O$ existují morfismy $1_A$, resp. $1_B\in\mathcal M$, tž. $f\circ 1_A = f = 1_B\circ f$; morfismy $1_A$, resp. $1_B$ nazýváme \emph{identitní morfismy}.
@@ -182,38 +183,12 @@ z \begin{itemize}
 
 Objekty a morfismy lze definovat i obecněji s použitím tříd místo množin, ale pro naše účely budou stačit množiny.
 
-Jako jednoduchý příklad kategorie uvedeme reálná čísla s neostrou nerovností $(\R, \leq)$. Objekty této kategorie jsou reálná čísla $\mathcal O=\R$.
-Pro každá reálná čísla $A,B\in\R$ a morfismus $f\colon A\to B$ je $f\in\mathcal M\iff A\leq B$.
+Jako jednoduchý příklad kategorie uvedeme reálná čísla s neostrou nerovností.
+Objekty této kategorie jsou reálná čísla $\mathcal O=\R$.
+Pro každá reálná čísla $A,B\in\R$ přidáme morfismus $f\colon A\to B$ právě tehdy, když $A\leq B$.
 Pro všechny morfismy $f,g\in\mathcal M$ a objekty $A, B, C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$ definujme $g\circ f=A\to C$.
 
-\begin{statement*}
-  $(R, \leq)$ je kategorie.
-\end{statement*}
-\begin{proof}
-  Ověříme postupně všechny axiomy.
-  Vezměme libovolné $f,g\in\mathcal M$ a $A,B,C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$.
-  \begin{description}
-    \item[uzavřenost na skládání] Z našich definic pro $f,g$ platí $A\leq B\land B\leq C$.
-      Z toho plyne $A\leq C$.
-      Protože z definice $g\circ f = A\to C$, platí $g\circ f\in\mathcal M$.
-    \item[asociativita] Vezměme libovolný morfismus $h\in\mathcal M$ a objekt $D\in\mathcal O$ takový, že $h\colon C\to D$.
-      Ověříme, že $h\circ (g\circ f) = (h\circ g)\circ f$.
-      \begin{align*}
-        h\circ (A\to C) & = (B\to D) \circ f \\
-        A\to D          & = A\to D           \\
-      \end{align*}
-    \item[identitní morfismy] Nechť $1_A =A\to A$ a $1_B = B\to B$.
-      Protože platí $A\leq A\land B\leq B$, pak $1_A\in \mathcal M\land 1_B\in\mathcal M$ z definice našich morfismů.
-      Nyní ověříme, že $1_A$ a $1_B$ splňují náš požadavek.
-      \begin{gather*}
-        f\circ 1_A = f = 1_B\circ f \\
-        (A\to B)\circ (A\to A) = (A\to B) = (B\to B)\circ (A\to B) \\
-        A\to B = A\to B = A\to B \\
-      \end{gather*}
-  \end{description}
-\end{proof}
-
-Kategorie je možné vizuálně reprezentovat orientovaným multigrafem, kde vrcholy jsou objekty a hrany morfismy.
+Kategorie je možné vizuálně reprezentovat orientovaným multigrafem, kde vrcholy jsou objekty a orientované hrany morfismy.
 Příklad této vizualizace je na Obrázku~\ref{fig:category-example}.
 Jedná se o kategorii se třemi objekty $A, B, C$.
 Všimněme si, že každý objekt má svůj identitní morfismus.
@@ -235,43 +210,38 @@ Všimněme si, že každý objekt má svůj identitní morfismus.
 
 Schematická kategorie je mechanismus na popis konceptuálního schématu dat založený na teorii kategorií.
 Oproti~\acrshort{er} má schematická kategorie větší vyjadřovací sílu.
-Její koncept společně s algoritmem převodu z \acrshort{er} schématu do schematické kategorie uvádí Martin Svoboda, Pavel Čontoš a Irena Holubová~\cite{svoboda_categorical_2021}.
+Její koncept společně s algoritmem převodu z \acrshort{er} schématu do schematické kategorie uvádí~\cite{svoboda_categorical_2021}.
 My však použijeme upravenou definici schematické kategorie navrženou vedoucím práce.
 
-\begin{definition}[Signatura]\label{def:signature}
-  Signatura je řetězec nad libovolnou abecedou symbolů $\Sigma$.
-  Pokud je signatura řetězec složený z jediného symbolu, říkáme jí \emph{identita}.
-  Prázdný řetězec značíme $\varepsilon$.
-  Operaci zřetězení značíme symbolem $\cdot$ tečky.
-\end{definition}
-
-\begin{example}[Signatury nad $\N$]
-  $\varepsilon$, $13$, $13\cdot 7$.
-\end{example}
+Nejprve zavedeme pomocný pojem \emph{signatura}.
+Jedá se o řetězec nad abecedou symbolů $\N$.
+Prázdný řetězec značíme $\varepsilon$.
+Operaci zřetězení značíme symbolem $\cdot$ tečky.
+Příklady signatur: $\varepsilon$, $13$, $13\cdot 7$.
 
 Formálně je schematická kategorie instance kategorie $(\mathcal O, \mathcal M, \circ)$ taková, že
 \begin{itemize}
   \item každý objekt této kategorie má strukturu trojice: (identita, název, množina identifikátorů), kde
         \begin{itemize}
-          \item identita je libovolný symbol (např.~z~$\N$), který rozlišuje a unikátně identifikuje všechny objekty, které mají ostatní složky totožné (tedy speciálně i pro případ, kdy by všechny ostatní složky byly totožné),
-          \item název reprezentuje textovým řetězcem uživatelské jméno daného objektu,
+          \item identita je libovolný symbol z $\N$, který umožňuje rozlišit a unikátně identifikovat každý objekt; tedy speciálně i pro případ, kdy by všechny ostatní složky měl totožné s jiným objektem,
+          \item název reprezentuje textovým řetězcem uživatelské jméno daného objektu, může být i prázdný, pak ho značíme $\bot$,
           \item množina identifikátorů obsahuje identifikátory; každý jednotlivý identifikátor je množina identit a vyjadřuje, čím lze daný objekt konceptuálně identifikovat (podobně jako identifikátory z \acrshort{er}),
         \end{itemize}
-  \item každý morfismus má strukturu osmice: (signatura, doména, kodoména, směr, název, kardinalita, duplicity, uspořádání),
+  \item každý morfismus má strukturu osmice: (signatura, doména, kodoména, název, kardinalita, duplicity, uspořádání),
         \begin{itemize}
-          \item signatura je řetězec z Definice~\ref{def:signature}; buď unikátně identifikuje morfismus v daném schématu (pak je to identita), nebo se jedná o řetězec vyjadřující orientovanou cestu, složený ze signatur jiných morfismů (zřetězujeme ve stejném pořadí jako se zapisuje skládání morfismů v kategorii, viz Obrázek~\ref{fig:morphism-signatures}),
+          \item signatura byla již popsána jako pomocný pojem; její účel je umožnit (společně s doménou a kodoménou) rozlišit a unikátně identifikovat každý morfismus v daném schématu; jedná se o řetězec vyjadřující orientovanou cestu, složený ze signatur bázových morfismů (zřetězujeme ve stejném pořadí jako se zapisuje skládání morfismů v kategorii, viz Obrázek~\ref{fig:morphism-signatures}),
           \item doména a kodoména odpovídají zdrojovému a cílovému objektu tohoto morfismu,
           \item směr je buď \zero{} (tam) nebo \one{} (zpět) s výchozí hodnotou \zero{}; hodnota \one{} vyjadřuje, že tento morfismus je pouze inverze k jinému, dodaná pro úplnost modelu,
           \item název je uživatelské jméno tohoto morfismu, může být i prázdné $\bot$,
           \item kardinalita je dvojice (min, max), která odpovídá kardinalitě z \acrshort{er} v Sekci~\ref{def:cardinality},
-          \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou vztažena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam pouze pokud je horní hranice kardinality tohoto morfismu \many; výchozí hodnota obou složek je \texttt{false}.
+          \item duplicity a uspořádání jsou booleovské hodnoty (\texttt{true}/\texttt{false}), které konceptuálně modelují, zda jsou pro vztažené instance (modelovány kodoménou), která jsou morfismem spojena k vztahované instanci (modelována doménou), povoleny duplicity, resp. jestli mají být uspořádány; tyto hodnoty mají význam, pouze pokud je horní hranice kardinality tohoto morfismu \many; výchozí hodnota obou složek je proto \texttt{false}.
         \end{itemize}
 \end{itemize}
 
 Morfismy schematické kategorie rozdělíme na několik vzájemně disjunktních druhů.
 Příklad každého druhu lze pozorovat na Obrázku~\ref{fig:morphism-signatures}.
 \begin{itemize}
-  \item \emph{Bázové} (base) morfismy jsou ty, které vyjadřují konceptuální spojení dvou objektů ze schématu (tedy odpovídají jednotlivým spojením z ER); jejich signatura je identita (unikátní symbol z abecedy).
+  \item \emph{Bázové} (base) morfismy jsou ty, které vyjadřují konceptuální spojení dvou objektů ze schématu (tedy odpovídají jednotlivým spojením z ER); jejich signatura je jeden unikátní symbol z abecedy.
   \item \emph{Identitní} (identity) morfismy jsou ty, které vznikly jen kvůli splnění stejnojmenného axiomu z definice kategorie; jejich signatura je $\varepsilon$.
   \item \emph{Odvozené} (derived) morfismy jsou ty, které vznikly kvůli tranzitivitě (tedy aby byly morfismy uzavřené na operaci skládání); jejich signatura je opravdová cesta -- zřetězené signatury morfismů, ze kterých byl tento morfismus vytvořen.
 \end{itemize}
@@ -279,12 +249,12 @@ Příklad každého druhu lze pozorovat na Obrázku~\ref{fig:morphism-signatures
 Operaci skládání morfismů $\circ$ ve schematické kategorii lze definovat následovně.
 Pro dva morfismy $f,g\in\mathcal M$ a objekty $A,B,C\in \mathcal O$ takové, že $f\colon A\to B, g\colon B\to C$ a
 \begin{itemize}
-  \item $f$ se skládá z $(\sig_1, \dom_1, \cod_1, \dir_1, \name_1, (\minn_1, \maxx_1), \dup_1, \ord_1)$,
-  \item $g$ se skládá z $(\sig_2, \cod_1, \cod_2, \dir_2, \name_2, (\minn_2, \maxx_2), \dup_2, \ord_2)$,
+  \item $f$ se skládá z $(\sig_1, \dom_1, \cod_1, \name_1, (\minn_1, \maxx_1), \dup_1, \ord_1)$,
+  \item $g$ se skládá z $(\sig_2, \cod_1, \cod_2, \name_2, (\minn_2, \maxx_2), \dup_2, \ord_2)$,
 \end{itemize}
 je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z
 \begin{multline*}
-  (\sig_2\cdot \sig_1, \dom_1, \cod_2, \dir_1, \bot, (\min(\minn_1, \minn_2), \max(\maxx_1, \maxx_2)),\\
+  (\sig_2\cdot \sig_1, \dom_1, \cod_2, \bot, (\min(\minn_1, \minn_2), \max(\maxx_1, \maxx_2)),\\
   \dup_1 \lor \dup_2, \ord_1\lor \ord_2)\,.
 \end{multline*}
 
@@ -312,79 +282,70 @@ Když u jednoho z morfismů záleží na duplicitách, resp. uspořádání, \hl
   \label{fig:morphism-signatures}
 \end{figure}
 
-Na Obrázku~\ref{fig:raw-schemcat} je příklad schematické kategorie se třemi objekty.
-Objekt \enquote{osoba} je identifikován dohromady dvojicí objektů \enquote{jméno} a \enquote{příjmení}.
-Objekty \enquote{jméno} a \enquote{příjmení} jsou každý identifikován sám sebou, proto jim náleží identifikátor $\set{\varepsilon}$.
-Na obrázku jsou dále bázové morfismy (černé čáry) se svými identitami a kardinalitami.
-Odvozené a identitní morfismy jsou vyznačeny šedivými křivkami.
-Jejich signatury jsou složené řetězce, resp. prázdné řetězce $\varepsilon$.
-
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/raw-schemcat-example.pdf}
-  \caption[Příklad schematické kategorie]{Příklad schematické kategorie. Identifikátory jsou vyobrazeny množinovým zápisem. Výchozí kardinalita je (\one, \one) a neuvádí se.}
+  \caption{Příklad schematické kategorie}
   \label{fig:raw-schemcat}
 \end{figure}
 
+Na Obrázku~\ref{fig:raw-schemcat} je příklad schematické kategorie se třemi objekty.
+Objekt \enquote{osoba} je identifikován dohromady dvojicí objektů \enquote{jméno} a \enquote{příjmení}.
+Objekty \enquote{jméno} a \enquote{příjmení} jsou každý identifikován sám sebou, proto jim náleží jediný identifikátor vždy v podobě $\set{\varepsilon}$.
+Na obrázku jsou dále bázové morfismy (plné čáry) se svými signaturami a kardinalitami, přičemž výchozí (\one{}, \one{}) neuvádíme.
+Identitní a dva vybrané odvozené morfismy jsou vyznačeny čárkovanými křivkami.
+Jejich signatury jsou složené řetězce, resp. prázdné řetězce $\varepsilon$.
+
 \section{Vizualizace schematické kategorie}\label{section:vsk}
 
-Schematická kategorie je formální, pečlivě zadefinovaný model.
+Schematická kategorie je formálně zadefinovaný model.
 Pro potenciálního uživatele schematické kategorie je její jednolitost a informativnost příliš nepřehledná.
-Navrhněme proto způsob vizualizace, který přinese odlišení a zvýraznění některých důležitých konstruktů, včetně vyobrazení některých složek objektů a morfismů.
+Navrhněme proto způsob vizualizace, který přinese odlišení a zvýraznění některých důležitých konstruktů, včetně vyobrazení některých složek objektů a morfismů, ale zachovává vyjadřovací sílu představených schematických kategorií.
 Pojmenujme ho \acrfull{vsk}.
 
-Objekt schematické kategorie, který má v identifikátorech $\set{\varepsilon}$ nazveme \emph{self-identifikovaný} objekt.
+Objekt schematické kategorie, který má jediný identifikátor $\set{\varepsilon}$ nazveme \emph{self-identifikovaný} objekt.
 Instance takových objektů jsou identifikovány svými hodnotami.
-Jsou tedy podobné atributům z \acrshort{er} a proto je budeme značit podobným tvarem.
+Jsou tedy podobné atributům z \acrshort{er}, a proto je budeme značit kružnicí.
 
 Objekty, které nejsou self-identifikované, jsou určitě identifikované jinými objekty.
-Jsou významově podobné entitním typům z \acrshort{er}, a proto je budeme značit stejným tvarem.
+Jsou významově analogické entitním nebo vztahovým typům z \acrshort{er}.
+Značit je budeme obdélníkem.
 
-Ve \acrshort{vsk} nebudou viditelné identity objektů.
-
+Dvojice duálních morfismů budeme vždy značit jedinou neorientovanou hranou vedoucí mezi příslušnými objekty.
 Morfismy budeme značit spojovacími čárami mezi objekty.
 Inverzní morfismy (ty, které mají směr \enquote{zpět}) vyobrazovat nebudeme.
-Nebudeme vizualizovat ani identitní a odvozené morfismy.
-Neukážeme ani signatury zbývajících morfismů.
+Nebudeme vizualizovat identitní ani odvozené morfismy.
+Neukážeme ani signatury morfismů, nejsou totiž potřeba.
 
-Kardinality morfismů budeme vykreslovat u patřičného morfismu stejným zápisem, jako u \acrshort{er}.
-Pokud je však kardinalita výchozí (\one, \one), budeme ji považovat za implicitní a nezobrazíme ji.
-Pokud má morfismus $A$ inverzní morfismus $A^{-1}$ (ten nezobrazíme), pak
-\begin{itemize}
-  \item kardinalitu morfismu $A$ budeme značit blízko cílového objektu $A$
-  \item a kardinalitu morfismu $A^{-1}$ budeme značit blízko zdrojového objektu $A$.
-\end{itemize}
+Kardinality morfismů budeme vykreslovat blízko domény patřičného morfismu.
+Výchozí kardinality zobrazovat nebudeme.
 
-Identifikátory objektů budeme značit stejně jako v \acrshort{er} přeškrtnutím patřičných morfismů.
+Identifikátory objektů budeme značit stejně jako v \acrshort{er} přeškrtnutím patřičných morfismů, a i v případě jednoduchých identifikátorů.
 
 Složky morfismu \emph{uspořádání} a \emph{duplicity} budou pro výchozí hodnoty (\texttt{false} a \texttt{false}) neviditelné.
-Jinak v cílovém objektu na konci spojovací čáry morfismu vyznačíme pravdivou hodnotu uspořádání symbolem $<$, resp. $+$ pro duplicity.
+Jinak v cílovém objektu na konci spojovací čáry morfismu vyznačíme hodnotu \texttt{true} uspořádání symbolem $\leq$, resp. $+$ pro duplicity.
 
-Uživatelské názvy objektů i morfismů budeme vykreslovat, podobně jako v \acrshort{er}, u self-identifikovaných objektů v blízkosti objektu, jinak uvnitř obdélníku ne-self-identifikovaného objektu.
+Uživatelské názvy objektů i morfismů budeme vykreslovat, podobně jako v \acrshort{er}, u self-identifikovaných objektů v blízkosti objektu, jinak uvnitř obdélníku.
 
-Na Obrázku~\ref{fig:schemcat-visualization-example} vidíme \acrshort{vsk} odpovídající schematické kategorii z Obrázku~\ref{fig:raw-schemcat}.
+Na Obrázku~\ref{fig:schemcat-visualization-example} vidíme diagram odpovídající schematické kategorii z Obrázku~\ref{fig:raw-schemcat}.
 Sémantika kardinalit (\one, \many) u obou obrázků taková, že konceptuálně může jedno jméno, resp. příjmení patřit více osobám.
-
-Na Obrázku~\ref{fig:scv-ord-dup} lze vidět \acrshort{vsk} schematické kategorie, která má u jednoho z morfismů pravdivé uspořádání a duplicity.
-Význam tohoto konceptuálního modelu je takový, že jeden seznam úkolů může mít více úkolů se stejným popisem (duplicity) a že je důležité udržovat informaci o pořadí, ve kterém byly jednotlivé úkoly přidávány (uspořádání).
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/schemcat-visualization-example.pdf}
-  \caption{Příklad \acrfull{vsk}.}
+  \caption{Příklad vizualizace schematické kategorie}
   \label{fig:schemcat-visualization-example}
 \end{figure}
+
+Na Obrázku~\ref{fig:scv-ord-dup} lze vidět vizualizaci schematické kategorie, která má u jednoho z morfismů aktivní uspořádání a duplicity.
+Význam tohoto schématu je takový, že seznam úkolů může mít libovolný počet úkolů, a to dokonce se stejným popisem (duplicity) a že je důležité udržovat informaci o pořadí, ve kterém byly jednotlivé úkoly přidávány (uspořádání).
 
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=\maxwidth{\textwidth}]{../img/schemcat-diagrams/scv-ord-dup.pdf}
-  \caption{\acrshort{vsk} pro schematickou kategorii s využitými složkami \emph{uspořádání} a \emph{duplicity}.}
+  \caption{Vizualizace schematické kategorie s využitými složkami \emph{uspořádání} a \emph{duplicity}}
   \label{fig:scv-ord-dup}
 \end{figure}
-
-Všimněme si, že žádná informace schematické kategorie se ve \acrshort{vsk} neztratí.
-Pokud nějaká informace není zobrazena, znamená to, že má definovanou výchozí hodnotu.
-Díky tomu lze říci, že \acrshort{vsk} a schematická kategorie jsou na sebe vzájemně převoditelné a tedy jsou ekvivalentní.
 
 \section{Převod ER na schematickou kategorii}
 
