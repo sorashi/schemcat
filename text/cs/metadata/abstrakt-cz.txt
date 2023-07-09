@@ -1,6 +1,7 @@
 Tato práce se zabývá vývojem grafické aplikace pro konceptuální modelování databázových schémat bez předem známého paradigmatu.
-Dosahuje toho pomocí schematických kategorií, které jsou zobecněním dříve známých modelů jako jsou ER a UML.
-Tyto modely jsou na schematické kategorie převoditelné a aplikace tuto funkcionalitu umožní.
-Klasický postup tvorby databázového schématu je nejprve návrh konceptuálního modelu např. ER, který je posléze převeden do logické vrstvy např. na tradiční relační model, který je uplatněn v relačních databázích.
-V dnešní době je k dispozici mnoho nových modelů a prostředky ER často nestačí k jejich popisu.
-Výsledná aplikace nabídne uživateli možnost modelovat ve známém schématu ER, automatický převod na schematickou kategorii i možnost modelovat přímo schematickou kategorii.
+Účelem konceptuálního modelu je umožnit popis struktury dat na abstraktní úrovni nezávisle na jejich fyzickém uložení.
+V dnešní době se však často využívá mnoho různých logických modelů databázových systémů.
+Vyjadřovací prostředky známých konceptuálních modelů jako ER a UML někdy na popis struktury dat pro cílové logické modely nestačí.
+Využijeme proto nedávno vzniklého konceptu zvaného schematické kategorie, které jsou obecnější, mají vyšší vyjadřovací sílu a unifikují modelování dat pro různé databázové systémy včetně těch multi-modelových.
+Schematické kategorie tímto rovněž mažou hranice mezi konceptuální a logickou vrstvou datového modelování.
+Výsledná grafická webová aplikace umožní modelovat schémata ER modelu, který je velmi dobře známý, a jejich automatický převod na schematické kategorie s uživatelsky přívětivou vizualizací.
