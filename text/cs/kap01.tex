@@ -482,7 +482,7 @@ Každá úroveň má určenou cenu za uživatele za měsíc.
 Ten je v placených plánech odstraněn.
 Placené plány navíc obsahují více typů diagramů a více tvarů k použití, rastrový export vyššího rozlišení, historii verzí diagramu (při spolupráci) a další.
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
   \centering
   \includegraphics[width = \maxwidth{\textwidth}]{../img/visual-paradigm-online.png}
   \caption{Tvorba UML diagramu ve Visual Paradigm Online}
@@ -496,16 +496,8 @@ Zjistili jsme, že jich existuje více druhů a každý je vhodný pro jiný ú�
 Přehled analýzy zmíněných existujících řešení je vidět v Tabulce~\ref{tab:general-comparison}.
 Tabulka pro každý nástroj uvádí evaluaci jeho hlavních srovnávacích kritérií a u některých z nich uvádí dodatečné vysvětlivky.
 
-Porovnání exportovaných formátů, které mají nástroje k dispozici, jsou vidět v Tabulce~\ref{tab:format-comparison}.
-Formáty \acrshort{xml} a \acrshort{json} jsme vyhodnotili jako splněné, pokud soubor jejich projektu tento formát používá pro serializaci, případně pokud nástroj přímo nabízí export do daného formátu.
-
-Srovnání podporovaných úložišť je uvedeno v Tabulce~\ref{tab:storage-comparison}.
-Pouze nástroj draw.io podporuje více externích úložišť.
-Visual Studio Paradigm podporuje pouze Google Drive.
-Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky poskytnutému lokálnímu nástroji si uživatel může nastavit pro tento účel všechna daná úložiště sám.
-
 \newcommand{\tnote}[1]{\textsuperscript{#1}}
-\begin{table}[!htb]
+\begin{table}[htb]
   \renewcommand{\arraystretch}{1.5}
   \begin{center}
     \sffamily
@@ -540,7 +532,11 @@ Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky po
   \caption{Srovnání existujících řešení}
   \label{tab:general-comparison}
 \end{table}
-\begin{table}[!htb]
+
+Porovnání exportovaných formátů, které mají nástroje k dispozici, jsou vidět v Tabulce~\ref{tab:format-comparison}.
+Formáty \acrshort{xml} a \acrshort{json} jsme vyhodnotili jako splněné, pokud soubor jejich projektu tento formát používá pro serializaci, případně pokud nástroj přímo nabízí export do daného formátu.
+
+\begin{table}[htb]
   \renewcommand{\arraystretch}{1.5}
   \begin{center}
     \sffamily
@@ -569,7 +565,12 @@ Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky po
   \label{tab:format-comparison}
 \end{table}
 
-\begin{table}[!htb]
+Srovnání podporovaných úložišť je uvedeno v Tabulce~\ref{tab:storage-comparison}.
+Pouze nástroj draw.io podporuje více externích úložišť.
+Visual Studio Paradigm podporuje pouze Google Drive.
+Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky poskytnutému lokálnímu nástroji si uživatel může nastavit pro tento účel všechna daná úložiště sám.
+
+\begin{table}[htb]
   \renewcommand{\arraystretch}{1.5}
   \begin{center}
     \sffamily
