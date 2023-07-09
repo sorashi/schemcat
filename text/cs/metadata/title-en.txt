@@ -1,1 +1,1 @@
-Design and implementation of a tool for diagram creation of unified conceptual schemas of multi-model and other NoSQL database systems using schematic categories
+Conceptual modeling using schema categories
