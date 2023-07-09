@@ -225,7 +225,7 @@ Srovnávací kritéria jsou vyhodnocena v Tabulce~\ref{tab:comparison-drawsql}.
 
 Hlavní funkcí drawSQL je export schématu do SQL.
 Proto si uživatel při vytváření diagramu zvolí cílovou databázi, pro kterou schéma tvoří.
-Výsledné SQL tak bude mít tvar, se kterým cílová databáze umí pracovat.
+Výsledný \acrshort{sql} výraz tak má zaručenou kompatibilitu s cílovou databází.
 Podporovanými databázemi jsou
 MySQL\footnote{\url{https://mysql.com}},
 PostgreSQL\footnote{\url{https://postgresql.org}}
@@ -266,7 +266,7 @@ Závěrem určíme výhody drawSQL:
 \end{itemize}
 a nevýhody:
 \begin{itemize}
-  \item nelze upravit ani přesunout lomené čáry spojující cizí klíče, což způsobuje chaos pokud je v diagramu větší množství entit,
+  \item nepřehlednost -- nelze upravit ani přesunout lomené čáry spojující cizí klíče, což způsobuje chaos, pokud je v diagramu větší množství entit,
   \item interaktivní spolupráce pouze v placeném plánu,
   \item správa verzí pouze v placeném plánu,
   \item k vyzkoušení nástroje je potřeba uživatelský účet,
@@ -312,11 +312,18 @@ V tomto panelu může uživatel také rychleji tvořit atributy entit a relací.
 Při zvolení relace lze v panelu zvolit entity, které mají být v relaci, a spojení je pak automaticky vytvořeno.
 Zároveň lze zvolit jednotlivé kardinality relace.
 
-Co nám v tomto nástroji rozhodně chybí jsou složené identifikátory entitních typů.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/erdplus.png}
+  \caption{Tvorba ER diagramu v ERDplus}
+  \label{fig:erdplus}
+\end{figure}
+
+Co nám v tomto nástroji rozhodně chybí, jsou složené identifikátory entitních typů.
 Nenašli jsme způsob, jak je v ERDPlus nastavit.
 Jednotlivé atributy lze označit za \enquote{unikátní} a nejspíš mají být považované za jednoduché identifikátory.
 Entitní typy lze označit za \enquote{slabé} a vztahové typy lze určit za \enquote{identifikující}.
-Nelze však nijak určit, kterými kombinacemi vlastních a případně externích atributů lze entitní typ identifikovat.
+Nelze však nijak určit, kterými kombinacemi vlastních a případně externích atributů lze takový entitní typ identifikovat.
 
 Nástroj nepodporuje ani složené atributy (atributy, které mají své atributy).
 Jelikož \acrshort{er} není standardizováno, nelze hodnotit dokončenost \acrshort{er} modelu.
@@ -346,16 +353,9 @@ Výhody:
 a nevýhody:
 \begin{itemize}
   \item relační diagram bývá nepřehledný, nelze měnit pořadí jednotlivých definovaných sloupců v tabulce,
-  \item chybí vektorový export,
+  \item chybí export do vektorového obrázku,
   \item diagramy nelze stylizovat.
 \end{itemize}
-
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width = \maxwidth{\textwidth}]{../img/erdplus.png}
-  \caption{Tvorba ER diagramu v ERDplus}
-  \label{fig:erdplus}
-\end{figure}
 
 \section{nomnoml}
 
@@ -382,6 +382,13 @@ První tlačítko ukazuje rychlý přehled jazyka, ve kterém se má diagram def
 Druhé tlačítko odhalí kompletní referenci k tomuto jazyku.
 Dále lze najít tlačítka pro export, sdílení a uložení do místního úložiště uživatele.
 
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width = \maxwidth{\textwidth}]{../img/nomnoml.png}
+  \caption{Tvorba UML diagramu v nomnoml}
+  \label{fig:nomnoml}
+\end{figure}
+
 Jazyk diagramů je velmi jednoduchý.
 Skládá se z definic entit a jejich relací.
 Uživatel může vyjít z úvodního diagramu, který se ukáže při navštívení hlavní stránky nástroje.
@@ -397,14 +404,14 @@ Různé šipky mají různé významy.
 Vztah \texttt{->} je \emph{asociace}, dále \texttt{o->} je \emph{agregace} apod.
 
 V jazyce lze také deklarovat direktivy, začínající znakem \texttt{\#}.
-Těmi může uživatel upravit vzhled, vytvořit nové styly, a nastavit algoritmy, kterými bude zvoleno rozložení entit v diagramu.
+Těmi může uživatel upravit vzhled, vytvořit nové styly a nastavit algoritmy, kterými bude zvoleno rozložení entit v diagramu.
 Algoritmy lze nastavit direktivou \texttt{\#ranker} a na výběr je ze tří možností: \texttt{network-simplex}, \texttt{tight-tree}, \texttt{longest-path}.
 Nástroj nomnoml používá k vykreslování diagramu knihovnu dagre\footnote{\url{https://github.com/dagrejs/dagre}} pro JavaScript, jejíž vývoj byl však ukončen.
 Z dokumentace této knihovny vyplývá, že možnost \emph{ranker} mění algoritmus, který vrcholům v grafu (diagramu) přiřazuje důležitost, která se pak odráží v pořadí zobrazení entit.
 Definitivní význam této možnosti není z dokumentace zřejmý, u nástroje nomnoml lze však pozorovat změnu v pořadí a vzdálenostech entit (délce spojovacích čar).
 Uživatel tak může vyzkoušet různá rozložení a použít to, které je vizuálně nejpřehlednější.
 
-Diagram lze exportovat do formátu \acrshort{png} a dále podobně jako v sekci~\ref{section:drawio}, nomnoml také umožňuje export do \acrshort{svg} se zakomponovaným zdrojovým kódem.
+Diagram lze exportovat do formátu \acrshort{png} a dále podobně jako v Sekci~\ref{section:drawio}, nomnoml také umožňuje export do \acrshort{svg} se zakomponovaným zdrojovým kódem.
 Uživatel tak může diagram distribuovat v tomto formátu a zároveň tento formát v nástroji nomnoml i otevřít a plnohodnotně pokračovat v práci.
 Podobně je možné sdílet odkaz přímo na vytvořený diagram ve službě nomnoml.
 Odkaz je vytvořen tak, že do URL je jako parametr \texttt{source} zapsán přímo zdrojový kód diagramu.
@@ -418,13 +425,6 @@ U složitých diagramů se však nutně ve zdrojovém kódu uživatel ztrácí, 
 S vizuální reprezentací grafu nelze přímo (např. myší) pracovat, veškeré rozložení a orientaci diagramu tak musí uživatel nechat na algoritmu nástroje.
 Nástroj dále nenabízí ani možnost pracovat s několika diagramy najednou.
 Z těchto důvodů určujeme produkt jako vhodný pouze pro jednotlivce a tvorbu méně rozsáhlých UML diagramů.
-
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width = \maxwidth{\textwidth}]{../img/nomnoml.png}
-  \caption{Tvorba UML diagramu v nomnoml}
-  \label{fig:nomnoml}
-\end{figure}
 
 \section{Visual Paradigm Online}
 
@@ -453,27 +453,27 @@ Nástroj poskytuje předlohy tvarů pro diagramy tříd, use case diagramy, sekv
 Uživatel si před tvorbou diagramu musí vybrat jednu z těchto kategorií, čímž vymezí tvary, které jsou v uživatelském rozhraní dostupné k použití v levém postranním panelu.
 Ve stejném panelu lze ale posléze přidat libovolnou další kategorii tvarů dle výběru uživatele.
 
-Nástroj je svým rozhraním (pozorovat ho lze Obrázku~\ref{fig:vpo}), designem a chováním nápadně podobný produktu diagrams.net ze sekce~\ref{section:drawio}.
+Nástroj je svým rozhraním (pozorovat ho lze Obrázku~\ref{fig:vpo}), designem a chováním nápadně podobný produktu diagrams.net ze Sekce~\ref{section:drawio}.
 Stejně tak spojování tvarů čarami má velmi podobné chování.
 Jeden rozdíl je ten, že kresba spojení z jednoho tvaru do toho samého (tvorba \enquote{cyklu}) je velmi nepředvídatelná.
-Čára se při tom samovolně přemisťuje do všech možných stran, až nakonec zůstane přilepena na jedné ze stran tvaru.
+Čára se při tom samovolně přemisťuje do všech možných stran, až nakonec často zůstane na jedné ze stran tvaru.
 
 Diagramy lze uložit do formátu \texttt{vpd}, který při otevření v textovém editoru připomíná base64 kód.
-Vypadá velice podobně jako serializace pro diagrams.net ze sekce~\ref{section:drawio}.
+Vypadá velice podobně jako serializace pro diagrams.net ze Sekce~\ref{section:drawio}.
 Nejedná se však o validní base64 kód, protože ten kóduje 3 bajty do 4 znaků, jinak používá výplň 0-2 znaky \texttt{=}.
 Nicméně \texttt{vpd} obsahuje i sekvence jako je \texttt{M=Q8}, které tomu neodpovídají.
 Jedná se tak nejspíš o nezdokumentovaný proprietární formát.
 
 Diagramy lze exportovat do formátu \acrshort{svg} a PDF, do kterých lze volitelně uložit i serializaci diagramu ve formátu \texttt{vpd} a případně tak plnohodnotně přenést editovatelný diagram i s jeho vektorovou reprezentací.
 Rastrový export je možný ve formátu JPEG nebo \acrshort{png}.
-Stejně jako u diagrams.net ze sekce~\ref{section:drawio} je do \acrshort{png} volitelně přidána serializace diagramu v \texttt{tEXt} chunku formátu \acrshort{png}.
+Stejně jako u diagrams.net ze Sekce~\ref{section:drawio} je do \acrshort{png} volitelně přidána serializace diagramu v \texttt{tEXt} chunku formátu \acrshort{png}.
 Dokonce je použito stejné klíčové slovo identifikující tuto serializaci -- \texttt{mxfile}.
-To vzbuzuje podezření, že se jedná o stejný formát, jako používá diagrams.net ze sekce \ref{section:drawio}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
+To vzbuzuje podezření, že se jedná o stejný formát, jako používá diagrams.net ze Sekce~\ref{section:drawio}, tedy formát serializace modelu diagramu knihovny mxGraph\footnote{\url{https://jgraph.github.io/mxgraph/}}.
 Tuto domněnku potvrdila i podpora diagrams.net v odpovědi na náš dotaz.
 Konkrétně, Visual Paradigm Online postavili celý svůj editor na open-source editoru diagrams.net.
 
-Jak už bylo zmíněno, \texttt{vpd} nemá úplně stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
-Nejspíše se jedná o zašifrovaný mxfile soubor, aby šel otevřít pouze v closed-source editoru Visual Paradigm Online.
+Jak už bylo zmíněno, soubor \texttt{vpd} nemá úplně stejnou strukturu jako mxfile\footnote{\url{https://drawio-app.com/extracting-the-xml-from-mxfiles/}}.
+Nejspíše se jedná o nějaké proprietární zakódování mxfile souboru, aby šel otevřít pouze v closed-source editoru Visual Paradigm Online.
 
 Komercializace Visual Paradigm Online je rozdělena do několik platebních úrovní.
 Každá úroveň má určenou cenu za uživatele za měsíc.
@@ -513,12 +513,12 @@ Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky po
     \footnotesize
     \makebox[\textwidth]{
       \begin{tabular}{p{0.7in}lp{0.7in}p{0.7in}p{0.8in}p{0.8in}p{0.9in}}\toprule
-        název                  & kategorie    & úložiště                            & interaktivní spolupráce                       & formát projektu                         & export                                           & komercializace                                                             \\ \midrule
+        název                  & kategorie    & úložiště                            & interaktivní spolupráce                       & formát \mbox{projektu}                         & export                                           & komercializace                                                             \\ \midrule
         draw.io                & libovolné    & lokální, externí, prohlížeč         & částečně\tnote{\ref{tab:gc:external-storage}} & mxfile                                  & serializovaný, rastrový, vektorový, zjednodušený & zdarma\tnote{\ref{tab:gc:price-external-storage},\ref{tab:gc:open-source}} \\
         drawSQL                & logická      & online                              & placená                                       & JSON\tnote{\ref{tab:gc:plan}}           & schematický, rastrový                            & zdarma, předplacené plány\tnote{\ref{tab:gc:price-drawsql}}                \\
         ERDPlus                & konceptuální & online                              & ne                                            & JSON                                    & rastrový                                         & zdarma                                                                     \\
         nomnoml                & omezené      & ne\tnote{\ref{tab:gc:in-url}}       & ne                                            & nomnoml\tnote{\ref{tab:gc:custom-lang}} & rastrový, vektorový                              & zdarma\tnote{\ref{tab:gc:open-source}}                                     \\
-        Visual Paradigm Online & libovolné    & online, lokální, externí, prohlížeč & ano\tnote{\ref{tab:gc:vpo-collab}}            & vpd\tnote{\ref{tab:gc:mxfile-like}}     & serializovaný, rastrový, vektorový, zjednodušený & zdarma, předplacené plány\tnote{\ref{tab:gc:price-vpo}}                    \\ \bottomrule
+        Visual \mbox{Paradigm} Online & libovolné    & online, \mbox{lokální}, \mbox{externí}, \mbox{prohlížeč} & ano\tnote{\ref{tab:gc:vpo-collab}}            & vpd\tnote{\ref{tab:gc:mxfile-like}}     & serializovaný, rastrový, vektorový, zjednodušený & zdarma, předplacené plány\tnote{\ref{tab:gc:price-vpo}}                    \\ \bottomrule
       \end{tabular}
     }
   \end{center}
@@ -531,7 +531,7 @@ Webová aplikace nomnoml přímo nepodporuje externí úložiště, ale díky po
     \item plánovaná funkce v době psaní práce\label{tab:gc:plan}
     \item diagram může být ale součástí \acrshort{url}, pomocí které ho lze sdílet\label{tab:gc:in-url}
     \item jedná se o vlastní jazyk pro tvorbu diagramů\label{tab:gc:custom-lang}
-    \item 3 účastníci živé spolupráce zdarma, jinak placené\label{tab:gc:vpo-collab}
+    \item 3 účastníci interaktivní spolupráce zdarma, jinak placené\label{tab:gc:vpo-collab}
     \item nejspíše se jedná o zašifrovaný mxfile\label{tab:gc:mxfile-like}
     \item zdarma 1 uživatel a 15 projektů, plány 19-179 \$/měsíc\label{tab:gc:price-drawsql}
     \item zdarma základní diagramy, plány 4-15~\$/uživatel/měsíc\label{tab:gc:price-vpo}
