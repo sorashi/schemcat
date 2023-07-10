@@ -350,37 +350,45 @@ Význam tohoto schématu je takový, že seznam úkolů může mít libovolný p
 \section{Převod ER na schematickou kategorii}
 
 Algoritmus převodu z \acrshort{er} na schematickou kategorii už popsali Svoboda a kol.~\cite[s.~192-196]{svoboda_categorical_2021}.
-Pro naši upravenou verzi schematické kategorie musíme upravit i algoritmus převodu.
+Pro naši upravenou verzi schematické kategorie však musíme upravit i algoritmus převodu.
+
+Uvědomme si nejdříve, že v \acrshort{er} diagramu, který dostaneme nemusí mít některý entitní typ ani jeden vlastní atribut.
+Přestože každý entitní typ musí mít alespoň jeden identifikátor, tento identifikátor nemusí být tvořen vlastním atributem.
+To ze dvou důvodů, které se vzájemně nevylučují:
+\begin{enumerate}
+  \item entitní typ může být dítě v hierarchii, kdy dědí identifikátor od rodiče,
+  \item nebo se může jednat o slabý entitní typ, který má pouze externí identifikátory, které neobsahují ani jeden interní identifikátor.
+\end{enumerate}
 
 Mějme tedy validní \acrshort{er} diagram.
 Převedeme ho na schematickou kategorii.
 
-Uvědomme si nejdříve, že v \acrshort{er} diagramu, který dostaneme nemusí mít entitní typy ani jeden vlastní atribut ze dvou důvodů, které se vzájemně nevylučují:
-\begin{enumerate}
-  \item entitní typ může být dítě v hierarchii, kdy dědí identifikátor od rodiče,
-  \item nebo se může jednat o slabý entitní typ, který nemá ani jeden interní identifikátor.
-\end{enumerate}
-
-Zvolíme libovolnou abecedu $\Sigma$, z které budeme vybírat unikátní identifikátory.
-Abecedu musíme zvolit takovou, aby bylo dostatek symbolů pro celou schematickou kategorii.
-Triviálním příkladem je $\Sigma=\N$.
-Unikátní symboly z $\Sigma$ budeme značit $\sigma$.
-Použití $\sigma$ tedy znamená \enquote{zde použijme unikátní symbol ze $\Sigma$}.
+Kvůli definici schematické kategorie budeme vybírat unikátní identifikátory z abecedy $\N$.
+V $\N$ je určitě dostatek symbolů pro celou výslednou schematickou kategorii.
+Unikátní symboly z $\N$ budeme značit $n$.
+Použití $n$ tedy znamená \enquote{zde použijme unikátní symbol z $\N$}.
 
 Začneme s prázdnou schematickou kategorií a postupně budeme převádět konstrukty \acrshort{er} do konstruktů schematické kategorie.
 Označme všechny entitní typy \acrshort{er} diagramu za \emph{nevyřešené}.
 
 Pro každý (jednoduchý nebo složený) atribut z \acrshort{er} vytvořme odpovídající objekt schematické kategorie (s odpovídajícím názvem a unikátní identitou).
-Množina identifikátorů objektu bude $\set{\varepsilon}$, tj. self-identifikovaný objekt.
+Množina identifikátorů objektu bude vždy obsahovat pouze jediný identifikátor $\set{\varepsilon}$, půjde tedy o self-identifikovaný objekt.
 
-Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ vytvořme bázový morfismus mezi odpovídajícími objekty $O_C$ a $O_A$.
-$$ (\sigma, \mathit{identita}\ O_C, \mathit{identita}\ O_A, 0, \bot, (\one{}..\one{}), \texttt{false}, \texttt{false}) $$
-a také jeho duál
-$$ (\sigma, \mathit{identita}\ O_C, \mathit{identita}\ O_A, 1, \bot, (\one{}..\many{}), \texttt{false}, \texttt{false})\,. $$
+Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ vytvoříme dva duální bázové morfismy mezi odpovídajícími objekty $O_C$ a $O_A$.
+\begin{align*}
+  (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \oneone, \false, \false)\,, \\
+  (-n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \onemany, \false, \false)\,.
+\end{align*}\mcomment{nebo prohodit?}
 
-Pro každý entitní typ $E$ z \acrshort{er} diagramu vytvořme jemu odpovídající objekt $O_E$, podobně jako pro atributy, ale zatím nechme množinu identifikátorů prázdnou.
-Pro atributy $E$, vezměme každý odpovídající objekt $O_A$ a vytvořme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
-Kardinalitu směrem tam nastavme na kardinalitu $A$ vzhledem k $E$ a kardinalitu směrem zpět na (\one{}..\one{}).
+Pro každý entitní typ $E$ z \acrshort{er} diagramu vytvoříme jemu odpovídající objekt $O_E$, ale zatím necháme množinu identifikátorů prázdnou.
+Pro atributy $E$, vezmeme každý odpovídající objekt $O_A$ a vytvoříme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
+Kardinalitu směrem k atributu nastavme na kardinalitu $A$ vzhledem k $E$ a kardinalitu směrem zpět na
+\begin{itemize}
+  \item \oneone{} pokud je $A$ jednoduchý identifikátor $E$,
+  \item \onemany{} pokud je $A$ součástí složeného identifikátoru $E$,
+  \item jinak \zeromany{} u obyčejného atributu.
+\end{itemize}
+
 Pro každý interní identifikátor $I$ entitního typu $E$ přidejme do množiny identifikátorů objektu $O_E$ novou množinu složenou ze signatur morfismů, které vedou do jednotlivých atributů v $I$ (resp. odpovídajících objektů).
 Pokud $E$ nemá externí identifikátor, označíme ho za \emph{vyřešený}.
 
@@ -395,7 +403,7 @@ Vše opakujeme, dokud existují nevyřešené entitní typy.
 Externí identifikátor se může skládat z vlastních atributů a vztahových typů, kterých se $E$ účastní (ten musí být alespoň jeden).
 Pokud nejsou všechny entitní typy, do kterých vede nějaký externí identifikátor vyřešené, pak zvolíme jiný nevyřešený entitní typ a opakujeme znovu.
 Jinak pro každý externí identifikátor vytvoříme odpovídající množinu signatur, kterou posléze vložíme do $O_E$.
-Signatury vlastních atributů získáme z odpovídajících morfismů jako tomu bylo u interních identifikátorů, označme tuto množinu $W$.
+Signatury vlastních atributů získáme z odpovídajících morfismů, jako tomu bylo u interních identifikátorů, označme tuto množinu $W$.
 Jinak najdeme orientovanou cestu přes odpovídající morfismy z $E$ do každého $E_i$ entitního typu, do kterého vede externí identifikátor.
 Nechť $c$ je zřetězení signatur morfismů, přes které tato cesta vede.
 Nechť $O_i$ je objekt odpovídající $E_i$.
