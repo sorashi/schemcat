@@ -41,7 +41,7 @@ Zde blíže popíšeme jejich sémantiku:
         Každý složený atribut má sám jméno, podobně jako jeho vlastní atributy.
   \item \label{def:cardinality}Kardinalita (Cardinality) je dvojice $(a, b) \in \set{\zero, \one}\times \set{\one, \many}$, kde $a$ nazýváme minimální kardinalita (spodní hranice) a $b$ maximální kardinalita (horní hranice).
         Kardinalitu musí mít každý atribut a každý účastník vztahového typu.
-        Výchozí kardinalita je $(1, 1)$ a ve schématu se většinou neuvádí.
+        Výchozí kardinalita je \oneone{} a ve schématu se většinou neuvádí.
         Spodní hranice 0 znamená, že účast je volitelná; hranice 1 znamená, že účast je povinná.
         Horní hranice 1 znamená, že účast je nejvýše jedna; hranice~\many{} znamená, že účastí je libovolný počet.
         \begin{itemize}
@@ -416,11 +416,11 @@ Protože jsme dostali korektní \acrshort{er}, kde nejsou cykly externích ident
 To proto, že určitě najde alespoň jeden vyřešený entitní typ (list ve stromě externí identifikace).
 
 Nyní převedeme ISA hierarchie.
-Pro každý vztah rodič-dítě ($P, C$) z každé ISA hierarchie vezmeme odpovídající objekty $O_P, O_C$ a vytvoříme mezi nimi bázový morfismus (z $O_C$ do $O_P$) s kardinalitou (\one{}..\one{}) a k němu duální morfismus s kardinalitou (\one{}..\one{}).
+Pro každý vztah rodič-dítě ($P, C$) z každé ISA hierarchie vezmeme odpovídající objekty $O_P, O_C$ a vytvoříme mezi nimi bázový morfismus (z $O_C$ do $O_P$) s kardinalitou \oneone{} a k němu duální morfismus s kardinalitou \oneone{}.
 Správně \enquote{dořetězené} identifikátory (zřetězené přes právě vytvořený morfismus) z $O_P$ vložíme do $O_C$.
 Tím $O_C$ \enquote{zdědil} identifikátory od $O_P$.
 
 Do schematické kategorie dodáme pomocí operace skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru.
-Pro každý objekt $O$ dodáme identitní morfismus $O\to O$ s kardinalitou (\one{}..\one{}) a množinou identifikátorů $\set{e}$.
+Pro každý objekt $O$ dodáme identitní morfismus $O\to O$ s kardinalitou \oneone{} a množinou identifikátorů $\set{e}$.
 
 Tím je algoritmus dokončen a máme korektní schematickou kategorii odpovídající \acrshort{er} diagramu.

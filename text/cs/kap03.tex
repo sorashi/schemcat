@@ -416,7 +416,7 @@ Některé záležitosti, které se týkají pouze zobrazování nebo nejsou důl
 \end{figure}
 
 Na Obrázku~\ref{fig:diagram-class-diagram} je diagram tříd popisující základní obecné konstrukty, které se týkají všech diagramů v systému.
-Třída \texttt{Cardinality} obsahuje mj. operaci \texttt{isDefault}, která říká, zda se jedná o výchozí kardinalitu (námi definovanou jako (\one{}..\one{})).
+Třída \texttt{Cardinality} obsahuje mj. operaci \texttt{isDefault}, která říká, zda se jedná o výchozí kardinalitu (námi definovanou jako \oneone).
 V jazyce TypeScript, resp. JavaScript, nelze přetěžovat operátory, všechny operace musí být metody v dané třídě.
 Dále v nich neexistuje koncept hodnotového porovnání instancí tříd, resp. porovnání objektů.
 Pokud se porovnávají instance operátorem \texttt{==}, porovnávají se reference.
@@ -454,7 +454,7 @@ V reakci na to lze jednodušeji implementovat v systému rozličnou logiku týka
 
 V diagramu používáme množinový typ \texttt{Set}, který je v JavaScriptu zabudovaný.
 Jednodušeji se pak pracuje s odpovídajícími datovými složkami, kde nezáleží na pořadí a duplicitách.
-Atributy \texttt{children} a \texttt{identities}, které tento typ mají, mají teoreticky kardinalitu (\one{}..\many{}).
+Atributy \texttt{children} a \texttt{identities}, které tento typ mají, mají teoreticky kardinalitu \onemany{}.
 V ISA hierarchii musí být alespoň jedno dítě a v identifikátoru alespoň jedna identita.
 
 U třídy \texttt{ErIdentifier} bylo nutné názvem rozlišit jednotlivé datové složky.

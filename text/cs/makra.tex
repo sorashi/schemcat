@@ -141,10 +141,11 @@
 \newcommand{\zero}{\texttt{0}}
 \newcommand{\one}{\texttt{1}}
 \newcommand{\many}{\texttt{*}}
-\newcommand{\zeroone}{(\zero{}, \one{})}
-\newcommand{\oneone}{(\one{}, \one{})}
-\newcommand{\zeromany}{(\zero{}, \many{})}
-\newcommand{\onemany}{(\one{}, \many{})}
+\newcommand{\cardinality}[2]{(#1, #2)}
+\newcommand{\zeroone}{\cardinality{\zero}{\one}}
+\newcommand{\oneone}{\cardinality{\one}{\one}}
+\newcommand{\zeromany}{\cardinality{\zero}{\many}}
+\newcommand{\onemany}{\cardinality{\one}{\many}}
 \newcommand{\true}{\texttt{true}}
 \newcommand{\false}{\texttt{false}}
 %%%% end convenience commands
