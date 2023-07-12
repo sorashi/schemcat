@@ -186,7 +186,7 @@ Objekty a morfismy lze definovat i obecněji s použitím tříd místo množin,
 Jako jednoduchý příklad kategorie uvedeme reálná čísla s neostrou nerovností.
 Objekty této kategorie jsou reálná čísla $\mathcal O=\R$.
 Pro každá reálná čísla $A,B\in\R$ přidáme morfismus $f\colon A\to B$ právě tehdy, když $A\leq B$.
-Pro všechny morfismy $f,g\in\mathcal M$ a objekty $A, B, C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$ definujme $g\circ f=A\to C$.
+Pro všechny morfismy $f,g\in\mathcal M$ a objekty $A, B, C\in\mathcal O$ takové, že $f\colon A\to B$ a $g\colon B\to C$ definujme $g\circ f=h$, kde $h\colon A\to C$ a $h\in\mathcal M$.
 
 Kategorie je možné vizuálně reprezentovat orientovaným multigrafem, kde vrcholy jsou objekty a orientované hrany morfismy.
 Příklad této vizualizace je na Obrázku~\ref{fig:category-example}.
@@ -246,21 +246,26 @@ Příklad každého druhu lze pozorovat na Obrázku~\ref{fig:morphism-signatures
   \item \emph{Odvozené} (derived) morfismy jsou ty, které vznikly kvůli tranzitivitě (tedy aby byly morfismy uzavřené na operaci skládání); jejich signatura je opravdová cesta -- zřetězené signatury morfismů, ze kterých byl tento morfismus vytvořen.
 \end{itemize}
 
+Ve schematické kategorii bez újmy na vyjadřovací schopnosti zakážeme bázové smyčky (tj. bázový morfismus, jehož doména a kodoména je totožná).
+Pokud chceme vyjádřit rekurzivní vztah, můžeme bázovou smyčku nahradit objektem, který tento vztah reprezentuje.
+Navíc dodáme dva bázové morfismy, které spojí objekt vztahu s objektem, jehož se vztah týká.
+
 Operaci skládání morfismů $\circ$ ve schematické kategorii lze definovat následovně.
 Pro dva morfismy $f,g\in\mathcal M$ a objekty $A,B,C\in \mathcal O$ takové, že $f\colon A\to B, g\colon B\to C$ a
 \begin{itemize}
-  \item $f$ se skládá z $(\sig_1, \dom_1, \cod_1, \name_1, (\minn_1, \maxx_1), \dup_1, \ord_1)$,
-  \item $g$ se skládá z $(\sig_2, \cod_1, \cod_2, \name_2, (\minn_2, \maxx_2), \dup_2, \ord_2)$,
+  \item $f$ se skládá z $(\sig_1, \dom_1, \mathit{mid}, \name_1, (\minn_1, \maxx_1), \dup_1, \ord_1)$,
+  \item $g$ se skládá z $(\sig_2, \mathit{mid}, \cod_2, \name_2, (\minn_2, \maxx_2), \dup_2, \ord_2)$,
 \end{itemize}
 je jejich složením $g\circ f$ morfismus $h\in M, h\colon A\to C$ skládající se z
 \begin{multline*}
   (\sig_2\cdot \sig_1, \dom_1, \cod_2, \bot, (\min(\minn_1, \minn_2), \max(\maxx_1, \maxx_2)),\\
-  \dup_1 \lor \dup_2, \ord_1\lor \ord_2)\,.
+  \dup_1 \lor \dup_2, \ord_1\land \ord_2)\,.
 \end{multline*}
 
-Protože $f$ a $g$ na sebe navazují, musí platit $dir_1=dir_2$, směr morfismů je stejný a směr složeného morfismu bude také stejný.
-Dále, protože $dom_1, cod_1, dom_2$ a $cod_2$ odpovídají identitám objektů $A, B, C,$ resp. $D$, složený morfismus má doménu $dom_1$ a kodoménu $cod_2$.
-Když u jednoho z morfismů záleží na duplicitách, resp. uspořádání, \hlcomment{bude záležet u složeného morfismu také na duplicitách, resp. uspořádání}{je to pravda?}.
+Protože $f$ a $g$ na sebe navazují, musí být kodoména $f$ totožná s doménou $g$, označili jsme ji $\mathit{mid}$.
+Dále, protože $dom_1, \mathit{mid}$ a $cod_2$ odpovídají identitám objektů $A, B, $ resp. $C$, složený morfismus má doménu $dom_1$ a kodoménu $cod_2$.
+Když u jednoho z morfismů záleží na duplicitách bude záležet i u složeného na duplicitách.
+Aby záleželo u složeného morfismu na uspořádání, musí však záležet na uspořádání u obou skládaných morfismů.
 
 \begin{figure}[!htb]
   \centering
@@ -312,8 +317,6 @@ Jsou významově analogické entitním nebo vztahovým typům z \acrshort{er}.
 Značit je budeme obdélníkem.
 
 Dvojice duálních morfismů budeme vždy značit jedinou neorientovanou hranou vedoucí mezi příslušnými objekty.
-Morfismy budeme značit spojovacími čárami mezi objekty.
-Inverzní morfismy (ty, které mají směr \enquote{zpět}) vyobrazovat nebudeme.
 Nebudeme vizualizovat identitní ani odvozené morfismy.
 Neukážeme ani signatury morfismů, nejsou totiž potřeba.
 
@@ -364,21 +367,30 @@ Mějme tedy validní \acrshort{er} diagram.
 Převedeme ho na schematickou kategorii.
 
 Kvůli definici schematické kategorie budeme vybírat unikátní identifikátory z abecedy $\N$.
-V $\N$ je určitě dostatek symbolů pro celou výslednou schematickou kategorii.
-Unikátní symboly z $\N$ budeme značit $n$.
-Použití $n$ tedy znamená \enquote{zde použijme unikátní symbol z $\N$}.
+V $\N$ je k tomu určitě dostatek symbolů.
+
+Nejdříve definujeme správné pořadí, ve kterém převádět entitní typy.
+Vezměme závislostní graf, který jsme definovali kvůli zakázání cyklů v Sekci~\ref{section:entity-relationship}.
+Tento graf je z definice orientovaný a pro korektní \acrshort{er} je acyklický.
+Jedná se tedy o \acrshort{dag}.
+Vezměme jeho libovolné topologické uspořádání.
+Entitní typy budeme převádět od \emph{největšího} prvku tohoto uspořádání k nejmenšímu.
+To proto, abychom nejdříve převedli nějaký takový entitní typ, pro který už jsou vyřešené ty, na kterých je identifikačně závislý.
+Jinak by náš převod slabého entitního typu nemusel mít korektní identifikátory.
+S tímto pořadím budeme počítat po celý algoritmus.
 
 Začneme s prázdnou schematickou kategorií a postupně budeme převádět konstrukty \acrshort{er} do konstruktů schematické kategorie.
-Označme všechny entitní typy \acrshort{er} diagramu za \emph{nevyřešené}.
 
 Pro každý (jednoduchý nebo složený) atribut z \acrshort{er} vytvořme odpovídající objekt schematické kategorie (s odpovídajícím názvem a unikátní identitou).
 Množina identifikátorů objektu bude vždy obsahovat pouze jediný identifikátor $\set{\varepsilon}$, půjde tedy o self-identifikovaný objekt.
 
-Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ vytvoříme dva duální bázové morfismy mezi odpovídajícími objekty $O_C$ a $O_A$.
+Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ zvolíme unikátní symbol $n\in N$ a vytvoříme dva duální bázové morfismy mezi odpovídajícími objekty $O_C$ a $O_A$.
 \begin{align*}
   (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \oneone, \false, \false)\,, \\
-  (-n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \onemany, \false, \false)\,.
-\end{align*}\mcomment{nebo prohodit?}
+  (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \onemany, \false, \false)\,.
+\end{align*}\mcomment{Mají doména/kodoména duálních morfismů být ve stejném pořadí? Nemám prohodit u toho druhého doménu s kodoménou?}
+
+
 
 Pro každý entitní typ $E$ z \acrshort{er} diagramu vytvoříme jemu odpovídající objekt $O_E$, ale zatím necháme množinu identifikátorů prázdnou.
 Pro atributy $E$, vezmeme každý odpovídající objekt $O_A$ a vytvoříme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
