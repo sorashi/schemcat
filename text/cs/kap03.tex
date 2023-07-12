@@ -318,7 +318,7 @@ Aby se jednalo o statickou webovou aplikaci, server musí umět pouze odesílat 
 Výsledný formát aplikace musí být tedy soubory webových technologií, které se budou bez úprav odesílat do prohlížeče uživatele.
 Docílí se toho překladem z moderních webových technologií vyššího řádu do starších webových technologií nižšího řádu (HTML, JavaScript, CSS).
 
-Zvoleným programovacím jazykem bude TypeScript, který byl vytvořen společností Microsoft~\cite{microsoft_typescriptjavascript_2023}.
+Zvoleným programovacím jazykem bude TypeScript, který byl vytvořen společností Microsoft~\cite{microsoft_typescriptjavascript_}.
 Tento jazyk je nadstavbou jazyka JavaScript, která přidává mj. statické typové kontroly.
 Statické typové kontroly umožňují udržitelnost větších projektů, protože vytváří kontrakty mezi částmi aplikace (např. typy parametrů funkce), na rozdíl od jazyka JavaScript, který je dynamicky typovaný.
 Kontroly se uskutečňují při překladu do jazyka JavaScript.
@@ -328,7 +328,7 @@ Jedná se o framework pro tvorbu webových aplikací a uživatelských rozhraní
 Idea je taková, že vývojář vytváří malé komponenty, které skládá do větších komponent, z kterých nakonec složí webovou aplikaci.
 Pod komponentou si lze představit nějaký ovládací prvek uživatelského rozhraní, např. tlačítko, nebo např. entitní typ z \acrshort{er}.
 React podporuje TypeScript, což odpovídá našemu zvolenému programovacímu jazyku.
-Tento framework byl v roce 2022 nejpoužívanější front-end webový framework~\cite{stackoverflow_developersurvey_2022}.
+Tento framework byl v roce 2022 nejpoužívanější front-end webový framework~\cite{stackoverflow_developersurvey_}.
 Tím máme zaručenu velkou komunitu vývojářů a velký výběr knihoven.
 
 Diagramy budeme vykreslovat pomocí \acrfull{svg}~\cite{brinza_svg_2018}.
@@ -359,7 +359,7 @@ Při převádění musí být známo, jaká třída patří danému objektu.
 Protože TypeScript typové anotace jsou při kompilaci do JavaScriptu odstraněny, musí tohoto být dosaženo atributy, které jsou k dispozici za běhu.
 
 \emph{Každá třída modelu musí mít datovou složku \texttt{[immerable] = true}}.
-Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2023}, kterou popíšeme později při implementaci.
+Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2017}, kterou popíšeme později při implementaci.
 Zjednodušeně řečeno, tato datová složka říká knihovně, že instance dané třídy může považovat za použitelné pro svou funkcionalitu.
 
 \emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde mezi každými dvěma vrcholy vede nejvýše jedna cesta).
