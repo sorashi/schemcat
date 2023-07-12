@@ -1,11 +1,11 @@
 \chapter*{Závěr}
 \addcontentsline{toc}{chapter}{Závěr}
 
-Tato práce se zabývala využitím schematické kategorie~\cite{svoboda_categorical_2021} jako prostředkem ke konceptuálnímu modelování s vyšší vyjadřovací schopností, než mají běžné modely, včetně \acrshort{er} a \acrshort{uml}.
+Tato práce se zabývala využitím schematické kategorie~\cite{svoboda_categorical_2021} jako prostředku ke konceptuálnímu modelování s vyšší vyjadřovací schopností, než mají běžné modely, jako \acrshort{er} a \acrshort{uml}.
 Jedná se o čerstvý koncept, který by mohl unifikovat různé databázové systémy a smazat rozdíly mezi konceptuální a logickou vrstvou.
-Konceptuální modelování pomocí schematických kategorií je obecnější a má vyšší vyjadřovací schopnost než kterákoli existující řešení, která jsme analyzovali v této práci.
+Konceptuální modelování pomocí schematických kategorií je obecnější než kterékoli existující řešení, která jsme analyzovali v této práci.
 
-Za účelem přiblížení k realizaci tohoto ambiciózního cíle unifikace konceptuálního modelování byla vyvinuta webová aplikace, která umožňuje konceptuální modelování v \acrshort{er} a automatický převod modelu do schematické kategorie.
+Za účelem přiblížení k realizaci tohoto ambiciózního cíle unifikace konceptuálního modelování byla vyvinuta webová aplikace, která umožňuje konceptuální modelování v \acrshort{er} a automatický převod schématu do schematické kategorie.
 Aplikace umožňuje interaktivně prozkoumávat schematickou kategorii a také přibližuje její strukturu pomocí navržené vizualizace schematické kategorie.
 Dovolí tak zkušeným databázovým inženýrům a softwarovým analytikům seznámit se se schematickou kategorií s pomocí něčeho, co už znají -- \acrshort{er} modelu.
 Aplikace dále umožňuje výzkumníkům, kteří pracují se schematickou kategorií, rychlejší experimentování.
@@ -19,9 +19,9 @@ Dalším způsobeným problémem bylo, že React požaduje, aby všechny instanc
 
 Tyto a další problémy byly částečně vyřešeny knihovnami pro React, které ale také měly své chyby.
 Například knihovna Zustand umožnila správu globálního stavu, který je k dispozici všem komponentám v aplikaci.
-Nicméně komponenty kvůli tomu musely obsahovat spoustu opakujícího se kódu, který zajistil reagování komponenty na změnu globálního stavu.
+Nicméně komponenty kvůli tomu musely obsahovat mnoho opakujícího se kódu, který zajistil reagování komponenty na změnu globálního stavu.
 React je více vhodný při práci ve větším týmu na dlouholetých projektech, kvůli svému zaměření na izolované komponenty.
-Autor práce neměl s frameworkem větší předchozí zkušenost a pro příště by volil jiný způsob implementace webové aplikace při samostatné práci v jednom člověku.
+Autor práce neměl s frameworkem větší předchozí zkušenost a pro příště by volil jiný způsob implementace webové aplikace při samostatné práci.
 Například by se mohlo jednat o vanilla JavaScript, který umožňuje přímou mutaci modelu.
 
 Zdlouhavým a problémovým procesem byl vývoj algoritmu, který vykresluje složené identifikátory.
@@ -29,5 +29,5 @@ Při vývoji se prošlo dvěma odlišnými přístupy -- Beziérovými křivkami
 U obou přístupů bylo obtížné najít polohu průsečíků křivky identifikátoru se spojeními, které křižuje, a posléze volba pořadí průsečíků pro vykreslení co nejkratší křivky.
 Algoritmus funguje stabilně, nicméně je určitě prostor pro jeho vylepšení, co se týče stručnosti a výkonnosti.
 
-Celkově byla aplikace a zvlášť její model vyvinut s možností rozšíření na mysli.
-Prostor pro rozšíření funkcionality aplikace spočívá například v přidání dalších známých prostředků k tvorbě konceptuálního modelu (např. \acrshort{uml}), možnosti přímého modelování pomocí schematických kategorií, přidání distanční živé spolupráce, a více validací korektnosti diagramů.
+Celkově byla aplikace a zvlášť její model vyvinut s možností potenciálních rozšíření.
+Prostor pro rozšíření funkcionality aplikace spočívá například v přidání dalších známých prostředků k tvorbě konceptuálního modelu (např. \acrshort{uml}), možnosti přímého modelování pomocí schematických kategorií, přidání distanční živé spolupráce, a nebo plnohodnotná validace korektnosti diagramů.
