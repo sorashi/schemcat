@@ -70,9 +70,8 @@
 
 %%% Prostředí pro sazbu kódu, případně vstupu/výstupu počítačových
 %%% programů. (Vyžaduje balíček fancyvrb -- fancy verbatim.)
-
 \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small, frame=single}
-
+\DefineVerbatimEnvironment{command}{Verbatim}{listparameters=\setlength{\topsep}{1.5pt}\setlength{\partopsep}{0pt},frame=single,xleftmargin=2em}
 %%% Prostor reálných, resp. přirozených čísel
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}

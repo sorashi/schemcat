@@ -1,30 +1,24 @@
 \chapter{Specifikace}\label{chapter:specifikace}
 
-% strana 6 a 9
-Sommerville~\cite{sommerville_softwareengineering_2011} uvádí fundamentální aktivity softwarového inženýrství: specifikace, vývoj, validace a evoluce.
-Dále definuje softwarovou specifikaci jako aktivitu, při které zákazníci a inženýři definují software, který má být vyprodukován, a omezení na jeho provoz.
-
-V této kapitole definujeme software, který budeme tvořit, pomocí požadavků uživatele, případů užití, konceptuálního schématu a procesů.
+V této kapitole navrhneme software, který plánujeme implementovat, pomocí požadavků uživatele, konceptuálního datového modelu, procesů, tříd a scénářů.
+Kromě toho také uvedeme koncept řešení, který poskytne rychlý přehled toho, jak bude systém technologicky navržen.
+Řídíme se tak běžným postupem softwarového inženýrství~\cite{sommerville_softwareengineering_2011}.
 
 \section{Požadavky}
 
-Požadavky na softwarový systém jsou popisy toho, co by měl systém dělat -- služby, které poskytuje, a omezení na jeho provoz.
-Tyto požadavky by měly reflektovat potřeby zákazníka na systém a jeho účel, uvádí Sommerville~\cite[s.~83]{sommerville_softwareengineering_2011}.
-
-Požadavky na funkce systému nazýváme funkční.
-Požadavky na provoz systému a jeho omezení nazýváme nefunkční.
-
-Dále uvedeme vybrané funkční a nefunkční požadavky z pohledu uživatele systému.
+V této sekci představíme funkční a nefunkční požadavky na systém~\cite[s.~83]{sommerville_softwareengineering_2011}.
 
 \subsection{Funkční požadavky}
+Vzhledem k většímu množství funkčních požadavků uvedeme pouze ty důležitější vybrané.
+Dále je rozdělíme do několika kategorií, které budou seskupovat požadavky týkající se podobné části systému.
+
 \newlist{enumfp}{enumerate}{1}
 \setlist[enumfp]{label=\textbf{FP\hyp{}\arabic*},ref=FP\hyp{}\arabic*}
 
 \subsubsection*{Projekt}
 \begin{enumfp}
-  \item V systému bude možné vytvořit nový projekt.
-  \item Projekt bude možné uložit.
-  \item Projekt bude možné načíst.
+  \item V systému bude možné vytvořit nový projekt, uložit ho a načíst.
+  Projekt bude obsahovat data, z kterých bude možné obnovit diagramy (\acrshort{er}, schematická kategorie a její vizualizace), které uživatel vytvoří během jednoho sezení.
   \item Projekt bude možné pojmenovat pro odlišení od ostatních projektů.
   \item Jednotlivé diagramy bude možné exportovat do rastrového i vektorového formátu.
   \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z nich pak bude možné načíst.
@@ -33,8 +27,8 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z pohledu uživatele s
 
 \subsubsection*{Diagramy}
 \begin{enumfp}[resume]
-  \item Zobrazení každého diagramu bude možné posouvat myší.
-  \item Zobrazení každého diagramu bude možné přibližovat a oddalovat kolečkem myši.
+  \item Zobrazení diagramu bude možné posouvat myší.
+  \item Zobrazení diagramu bude možné přibližovat a oddalovat kolečkem myši.
   \item Posunutí a přiblížení bude volitelně možné synchronizovat mezi všemi diagramy.
   \item Systém bude kontrolovat validitu uživatelem vytvořených konstruktů.
   \item Elementy bude možné posunovat držením levého tlačítka myši a tažením.
@@ -90,8 +84,7 @@ Dále uvedeme vybrané funkční a nefunkční požadavky z pohledu uživatele s
 
 \section{Entity}\label{section:conceptual-model}
 
-V této kapitole představíme konceptuální model aplikace.
-Jedná se o část světa, na kterou vymezujeme svůj diskurz.
+V této kapitole představíme konceptuální datový model aplikace.
 Využijeme k tomu prostředky \acrfull{uml}~\cite{omg_uml_2017}.
 
 \begin{figure}[!htb]
@@ -127,7 +120,7 @@ ISA hierarchie se přesně podle definice skládá z jednoho entitního typu rod
 Mohli jsme místo toho modelovat vztah jednoho rodiče s jedním dítětem, ale v \acrshort{er} je důležité nad těmito vztahy uvažovat po $n$-ticích.
 
 Identifikátory jsme namodelovali bez rozlišení významu externích a interních identifikátorů, protože to je vlastnost, která pro každý identifikátor vyplyne až v instanci modelu.
-Každý entitní typ musí mít z definice našeho \acrshort{er} modelu alespoň jeden identifikátor (nebo více).
+Každý entitní typ musí mít z definice našeho \acrshort{er} modelu alespoň jeden identifikátor.
 Ten se může skládat z libovolného množství atributů a vztahových typů.
 V instanci modelu bychom označili identifikátor mající alespoň jeden vztahový typ jako externí, jinak interní.
 Přestože model technicky povoluje i identifikátory bez členů, nejsou takové identifikátory validní.
@@ -143,20 +136,18 @@ Na Obrázku~\ref{fig:class-diagram:schemcat} je konceptuální model schematick�
 Stěžejními třídami v modelu jsou objekt, morfismus a signatura.
 
 Signatura se skládá z jednotlivých symbolů, kterých může být 0 (prázdný řetězec $\varepsilon$) a více.
-Jedná se totiž z Definice~\ref{def:signature} o řetězec.
-Jednotlivými symboly může být úplně cokoli, dle volby abecedy.
-Podle volby v implementaci může jít o znaky, řetězce, či libovolné objekty.
-Signatury lze řetězit za sebe, což jsme vyjádřili operací \texttt{concat}\footnote{z anglického \emph{to concatenate} -- zřetězit, spojit},
-která vrátí novou signaturu vzniklou zřetězením této a jiné, předané parametrem \texttt{other}.
-Pokud označíme danou instanci signatury \texttt{tato}, zřetězení by mělo probíhat v pořadí \texttt{tato} $\cdot$ \texttt{other}, stejně jako je to běžné u jazyků.
-Až v implementaci by se mělo dbát na správné pořadí při skládání morfismů, které je opačné.
+Jedná se totiž z definice o řetězec.
+Jednotlivými symboly budou přirozená čísla.
+Signatury půjde navíc řetězit za sebe.
+Pokud označíme danou instanci signatury \texttt{tato}, zřetězení by mělo probíhat v pořadí \texttt{tato} $\cdot$ \texttt{další}, stejně jako je to běžné u jazyků.
+V implementaci by se mělo dbát na správné pořadí při skládání morfismů, které je opačné a odpovídá pořadí skládání funkcí.
 
 V konceptuálním modelu vyjadřujeme, že každý objekt musí mít alespoň jeden identifikátor, který se skládá ze signatur.
-Speciálně tímto identifikátorem může být i $\set{\set{\varepsilon}}$, protože signatura může být prázdný řetězec.
-Jak jednotlivé identifikátory, tak celá jejich sada u daného objektu, by měla být množina, a proto se nemusí dbát na pořadí a duplicity.
+Speciálně tímto identifikátorem může být i $\set{\varepsilon}$, protože signatura může být prázdný řetězec.
+Jak jednotlivé identifikátory, tak celá jejich sada u daného objektu, by měla být množina, a proto se nemusí dbát na absenci pořadí a nemožnost duplicit.
 
 Pro morfismy je vyjádřeno, že by měl mít každý svou signaturu.
-Mohli bychom morfismy vydělit na námi definované druhy specializováním třídy morfismu na bázový, odvozený a identitní.
+Mohli bychom morfismy vydělit na námi definované druhy specializováním třídy morfismu na \hlcomment{bázový}{jakto, že odvozených může být nekonečno?}, odvozený a identitní.
 U bázových by bylo vyjádřeno, že jejich signaturou je pouze jediný symbol.
 U odvozených je jejich signaturou již namodelovaná třída signatury.
 A u identitních je jejich signaturou prázdný řetězec, tedy konstanta.
@@ -171,21 +162,19 @@ Další prvky konceptuálního modelu schematické kategorie jsou zřejmé a vyc
   \label{fig:class-diagram:scv}
 \end{figure}
 
-Konceptuální model \acrfull{vsk}, který je na Obrázku~\ref{fig:class-diagram:scv}, je podobný konceptuálnímu modelu schematické kategorie, s několika málo rozdíly.
+Konceptuální model vizualizace schematické kategorie, který je na Obrázku~\ref{fig:class-diagram:scv}, je podobný konceptuálnímu modelu schematické kategorie, s několika málo rozdíly.
+Duální bázové morfismy splývají do jedné neorientované hrany \texttt{Connection}.
+Doména a kodoména původních duálních morfismů se stávají zdrojovým a cílovým objektem daného spojení.
+Kvůli tomuto splynutí má také každá výsledná hrana dvě kardinality -- jednu pro každý morfismus, respektive pro každý objekt, který hrana spojuje.
 Koncept signatury ve vizualizaci zaniká.
 Místo toho jsou identifikátory objektů tvořeny přímo navazujícími morfismy.
 Objekty a morfismy ztrácí svoji identitu, resp. signaturu.
-Ta konceptuálně ve \acrshort{vsk} není.
+Ta konceptuálně ve vizualizaci schematické kategorie není.
 
-V konceptuálním modelu \acrshort{vsk} nově rozlišujeme dva typy objektů -- self-identifikovaný objekt (definovaný v Sekci~\ref{section:vsk}) a naproti tomu externě identifikovaný objekt.
-Rozlišujeme je kvůli tomu, že ve \acrshort{vsk} jsou zobrazeny různými tvary.
+V konceptuálním modelu vizualizace schematické kategorie nově rozlišujeme dva typy objektů -- self-identifikovaný objekt (definovaný v Sekci~\ref{section:vsk}) a naproti tomu externě identifikovaný objekt.
+Rozlišujeme je kvůli tomu, že ve vizualizaci schematické kategorie jsou tyto odlišné typy objektů zobrazeny různými tvary.
 
-Protože ve \acrshort{vsk} zanikají inverzní morfismy, mizí z konceptuálního modelu v morfismu i složka udávající směr.
-
-Doména a kodoména nejsou ve \acrshort{vsk} konceptem a mohli bychom je pojmenovat např. zdrojový a cílový objekt.
-Nicméně pro přehlednost a snahu o menší komplikaci konceptuálních rozdílů ponecháme i ve \acrshort{vsk} názvy doména a kodoména.
-
-Další koncepty jsou totožné konceptuálním modelem schematické kategorie.
+Další koncepty jsou totožné s konceptuálním modelem schematické kategorie.
 
 \section{Procesy}
 
@@ -316,26 +305,23 @@ Kroky zahrnují:
         Je tak viditelné vícero vrstev identifikace.
 \end{enumerate}
 
+Další procesy již popisovat nebudeme, neboť jsou analogické k již popsaným.
+Zaměřili jsme se pouze na ty nejdůležitější reprezentanty.
+
 \section{Koncept}
 
-Zejména kvůli požadavku~\ref{nfp:can-use-everywhere} za řešení volíme webovou aplikaci.
-Kvůli požadavkům~\ref{nfp:nenarocnost} a~\ref{nfp:safety} se však bude jednat o statickou webovou aplikaci.
-
-Statická webová aplikace se stahuje ze serveru jen při přístupu uživatele do aplikace.
-Dále už prohlížeč uživatele se serverem nijak nekomunikuje.
-Díky tomu bude aplikace nenáročná na provoz, protože stačí statický webový server, který ji pouze zpřístupní v prohlížeči.
-
-Dále je vhodné, že každé moderní desktopové zařízení s téměř libovolným desktopovým operačním systémem disponuje webovým prohlížečem.
-Tím umožníme nezávislost na cílové platformě zařízení, protože naší platformou bude právě webový prohlížeč.
+Zejména kvůli nefunkčnímu požadavku na možnost použití aplikace na všech běžných desktopových operačních systémech volíme za řešení webovou aplikaci.
+Pro nenáročnost na provoz a bezpečnost dat se bude jednat konkrétně o statickou webovou aplikaci.
+To si můžeme dovolit díky tomu, že aplikace nepotřebuje databázi ani složitý back-end.
 
 Aby se jednalo o statickou webovou aplikaci, server musí umět pouze odesílat webové stránky uživateli.
 Výsledný formát aplikace musí být tedy soubory webových technologií, které se budou bez úprav odesílat do prohlížeče uživatele.
 Docílí se toho překladem z moderních webových technologií vyššího řádu do starších webových technologií nižšího řádu (HTML, JavaScript, CSS).
 
-Zvoleným programovací jazykem bude TypeScript, který byl vytvořen společností Microsoft~\cite{microsoft_typescriptjavascript_2023}.
-Tento jazyk je nadstavbou JavaScriptu, která přidává mj. statické typové kontroly.
-Statické typové kontroly umožňují udržitelnost větších projektů, protože vytváří kontrakty mezi částmi aplikace (např. typy parametrů funkce), na rozdíl od JavaScriptu, který je dynamicky typovaný.
-Kontroly se uskutečňují při překladu do JavaScriptu.
+Zvoleným programovacím jazykem bude TypeScript, který byl vytvořen společností Microsoft~\cite{microsoft_typescriptjavascript_2023}.
+Tento jazyk je nadstavbou jazyka JavaScript, která přidává mj. statické typové kontroly.
+Statické typové kontroly umožňují udržitelnost větších projektů, protože vytváří kontrakty mezi částmi aplikace (např. typy parametrů funkce), na rozdíl od jazyka JavaScript, který je dynamicky typovaný.
+Kontroly se uskutečňují při překladu do jazyka JavaScript.
 
 Jako framework zvolíme React od společnosti Meta Open Source~\cite{react_2023}.
 Jedná se o framework pro tvorbu webových aplikací a uživatelských rozhraní, který používá vývojové paradigma tzv. komponent.
@@ -360,10 +346,10 @@ Rozšíříme a konkretizujeme tím konceptuální model ze Sekce~\ref{section:c
 Kvůli zvoleným knihovnám, které představíme později při implementaci systému, jsou na datový model kladeny určité restrikce.
 
 \emph{Každá třída musí mít bezparametrický konstruktor}.
-Při deserializaci objektu z \acrshort{json} v JavaScriptu, resp. TypeScriptu, dostaneme prostý objekt (plain object, tj. objekt bez prototypového řetízku, angl. prototype chain).
+Při deserializaci objektu z \acrshort{json} v jazyce JavaScript, resp. TypeScript, dostaneme prostý objekt (plain object, tj. objekt bez prototypového řetízku, angl. prototype chain).
 Tento objekt navíc nebude mít ani funkce, ty totiž do \acrshort{json} serializovat nelze.
 Budeme tedy muset převést prostý objekt na instanci třídy a k tomu budeme potřebovat zkonstruovat \enquote{výchozí} instanci.
-Na tu posléze nasadíme data z prostého objektu.
+Do té posléze přiřadíme data z prostého objektu.
 Každá třída tedy musí mít konstruktor bez parametrů, příp. musí mít všechny parametry nastavenou výchozí hodnotu.
 
 \emph{Všechny datové složky každé třídy musí mít atributy specifikující jejich typ}.
@@ -376,14 +362,16 @@ Protože TypeScript typové anotace jsou při kompilaci do JavaScriptu odstraně
 Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2023}, kterou popíšeme později při implementaci.
 Zjednodušeně řečeno, tato datová složka říká knihovně, že instance dané třídy může považovat za použitelné pro svou funkcionalitu.
 
-\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde po nahrazení orientovaných hran neorientovanými dostaneme acyklický graf, který ale není nutně souvislý).
+\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde mezi každými dvěma vrcholy vede nejvýše jedna cesta).
 Myslíme tím to, že v modelu nejsou vnitřní reference a na každou instanci třídy může držet referenci nejvýše jedna jiná instance (její majitel).
 Tato restrikce vzniká kvůli frameworku React~\cite{react_2023}.
-Ten totiž reaguje na změny v datovém modelu porovnáním referencí, a proto nemůžeme nikdy instance tříd přímo mutovat, vždy musíme vytvořit novou instanci.
+Ten totiž reaguje na změny v datovém modelu porovnáním referencí, a proto nemůžeme nikdy instance tříd přímo měnit, vždy musíme vytvořit novou instanci.
 Jinak řečeno, instance tříd jsou immutable.
 Pokud by potom držely dvě různé instance referenci na nějakou jinou instanci, mohli bychom zapomenout přenastavit obě tyto reference.
 Navíc tento proces nedělá vývojář manuálně, ale používá knihovnu, která kvůli zjevným výkonnostním důvodům nemůže udržovat všechny reference v instanci modelu tímto způsobem.
-Vizualizace tohoto problému je vidět na Obrázku~\ref{fig:immutability-references}.
+Vizualizace tohoto problému je vidět na Obrázku~\ref{fig:immutability-references}, kde dvě instance (1, 2) referují na jednu instanci (3).
+Upravíme instanci 3, tedy musíme vytvořit novou instanci (4).
+Zapomeneme ale aktualizovat referenci z instance 1 (například, protože k ní zrovna nemáme přístup).
 
 \begin{figure}[!htb]
   \centering
@@ -398,9 +386,9 @@ Podobně je tomu například v relačních databázích.
 Nevýhodou je, že může dojít ke dvěma nevalidním stavům: instance s daným \texttt{id} už neexistuje (např. byla smazána), nebo jich existuje více (došlo chybně k duplikaci objektu bez změny \texttt{id}).
 Systém by se měl postarat o to, aby k tomu nedošlo.
 Bohužel jsme se tímto připravili také o některé výhody, které v JavaScriptu poskytuje \acrfull{gc}.
-Mezi objekty referujeme způsobem, o kterém \acrshort{gc} nemůže vědět.
+Mezi objekty totiž referujeme způsobem, o kterém \acrshort{gc} nemůže vědět.
 
-Teď když známe všechny restrikce na náš model, můžeme ho začít navrhovat.
+Když teď známe všechny restrikce na náš model, můžeme ho začít navrhovat.
 Stejně jako pro konceptuální model k tomu použijeme \acrshort{uml} třídy s komentářem v textu.
 Některé výše zmíněné povinné datové složky a atributy budeme v modelu považovat za implicitní.
 
@@ -426,7 +414,7 @@ V našem případě je pouze potřeba zjistit, zda se jedná o výchozí kardina
 
 Třída \texttt{Anchor} (kotva) se týká pouze zobrazení.
 Říká, z a do které oblasti elementu diagramu vede odpovídající spojení.
-Každý element diagramu si sám definuje a vypočítá těchto 9 kotev, které by se měly nacházet po jeho obvodu.
+Každý element diagramu si sám definuje a vypočítá těchto 9 kotev, které by se měly nacházet po jeho obvodu s výjimkou center.
 Tyto kotvy jsou relativní k rozměrům a umístění elementu, a proto je musí vždy přepočítat.
 
 Kvůli restrikci o více referencích má třída \texttt{DiagramNode} své \texttt{id}.
@@ -442,14 +430,14 @@ Toto bude běžné u většiny tříd, které reprezentují elementy diagramů.
 Na Obrázku~\ref{fig:er-class-diagram} je diagram tříd, které se týkají \acrshort{er} diagramu.
 
 Hlavní třída \texttt{ErDiagramModel} je majitel svých \texttt{ErNode}, \texttt{Connection}, \texttt{ErIdentifier} a \texttt{ErIsaHierarchy}.
-Pro zobrazování a uživatelskou interakci drží také interface \texttt{ErDiagramIdentityDiscriminator}, který obaluje \texttt{id} uživatelem právě vybraných elementů diagramu.
+Pro zobrazování a uživatelskou interakci drží také rozhraní \texttt{ErDiagramIdentityDiscriminator}, které obaluje \texttt{id} uživatelem právě vybraných elementů diagramu.
 Tento obal navíc obsahuje typový diskriminátor \texttt{type}, jenž vyjadřuje, o jaký druh elementu se jedná.
 Tato typová diskriminace je důležitá, aby systém věděl, kde má daný element s daným \texttt{id} hledat, zdali mezi \texttt{nodes}, \texttt{links}, \texttt{identifiers}, nebo \texttt{hierarchies}.
 
 Podobně je určen typ \texttt{ErNode}, který pro element diagramu říká, jak se má zobrazovat.
 V \acrshort{er} jsme definoval tři hlavní elementy -- entitní typ, vztahový typ a atribut.
 Mohli jsme tyto elementy modelovat jako jednotlivé třídy, ale tento přístup je vhodnější, protože rozdíl mezi nimi je pouze ve vizualizaci.
-Také se tímto způsobem v TypeScriptu jednodušeji pozná, s jaký typ má aktuálně držená instance \texttt{ErNode}.
+Také se tímto způsobem v jazyce TypeScrip jednodušeji pozná, o jaký typ má aktuálně držená instance \texttt{ErNode}.
 V reakci na to lze jednodušeji implementovat v systému rozličnou logiku týkající se pouze jednotlivých typů elementů.
 
 V diagramu používáme množinový typ \texttt{Set}, který je v JavaScriptu zabudovaný.
@@ -476,13 +464,13 @@ Třída \texttt{Rectangle} je obecná, a používá se proto i v jiných částe
   \label{fig:schemcat-class-diagram}
 \end{figure}
 
-Digram tříd, které se týkají schematické kategorie je na Obrázku~\ref{fig:schemcat-class-diagram}.
+Digram tříd, které se týkají schematické kategorie, je na Obrázku~\ref{fig:schemcat-class-diagram}.
 Význam většiny obsahu tohoto diagramu je evidentní.
 Upozorníme pouze na atribut \texttt{respectiveErConnectionId}.
 
 Tento atribut vyjadřuje \texttt{id} \acrshort{er} spojení, z kterého daný morfismus vznikl.
 Tato informace je užitečná pro aktualizaci morfismu v návaznosti na úpravu \acrshort{er} diagramu.
-Také naopak lze při úpravě schematické kategorie některé změny převést zpět do \acrshort{er}.
+Také lze při úpravě schematické kategorie některé změny naopak převést zpět do \acrshort{er}.
 
 Objekty schematické kategorie, které vznikly převodem z \acrshort{er} budou mít stejnou hodnotu \texttt{key} jako \texttt{id} odpovídajícího objektu.
 Tím zaručíme stejnou svázanost diagramů jako tomu je u morfismů.
@@ -528,7 +516,8 @@ Tato třída je singleton, jeden z objektově orientovaných designových vzorů
 Tím může existovat nejvýše jedna její instance v běžícím systému.
 
 Třída \texttt{SvgPathStringBuilder} konstruuje \acrshort{svg} path data atribut \cite[\S~9.3]{brinza_svg_2018}.
-Obsahuje mnoho dalších metod kromě těch, které lze vidět na Obrázku~\ref{fig:utils-class-diagram}, například pro každý příkaz lze pozice (location) specifikovat i relativně k předchozí pozici (místo absolutně).
+Obsahuje mnoho dalších metod.
+Kromě těch, které lze vidět na Obrázku~\ref{fig:utils-class-diagram}, například pro každý příkaz lze pozice (location) specifikovat i relativně k předchozí pozici (místo absolutně).
 Třída odpovídá vzoru builder~\cite[s.~110]{gamma_designpatterns_1995}.
 Užívání této třídy odpovídá vypisování \enquote{příkazů} pro path data atribut.
 Užitečnost této třídy spočívá v přehlednosti -- je lepší používat její metody s deskriptivním názvem místo path data příkazů, které mají formu jednoho písmene a argumentů.
