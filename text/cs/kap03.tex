@@ -9,78 +9,78 @@ Kromě toho také uvedeme koncept řešení, který poskytne rychlý přehled to
 V této sekci představíme funkční a nefunkční požadavky na systém~\cite[s.~83]{sommerville_softwareengineering_2011}.
 
 \subsection{Funkční požadavky}
-Vzhledem k většímu množství funkčních požadavků uvedeme pouze ty důležitější vybrané.
-Dále je rozdělíme do několika kategorií, které budou seskupovat požadavky týkající se podobné části systému.
-
-\newlist{enumfp}{enumerate}{1}
-\setlist[enumfp]{label=\textbf{FP\hyp{}\arabic*},ref=FP\hyp{}\arabic*}
+Vzhledem k většímu množství funkčních požadavků je rozdělíme do několika kategorií, které budou seskupovat požadavky týkající se podobné části systému.
 
 \subsubsection*{Projekt}
-\begin{enumfp}
+\begin{itemize}
+  \item Součástí projektu budou tři typy diagramů -- \acrshort{er}, schematická kategorie a vizualizace schematické kategorie.
+  \item Projekt bude obsahovat data, z kterých bude možné obnovit všechny tři diagramy, na kterých uživatel pracuje během jednoho sezení.
   \item V systému bude možné vytvořit nový projekt, uložit ho a načíst.
-  Projekt bude obsahovat data, z kterých bude možné obnovit diagramy (\acrshort{er}, schematická kategorie a její vizualizace), které uživatel vytvoří během jednoho sezení.
   \item Projekt bude možné pojmenovat pro odlišení od ostatních projektů.
+\end{itemize}
+
+\subsubsection*{Export}
+\begin{itemize}
   \item Jednotlivé diagramy bude možné exportovat do rastrového i vektorového formátu.
   \item Do těchto exportovaných formátů bude volitelně možné vložit projekt, který z nich pak bude možné načíst.
-  Tímto bude projekt možné otevřít jak v prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v našem systému a pokračovat v práci.
-\end{enumfp}
+        Tímto bude projekt možné otevřít jak v prohlížeči obrázků (a zobrazit rastrově nebo vektorově diagram), tak v našem systému a pokračovat v práci.
+  \item Při exportu do \acrshort{png} bude možný výběr mezi průhledným a celobarevným pozadím.
+\end{itemize}
 
 \subsubsection*{Diagramy}
-\begin{enumfp}[resume]
+\begin{itemize}
   \item Zobrazení diagramu bude možné posouvat myší.
   \item Zobrazení diagramu bude možné přibližovat a oddalovat kolečkem myši.
   \item Posunutí a přiblížení bude volitelně možné synchronizovat mezi všemi diagramy.
   \item Systém bude kontrolovat validitu uživatelem vytvořených konstruktů.
   \item Elementy bude možné posunovat držením levého tlačítka myši a tažením.
-  \item Související elementy napříč diagramy se budou posouvat společně.
+  \item Související elementy napříč diagramy se volitelně budou posouvat společně.
   \item Vlastnosti všech objektů bude možné měnit (popisky, typ, pozice).
-  Tyto změny budou reflektovány v ostatních diagramech.
+        Tyto změny budou reflektovány v ostatních diagramech.
   \item Při držení klávesy \keys{\ctrl} bude možné zvolit více objektů najednou postupným klikáním levého tlačítka myši.
   \item Veškeré elementy bude možné z diagramu mazat alespoň klávesou \keys{Delete}.
   \item Všechny elementy bude možné zvolit levým tlačítkem myši.
-\end{enumfp}
+\end{itemize}
 
 \subsubsection*{ER Diagram}
-\begin{enumfp}[resume]
-  \item Do diagramu bude možné přidat entitní typ.
-  \item Do diagramu bude možné přidat vztahový typ.
-  \item Do diagramu bude možné přidat atribut.
+\begin{itemize}
+  \item Do diagramu bude možné přidat entitní typ (silné i slabé), vztahový typ, atribut (včetně složeného atributu),
+  \item K entitním typům bude možné přidat identifikátory, včetně externích.
+  \item Bude možné vytvořit ISA hierarchii mezi entitními typy.
   \item Mezi jednotlivými elementy diagramu bude možné přidat spojovací čáru.
   \item U spojení bude možné specifikovat a zobrazit kardinalitu.
-  Dolní mez bude buď 0 nebo 1, horní mez 1 nebo $n$.
-  Výchozí kardinality ($1..1$) nebudou zobrazeny.
-  \item Bude možné vytvořit ISA hierarchii mezi entitními typy.
+        Dolní mez bude buď 0 nebo 1, horní mez 1 nebo $n$.
+        Výchozí kardinality \oneone{} nebudou zobrazeny.
   \item Uživatel bude moct využít předpřipravené konstrukty, které bude možné vložit do diagramu.
-  Například se může jednat o ISA hierarchie s předpřipravenými entitami.
-\end{enumfp}
+        Například se může jednat o ISA hierarchie s předpřipravenými entitami.
+\end{itemize}
 
-\subsubsection*{Schématická kategorie}
-\begin{enumfp}[resume]
+\subsubsection*{Schematická kategorie}
+\begin{itemize}
   \item Objekty a morfismy schematické kategorie bude možné přidávat a mazat, přičemž tato změna se odrazí v ostatních diagramech.
   \item V diagramu se zobrazí data o objektech a morfismech včetně kardinalit a popisků.
-  Výchozí kardinality ($1..1$) se zobrazovat nebudou.
+        Výchozí kardinality \oneone{} se zobrazovat nebudou.
   \item Při zvolení objektu se zvýrazní všechny objekty v okolí, které ho identifikují (např. barevně, vzdálené identifikátory jinou barvou).
-\end{enumfp}
+\end{itemize}
 
 \subsubsection*{Vizualizace schematické kategorie}
-\begin{enumfp}[resume]
-  \item Vizualizace schematické kategorie ze schematické kategorie vytěží sémantiku a vizualizuje ji různými tvary.
+\begin{itemize}
+  \item Vizualizace schematické kategorie ze schematické kategorie zjistí sémantiku a vizualizuje ji různými tvary.
+  \item Objekty a morfismy bude možné přidávat a mazat i ve vizualizaci schematické kategorie.
   \item Při zvolení objektu se barevně zvýrazní bezprostřední a vzdálené identifikátory různými barvami.
-\end{enumfp}
+\end{itemize}
 
 \subsection{Nefunkční požadavky}
-\newlist{enumnfp}{enumerate}{1}
-\setlist[enumnfp]{label=\textbf{NFP\hyp{}\arabic*},ref=NFP\hyp{}\arabic*}
 
-\begin{enumnfp}
-  \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.\label{nfp:can-use-everywhere}
+\begin{itemize}
+  \item Aplikaci bude možné používat na všech běžných desktopových operačních systémech.
   \item Nesmí dojít ke ztrátě práce při náhlém ukončení aplikace kvůli interním či externím vlivům.
-  To může být zařízeno např. průběžným ukládáním práce.
+        To může být zařízeno např. průběžným ukládáním práce.
   \item Aplikaci bude možné používat i při výpadku internetového připojení.
-  \item V rámci bezpečnosti žádná data týkající se práce na projektu neopustí zařízení klienta, pokud tak klient explicitně neučiní (například export a přesun souboru).\label{nfp:safety}
+  \item V rámci bezpečnosti žádná data týkající se práce na projektu neopustí zařízení klienta, pokud tak klient explicitně neučiní (například export a přesun souboru).
   \item Aplikace bude navržena tak, aby bylo možné bez větších komplikací rozšířit její funkcionalitu (např. přidat podporu UML).
-  \item Aplikace bude nenáročná na provoz a investice provozovatele.\label{nfp:nenarocnost}
-\end{enumnfp}
+  \item Aplikace bude nenáročná na provoz a investice provozovatele.
+\end{itemize}
 
 \section{Entity}\label{section:conceptual-model}
 
