@@ -179,39 +179,26 @@ Další koncepty jsou totožné s konceptuálním modelem schematické kategorie
 \section{Procesy}
 
 Součástí specifikace softwarového systému jsou i procesy.
-Každý proces popisuje konceptuální kroky, které vedou k dosažení nějakého cílového stavu.
-Tyto kroky jsou definovány pouze na konceptuální úrovni, takže bez vtahu např.~k plánovanému uživatelskému rozhraní.
-
-Požadavky popsaly, co systém má umět.
-Procesy je rozšíří o to, jakým způsobem toho aktéři mohou dosáhnout a jaké kroky k výslednému stavu vedou.
+Ty uvedeme v této sekci.
 
 \subsubsection*{Modelování entitního typu v \acrshort{er} diagramu}
 
 Uživatel mezi existující elementy diagramu vloží nový entitní typ.
-Tento entitní typ bude chtít pojmenovat.
-K entitnímu typu bude uživatel potřebovat přidat atributy.
-Dále bude entitní typy potřebovat přidat do vztahů, tedy spojit s existujícími vztahovými typy.
 
-Entitní typ bude moci změnit na jiný druh elementu v \acrshort{er} diagramu (atribut, vztahový typ).
-
-Kroky zahrnují:
+\noindent Kroky zahrnují:
 \begin{enumerate}
   \item Přidání nového prvku do diagramu.
   \item Zvolení druhu prvku -- entitní typ.
   \item Zadání popisku (názvu entitního typu).
-  \item Zvolení pozice entitního typu v diagramu.
+  \item Případná změna pozice entitního typu v diagramu.
   \item Případné přidání atributů k entitnímu typu a volba jejich kardinality.
-  \item Přidání entitního typu do ISA hierarchie s jinými entitními typy.
-  \item Zvolení jednoho a více identifikátorů entitního typu.
-        Toto není třeba pokud byl entitní typ přidán do hierarchie, pak dědí identifikátory.
-  \item Případně přidání daného entitního typu jako účastníka libovolného počtu existujících vztahových typů.
 \end{enumerate}
 
 \subsubsection*{Modelování vztahového typu v \acrshort{er} diagramu}
 Uživatel bude dále chtít do \acrshort{er} diagramu přidat vztahový typ.
 Vztahový typ musí mít alespoň dva (ne nutně různé) účastníky, jimiž mohou být pouze entitní typy.
 
-Kroky zahrnují:
+\noindent Kroky zahrnují:
 \begin{enumerate}
   \item Přidání nového prvku do diagramu.
   \item Zvolení druhu prvku -- vztahový typ.
@@ -221,11 +208,33 @@ Kroky zahrnují:
   \item Zvolení kardinalit účastníků vztahového typu.
 \end{enumerate}
 
+\subsubsection*{Modelování atributu vztahového typy v \acrshort{er} diagramu}
+Modelování samostatného atributu může probíhat podobně jako v předchozích scénářích, ale protože se jedná o jeden z nejčastějších procesů, nabídneme alternativně zkratku, kterou zde popíšeme.
+
+\noindent Kroky zahrnují:
+\begin{enumerate}
+  \item Zvolení entitního typu nebo vztahového typu, ke kterému přidat atribut.
+  \item Přidání atributu a jeho spojení se zvoleným typem.
+  \item Zadání názvu atributu.
+  \item Případná změna pozice atributu v diagramu.
+\end{enumerate}
+
+\subsubsection*{Editace existujících prvků \acrshort{er} diagramu}
+Úprava existujících prvků probíhá pro všechny prvky podobně.
+Při modelování může uživatel přehodnotit model a upravit vlastnosti některých prvků.
+
+\noindent Kroky zahrnují:
+\begin{enumerate}
+  \item Zvolení prvku v diagramu k editaci.
+  \item Zvolení vlastnosti prvku, která bude upravena.
+  \item Zadání/změna hodnoty vlastnosti prvku.
+\end{enumerate}
+
 \subsubsection*{Mazání prvků v \acrshort{er} diagramu}
 
 Při modelování může uživatel přehodnotit model a odstranit některé prvky, načež je případně nahradit jinými.
 
-Kroky zahrnují:
+\noindent Kroky zahrnují:
 \begin{enumerate}
   \item Zvolení prvku či prvků v diagramu, které chceme smazat.
   \item Odstranění prvků z diagramu.
@@ -235,32 +244,50 @@ Kroky zahrnují:
 
 \subsubsection*{Volba identifikátoru entitního typu v \acrshort{er} diagramu}
 
-Při modelování entitního typu bude uživatel chtít přidat jeho identifikátory.
+Při modelování entitního typu bude uživatel muset přidat jeho identifikátory.
 
-Kroky zahrnují:
+\noindent Kroky zahrnují:
 \begin{enumerate}
   \item Zvolení jednoho a více atributů či vztahových typů, které mají tvořit nový identifikátor.
-  \item Pokud je ve vztahovém typu zúčastněn entitní typ víckrát, je nutné zvolit spojení, které má být identifikátorem.
-  \item Kontrola neexistence redundantních identifikátorů, které byly popsány v Sekci~\ref{section:entity-relationship}.
-  \item Validace neexistence cyklů slabých entitních typů a hierarchií, jak byla popsána v Sekci~\ref{section:entity-relationship}.
+  \item Přidání identifikátoru do diagramu.
+  \item Kontrola validity \acrshort{er}, protože mohl vzniknout redundantní identifikátor.
 \end{enumerate}
 
 \subsubsection*{Změna typu elementu \acrshort{er} diagramu}
 
 Uživatel potřebuje měnit typ elementu diagramu, například když se rozhodne, že je v daném případě lepší modelovat entitní typ jako složený atribut.
 
-Kroky zahrnují:
+\noindent Kroky zahrnují:
 \begin{enumerate}
   \item Specifikace elementu diagramu, který bude uživatel měnit (entitní typ, vztahový typ, nebo atribut).
   \item Volba typu elementu, na který se má element změnit.
-  \item Kontrola validity diagramu. Úpravou mohl vzniknout nevalidní \acrshort{er} diagram.
+  \item Kontrola validity diagramu.
+        Úpravou mohl vzniknout nevalidní \acrshort{er} diagram.
+        Uživatel je na chyby upozorněn a je na něm, aby diagram upravil do validního stavu.
 \end{enumerate}
 
-\subsubsection*{Přesun a změna přiblížení plátna}
+\subsubsection*{Kontrola validity \acrshort{er} diagramu}
+Při každé zásadní změně systém musí kontrolovat, zda je diagram stále validní a případně nalezení chyb uživatele upozornit.
+
+\noindent Kroky zahrnují:
+\begin{enumerate}
+  \item Kontrola toho, že každý entitní typ má alespoň jeden identifikátor, včetně identifikátorů z dědičnosti z ISA hierarchií.
+  \item Kontrola toho, že pokud je entitní typ identifikován vztahovým typem, pak je v něm účastněn s kardinalitou \oneone{}.
+  \item Kontrola atributů a jejich spojení -- složené atributy musí být spojeny s právě jedním entitním nebo vztahovým typem a jedním nebo více jednoduchými atributy a s ničím víc.
+        Jednoduché atributy jsou spojeny buď s právě jedním entitním nebo vztahovým typem, nebo s právě jedním složeným atributem.
+  \item Kontrola vztahových typů -- účastní se jich alespoň dva (ne nutně různé) entitní typy a libovolný počet atributů a nic víc.
+  \item Kontrola existence referovaných prvků v diagramu -- pokud byl jeden z účastníků spojení nebo identifikace odstraněn z datového modelu, pak musí být odstraněno i dané spojení/identifikátor.
+  \item Kontrola účastníků ISA hierarchií -- zda existují a zda se jedná o entitní typy.
+  \item Kontrola neexistence redundantních identifikátorů, které byly popsány v Sekci~\ref{section:entity-relationship}.
+  \item Validace neexistence cyklů slabých entitních typů a hierarchií, jak byla popsána v Sekci~\ref{section:entity-relationship}.
+  \item Zobrazení všech chyb, pokud byly nějaké nalezeny.
+\end{enumerate}
+
+\subsubsection*{Změna zobrazení}
 
 Při modelování se uživatel bude chtít zaměřit na jednu část diagramu přesunem plátna a přiblížením.
 
-Kroky zahrnují
+\noindent Kroky zahrnují
 \begin{enumerate}
   \item Zvolit diagram, jehož plátno se bude přesouvat a přibližovat.
   \item Pokud je zvolena synchronizace pláten, pak stejné přiblížení a přesun nastavit i v ostatních plátnech.
@@ -272,7 +299,7 @@ Kroky zahrnují
 
 Uživatel bude chtít diagram exportovat, pro přenos na jiné médium, případně vložení do externího dokumentu.
 
-Kroky zahrnují:
+\noindent Kroky zahrnují:
 \begin{enumerate}
   \item Zvolení akce exportování diagramu.
   \item Zvolení formátu výsledného souboru.
@@ -283,6 +310,9 @@ Kroky zahrnují:
   \item Diagram je exportován do zvoleného formátu.
 \end{enumerate}
 
+Další procesy uvádět nebudeme, protože jsou analogické těm popsaným.
+Zaměřili jsme se jen na ty nejdůležitější reprezentanty.
+
 \subsubsection*{Převod na schematickou kategorii}
 
 Změny \acrshort{er} diagramu se projeví ve schematické kategorii.
@@ -290,11 +320,11 @@ Změny \acrshort{er} diagramu se projeví ve schematické kategorii.
 \begin{enumerate}
   \item Uživatel upraví \acrshort{er} diagram.
   \item Změny se projeví v diagramu schematické kategorie.
-  \item Změny ve schematické kategorii se projeví ve \acrshort{vsk}.
+  \item Změny ve schematické kategorii se projeví ve vizualizaci schematické kategorie.
 \end{enumerate}
 
 \subsubsection*{Vizualizace identifikátorů ve schematické kategorii}
-V diagramu schematické kategorie nejsou nijak vyznačené identifikátory objektů, protože jinak by diagram byl moc explicitní a chaotický.
+V diagramu schematické kategorie nejsou nijak vyznačené identifikátory objektů, protože jinak by diagram byl moc nepřehledný.
 K účelu komunikace informace o identifikátorech slouží tento proces, který zobrazí pouze identifikátory jednoho zvoleného objektu.
 
 Kroky zahrnují:
