@@ -363,11 +363,11 @@ To ze dvou důvodů, které se vzájemně nevylučují:
   \item nebo se může jednat o slabý entitní typ, který má pouze externí identifikátory, které neobsahují ani jeden interní identifikátor.
 \end{enumerate}
 
-Mějme tedy validní \acrshort{er} diagram.
-Převedeme ho na schematickou kategorii.
-
 Kvůli definici schematické kategorie budeme vybírat unikátní identifikátory z abecedy $\N$.
 V $\N$ je k tomu určitě dostatek symbolů.
+
+Mějme tedy validní \acrshort{er} diagram.
+Převedeme ho na schematickou kategorii.
 
 Nejdříve definujeme správné pořadí, ve kterém převádět entitní typy.
 Vezměme závislostní graf, který jsme definovali kvůli zakázání cyklů v Sekci~\ref{section:entity-relationship}.
@@ -375,11 +375,19 @@ Tento graf je z definice orientovaný a pro korektní \acrshort{er} je acyklick�
 Jedná se tedy o \acrshort{dag}.
 Vezměme jeho libovolné topologické uspořádání.
 Entitní typy budeme převádět od \emph{největšího} prvku tohoto uspořádání k nejmenšímu.
-To proto, abychom nejdříve převedli nějaký takový entitní typ, pro který už jsou vyřešené ty, na kterých je identifikačně závislý.
+To proto, abychom vždy nejdříve převedli nějaký takový entitní typ, pro který už jsou vyřešené ty, na kterých je identifikačně závislý.
 Jinak by náš převod slabého entitního typu nemusel mít korektní identifikátory.
 S tímto pořadím budeme počítat po celý algoritmus.
 
-Začneme s prázdnou schematickou kategorií a postupně budeme převádět konstrukty \acrshort{er} do konstruktů schematické kategorie.
+Kvůli délce algoritmu zde nejdříve naznačíme hrubý postup, než popíšeme jednotlivé kroky.
+Začneme s prázdnou schematickou kategorií a postupně budeme převádět konstrukty \acrshort{er} do konstruktů schematické kategorie:
+\begin{itemize}
+  \item Nejdříve vytvoříme objekt každý jednoduchý nebo složený atribut a spojíme je morfismy (složené atributy s jejich atributy).
+  \item Následně vytvoříme objekt pro každý entitní typ, ale ještě mu nepřevedeme identifikátory, protože nemáme v tuto chvíli všechny potřebné morfismy.
+  \item Proto se následně budeme věnovat vztahovým typům -- vytvoříme pro každý z nich objekt (zatím zase bez identifikátorů) a spojíme ho morfismy s jeho atributy a účastnícími se entiními typy.
+  \item Poté se budeme věnovat identifikátorům objektů entitních typů a vztahových typů.
+  \item Nakonec převedeme ISA hierarchie, včetně zděděných identifikátorů.
+\end{itemize}
 
 Pro každý (jednoduchý nebo složený) atribut z \acrshort{er} vytvořme odpovídající objekt schematické kategorie (s odpovídajícím názvem a unikátní identitou).
 Množina identifikátorů objektu bude vždy obsahovat pouze jediný identifikátor $\set{\varepsilon}$, půjde tedy o self-identifikovaný objekt.
@@ -389,50 +397,52 @@ Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho at
   (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \oneone, \false, \false)\,, \\
   (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \onemany, \false, \false)\,.
 \end{align*}\mcomment{Mají doména/kodoména duálních morfismů být ve stejném pořadí? Nemám prohodit u toho druhého doménu s kodoménou?}
-
-
+Signatury těchto morfismů jsou stejné, abychom poznali, že jsou k sobě duální.
+Příčí se to sice unikátnosti, kterou jsme při definicích vyžadovali, ale prakticky je tento přístup vhodný.
 
 Pro každý entitní typ $E$ z \acrshort{er} diagramu vytvoříme jemu odpovídající objekt $O_E$, ale zatím necháme množinu identifikátorů prázdnou.
-Pro atributy $E$, vezmeme každý odpovídající objekt $O_A$ a vytvoříme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
-Kardinalitu směrem k atributu nastavme na kardinalitu $A$ vzhledem k $E$ a kardinalitu směrem zpět na
+Pro atributy $E$ vezmeme každý odpovídající objekt $O_A$ a vytvoříme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
+Kardinalitu směrem k atributu nastavíme na kardinalitu $A$ vzhledem k $E$ a kardinalitu směrem zpět na
 \begin{itemize}
   \item \oneone{} pokud je $A$ jednoduchý identifikátor $E$,
   \item \onemany{} pokud je $A$ součástí složeného identifikátoru $E$,
   \item jinak \zeromany{} u obyčejného atributu.
 \end{itemize}
 
-Pro každý interní identifikátor $I$ entitního typu $E$ přidejme do množiny identifikátorů objektu $O_E$ novou množinu složenou ze signatur morfismů, které vedou do jednotlivých atributů v $I$ (resp. odpovídajících objektů).
-Pokud $E$ nemá externí identifikátor, označíme ho za \emph{vyřešený}.
-
-Pro každý vztahový typ $R$ z \acrshort{er} diagramu vytvoříme odpovídající objekt $O_R$ stejně jako pro atributy -- s množinou identifikátorů $\set{\varepsilon}$.
+Pro každý vztahový typ $R$ z \acrshort{er} diagramu vytvoříme odpovídající objekt $O_R$ a necháme množinu identifikátorů prázdnou.
 Všechny atributy a složené atributy $R$ spojíme s $O_R$ stejně jako tomu bylo u entitních typů a jejich atributů.
-Mezi $R$ a každým účastníkem tohoto vztahového typy, označme $E$ (resp. mezi jejich odpovídajícími objekty) vytvořme bázový morfismus s kardinalitou tam stejnou jako je kardinalita $E$ vzhledem k $R$.
-Kardinalita směrem zpět (tedy kardinalita duálního morfismu) bude stejná jako kardinalita $R$ vzhledem  k $E$.
+Mezi $R$ a každým účastníkem tohoto vztahového typu, označme $E$, (resp. mezi jejich odpovídajícími objekty) vytvoříme bázový morfismus s kardinalitou tam stejnou jako je kardinalita $E$ vzhledem k $R$.
+Kardinalita směrem zpět (tedy kardinalita duálního morfismu) bude stejná jako kardinalita $R$ vzhledem k $E$.
 
-Nyní postupně \enquote{vyřešíme} všechny nevyřešené entitní typy $E$.
-Pro každý takový entitní typ se podíváme na jeho externí identifikátory.
-Vše opakujeme, dokud existují nevyřešené entitní typy.
-Externí identifikátor se může skládat z vlastních atributů a vztahových typů, kterých se $E$ účastní (ten musí být alespoň jeden).
-Pokud nejsou všechny entitní typy, do kterých vede nějaký externí identifikátor vyřešené, pak zvolíme jiný nevyřešený entitní typ a opakujeme znovu.
-Jinak pro každý externí identifikátor vytvoříme odpovídající množinu signatur, kterou posléze vložíme do $O_E$.
-Signatury vlastních atributů získáme z odpovídajících morfismů, jako tomu bylo u interních identifikátorů, označme tuto množinu $W$.
-Jinak najdeme orientovanou cestu přes odpovídající morfismy z $E$ do každého $E_i$ entitního typu, do kterého vede externí identifikátor.
-Nechť $c$ je zřetězení signatur morfismů, přes které tato cesta vede.
-Nechť $O_i$ je objekt odpovídající $E_i$.
-Pro každý identifikátor $I_k$ z množiny identifikátorů $O_i$ vytvoříme $S\coloneqq \set{c_k\cdot c\mid c_k\in I_k}$.
-Do množiny identifikátorů objektu $O_E$ vložíme $W\cup S$.
+Nyní se můžeme věnovat identifikátorům entitních typů.
+Ty převádíme také v pořadí, které jsme pro entitní typy určili.
+Pro každý identifikátor $I$ entitního typu $E$ tedy vytvoříme nový identifikátor pro odpovídající objekt schematické kategorie $O_E$.
+Převod každého prvku identifikátoru $I$ proběhne následovně.
+\begin{itemize}
+  \item Pokud se jedná o vlastní atribut $E$, převedeme ho jednoduše na signaturu morfismu, který spojuje $O_E$ s odpovídajícím objektem daného atributu.
+  \item Pokud se jedná o vztahový typ, najdeme orientovanou cestu přes odpovídající morfismy z $E$ do každého $E_i$ entitního typu, do kterého vede externí identifikátor.
+        Nechť $c$ je zřetězení signatur morfismů, přes které tato cesta vede.
+        Dále, nechť $O_i$ je objekt odpovídající $E_i$.
+        Pro každý identifikátor $I_k$ z množiny identifikátorů objektu $O_i$ vytvoříme $S\coloneqq \set{c_k\cdot c\mid c_k\in I_k}$.
+\end{itemize}
+Sjednocením všech těchto množin $S$ a množiny signatur odpovídajících vlastním atributům získáme množinu signatur, která tvoří jeden identifikátor objektu $O_E$, který odpovídá \acrshort{er} identifikátoru $I$.
+Zřetězili jsme totiž signatury identifikátorů \enquote{vzdálených entit, které nás identifikují} se signaturami cest do těchto entit.
 
-Zřetězili jsme tak signatury identifikátorů \enquote{vzdálených entit, které nás identifikují} se signaturami cest do těchto entit.
-Sjednocením s vlastními signaturami jsme získali množinu signatur, která odpovídá danému externímu identifikátoru.
-Protože jsme dostali korektní \acrshort{er}, kde nejsou cykly externích identifikátorů, cyklus výše určitě někdy skončí.
-To proto, že určitě najde alespoň jeden vyřešený entitní typ (list ve stromě externí identifikace).
+Dále nastavíme identifikátory každému objektu $O_R$, který odpovídá nějakému vztahovému typu $R$.
+Odlišíme tři případy:
+\begin{itemize}
+  \item Pokud se $R$ účastní externí identifikace, nastavíme identifikátor na množinu $S$ definovanou stejně jako výše (akorát $c$ bude cesta mezi $R$ a $E_i$).
+  \item Jinak pokud existuje alespoň jeden účastník $R$, který se vztahu účastní s maximální kardinalitou \one, pak bude identifikátor tvořen signaturami, které vzniknou zřetězením signatury morfismu mezi účastníkem a $R$ s identifikátory účastníka.
+  \item Jinak bude identifikátor tvořen všemi účastníky (zřetězením jako u předchozího případu).
+\end{itemize}
+\todotext{$\uparrow$ nejsem si vůbec jistý, zda jsou identity objektů vztahových typů tak, jak byste chtěl.}
 
-Nyní převedeme ISA hierarchie.
+Nakonec převedeme ISA hierarchie.
 Pro každý vztah rodič-dítě ($P, C$) z každé ISA hierarchie vezmeme odpovídající objekty $O_P, O_C$ a vytvoříme mezi nimi bázový morfismus (z $O_C$ do $O_P$) s kardinalitou \oneone{} a k němu duální morfismus s kardinalitou \oneone{}.
 Správně \enquote{dořetězené} identifikátory (zřetězené přes právě vytvořený morfismus) z $O_P$ vložíme do $O_C$.
 Tím $O_C$ \enquote{zdědil} identifikátory od $O_P$.
 
-Do schematické kategorie dodáme pomocí operace skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru.
+Aby schematická kategorie splňovala vlastnosti kategorie, dodáme do ní pomocí operace skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru.
 Pro každý objekt $O$ dodáme identitní morfismus $O\to O$ s kardinalitou \oneone{} a množinou identifikátorů $\set{e}$.
 
 Tím je algoritmus dokončen a máme korektní schematickou kategorii odpovídající \acrshort{er} diagramu.
