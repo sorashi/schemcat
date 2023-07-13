@@ -208,12 +208,12 @@ Vztahový typ musí mít alespoň dva (ne nutně různé) účastníky, jimiž m
   \item Zvolení kardinalit účastníků vztahového typu.
 \end{enumerate}
 
-\subsubsection*{Modelování atributu vztahového typy v \acrshort{er} diagramu}
+\subsubsection*{Modelování atributu \acrshort{er} diagramu}
 Modelování samostatného atributu může probíhat podobně jako v předchozích scénářích, ale protože se jedná o jeden z nejčastějších procesů, nabídneme alternativně zkratku, kterou zde popíšeme.
 
 \noindent Kroky zahrnují:
 \begin{enumerate}
-  \item Zvolení entitního typu nebo vztahového typu, ke kterému přidat atribut.
+  \item Zvolení entitního nebo vztahového typu, ke kterému přidat atribut, nebo případně zvolení atributu, který se má tímto stát složeným.
   \item Přidání atributu a jeho spojení se zvoleným typem.
   \item Zadání názvu atributu.
   \item Případná změna pozice atributu v diagramu.
@@ -392,8 +392,9 @@ Protože TypeScript typové anotace jsou při kompilaci do JavaScriptu odstraně
 Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2017}, kterou popíšeme později při implementaci.
 Zjednodušeně řečeno, tato datová složka říká knihovně, že instance dané třídy může považovat za použitelné pro svou funkcionalitu.
 
-\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde mezi každými dvěma vrcholy vede nejvýše jedna cesta).
-Myslíme tím to, že v modelu nejsou vnitřní reference a na každou instanci třídy může držet referenci nejvýše jedna jiná instance (její majitel).
+\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde mezi každými dvěma vrcholy vede nejvýše jedna cesta a všechny jeho stromy jsou zakořeněné).
+Myslíme tím zejména to, že v modelu nejsou vnitřní reference a na každou instanci třídy může držet referenci nejvýše jedna jiná instance (její majitel).
+Úplná absence cyklů v datovém modelu je nutná k tomu, aby nevznikaly cyklické závislosti při úpravě instance modelu.
 Tato restrikce vzniká kvůli frameworku React~\cite{react_2023}.
 Ten totiž reaguje na změny v datovém modelu porovnáním referencí, a proto nemůžeme nikdy instance tříd přímo měnit, vždy musíme vytvořit novou instanci.
 Jinak řečeno, instance tříd jsou immutable.
@@ -504,22 +505,29 @@ Také lze při úpravě schematické kategorie některé změny naopak převést
 Objekty schematické kategorie, které vznikly převodem z \acrshort{er} budou mít stejnou hodnotu \texttt{key} jako \texttt{id} odpovídajícího objektu.
 Tím zaručíme stejnou svázanost diagramů jako tomu je u morfismů.
 
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/utils-class-diagram.pdf}
-  \caption{Diagram tříd -- vybrané další třídy}
-  \label{fig:utils-class-diagram}
-\end{figure}
-
-Další vybrané třídy, které ale nesouvisí přímo s diagramy, jsou na Obrázku~\ref{fig:utils-class-diagram}.
+Dálě představíme vybrané třídy, které nesouvisí přímo s diagramy.
 Pro práci s 2D geometrií budeme potřebovat třídy \texttt{Vector2} a \texttt{Angle}.
 
-Třída \texttt{Vector2} reprezentuje dvourozměrný vektor s vhodnými operacemi včetně sčítání a odčítání s jinými vektory, násobení skalárem a negace (unární minus).
-Další operace jsou vidět na Obrázku~\ref{fig:utils-class-diagram} a jejich význam by měl být evidentní.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/vector2-class-diagram.pdf}
+  \caption{Diagram tříd -- \texttt{Vector2}}
+  \label{fig:vector2-class-diagram}
+\end{figure}
+
+Třída \texttt{Vector2} z Obrázku~\ref{fig:vector2-class-diagram} reprezentuje dvourozměrný vektor s vhodnými operacemi včetně sčítání a odčítání s jinými vektory, násobení skalárem a negace (unární minus).
+Další operace jsou vidět na zmíněném obrázku a jejich význam by měl být evidentní.
 Třída poskytuje také běžně používané vektory jako statické atributy.
 Operace, které pracují s úhly, používají k jejich reprezentaci třídu \texttt{Angle}.
 
-Třída \texttt{Angle} reprezentuje úhly nezávisle na jejich jednotkách.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/angle-class-diagram.pdf}
+  \caption{Diagram tříd -- \texttt{Angle}}
+  \label{fig:angle-class-diagram}
+\end{figure}
+
+Třída \texttt{Angle} z Obrázku~\ref{fig:angle-class-diagram} reprezentuje úhly nezávisle na jejich jednotkách.
 Je to vhodnější, než používat pouze pomocné metody, které by převáděly stupně na radiány a naopak.
 Interně je úhel reprezentován ve stupních, protože při počítání s radiány by kvůli menším číslům mohlo docházet ke ztrátě přesnosti.
 
@@ -538,29 +546,40 @@ V matematice a geometrii je nejběžnější pravotočivá soustava souřadnic, 
 Pro převod úhlu z běžně uvažovaného pravotočivého do levotočivého \acrshort{svg} úhlu slouží právě metoda \texttt{toLeftHandedSystem}.
 Ta přijde vhod při rotování vektorů, či celých \acrshort{svg} konstruktů.
 
-Třída \texttt{GlobalIdGenerator} slouží jako generátor identifikátorů a klíčů pro naše objekty.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/global-id-generator-class-diagram.pdf}
+  \caption{Diagram tříd -- \texttt{GlobalIdGenerator}}
+  \label{fig:global-id-gen-class-diagram}
+\end{figure}
+
+Třída \texttt{GlobalIdGenerator} z Obrázku~\ref{fig:global-id-gen-class-diagram} slouží jako generátor identifikátorů a klíčů pro naše objekty.
 Zajišťuje, že vždy vrátí unikátní číslo jako nový identifikátor.
 Jednoduchá implementace je začít s číslem 0 a každé další zvětšit o 1.
 Tato třída je singleton, jeden z objektově orientovaných designových vzorů uvedený Gammou a kol. (také známých jako \enquote{Gang of Four})~\cite[s.~144]{gamma_designpatterns_1995}.
 Tím může existovat nejvýše jedna její instance v běžícím systému.
 
-Třída \texttt{SvgPathStringBuilder} konstruuje \acrshort{svg} path data atribut \cite[\S~9.3]{brinza_svg_2018}.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\maxwidth{\textwidth}]{../img/diagrams/svg-path-string-builder-class-diagram.pdf}
+  \caption{Diagram tříd -- \texttt{SvgPathStringBuilder}}
+  \label{fig:svg-path-string-builder-class-diagram}
+\end{figure}
+
+Třída \texttt{SvgPathStringBuilder} z Obrázku~\ref{fig:svg-path-string-builder-class-diagram} konstruuje \acrshort{svg} path data atribut \cite[\S~9.3]{brinza_svg_2018}.
 Obsahuje mnoho dalších metod.
-Kromě těch, které lze vidět na Obrázku~\ref{fig:utils-class-diagram}, například pro každý příkaz lze pozice (location) specifikovat i relativně k předchozí pozici (místo absolutně).
+Kromě těch, které lze vidět na zmíněném obrázku, například pro každý příkaz lze pozice (location) specifikovat i relativně k předchozí pozici (místo absolutně).
 Třída odpovídá vzoru builder~\cite[s.~110]{gamma_designpatterns_1995}.
 Užívání této třídy odpovídá vypisování \enquote{příkazů} pro path data atribut.
 Užitečnost této třídy spočívá v přehlednosti -- je lepší používat její metody s deskriptivním názvem místo path data příkazů, které mají formu jednoho písmene a argumentů.
 
 \section{Scénáře}
 
-Případy užití definují funkcionalitu systému a reprezentují se diagramem případů užití (use case diagram).
-Každý případ užití popisuje jeden způsob, jak lze systém použít.
-Uživatelé systému (lidé, stroje, nebo jiné systémy) jsou v diagramu reprezentováni tzv. herci (actors).
-Model tak popisuje způsoby, kterými lze systém použít jeho okolím a jaké služby systém nabízí.~\cite[s.~65]{overgaard_usecases_2005}
+V této sekci uvedeme scénáře pro případy užití~\cite[s.~65]{overgaard_usecases_2005}, kterými rozšíříme procesy.
 
 Případy užití nebudeme popisovat všechny, kvůli stručnosti.
-Dále některé případy užití jsou si velmi podobné, například export do \acrshort{svg} je téměř stejný jako export do \acrshort{png}, akorát se u \acrshort{svg} nevolí barva pozadí.
-Zvolíme tedy případy užití, které nějak modelové nebo zásadní.
+Navíc některé případy užití jsou si velmi podobné, například export do \acrshort{svg} je téměř stejný jako export do \acrshort{png}, akorát se u \acrshort{svg} nevolí barva pozadí.
+Zvolíme tedy pouze případy užití, které jsou nějak modelové nebo zásadní.
 
 \begin{figure}[!htb]
   \centering
@@ -571,12 +590,12 @@ Zvolíme tedy případy užití, které nějak modelové nebo zásadní.
 
 \newcommand{\ucsub}[1]{\textbf{#1}}
 \newcommand{\uc}[1]{\subsection*{#1}}
-\def\ucstart{\ucsub{Počáteční stav}\\\indent}
-\def\ucnormal{\ucsub{Běžný průběh}}
-\def\ucerrors{\ucsub{Možné chyby}}
-\def\ucend{\ucsub{Stav systému po dokončení}\\\indent}
+\def\ucstart{\ucsub{Počáteční stav: }}
+\def\ucnormal{\ucsub{Běžný průběh:}}
+\def\ucerrors{\ucsub{Možné chyby:}}
+\def\ucend{\ucsub{Stav systému po dokončení: }}
 
-\uc{Přidání entitního typu do \acrshort{er} diagramu}
+\uc{Modelování entitního typu v \acrshort{er} diagramu}
 \ucstart{}
 V systému je rozdělaný projekt.
 \acrshort{er} diagram lze editovat.
@@ -592,17 +611,35 @@ V systému je rozdělaný projekt.
 
 \ucend{}
 V diagramu je nový entitní typ, který má uživatelem definovaný název.
-Změna se projeví i ve schematické kategorii, respektive ve \acrshort{vsk}.
+Změna se projeví i ve schematické kategorii, respektive v její vizualizaci.
 
-\uc{Přidání atributu k entitnímu typu v \acrshort{er} diagramu}
+\uc{Modelování vztahového typu v \acrshort{er} diagramu}
+\ucstart{}
+V diagramu je entitní typ nebo více entitních typů, které se budou účastnit vztahového typu.
+Případně je lze vytvořit i v průběhu toho případu užití.
+Změna se projeví i ve schematické kategorii, resp. v její vizualizaci.
+
+\ucnormal{}
+\begin{enumerate}
+  \item Uživatel z panelu s konstrukty myší přetáhne vztahový typ do \acrshort{er} diagramu.
+  \item V \acrshort{er} diagramu se objeví nový vztahový typ.
+  \item Uživatel v ovládacím panelu změní název vztahového typu.
+  \item Uživatel spojí entitní typ se vztahovým typem podle už popsaného případu užití spojování elementů. Tím přidá účastníka vztahového typu.
+  \item To zopakuje s dalšími účastníky (ne nutně jinými).
+\end{enumerate}
+
+\ucend{}
+V systému je nyní nový vztahový typ s účastníky. To se projeví i ve schematické kategorii, resp. v její vizualizaci.
+
+\uc{Modelování atributu v \acrshort{er} diagramu}
 \ucstart{}
 V \acrshort{er} diagramu je entitní typ. Diagram lze editovat.
 
 \ucnormal{}
 \begin{enumerate}
-  \item Uživatel pravým tlačítkem myši klikne na entitní typ.
+  \item Uživatel pravým tlačítkem myši klikne na entitní typ nebo vztahový typ.
   \item Otevře se kontextové menu.
-  \item Uživatel zvolí položku \enquote{Add attribute type}.
+  \item Uživatel zvolí položku \enquote{Add attribute}.
   \item Do \acrshort{er} diagramu je přidán nový atribut, který je spojen s entitním typem.
   \item Uživatel zvolí právě vytvořený atribut myší.
   \item V ovládacím panelu upraví vlastnost \enquote{label}.
@@ -614,7 +651,7 @@ V \acrshort{er} diagramu je entitní typ. Diagram lze editovat.
 
 \ucend{}
 V modelu systému je uložen nový atribut entitního typu, který má daný název a kardinalitu.
-Změna se projeví i ve schematické kategorii, resp.~ve \acrshort{vsk}.
+Změna se projeví i ve schematické kategorii, resp. v její vizualizaci.
 
 \uc{Přidání spojení mezi dva \acrshort{er} elementy diagramu}
 \ucstart{}
@@ -632,31 +669,15 @@ V \acrshort{er} diagramu dva existující elementy.
 \ucerrors{}
 \begin{itemize}
   \item Elementy mohou být nekompatibilní -- např. dva vztahové typy, dva entitní typy.
+        V takovém případě se spojení nevytvoří a zobrazí se chybová hláška.
 \end{itemize}
 
 \ucend{}
 V modelu i v zobrazeném diagramu bude mezi elementy nové spojení.
-\uc{Přidání vztahového typu do \acrshort{er} diagramu}
-\ucstart{}
-V diagramu je entitní typ nebo více entitních typů, které se budou účastnit vztahového typu.
-Případně je lze vytvořit i v průběhu toho případu užití.
-Změna se projeví i ve schematické kategorii, resp.~ve \acrshort{vsk}.
-
-\ucnormal{}
-\begin{enumerate}
-  \item Uživatel z panelu s konstrukty myší přetáhne vztahový typ do \acrshort{er} diagramu.
-  \item V \acrshort{er} diagramu se objeví nový vztahový typ.
-  \item Uživatel v ovládacím panelu změní název vztahového typu.
-  \item Uživatel spojí entitní typ se vztahovým typem podle už popsaného případu užití spojování elementů. Tím přidá účastníka vztahového typu.
-  \item To zopakuje s dalšími účastníky (ne nutně jinými).
-\end{enumerate}
-
-\ucend{}
-V systému je nyní nový vztahový typ s účastníky. To se projeví i ve schematické kategorii, resp.~\acrshort{vsk}.
 
 \uc{Export libovolného diagramu do \acrshort{png}}
 \ucstart{}
-V systému je rozdělaný projekt.
+V systému je otevřený projekt.
 
 \ucnormal{}
 \begin{enumerate}
@@ -670,9 +691,12 @@ V systému je rozdělaný projekt.
 
 \ucerrors{}
 \begin{itemize}
-  \item V zařízení uživatele není dostatek persistentní paměti na uložení obrázku. O zachycení a obstarání této chyby se stará webový prohlížeč uživatele.
+  \item V zařízení uživatele není dostatek persistentní paměti na uložení obrázku.
+        O zachycení a obstarání této chyby se stará webový prohlížeč uživatele.
+  \item Soubor se stejným názvem již existuje.
+        O zachycení a obstarání se rovněž stará webový prohlížeč uživatele.
   \item Uživatel zruší dialog místo potvrzení. V takovém případě se nic dalšího nestane (nedojde k exportu).
 \end{itemize}
 
 \ucend{}
-V uživatelské složce nastavené ve webovém prohlížeči na uložení stahovaných souborů bude uložen \acrshort{png} soubor s rasterizovaným diagramem.
+Ve složce nastavené ve webovém prohlížeči uživatele na uložení stahovaných souborů bude uložen \acrshort{png} soubor s rasterizovaným diagramem.
