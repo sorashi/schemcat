@@ -116,14 +116,14 @@ V této práci budeme používat pouze symbol~\many{}.
 V této sekci popíšeme mechanismus pro konceptuální modelování s názvem schematická kategorie společně s teorií kategorií, na které je založena.
 Nejdříve ale představíme motivaci za uvedením nového způsobu konceptuálního modelování.
 
-\subsection{Motivace}\mcomment{Tady se musím více rozepsat}
+\subsection{Motivace}
 
 Při začátku vývoje databázových systémů bylo popsáno několik databázových modelů dat.
 Už v roce 1975 je ANSI rozdělila do tří vrstev~\cite{steeljr._interimreport_1975}.
 \begin{itemize}
   \item Konceptuální vrstva popisuje část světa, na kterou vymezujeme svůj diskurz.
   \item Logická vrstva popisuje logickou strukturu dat (např. graf, tabulka, \dots).
-  \item Fyzická vrstva popisuje, jak jsou data fyzicky uložena v paměťové jednotce.
+  \item Fyzická vrstva popisuje, jak jsou data fyzicky uložena.
 \end{itemize}
 
 Přestože databázových modelů bylo navrženo několik, časem se ukázalo, že nejužitečnější je ten relační.
@@ -131,9 +131,11 @@ To proto, že data byla často tabulkové povahy.
 Pokud výjimečně nebyla takové povahy, musela se relačnímu modelu přizpůsobit.
 
 S příchodem potřeby zpracování velkých dat (Big Data)~\cite{cron_bigdata_2012} se ukázalo, že relační model není dostačující.
-Ve velkém množství dat, která spolu nutně nesouvisí, není totiž jednoduché najít tabulkovou strukturu.
-V různých situacích jsou tedy vhodné různé databázové systémy.
-Dokonce se začalo používat více databázových systémů najednou.
+Ve velkém množství dat, která spolu nutně nesouvisí, není totiž vždy vhodné hledat tabulkovou strukturu.
+Ukazuje se, že většina dat reálného světa není relačního charakteru.
+V různých situacích jsou tedy vhodné různé databázové systémy s různými logickými modely.
+Namísto přizpůsobování dat logickému modelu se postupně začal více přizpůsobovat logický model datům.
+Dokonce se začalo používat více databázových systémů najednou v rámci jednoho informačního systému.
 Například pro cache lze použít key/value store, pro data různorodé povahy lze použít dokumentové databáze a pro silně strukturovaná data starší relační databáze.
 
 Naše vize do budoucna je mít jediný databázový systém, který má jediné rozhraní, jediný způsob modelování dat a jediný dotazovací jazyk, ale zároveň není závislý na fyzické vrstvě.
