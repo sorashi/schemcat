@@ -100,7 +100,7 @@ function identifiersToFence(
     .map((line, i) => {
       const found = intersect(pathShape, line)
       if (found.points.length !== 1) {
-        console.log(
+        console.error(
           `Found ${found.points.length} intersections with fence path for line from ${identifierConnections[i].from} to ${identifierConnections[i].to}`
         )
         returnEarly = true
