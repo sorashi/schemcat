@@ -155,7 +155,6 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
   })
 
   useKeyboardShortcut(getShortcut([], 'Delete'), () => {
-    console.log('Deleting', selectedEntityIds)
     if (selectedEntityIds) {
       selectedEntityIds.forEach((selected) => {
         switch (selected.type) {
