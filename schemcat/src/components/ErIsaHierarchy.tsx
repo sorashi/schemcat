@@ -30,6 +30,39 @@ function getMeetingPoint(parentNode: ErNode, childrenNodes: ErNode[]): Vector2 {
   return parentCenter.add(difference.multiply(0.4))
 }
 
+export interface ErIsaHierarchyRawProps {
+  id: number
+  parentNode: ErNode
+  childrenNodes: ErNode[]
+  selected: boolean
+}
+export function ErIsaHierarchyRaw({ id, parentNode, childrenNodes, selected = false }: ErIsaHierarchyRawProps) {
+  const meetingPoint = getMeetingPoint(parentNode, childrenNodes)
+  return (
+    <g strokeWidth={1} stroke='black'>
+      <line
+        markerEnd={getMarkerUrl(emptyTriangleMarkerId)}
+        x1={meetingPoint.x}
+        y1={meetingPoint.y}
+        x2={parentNode.x}
+        y2={parentNode.y}
+        style={selected ? selectedStyle : {}}
+        strokeWidth={strokeWidthMedium}></line>
+
+      {childrenNodes.map((childNode) => (
+        <line
+          key={`er-isa-hierarchy-${id}-child-line-${childNode.id}`}
+          x1={childNode.x}
+          y1={childNode.y}
+          x2={meetingPoint.x}
+          y2={meetingPoint.y}
+          style={selected ? selectedStyle : {}}
+          strokeWidth={strokeWidthMedium}></line>
+      ))}
+    </g>
+  )
+}
+
 function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
   const parentNode = useStore((state: StoreModel) => state.diagram.nodes.find((x) => x.id === erIsaHierarchy.parent))
   const childrenNodes = useStore((state) => state.diagram.nodes.filter((x) => erIsaHierarchy.children.has(x.id)))
@@ -44,27 +77,11 @@ function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
   const selected = selectedEntities.some((x) => x.id === erIsaHierarchy.id)
   return (
     <>
-      <g strokeWidth={1} stroke='black'>
-        <line
-          markerEnd={getMarkerUrl(emptyTriangleMarkerId)}
-          x1={meetingPoint.x}
-          y1={meetingPoint.y}
-          x2={parentNode.x}
-          y2={parentNode.y}
-          style={selected ? selectedStyle : {}}
-          strokeWidth={strokeWidthMedium}></line>
-
-        {childrenNodes.map((childNode) => (
-          <line
-            key={`er-isa-hierarchy-${erIsaHierarchy.id}-child-line-${childNode.id}`}
-            x1={childNode.x}
-            y1={childNode.y}
-            x2={meetingPoint.x}
-            y2={meetingPoint.y}
-            style={selected ? selectedStyle : {}}
-            strokeWidth={strokeWidthMedium}></line>
-        ))}
-      </g>
+      <ErIsaHierarchyRaw
+        id={erIsaHierarchy.id}
+        parentNode={parentNode}
+        childrenNodes={childrenNodes}
+        selected={selected}></ErIsaHierarchyRaw>
       <g strokeWidth={15} stroke='rgba(0,0,0,0)' onClick={onClick}>
         <line x1={meetingPoint.x} y1={meetingPoint.y} x2={parentNode.x} y2={parentNode.y}></line>
         {childrenNodes.map((childNode) => (

@@ -142,5 +142,6 @@ function ErNode(props: ErNodeProps) {
     </>
   )
 }
+ErNode.defaultProps = { selected: false }
 
 export default ErNode

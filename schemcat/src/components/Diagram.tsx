@@ -29,6 +29,7 @@ import { IdentifierFence } from './IdentifierFence'
 import { v4 as uuidv4 } from 'uuid'
 import { plainToClass } from 'class-transformer'
 import { Point } from '../model/Point'
+import { DndItemType } from '../Constants'
 
 interface DiagramProps {
   /** Whether this diagram is in the active tabset while also being the selected node in the tabset. */
@@ -215,22 +216,18 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
 
   const svgRef = useRef(null)
 
-  const [, dropRef] = useDrop(
-    () => ({
-      accept: ['s'],
-      drop: ({ erNodeType }: { erNodeType: ErNodeType }, monitor) => {
+  const [, dropRef] = useDrop(() => {
+    const accept: DndItemType[] = ['er']
+    return {
+      accept: accept,
+      drop: ({ erNodeType, action }: { erNodeType: ErNodeType; action: (x: number, y: number) => void }, monitor) => {
         const { x, y } = monitor.getClientOffset() || { x: 0, y: 0 }
         const point = clientToSvgCoordinates(x, y, svgRef.current)
-        const newNode = new ErNodeModel(erNodeType, erNodeType, point.x, point.y, true)
-        updateDiagram((d) => {
-          d.nodes.push(newNode)
-        })
-        return newNode
+        action(point.x, point.y)
       },
       // collect: monitor => ({ isOver: monitor.isOver(), item: monitor.getItem(), didDrop: monitor.didDrop(), result: monitor.getDropResult() }),
-    }),
-    []
-  )
+    }
+  }, [])
   function viewHierarchies() {
     return hierarchies.map((hierarchy) => (
       <ErIsaHierarchy

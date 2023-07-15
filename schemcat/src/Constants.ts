@@ -13,3 +13,4 @@ export const selectedStrokeStyle: CSSProperties = {
   stroke: 'green',
   strokeDasharray: '5 5',
 }
+export type DndItemType = 'er'
