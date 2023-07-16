@@ -9,6 +9,7 @@ interface ErNodeProps {
   node: ErNodeModel
   height?: number
   selected: boolean
+  autoSize: boolean
 }
 interface ErLabelProps {
   node: ErNodeModel
@@ -120,7 +121,7 @@ function ErNode(props: ErNodeProps) {
   const updateNodeById = useStore((state: StoreModel) => state.updateNodeById)
   const textRef = useRef<SVGTextElement>(null)
   useLayoutEffect(() => {
-    if (textRef.current !== null) {
+    if (textRef.current !== null && props.autoSize && props.node.id >= 0) {
       const width = Math.max(textRef.current.clientWidth, 80)
       const height = Math.max(textRef.current.clientHeight, 35)
       let marginW = 0
@@ -142,6 +143,6 @@ function ErNode(props: ErNodeProps) {
     </>
   )
 }
-ErNode.defaultProps = { selected: false }
+ErNode.defaultProps = { selected: false, autoSize: true }
 
 export default ErNode

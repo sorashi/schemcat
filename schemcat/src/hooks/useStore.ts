@@ -9,6 +9,7 @@ import {
   ErDiagramEntityType,
   ErIsaHierarchy,
   ErDiagramIdentityDiscriminator,
+  Anchor,
 } from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'

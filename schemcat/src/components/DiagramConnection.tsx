@@ -19,11 +19,9 @@ export function linkToPoints(link: Connection, fromNode: ErNodeModel, toNode: Er
   let toAnchorPoint = to.getAnchorPoint(link.toAnchor)
   if (!fromAnchorPoint) {
     fromAnchorPoint = new Vector2(from.x, from.y)
-    console.error(`fromAnchorPoint was undefined`)
   }
   if (!toAnchorPoint) {
     toAnchorPoint = new Vector2(to.x, to.y)
-    console.error(`toAnchorPoint was undefined`)
   }
   return [fromAnchorPoint, toAnchorPoint]
 }

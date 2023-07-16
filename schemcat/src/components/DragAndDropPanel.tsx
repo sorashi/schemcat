@@ -16,6 +16,7 @@ import { DndItemType } from '../Constants'
 import { useStore } from '../hooks/useStore'
 import SvgConnection from './SvgConnection'
 import Vector2 from '../utils/Vector2'
+import React from 'react'
 
 interface DndConstructProps {
   name: string
@@ -70,7 +71,7 @@ function PlainErNodeDndItem({ name, nodeType }: ErNodeDndItemProps) {
         updateDiagram((d) => d.nodes.push(node))
       }}>
       <PositionedSvgGroup x={50} y={25}>
-        <ErNode node={new ErNodeModel(name, nodeType, 0, 0, false)} selected={false}></ErNode>
+        <ErNode node={new ErNodeModel(name, nodeType, 0, 0, false)} selected={false} autoSize={false}></ErNode>
       </PositionedSvgGroup>
     </DndPanelItem>
   )
@@ -103,13 +104,13 @@ function IsaHierarchyDndItem() {
   return (
     <DndPanelItem name='ISA Hierarchy' type='er' action={action}>
       <PositionedSvgGroup x={parent.x} y={parent.y}>
-        <ErNode node={parent}></ErNode>
+        <ErNode node={parent} autoSize={false}></ErNode>
       </PositionedSvgGroup>
       <PositionedSvgGroup x={child1.x} y={child1.y}>
-        <ErNode node={child1}></ErNode>
+        <ErNode node={child1} autoSize={false}></ErNode>
       </PositionedSvgGroup>
       <PositionedSvgGroup x={child2.x} y={child2.y}>
-        <ErNode node={child2}></ErNode>
+        <ErNode node={child2} autoSize={false}></ErNode>
       </PositionedSvgGroup>
       <ErIsaHierarchyRaw
         parentNode={parent}
@@ -156,15 +157,15 @@ function ErEntityTypeWithAttributesDndItem() {
       action={action}
       viewBox={new Rectangle(-30, -25, 325, 150)}>
       <PositionedSvgGroup x={entityType.x} y={entityType.y}>
-        <ErNode node={entityType}></ErNode>
+        <ErNode node={entityType} autoSize={false}></ErNode>
       </PositionedSvgGroup>
       {attributes.map((a) => (
-        <>
+        <React.Fragment key={`er-entitytype-with-attributes-${a.id}`}>
           <SvgConnection points={[entityTypeBottom, a]} pathId={`path-${a.id}`}></SvgConnection>
           <PositionedSvgGroup x={a.x} y={a.y} key={`dnd-attribute-${a.id}`}>
-            <ErNode node={a}></ErNode>
+            <ErNode node={a} autoSize={false}></ErNode>
           </PositionedSvgGroup>
-        </>
+        </React.Fragment>
       ))}
     </DndPanelItem>
   )
