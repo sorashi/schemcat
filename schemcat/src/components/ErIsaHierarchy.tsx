@@ -1,9 +1,11 @@
+import { useMemo } from 'react'
 import { strokeWidthMedium } from '../Constants'
 import { StoreModel, useStore } from '../hooks/useStore'
-import { ErIsaHierarchy as ErIsaHierarchyModel, ErNode } from '../model/DiagramModel'
+import { Anchor, ErIsaHierarchy as ErIsaHierarchyModel, ErNode } from '../model/DiagramModel'
 import Vector2 from '../utils/Vector2'
 import { getMarkerUrl } from './Markers'
 import { emptyTriangleMarkerId } from './Markers/EmptyTriangleMarker'
+import isEqual from 'react-fast-compare'
 
 interface ErIsaHierarchyProps {
   erIsaHierarchy: ErIsaHierarchyModel
@@ -15,50 +17,82 @@ const selectedStyle = {
   strokeDasharray: '5,5',
 }
 
+function getNodePosition(node: ErNode, anchor: Anchor | undefined): Vector2 {
+  let pos = new Vector2(node.x, node.y)
+  if (anchor) {
+    const anchorPoint = node.getAnchorPoint(anchor)
+    if (anchorPoint) pos = anchorPoint
+  }
+  return pos
+}
+
 /**
  * Find a meeting point
  */
-function getMeetingPoint(parentNode: ErNode, childrenNodes: ErNode[]): Vector2 {
+function getMeetingPoint(
+  parentNode: ErNode,
+  childrenNodes: ErNode[],
+  erIsaHierarchy: ErIsaHierarchyModel | undefined
+): Vector2 {
   if (childrenNodes.length <= 0) {
     throw new Error('childrenNodes.length <= 0')
   }
-  const parentCenter = new Vector2(parentNode.x, parentNode.y)
-  const childCenter = childrenNodes
-    .reduce((acc, childNode) => acc.add(new Vector2(childNode.x, childNode.y)), new Vector2(0, 0))
+  const parentPos = getNodePosition(parentNode, erIsaHierarchy?.parentAnchor)
+  const averageChildrenPosition = childrenNodes
+    .reduce(
+      (acc, childNode) => acc.add(getNodePosition(childNode, erIsaHierarchy?.childrenAnchors.get(childNode.id))),
+      new Vector2(0, 0)
+    )
     .multiply(1 / childrenNodes.length)
-  const difference = childCenter.subtract(parentCenter)
-  return parentCenter.add(difference.multiply(0.4))
+  const difference = averageChildrenPosition.subtract(parentPos)
+  return parentPos.add(difference.multiply(0.5))
 }
 
 export interface ErIsaHierarchyRawProps {
   id: number
   parentNode: ErNode
   childrenNodes: ErNode[]
+  erIsaHierarchy: ErIsaHierarchyModel
   selected: boolean
 }
-export function ErIsaHierarchyRaw({ id, parentNode, childrenNodes, selected = false }: ErIsaHierarchyRawProps) {
-  const meetingPoint = getMeetingPoint(parentNode, childrenNodes)
+
+export function ErIsaHierarchyRaw({
+  id,
+  parentNode,
+  childrenNodes,
+  erIsaHierarchy,
+  selected = false,
+}: ErIsaHierarchyRawProps) {
+  const meetingPoint = getMeetingPoint(parentNode, childrenNodes, erIsaHierarchy)
+  const parentPos = useMemo(
+    () => getNodePosition(parentNode, erIsaHierarchy?.parentAnchor),
+    [parentNode, erIsaHierarchy]
+  )
   return (
     <g strokeWidth={1} stroke='black'>
       <line
         markerEnd={getMarkerUrl(emptyTriangleMarkerId)}
         x1={meetingPoint.x}
         y1={meetingPoint.y}
-        x2={parentNode.x}
-        y2={parentNode.y}
+        x2={parentPos?.x || parentNode.x}
+        y2={parentPos?.y || parentNode.y}
         style={selected ? selectedStyle : {}}
         strokeWidth={strokeWidthMedium}></line>
 
-      {childrenNodes.map((childNode) => (
-        <line
-          key={`er-isa-hierarchy-${id}-child-line-${childNode.id}`}
-          x1={childNode.x}
-          y1={childNode.y}
-          x2={meetingPoint.x}
-          y2={meetingPoint.y}
-          style={selected ? selectedStyle : {}}
-          strokeWidth={strokeWidthMedium}></line>
-      ))}
+      {childrenNodes.map((childNode) => {
+        const childAnchor = erIsaHierarchy.childrenAnchors.get(childNode.id)
+        const nodePos = getNodePosition(childNode, childAnchor)
+        return (
+          <line
+            key={`er-isa-hierarchy-${id}-child-line-${childNode.id}`}
+            x1={nodePos.x}
+            y1={nodePos.y}
+            x2={meetingPoint.x}
+            y2={meetingPoint.y}
+            style={selected ? selectedStyle : {}}
+            strokeWidth={strokeWidthMedium}></line>
+        )
+      })}
     </g>
   )
 }
@@ -81,6 +115,7 @@ function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
         id={erIsaHierarchy.id}
         parentNode={parentNode}
         childrenNodes={childrenNodes}
+        erIsaHierarchy={erIsaHierarchy}
         selected={selected}></ErIsaHierarchyRaw>
       <g strokeWidth={15} stroke='rgba(0,0,0,0)' onClick={onClick}>
         <line x1={meetingPoint.x} y1={meetingPoint.y} x2={parentNode.x} y2={parentNode.y}></line>

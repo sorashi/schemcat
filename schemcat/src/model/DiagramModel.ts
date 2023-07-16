@@ -2,9 +2,9 @@ import 'reflect-metadata'
 import { immerable } from 'immer'
 
 import globalIdGenerator from '../utils/GlobalIdGenerator'
-import { Transform, Type } from 'class-transformer'
+import { Transform, TransformFnParams, TransformationType, Type } from 'class-transformer'
 import Vector2 from '../utils/Vector2'
-import { assertNever, PartialRecord } from '../utils/Types'
+import { assertNever, PartialRecord, ValueType } from '../utils/Types'
 import { LineSegment } from '../utils/LineSegment'
 
 export enum ControlPanelViewType {
@@ -96,15 +96,48 @@ export interface ErDiagramIdentityDiscriminator {
   type: ErDiagramEntityType
 }
 
+/**
+ * (De)serialization transformation of Map<K, V>.
+ * Should be supported by the [class-transformer](https://github.com/typestack/class-transformer)
+ * library out-of-the-box, but it doesn't work for some reason.
+ * Note that this transformation is currently only shallow (for our purposes),
+ * and thus its generic parameters are restrained to {@link ValueType}.
+ */
+function mapTransformation<K extends ValueType, V extends ValueType>(params: TransformFnParams): Map<K, V> | [K, V][] {
+  if (params.type === TransformationType.CLASS_TO_PLAIN) {
+    const map: Map<K, V> = params.value
+    const arr = []
+    for (const entry of map.entries()) {
+      arr.push(entry)
+    }
+    return arr
+  } else if (params.type === TransformationType.PLAIN_TO_CLASS) {
+    const arr: [K, V][] = params.value
+    if (!Array.isArray(arr)) console.error('You are converting plainToInstance, but received instance, not plain!')
+    const map: Map<K, V> = new Map<K, V>(arr)
+    return map
+  } else {
+    const msg = `Unsupported transformation of Map<>: ${params.type}`
+    console.error(msg)
+    throw Error(msg)
+  }
+}
+
 export class ErIsaHierarchy {
   [immerable] = true
   public id = -1
   public parent = -1
+  public parentAnchor = Anchor.Left
   @Transform((value) => new Set(value.value))
   public children: Set<number> = new Set()
+  @Transform(mapTransformation<number, Anchor>)
+  public childrenAnchors: Map<number, Anchor> = new Map<number, Anchor>()
   constructor(parent = -1, children: Iterable<number> | undefined = undefined, newId = false) {
     if (newId) this.id = globalIdGenerator.nextId()
-    if (children) this.children = new Set(children)
+    if (children) {
+      this.children = new Set(children)
+      this.children.forEach((c) => this.childrenAnchors.set(c, Anchor.Right))
+    }
     this.parent = parent
   }
 }
@@ -165,7 +198,9 @@ export class DiagramNode {
     else this.id = -1
     this.label = label
   }
-  getAnchorPoints?: () => PartialRecord<Anchor, Vector2>
+  getAnchorPoints(): PartialRecord<Anchor, Vector2> {
+    return {}
+  }
 }
 export enum ErNodeType {
   EntityType = 'Entity Type',
@@ -184,7 +219,7 @@ export class ErNode extends DiagramNode {
     super(label, x, y, newId)
     this.type = type
   }
-  getAnchorPoints = (): PartialRecord<Anchor, Vector2> => {
+  getAnchorPoints(): PartialRecord<Anchor, Vector2> {
     const top = this.y
     const bottom = this.y + this.height
     const left = this.x

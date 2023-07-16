@@ -281,7 +281,7 @@ export const useStore = create<StoreModel>()(
           getItem: (name: string) => {
             let plain: StorageValue<DeepPartial<StoreModel>> | null = JSON.parse(localStorage.getItem(name) || 'null')
             if (plain === null) {
-              plain = { state: { diagram: exampleDiagram() } }
+              plain = { state: { diagram: instanceToPlain<DiagramModel>(exampleDiagram()) } }
             }
             plain.state.diagram = plainToInstance(DiagramModel, plain.state.diagram)
             globalIdGenerator.id = getMaxIdFromModel(plain.state)

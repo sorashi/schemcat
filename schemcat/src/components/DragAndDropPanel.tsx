@@ -1,5 +1,5 @@
 import ErNode from './ErNode'
-import { ErIsaHierarchy, ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
+import { Anchor, ErIsaHierarchy, ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import { useDrag } from 'react-dnd'
 import { useMemo } from 'react'
 import ErIsaHierarchyComponent, { ErIsaHierarchyRaw } from '../components/ErIsaHierarchy'
@@ -74,6 +74,10 @@ function IsaHierarchyDndItem() {
   child2.id = -2
   const parent = new ErNodeModel('Parent', ErNodeType.EntityType, 50, 0, false)
   const updateDiagram = useStore((state) => state.updateDiagram)
+  const isaHierarchy = new ErIsaHierarchy(parent.id, [child1.id, child2.id], false)
+  isaHierarchy.parentAnchor = Anchor.Bottom
+  isaHierarchy.childrenAnchors.set(child1.id, Anchor.Top)
+  isaHierarchy.childrenAnchors.set(child2.id, Anchor.Top)
   function action(x: number, y: number) {
     const parent = new ErNodeModel('Parent', ErNodeType.EntityType, x, y, true)
     const child1 = new ErNodeModel('Child1', ErNodeType.EntityType, x + 75, y + 100, true)
@@ -99,6 +103,7 @@ function IsaHierarchyDndItem() {
         parentNode={parent}
         childrenNodes={[child1, child2]}
         id={0}
+        erIsaHierarchy={isaHierarchy}
         selected={false}></ErIsaHierarchyRaw>
     </DndPanelItem>
   )

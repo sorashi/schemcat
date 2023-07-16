@@ -22,3 +22,5 @@ export function notEmpty<TValue>(value: TValue | null | undefined): value is TVa
   const testDummy: TValue = value
   return true
 }
+
+export type ValueType = string | number | boolean
