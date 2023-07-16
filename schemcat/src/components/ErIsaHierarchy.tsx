@@ -121,12 +121,14 @@ function ErIsaHierarchy({ erIsaHierarchy, onClick }: ErIsaHierarchyProps) {
       <g strokeWidth={15} stroke='rgba(0,0,0,0)' onClick={onClick}>
         <line x1={meetingPoint.x} y1={meetingPoint.y} x2={parentPos.x} y2={parentPos.y}></line>
         {childrenNodes.map((childNode) => {
-          ;<line
-            key={`er-isa-hierarchy-${erIsaHierarchy.id}-child-line-${childNode.id}`}
-            x1={childNode.x}
-            y1={childNode.y}
-            x2={meetingPoint.x}
-            y2={meetingPoint.y}></line>
+          return (
+            <line
+              key={`er-isa-hierarchy-${erIsaHierarchy.id}-child-line-${childNode.id}`}
+              x1={childNode.x}
+              y1={childNode.y}
+              x2={meetingPoint.x}
+              y2={meetingPoint.y}></line>
+          )
         })}
       </g>
     </>
