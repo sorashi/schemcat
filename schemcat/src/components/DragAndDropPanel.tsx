@@ -9,18 +9,13 @@ import {
   Rectangle,
 } from '../model/DiagramModel'
 import { useDrag } from 'react-dnd'
-import { useMemo } from 'react'
-import ErIsaHierarchyComponent, { ErIsaHierarchyRaw } from '../components/ErIsaHierarchy'
+import { ErIsaHierarchyRaw } from '../components/ErIsaHierarchy'
 import { PositionedSvgGroup } from './PositionedSvgGroup'
 import { EmptyTriangleMarker, TwoSidedMarker } from './Markers'
 import { DndItemType } from '../Constants'
 import { useStore } from '../hooks/useStore'
 import SvgConnection from './SvgConnection'
 import Vector2 from '../utils/Vector2'
-
-interface DragAndDropPanelItemProps {
-  erNodeType: ErNodeType
-}
 
 interface DndConstructProps {
   name: string
@@ -97,6 +92,9 @@ function IsaHierarchyDndItem() {
     const child1 = new ErNodeModel('Child1', ErNodeType.EntityType, x + 75, y + 100, true)
     const child2 = new ErNodeModel('Child2', ErNodeType.EntityType, x - 75, y + 100, true)
     const hierarchy = new ErIsaHierarchy(parent.id, [child1.id, child2.id], true)
+    hierarchy.parentAnchor = Anchor.Bottom
+    hierarchy.childrenAnchors.set(child1.id, Anchor.Top)
+    hierarchy.childrenAnchors.set(child2.id, Anchor.Top)
     updateDiagram((d) => {
       d.nodes.push(parent, child1, child2)
       d.hierarchies.push(hierarchy)
