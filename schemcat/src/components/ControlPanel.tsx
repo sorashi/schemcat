@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { getErEntityByDiscriminator, useStore } from '../hooks/useStore'
 import {
   Anchor,
@@ -8,6 +8,7 @@ import {
   Connection,
   ControlPanelViewType,
   EnumTypeMetadataKey,
+  ErDiagramEntity,
   ErDiagramIdentityDiscriminator,
   ErIdentifier,
   ErIsaHierarchy,
@@ -117,21 +118,55 @@ function CardinalityView(props: ControlPanelViewProps) {
 }
 
 function AnchorPickerView(props: ControlPanelViewProps) {
-  const updateConnectionById = useStore((state) => state.updateConnectionById)
-  const link = useStore(
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const entity = useStore(
     useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
-  ) as Connection
+  ) as ErEntity
+
   return (
     <AnchorPicker
-      initialAnchor={link[props.propertyKey as keyof Connection] as Anchor}
+      initialAnchor={entity[props.propertyKey as keyof ErEntity] as Anchor}
       enabled={enabledAnchorsCombinations.all}
       onChanged={(anchor) =>
-        updateConnectionById(
-          link.id,
-          (c) => ((c as Record<keyof Connection, unknown>)[props.propertyKey as keyof Connection] = anchor)
+        updateErEntityByDiscriminator(
+          props.entity,
+          (c) => ((c as Record<keyof ErDiagramEntity, unknown>)[props.propertyKey as keyof ErDiagramEntity] = anchor)
         )
       }
     />
+  )
+}
+
+function ChilrenAnchorsView(props: ControlPanelViewProps) {
+  const entity = useStore(
+    useCallback((state) => getErEntityByDiscriminator(state, props.entity), [props.entity])
+  ) as ErIsaHierarchy
+  const nodes = useStore((state) => state.diagram.nodes)
+  const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const childrenAnchors = entity[props.propertyKey as keyof ErIsaHierarchy] as Map<number, Anchor>
+  const keys: number[] = Array(...childrenAnchors.keys())
+  keys.sort()
+  return (
+    <dl className='border border-gray-400 rounded p-2'>
+      {keys.map((k) => {
+        const node = nodes.find((x) => x.id === k)
+        return (
+          <React.Fragment key={`children-anchors-view-anchor-picker-${k}`}>
+            <dt>{node?.label || 'child'}</dt>
+            <dd className='mb-3'>
+              <AnchorPicker
+                enabled={enabledAnchorsCombinations.all}
+                onChanged={(anchor) =>
+                  updateErEntityByDiscriminator(props.entity, (isa: ErIsaHierarchy) =>
+                    isa.childrenAnchors.set(k, anchor)
+                  )
+                }
+                initialAnchor={childrenAnchors.get(k)}></AnchorPicker>
+            </dd>
+          </React.Fragment>
+        )
+      })}
+    </dl>
   )
 }
 
@@ -155,6 +190,8 @@ function ControlPanelView(props: ControlPanelViewProps) {
       return <AnchorPickerView {...props} />
     case ControlPanelViewType.Cardinality:
       return <CardinalityView {...props} />
+    case ControlPanelViewType.ChildrenAnchors:
+      return <ChilrenAnchorsView {...props} />
     default:
       // eslint-disable-next-line no-case-declarations
       const message = 'Unknown ControlPanelViewType: ' + props.metadata.controlPanelViewType
@@ -171,18 +208,33 @@ function ControlPanelPropertyDescription({
   prp: string | symbol
 }) {
   const entity = useStore(useCallback((state) => getErEntityByDiscriminator(state, entityId), [entityId]))
+  const nodes = useStore((state) => state.diagram.nodes)
 
   const connection = entity as Connection
-  const nodeId = prp === 'fromAnchor' ? connection.fromId : connection.toId
-  const nodeName = useStore((state) => state.diagram.nodes.find((n) => n.id === nodeId)?.label)
-  return (
-    <dt className='font-bold'>
-      {(entityId.type === 'ErConnection' &&
-        (prp === 'fromAnchor' || prp === 'toAnchor') &&
-        `${String(prp)} (${nodeName})`) ||
-        String(prp)}
-    </dt>
-  )
+  let propertyDescription = String(prp)
+  switch (entityId.type) {
+    case 'ErNode':
+    case 'ErIdentifier':
+      break
+    case 'ErConnection': {
+      if (prp !== 'fromAnchor' && prp !== 'toAnchor') break
+      const nodeId = prp === 'fromAnchor' ? connection.fromId : connection.toId
+      const nodeName = nodes.find((n) => n.id === nodeId)?.label
+      propertyDescription = `${String(prp)} (${nodeName})`
+      break
+    }
+    case 'ErIsaHierarchy': {
+      if (prp !== 'parentAnchor') break
+      const hierarchy = entity as ErIsaHierarchy
+      const nodeId = hierarchy.parent
+      const nodeName = nodes.find((n) => n.id === nodeId)?.label
+      propertyDescription = `${String(prp)} (${nodeName})`
+      break
+    }
+    default:
+      assertNever(entityId.type)
+  }
+  return <dt className='font-bold'>{propertyDescription}</dt>
 }
 
 function ControlPanel() {

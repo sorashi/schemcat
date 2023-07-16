@@ -14,6 +14,7 @@ export enum ControlPanelViewType {
   ComboBox,
   AnchorPicker,
   Cardinality,
+  ChildrenAnchors,
 }
 
 export const IncludeInControlPanelMetadataKey: unique symbol = Symbol('IncludeInControlPanelMetadataKey')
@@ -130,10 +131,12 @@ export class ErIsaHierarchy {
   [immerable] = true
   public id = -1
   public parent = -1
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
   public parentAnchor = Anchor.Left
   @Transform((value) => new Set(value.value))
   public children: Set<number> = new Set()
   @Transform(mapTransformation<number, Anchor>)
+  @IncludeInControlPanel(ControlPanelViewType.ChildrenAnchors)
   public childrenAnchors: Map<number, Anchor> = new Map<number, Anchor>()
   constructor(parent = -1, children: Iterable<number> | undefined = undefined, newId = false) {
     if (newId) this.id = globalIdGenerator.nextId()
