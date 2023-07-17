@@ -29,6 +29,7 @@
   "dependencies": {
     "buffer": "^6.0.3",
     "class-transformer": "^0.5.1",
+    "feather-icons": "^4.29.0",
     "flexlayout-react": "^0.7.7",
     "immer": "^10.0.2",
     "png-chunk-text": "^1.0.0",
@@ -46,6 +47,7 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
+    "@types/feather-icons": "^4.29.1",
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
     "@types/svg-intersections": "^0.4.1",

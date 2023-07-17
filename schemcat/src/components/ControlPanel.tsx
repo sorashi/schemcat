@@ -147,7 +147,7 @@ function ChilrenAnchorsView(props: ControlPanelViewProps) {
   const keys: number[] = Array(...childrenAnchors.keys())
   keys.sort()
   return (
-    <dl className='border border-gray-400 rounded p-2'>
+    <dl className='border border-gray-400 rounded p-2 w-fit'>
       {keys.map((k) => {
         const node = nodes.find((x) => x.id === k)
         return (
