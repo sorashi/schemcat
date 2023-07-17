@@ -57,8 +57,9 @@ export const AnchorPicker: React.FC<AnchorPickerProps> = ({
           onClick={() => handleAnchorSelection(position)}
           disabled={!enabled.includes(position)}>
           <div
+            className='flex justify-center'
             dangerouslySetInnerHTML={{
-              __html: feather.icons[anchorIcons.get(position) || 'alert-circle'].toSvg(),
+              __html: feather.icons[anchorIcons.get(position) || 'alert-circle'].toSvg({ width: '1em', height: '1em' }),
             }}></div>
         </button>
       ))}
