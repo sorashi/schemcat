@@ -9,12 +9,11 @@ import {
   ErDiagramEntityType,
   ErIsaHierarchy,
   ErDiagramIdentityDiscriminator,
-  Anchor,
 } from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'
 import { temporal } from 'zundo'
-import { produce, enableMapSet } from 'immer'
+import { produce } from 'immer'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { assertNever, DeepPartial } from '../utils/Types'
 import globalIdGenerator from '../utils/GlobalIdGenerator'
