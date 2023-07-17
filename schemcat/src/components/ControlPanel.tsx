@@ -13,6 +13,7 @@ import {
   ErIdentifier,
   ErIsaHierarchy,
   ErNode,
+  ErNodeType,
   IncludeInControlPanelMetadata,
   IncludeInControlPanelMetadataKey,
 } from '../model/DiagramModel'
@@ -256,6 +257,8 @@ function ControlPanel() {
               prp as keyof typeof selectedEntity
             )
             if (metadata === undefined) return null
+            if (prp === 'attributeTextPosition' && (selectedEntity as ErNode).type !== ErNodeType.AttributeType)
+              return null
             return (
               <div key={`${selectedEntity.id}-${String(prp)}`}>
                 <ControlPanelPropertyDescription entityId={selectedEntityId} prp={prp} />

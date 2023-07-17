@@ -1,9 +1,10 @@
-import React, { CSSProperties, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { getIdentifierById, getIdentifiersByIds, StoreModel, useStore } from '../hooks/useStore'
-import { ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { getIdentifierById, StoreModel, useStore } from '../hooks/useStore'
+import { Anchor, ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
 import isEqual from 'react-fast-compare'
 import { attributeCircleRadius, attributeLabelMargin, rectangleCornerRadius, strokeWidthThick } from '../Constants'
+import { assertNever } from '../utils/Types'
 
 interface ErNodeProps {
   node: ErNodeModel
@@ -26,20 +27,107 @@ const selectedNodeStyle = {
   strokeDasharray: '3,3',
 }
 
-const ErLabelByType = React.forwardRef<SVGTextElement, ErLabelProps>(
-  (props: ErLabelProps, textRef: React.ForwardedRef<SVGTextElement>) => {
-    const { node } = props
-    if (node.type === ErNodeType.AttributeType) {
+function ErAttributeLabel({ node }: ErLabelProps) {
+  switch (node.attributeTextPosition) {
+    case Anchor.Top:
+      return (
+        <text
+          x={0}
+          y={-attributeCircleRadius - attributeLabelMargin}
+          textAnchor='middle'
+          dominantBaseline='auto'
+          alignmentBaseline='baseline'>
+          {node.label}
+        </text>
+      )
+    case Anchor.Bottom:
+      return (
+        <text
+          x={0}
+          y={attributeCircleRadius + attributeLabelMargin}
+          textAnchor='middle'
+          dominantBaseline='hanging'
+          alignmentBaseline='hanging'>
+          {node.label}
+        </text>
+      )
+    case Anchor.Center:
+    case Anchor.Right:
       return (
         <text
           x={attributeCircleRadius + attributeLabelMargin}
           y={0}
           dominantBaseline='middle'
           alignmentBaseline='middle'
-          textAnchor='left'>
+          textAnchor='start'>
           {node.label}
         </text>
       )
+    case Anchor.Left:
+      return (
+        <text
+          x={-attributeCircleRadius - attributeLabelMargin}
+          y={0}
+          dominantBaseline='middle'
+          alignmentBaseline='middle'
+          textAnchor='end'>
+          {node.label}
+        </text>
+      )
+    case Anchor.TopLeft:
+      return (
+        <text
+          x={-attributeLabelMargin}
+          y={-attributeLabelMargin}
+          dominantBaseline='auto'
+          alignmentBaseline='baseline'
+          textAnchor='end'>
+          {node.label}
+        </text>
+      )
+    case Anchor.TopRight:
+      return (
+        <text
+          x={attributeLabelMargin}
+          y={-attributeLabelMargin}
+          dominantBaseline='auto'
+          alignmentBaseline='baseline'
+          textAnchor='start'>
+          {node.label}
+        </text>
+      )
+    case Anchor.BottomLeft:
+      return (
+        <text
+          x={-attributeLabelMargin}
+          y={attributeLabelMargin}
+          dominantBaseline='hanging'
+          alignmentBaseline='hanging'
+          textAnchor='end'>
+          {node.label}
+        </text>
+      )
+    case Anchor.BottomRight:
+      return (
+        <text
+          x={attributeLabelMargin}
+          y={attributeLabelMargin}
+          dominantBaseline='hanging'
+          alignmentBaseline='hanging'
+          textAnchor='start'>
+          {node.label}
+        </text>
+      )
+    default:
+      assertNever(node.attributeTextPosition)
+  }
+}
+
+const ErLabelByType = React.forwardRef<SVGTextElement, ErLabelProps>(
+  (props: ErLabelProps, textRef: React.ForwardedRef<SVGTextElement>) => {
+    const { node } = props
+    if (node.type === ErNodeType.AttributeType) {
+      return <ErAttributeLabel node={node}></ErAttributeLabel>
     } else {
       return (
         <text

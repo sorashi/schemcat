@@ -69,6 +69,9 @@ export class Rectangle {
   get bottom() {
     return this.y + this.height
   }
+  get center(): Vector2 {
+    return new Vector2(this.x + this.width / 2, this.y + this.height / 2)
+  }
   getLineSegments(): LineSegment[] {
     const topLeft = new Vector2(this.x, this.y)
     const topRight = new Vector2(this.x + this.width, this.y)
@@ -221,6 +224,8 @@ export class ErNode extends DiagramNode {
   /** Set of {@link ErIdentifier#id} */
   @Transform((value) => new Set(value.value))
   identifiers: Set<number> = new Set()
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  attributeTextPosition: Anchor = Anchor.Right
   constructor(label = 'Label', type: ErNodeType = ErNodeType.EntityType, x = 0, y = 0, newId = false) {
     super(label, x, y, newId)
     this.type = type
