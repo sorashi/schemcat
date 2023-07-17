@@ -1,4 +1,4 @@
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import { getIdentifierById, StoreModel, useStore } from '../hooks/useStore'
 import { Anchor, ErNode as ErNodeModel, ErNodeType } from '../model/DiagramModel'
 import SvgDiamondShape from './SvgDiamondShape'
