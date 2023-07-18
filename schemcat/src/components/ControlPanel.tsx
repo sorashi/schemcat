@@ -160,7 +160,7 @@ function ChilrenAnchorsView(props: ControlPanelViewProps) {
                 onChanged={(anchor) =>
                   updateErEntityByDiscriminator(props.entity, (entity: ErDiagramEntity) => {
                     const isa = entity as ErIsaHierarchy
-                    return isa.childrenAnchors.set(k, anchor)
+                    isa.childrenAnchors.set(k, anchor)
                   })
                 }
                 initialAnchor={childrenAnchors.get(k)}></AnchorPicker>
