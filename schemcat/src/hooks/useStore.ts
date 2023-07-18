@@ -27,13 +27,14 @@ function exampleDiagram(): DiagramModel {
   const person = new ErNode('Person', ErNodeType.EntityType, 20, 1, true)
   const student = new ErNode('Student', ErNodeType.EntityType, -190, -90, true)
   const teacher = new ErNode('Teacher', ErNodeType.EntityType, -190, 15, true)
-  const givenName = new ErNode('givenName', ErNodeType.AttributeType, -90, 110, true)
+  const givenName = new ErNode('givenName', ErNodeType.AttributeType, -60, 110, true)
+  givenName.attributeTextPosition = Anchor.Left
   const surname = new ErNode('surname', ErNodeType.AttributeType, 10, 110, true)
-  const nationalId = new ErNode('nationalId', ErNodeType.AttributeType, 65, -70, true)
+  const nationalId = new ErNode('nationalId', ErNodeType.AttributeType, 70, -70, true)
   nationalId.width = 120
   const age = new ErNode('age', ErNodeType.AttributeType, 105, 110, true)
   const team = new ErNode('Team', ErNodeType.EntityType, 20, 200, true)
-  const teamName = new ErNode('name', ErNodeType.AttributeType, 20, 300, true)
+  const teamName = new ErNode('name', ErNodeType.AttributeType, 70, 300, true)
   const teamMember = new ErNode('member', ErNodeType.RelationshipType, 200, 150, true)
   diagram.nodes = [person, student, teacher, givenName, surname, age, nationalId, team, teamName, teamMember]
   diagram.links = [
