@@ -22,13 +22,15 @@ export const EnumTypeMetadataKey: unique symbol = Symbol('EnumTypeMetadataKey')
 
 export class IncludeInControlPanelMetadata {
   controlPanelViewType: ControlPanelViewType
-  constructor(controlPanelViewType: ControlPanelViewType) {
+  propertyLabel: string | undefined
+  constructor(controlPanelViewType: ControlPanelViewType, propertyLabel: string | undefined = undefined) {
     this.controlPanelViewType = controlPanelViewType
+    this.propertyLabel = propertyLabel
   }
 }
 
-export function IncludeInControlPanel(viewType: ControlPanelViewType) {
-  return Reflect.metadata(IncludeInControlPanelMetadataKey, new IncludeInControlPanelMetadata(viewType))
+export function IncludeInControlPanel(viewType: ControlPanelViewType, propertyLabel: string | undefined = undefined) {
+  return Reflect.metadata(IncludeInControlPanelMetadataKey, new IncludeInControlPanelMetadata(viewType, propertyLabel))
 }
 
 export function EnumType(enumType: unknown) {
@@ -134,12 +136,12 @@ export class ErIsaHierarchy {
   [immerable] = true
   public id = -1
   public parent = -1
-  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker, 'parent anchor')
   public parentAnchor = Anchor.Left
   @Transform((value) => new Set(value.value))
   public children: Set<number> = new Set()
   @Transform(mapTransformation<number, Anchor>)
-  @IncludeInControlPanel(ControlPanelViewType.ChildrenAnchors)
+  @IncludeInControlPanel(ControlPanelViewType.ChildrenAnchors, 'children anchors')
   public childrenAnchors: Map<number, Anchor> = new Map<number, Anchor>()
   constructor(parent = -1, children: Iterable<number> | undefined = undefined, newId = false) {
     if (newId) this.id = globalIdGenerator.nextId()
@@ -224,7 +226,7 @@ export class ErNode extends DiagramNode {
   /** Set of {@link ErIdentifier#id} */
   @Transform((value) => new Set(value.value))
   identifiers: Set<number> = new Set()
-  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker, 'attribute text position')
   attributeTextPosition: Anchor = Anchor.Right
   constructor(label = 'Label', type: ErNodeType = ErNodeType.EntityType, x = 0, y = 0, newId = false) {
     super(label, x, y, newId)
@@ -317,9 +319,9 @@ export class Connection {
   @Type(() => Cardinality)
   @IncludeInControlPanel(ControlPanelViewType.Cardinality)
   cardinality: Cardinality
-  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker, 'anchor from')
   fromAnchor: Anchor = Anchor.Right
-  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker)
+  @IncludeInControlPanel(ControlPanelViewType.AnchorPicker, 'anchor to')
   toAnchor: Anchor = Anchor.Left
   constructor(fromId = -1, toId = -1, cardinality = new Cardinality(), newId = false) {
     this.id = newId ? globalIdGenerator.nextId() : -1

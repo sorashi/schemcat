@@ -204,15 +204,18 @@ function ControlPanelView(props: ControlPanelViewProps) {
 function ControlPanelPropertyDescription({
   entityId,
   prp,
+  metadata,
 }: {
   entityId: ErDiagramIdentityDiscriminator
   prp: string | symbol
+  metadata: IncludeInControlPanelMetadata | undefined
 }) {
   const entity = useStore(useCallback((state) => getErEntityByDiscriminator(state, entityId), [entityId]))
   const nodes = useStore((state) => state.diagram.nodes)
+  const properyLabel = metadata?.propertyLabel || String(prp)
 
   const connection = entity as Connection
-  let propertyDescription = String(prp)
+  let propertyDescription = properyLabel
   switch (entityId.type) {
     case 'ErNode':
     case 'ErIdentifier':
@@ -221,7 +224,7 @@ function ControlPanelPropertyDescription({
       if (prp !== 'fromAnchor' && prp !== 'toAnchor') break
       const nodeId = prp === 'fromAnchor' ? connection.fromId : connection.toId
       const nodeName = nodes.find((n) => n.id === nodeId)?.label
-      propertyDescription = `${String(prp)} (${nodeName})`
+      propertyDescription = `${properyLabel} (${nodeName})`
       break
     }
     case 'ErIsaHierarchy': {
@@ -229,7 +232,7 @@ function ControlPanelPropertyDescription({
       const hierarchy = entity as ErIsaHierarchy
       const nodeId = hierarchy.parent
       const nodeName = nodes.find((n) => n.id === nodeId)?.label
-      propertyDescription = `${String(prp)} (${nodeName})`
+      propertyDescription = `${properyLabel} (${nodeName})`
       break
     }
     default:
@@ -261,7 +264,7 @@ function ControlPanel() {
               return null
             return (
               <div key={`${selectedEntity.id}-${String(prp)}`}>
-                <ControlPanelPropertyDescription entityId={selectedEntityId} prp={prp} />
+                <ControlPanelPropertyDescription metadata={metadata} entityId={selectedEntityId} prp={prp} />
                 <dd className='ml-4'>
                   <ControlPanelView
                     key={`${selectedEntity.id}-${String(prp)}`}
