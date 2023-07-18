@@ -9,6 +9,7 @@ import {
   ErDiagramEntityType,
   ErIsaHierarchy,
   ErDiagramIdentityDiscriminator,
+  ErDiagramEntity,
 } from '../model/DiagramModel'
 import { create } from 'zustand'
 import { devtools, persist, StorageValue } from 'zustand/middleware'
@@ -70,7 +71,10 @@ export interface StoreModel {
   /** calls and update function on the node */
   updateNodeById: (id: number, update: (node: DiagramNode) => void) => void
   updateConnectionById: (id: number, update: (node: Connection) => void) => void
-  updateErEntityByDiscriminator: (discriminator: ErDiagramIdentityDiscriminator, update: (entity: any) => void) => void
+  updateErEntityByDiscriminator: (
+    discriminator: ErDiagramIdentityDiscriminator,
+    update: (entity: ErDiagramEntity) => void
+  ) => void
   removeIdentifierById: (id: number) => void
   addIdentifier: (identifier: ErIdentifier) => void
   removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void

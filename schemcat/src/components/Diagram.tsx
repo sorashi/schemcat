@@ -6,6 +6,7 @@ import {
   Cardinality,
   ErIdentifier,
   Rectangle,
+  ErDiagramEntity,
 } from '../model/DiagramModel'
 import ErNode from './ErNode'
 import MovableSvgComponent from './MovableSvgComponent'
@@ -26,7 +27,6 @@ import ErIsaHierarchy from './ErIsaHierarchy'
 import PannableZoomableSvg from './PannableZoomableSvg'
 import { DiagramSvgIds, DiagramType } from '../model/Constats'
 import { IdentifierFence } from './IdentifierFence'
-import { v4 as uuidv4 } from 'uuid'
 import { plainToClass } from 'class-transformer'
 import { Point } from '../model/Point'
 import { DndItemType } from '../Constants'
@@ -438,7 +438,8 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
     if (movableSelectedEntites.length > 0) {
       const svgPos = clientToSvgCoordinates(p.x, p.y, svgRef.current)
       movableSelectedEntites.forEach((en, i) => {
-        updateErEntityByDiscriminator(en, (n) => {
+        updateErEntityByDiscriminator(en, (ent: ErDiagramEntity) => {
+          const n = ent as ErNodeModel
           n.x = draggedEntitiesStarts[i].x + svgPos.x
           n.y = draggedEntitiesStarts[i].y + svgPos.y
         })

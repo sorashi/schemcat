@@ -99,7 +99,7 @@ export class Rectangle {
 }
 
 export type ErDiagramEntityType = 'ErNode' | 'ErConnection' | 'ErIdentifier' | 'ErIsaHierarchy'
-export type ErDiagramEntity = ErNode | Connection | ErIdentifier
+export type ErDiagramEntity = ErNode | Connection | ErIdentifier | ErIsaHierarchy
 export interface ErDiagramIdentityDiscriminator {
   id: number
   type: ErDiagramEntityType
