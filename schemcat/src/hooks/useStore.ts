@@ -246,8 +246,11 @@ export const useStore = create<StoreModel>()(
                   case 'ErIdentifier':
                     state.diagram.identifiers = state.diagram.identifiers.filter((i) => i.id !== id)
                     break
+                  case 'ErIsaHierarchy':
+                    state.diagram.hierarchies = state.diagram.hierarchies.filter((i) => i.id !== id)
+                    break
                   default:
-                    throw new Error(`unknown type ${type}`)
+                    assertNever(type)
                 }
               })
             )
