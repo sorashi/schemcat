@@ -279,8 +279,8 @@ export const useStore = create<StoreModel>()(
           },
         }),
         {
-          //limit: 50,
-          partialize: partializeStoreModel,
+          // limit: 50,
+          // partialize: partializeStoreModel,
         }
       ),
       {

@@ -278,7 +278,7 @@ function ControlPanel() {
             )
           })) || (
           <div className='text-gray-500'>
-            {selectedEntities.length === 0 ? 'Select a node' : 'Multiple node editing is not supported yet'}
+            {selectedEntities.length === 0 ? 'Select a node' : 'Multiple node editing is not supported'}
           </div>
         )}
       </dl>
