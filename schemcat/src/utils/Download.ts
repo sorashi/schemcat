@@ -12,6 +12,9 @@ export function download(url: string, filename: string) {
   document.body.removeChild(link)
 }
 
+/**
+ * Create an URL linking to the `blob` and force the browser to start a user download of it.
+ */
 export function downloadBlob(blob: Blob, filename: string) {
   const DOMURL = window.URL || window.webkitURL || window
   const url = DOMURL.createObjectURL(blob)
