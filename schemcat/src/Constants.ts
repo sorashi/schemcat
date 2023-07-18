@@ -16,3 +16,9 @@ export const selectedStrokeStyle: CSSProperties = {
 export type DndItemType = 'er'
 
 export const LAYOUT_STORAGE = 'schemcat-layout'
+
+export const MIME = {
+  json: 'application/json',
+  svg: 'image/svg+xml',
+  png: 'image/png',
+}
