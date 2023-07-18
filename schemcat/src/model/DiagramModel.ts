@@ -320,13 +320,22 @@ export class Connection {
   @IncludeInControlPanel(ControlPanelViewType.Cardinality)
   cardinality: Cardinality
   @IncludeInControlPanel(ControlPanelViewType.AnchorPicker, 'anchor from')
-  fromAnchor: Anchor = Anchor.Right
+  fromAnchor: Anchor
   @IncludeInControlPanel(ControlPanelViewType.AnchorPicker, 'anchor to')
-  toAnchor: Anchor = Anchor.Left
-  constructor(fromId = -1, toId = -1, cardinality = new Cardinality(), newId = false) {
+  toAnchor: Anchor
+  constructor(
+    fromId = -1,
+    toId = -1,
+    cardinality = new Cardinality(),
+    newId = false,
+    fromAnchor: Anchor = Anchor.Center,
+    toAnchor: Anchor = Anchor.Center
+  ) {
     this.id = newId ? globalIdGenerator.nextId() : -1
     this.fromId = fromId
     this.toId = toId
     this.cardinality = cardinality
+    this.fromAnchor = fromAnchor
+    this.toAnchor = toAnchor
   }
 }
