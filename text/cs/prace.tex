@@ -65,7 +65,19 @@
 % \usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
 % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
 
-\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=none,datezeros=false]{biblatex}
+% biblatex v češtině používá běžně datum ve formátu 8. srp. 1986, předefinujeme na 8. 8. 1986
+\DeclareFieldFormat{date}{%
+  \thefield{day}\iffieldundef{day}{}{\adddot\nobreakspace}%
+  \iffieldundef{day}{\iffieldundef{month}{}{\mkbibmonth{\thefield{month}}\addspace}}{%
+    \thefield{month}\iffieldundef{month}{}{\adddot\nobreakspace}%
+  }%
+  \thefield{year}\isdot%
+}
+\DeclareFieldFormat{issue}{%
+  \iffieldundef{issue}{}{č.\nobreakspace\thefield{issue}, }%
+}
+
 \addbibresource{literatura.bib}
 
 \usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
@@ -120,22 +132,22 @@
 
 %%%% PDF comment
 \iffinal
-\newcommandx{\comment}[2][1=]{}
-\newcommandx{\mcomment}[2][1=]{}
-\newcommandx{\hlcomment}[3][1=]{#2}
-\newcommandx{\hlmcomment}[3][1=]{#2}
-\newcommandx{\todotext}[2][1=]{}
+  \newcommandx{\comment}[2][1=]{}
+  \newcommandx{\mcomment}[2][1=]{}
+  \newcommandx{\hlcomment}[3][1=]{#2}
+  \newcommandx{\hlmcomment}[3][1=]{#2}
+  \newcommandx{\todotext}[2][1=]{}
 \else
-\usepackage{pdfcomment}
-\usepackage{ulem}
-\usepackage{soul}
-\setul{0.5ex}{0.3ex}
-\normalem
-\newcommandx{\comment}[2][1=yellow]{\pdfcomment[author={Dennis Pražák},color=#1,opacity=0.5]{#2}}
-\newcommandx{\mcomment}[2][1=yellow]{\pdfmargincomment[author={Dennis Pražák},color=#1,opacity=0.9]{#2}}
-\newcommandx{\hlcomment}[3][1=yellow]{\colorbox{#1}{#2}\comment[#1]{#3}}
-\newcommandx{\hlmcomment}[3][1=yellow]{\setulcolor{#1}\ul{#2}\mcomment[#1]{#3}}
-\newcommandx{\todotext}[2][1=purple]{\textcolor{#1}{#2}}
+  \usepackage{pdfcomment}
+  \usepackage{ulem}
+  \usepackage{soul}
+  \setul{0.5ex}{0.3ex}
+  \normalem
+  \newcommandx{\comment}[2][1=yellow]{\pdfcomment[author={Dennis Pražák},color=#1,opacity=0.5]{#2}}
+  \newcommandx{\mcomment}[2][1=yellow]{\pdfmargincomment[author={Dennis Pražák},color=#1,opacity=0.9]{#2}}
+  \newcommandx{\hlcomment}[3][1=yellow]{\colorbox{#1}{#2}\comment[#1]{#3}}
+  \newcommandx{\hlmcomment}[3][1=yellow]{\setulcolor{#1}\ul{#2}\mcomment[#1]{#3}}
+  \newcommandx{\todotext}[2][1=purple]{\textcolor{#1}{#2}}
 \fi
 %%%% END PDF comment
 

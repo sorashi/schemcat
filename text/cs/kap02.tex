@@ -357,16 +357,15 @@ Význam tohoto schématu je takový, že seznam úkolů může mít libovolný p
 Algoritmus převodu z \acrshort{er} na schematickou kategorii už popsali Svoboda a kol.~\cite[s.~192-196]{svoboda_categorical_2021}.
 Pro naši upravenou verzi schematické kategorie však musíme upravit i algoritmus převodu.
 
-Uvědomme si nejdříve, že v \acrshort{er} diagramu, který dostaneme nemusí mít některý entitní typ ani jeden vlastní atribut.
+Uvědomme si nejdříve, že v \acrshort{er} diagramu, který dostaneme, nemusí mít některý entitní typ ani jeden vlastní atribut.
 Přestože každý entitní typ musí mít alespoň jeden identifikátor, tento identifikátor nemusí být tvořen vlastním atributem.
 To ze dvou důvodů, které se vzájemně nevylučují:
 \begin{enumerate}
-  \item entitní typ může být dítě v hierarchii, kdy dědí identifikátor od rodiče,
-  \item nebo se může jednat o slabý entitní typ, který má pouze externí identifikátory, které neobsahují ani jeden interní identifikátor.
+  \item entitní typ může být dítě v hierarchii, kdy dědí identifikátor od rodiče (případně i nepřímo od předků v hierarchii s více úrovněmi),
+  \item nebo se může jednat o slabý entitní typ, který má pouze externí identifikátory, a tedy ani jeden interní identifikátor.
 \end{enumerate}
 
 Kvůli definici schematické kategorie budeme vybírat unikátní identifikátory z abecedy $\N$.
-V $\N$ je k tomu určitě dostatek symbolů.
 
 Mějme tedy validní \acrshort{er} diagram.
 Převedeme ho na schematickou kategorii.
@@ -374,11 +373,10 @@ Převedeme ho na schematickou kategorii.
 Nejdříve definujeme správné pořadí, ve kterém převádět entitní typy.
 Vezměme závislostní graf, který jsme definovali kvůli zakázání cyklů v Sekci~\ref{section:entity-relationship}.
 Tento graf je z definice orientovaný a pro korektní \acrshort{er} je acyklický.
-Jedná se tedy o \acrshort{dag}.
 Vezměme jeho libovolné topologické uspořádání.
 Entitní typy budeme převádět od \emph{největšího} prvku tohoto uspořádání k nejmenšímu.
-To proto, abychom vždy nejdříve převedli nějaký takový entitní typ, pro který už jsou vyřešené ty, na kterých je identifikačně závislý.
-Jinak by náš převod slabého entitního typu nemusel mít korektní identifikátory.
+To proto, abychom vždy nejdříve převedli entitní typ, pro který už jsou vyřešené všechny ty, na kterých je identifikačně závislý.
+Jinak by náš převod slabého entitního typu nebo potomka v hierarchii mohl nekorektně využívat ještě nepřevedené závislosti.
 S tímto pořadím budeme počítat po celý algoritmus.
 
 Kvůli délce algoritmu zde nejdříve naznačíme hrubý postup, než popíšeme jednotlivé kroky.
@@ -394,27 +392,31 @@ Začneme s prázdnou schematickou kategorií a postupně budeme převádět kons
 Pro každý (jednoduchý nebo složený) atribut z \acrshort{er} vytvořme odpovídající objekt schematické kategorie (s odpovídajícím názvem a unikátní identitou).
 Množina identifikátorů objektu bude vždy obsahovat pouze jediný identifikátor $\set{\varepsilon}$, půjde tedy o self-identifikovaný objekt.
 
-Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ zvolíme unikátní symbol $n\in N$ a vytvoříme dva duální bázové morfismy mezi odpovídajícími objekty $O_C$ a $O_A$.
+Pro každý složený atribut $C$ z \acrshort{er} diagramu a pro každý jeho atribut $A$ zvolíme unikátní symbol $n\in \N$ a vytvoříme dva duální bázové morfismy mezi odpovídajícími objekty $O_C$ a $O_A$.
 \begin{align*}
   (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \oneone, \false, \false)\,, \\
-  (n, \mathit{identita}\ O_C, \mathit{identita}\ O_A, \bot, \onemany, \false, \false)\,.
-\end{align*}\mcomment{Mají doména/kodoména duálních morfismů být ve stejném pořadí? Nemám prohodit u toho druhého doménu s kodoménou?}
+  (n, \mathit{identita}\ O_A, \mathit{identita}\ O_C, \bot, \onemany, \false, \false)\,.
+\end{align*}
 Signatury těchto morfismů jsou stejné, abychom poznali, že jsou k sobě duální.
-Příčí se to sice unikátnosti, kterou jsme při definicích vyžadovali, ale prakticky je tento přístup vhodný.
+Jednotlivé morfismy jsou i přesto v množině rozlišitelné.
 
 Pro každý entitní typ $E$ z \acrshort{er} diagramu vytvoříme jemu odpovídající objekt $O_E$, ale zatím necháme množinu identifikátorů prázdnou.
 Pro atributy $E$ vezmeme každý odpovídající objekt $O_A$ a vytvoříme bázový morfismus mezi $O_E$ a $O_A$ (i k němu duální) podobně jako výše.
 Kardinalitu směrem k atributu nastavíme na kardinalitu $A$ vzhledem k $E$ a kardinalitu směrem zpět na
 \begin{itemize}
   \item \oneone{} pokud je $A$ jednoduchý identifikátor $E$,
-  \item \onemany{} pokud je $A$ součástí složeného identifikátoru $E$,
-  \item jinak \zeromany{} u obyčejného atributu.
+  \item jinak \onemany{}.
 \end{itemize}
 
 Pro každý vztahový typ $R$ z \acrshort{er} diagramu vytvoříme odpovídající objekt $O_R$ a necháme množinu identifikátorů prázdnou.
 Všechny atributy a složené atributy $R$ spojíme s $O_R$ stejně jako tomu bylo u entitních typů a jejich atributů.
-Mezi $R$ a každým účastníkem tohoto vztahového typu, označme $E$, (resp. mezi jejich odpovídajícími objekty) vytvoříme bázový morfismus s kardinalitou tam stejnou jako je kardinalita $E$ vzhledem k $R$.
-Kardinalita směrem zpět (tedy kardinalita duálního morfismu) bude stejná jako kardinalita $R$ vzhledem k $E$.
+Mezi $R$ a každým účastníkem tohoto vztahového typu, označme $E$, (resp. mezi jejich odpovídajícími objekty) vytvoříme bázový morfismus s kardinalitou odpovídající kardinalitě $E$ vzhledem k $R$.
+Duální morfismus k tomu právě vytvořenému bude mít kardinalitu podle povahy celého původního vztahového typu:
+\begin{itemize}
+  \item pokud existuje účastník vztahu s horní mezí \one{} a $E$ se účastní s horní mezí \one{}, pak nastavíme kardinalitu duálního morfismu na \oneone{},
+  \item pokud (stejně jako výše) existuje účastník vztahu s horní mezí \one{}, ale $E$ se neúčastní s horní mezí \one{}, pak nastavíme \onemany{},
+  \item jinak (každý účastník má horní mez \many{}) nastavíme kardinalitu na \oneone{}.
+\end{itemize}
 
 Nyní se můžeme věnovat identifikátorům entitních typů.
 Ty převádíme také v pořadí, které jsme pro entitní typy určili.
@@ -437,14 +439,14 @@ Odlišíme tři případy:
   \item Jinak pokud existuje alespoň jeden účastník $R$, který se vztahu účastní s maximální kardinalitou \one, pak bude identifikátor tvořen signaturami, které vzniknou zřetězením signatury morfismu mezi účastníkem a $R$ s identifikátory účastníka.
   \item Jinak bude identifikátor tvořen všemi účastníky (zřetězením jako u předchozího případu).
 \end{itemize}
-\todotext{$\uparrow$ nejsem si vůbec jistý, zda jsou identity objektů vztahových typů tak, jak byste chtěl.}
 
 Nakonec převedeme ISA hierarchie.
-Pro každý vztah rodič-dítě ($P, C$) z každé ISA hierarchie vezmeme odpovídající objekty $O_P, O_C$ a vytvoříme mezi nimi bázový morfismus (z $O_C$ do $O_P$) s kardinalitou \oneone{} a k němu duální morfismus s kardinalitou \oneone{}.
+Pro každý vztah rodič-dítě ($P, C$) z každé ISA hierarchie vezmeme odpovídající objekty $O_P, O_C$ a vytvoříme mezi nimi bázový morfismus (z $O_C$ do $O_P$) s kardinalitou \oneone{} a k němu duální morfismus s kardinalitou rovněž \oneone{}.
 Správně \enquote{dořetězené} identifikátory (zřetězené přes právě vytvořený morfismus) z $O_P$ vložíme do $O_C$.
 Tím $O_C$ \enquote{zdědil} identifikátory od $O_P$.
 
-Aby schematická kategorie splňovala vlastnosti kategorie, dodáme do ní pomocí operace skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru.
-Pro každý objekt $O$ dodáme identitní morfismus $O\to O$ s kardinalitou \oneone{} a množinou identifikátorů $\set{e}$.
+Aby schematická kategorie splňovala vlastnosti kategorie, dodáme do ní nejprve všechny identitní morfismy pro každý objekt se signaturou $\varepsilon$ a následně také pomocí operace skládání morfismů $\circ$ všechny odvozené morfismy chybějící do tranzitivního uzávěru.
+Ve skutečnosti tyto morfismy v implementaci neukládáme, mimo jiné protože odvozených morfismů může být nekonečně mnoho.
+Pouze předpokládáme, že ve schematické kategorii jsou.
 
-Tím je algoritmus dokončen a máme korektní schematickou kategorii odpovídající \acrshort{er} diagramu.
+Tím je algoritmus dokončen a máme korektní schematickou kategorii odpovídající původnímu \acrshort{er} diagramu.

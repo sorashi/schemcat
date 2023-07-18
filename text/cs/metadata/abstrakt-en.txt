@@ -1,7 +1,7 @@
 This thesis concerns the development of a graphical application for conceptual modeling of database schemas without prior knowledge of the target database paradigm.
 The purpose of a conceptual model is to allow describing the abstract structure of data independently of their physical storage.
 These days, a lot of different logical data models are used in database systems.
-The expression capabilities of well-known conceptual models like ER or UML are sometimes insufficient for describing the structure of data for target logical models.
-For this reason, we will exploit a recent concept called schema categories, which is more general, has a higher power of expression, and unifies data modeling for different database systems, including multi-model ones.
-Furthermore, schema categories blur the line between the conceptual and logical layers of data modeling.
+The expressive power of well-known conceptual models like ER or UML is sometimes insufficient for describing the structure of data for target logical models.
+For this reason, we exploit a recent concept called schema categories, which is more general, has a higher expressive power, and unifies data modeling for different database systems, including the multi-model ones.
+Furthermore, schema categories erase the border between the conceptual and logical layers of data modeling.
 The resulting graphical web application allows modeling schemas of the well-known ER model and their automatic conversion into schema categories with a user-friendly visualization.
