@@ -14,3 +14,5 @@ export const selectedStrokeStyle: CSSProperties = {
   strokeDasharray: '5 5',
 }
 export type DndItemType = 'er'
+
+export const LAYOUT_STORAGE = 'schemcat-layout'

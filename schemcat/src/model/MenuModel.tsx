@@ -1,9 +1,11 @@
+import { ClearAllDataMenuItem } from '../components/Menu/ClearAllDataMenuItem'
 import { DropdownItem, DropdownItemProps } from '../components/Menu/DropdownItem'
 import { ExportPngMenuItem } from '../components/Menu/ExportPngMenuItem'
 import { ExportSvgMenuItem } from '../components/Menu/ExportSvgMenuItem'
 import { LoadFileMenuItem } from '../components/Menu/LoadFileMenuItem'
 import { NewMenuItem } from '../components/Menu/NewMenuItem'
 import { RedoMenuItem } from '../components/Menu/RedoMenuItem'
+import { ResetLayoutMenuItem } from '../components/Menu/ResetLayoutMenuItem'
 import { UndoMenuItem } from '../components/Menu/UndoMenuItem'
 
 export interface KeyShortcut {
@@ -108,6 +110,11 @@ export const menuModel: MenuModel = [
         keyShortcut: getShortcut([Modifier.Ctrl], 'y'),
         factory: (props: DropdownItemProps) => <RedoMenuItem {...props} />,
       },
+      {
+        title: 'Reset Layout',
+        factory: (props: DropdownItemProps) => <ResetLayoutMenuItem {...props} />,
+      },
+      { title: 'Clear All Data', factory: (props: DropdownItemProps) => <ClearAllDataMenuItem {...props} /> },
     ],
   },
 ]

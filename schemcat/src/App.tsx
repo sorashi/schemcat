@@ -16,6 +16,7 @@ import { ExportSvgDialog } from './components/Dialog/ExportSvgDialog'
 import { useStore } from './hooks/useStore'
 import { DiagramType } from './model/Constats'
 import { SchemcatVisualizationDiagram } from './components/SchemcatVisualizationDiagram'
+import { LAYOUT_STORAGE } from './Constants'
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
   global: {
@@ -123,7 +124,6 @@ function factory(node: FlexLayout.TabNode) {
   }
 }
 
-const LAYOUT_STORAGE = 'schemcat-layout'
 function getSavedLayout(): FlexLayout.Model | null {
   const saved = localStorage.getItem(LAYOUT_STORAGE)
   if (saved) return FlexLayout.Model.fromJson(JSON.parse(saved))
@@ -148,13 +148,7 @@ function App() {
       </div>
       <div className='relative left-0 right-0 bottom-0 top-0 flex-1'>
         <DndProvider backend={HTML5Backend}>
-          <FlexLayout.Layout
-            model={layoutModelState}
-            onModelChange={(model) => {
-              setSavedLayout(model)
-            }}
-            factory={factory}
-          />
+          <FlexLayout.Layout model={layoutModelState} onModelChange={setSavedLayout} factory={factory} />
         </DndProvider>
       </div>
     </div>
