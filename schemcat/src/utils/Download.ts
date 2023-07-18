@@ -11,3 +11,10 @@ export function download(url: string, filename: string) {
   link.click()
   document.body.removeChild(link)
 }
+
+export function downloadBlob(blob: Blob, filename: string) {
+  const DOMURL = window.URL || window.webkitURL || window
+  const url = DOMURL.createObjectURL(blob)
+  download(url, filename)
+  DOMURL.revokeObjectURL(url)
+}

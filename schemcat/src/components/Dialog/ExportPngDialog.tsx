@@ -11,7 +11,7 @@ import text from 'png-chunk-text'
 import encode from 'png-chunks-encode'
 import { Buffer } from 'buffer'
 import { instanceToPlain } from 'class-transformer'
-import { download } from '../../utils/Download'
+import { download, downloadBlob } from '../../utils/Download'
 
 interface ExportPngDialogData {
   includeSerialized: boolean
@@ -72,13 +72,11 @@ async function exportPng({ includeSerialized, selectedDiagram, addBackground, ba
         chunks.splice(-1, 0, text.encode('schemcat', btoa(JSON.stringify(instanceToPlain(erDiagram)))))
         const encoded = encode(chunks)
         const blb = new Blob([encoded], { type: 'image/png' })
-        const url = DOMURL.createObjectURL(blb)
         const filename = `${toKebabCase(useStore.getState().projectName)}.png`
 
-        download(url, filename)
+        downloadBlob(blb, filename)
 
         // cleanup
-        DOMURL.revokeObjectURL(url)
         img.remove()
         document.body.removeChild(canvas)
       }, 'image/png')
