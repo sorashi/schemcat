@@ -75,7 +75,7 @@ Formálněji -- pokud vytvoříme orientovaný graf $G=(V,E)$ takový, že
   \item hrany $E$ jsou
         \begin{itemize}
           \item pro každý externí identifikátor od identifikovaného entitního typu $a$ k identifikujícímu entitnímu typu $b$ orientovaná hrana $(a, b)$,
-          \item pro každou ISA hierarchii pro každý vztah rodič-dítě, kde $a$ je dítě a $b$ je rodič, orientovaná hranu $(a, b)$,
+          \item pro každou ISA hierarchii pro každý vztah rodič-dítě, kde $a$ je dítě a $b$ je rodič, orientovaná hrana $(a, b)$,
         \end{itemize}
 \end{itemize}
 pak graf $G$ musí být acyklický.
@@ -93,7 +93,7 @@ Ukázka redundantního identifikátoru je na Obrázku~\ref{fig:redundant-ids}.
 \end{figure}
 
 Entitní typ, který má externí identifikátor, musí být účastněn vztahového typu (jímž je identifikován) s kardinalitou $(\one, \one)$.
-Teoreticky by se mohl účsatnit i jinou kardinalitou, ale pro naše účely tyto situace modelovat nebudeme.
+Teoreticky by se mohl účastnit i s jinou kardinalitou, ale pro naše účely tyto situace modelovat nebudeme.
 
 \begin{figure}[!htb]
   \centering
@@ -175,7 +175,7 @@ Poprvé byla představena Eilenbergem a MacLanem v roce 1945~\cite{eilenberg_gen
 Kategorie $C=(\mathcal O, \mathcal M, \circ)$ se skládá
 z \begin{itemize}
   \item množiny objektů $\mathcal O$,
-  \item množiny morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$ (budeme naývat také \emph{doména}), cílový objekt $B\in\mathcal O$ (také \emph{kodoména}), ne nutně různý, a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
+  \item množiny morfismů $\mathcal M$; každý morfismus $f \in \mathcal M$ má zdrojový objekt $A\in\mathcal O$ (budeme nazývat také \emph{doména}), cílový objekt $B\in\mathcal O$ (také \emph{kodoména}), ne nutně různý, a zapisujeme $f: A\to B$ ($f$ je morfismus z $A$ do $B$),
   \item operace skládání $\circ\colon \mathcal M\times\mathcal M \to \mathcal M$; pro každé dva morfismy $f,g\in\mathcal M$, tž. $f\colon A\to B, g\colon B\to C$, musí $g\circ f\in \mathcal M$ (tranzitivita); pro tuto operaci navíc platí vlastnosti
         \begin{itemize}
           \item asociativita -- pro morfismy $f,g,h\in\mathcal M$ takové, že $f\colon A\to B, g\colon B\to C, h\colon C\to D$, platí $h\circ (g \circ f) = (h\circ g)\circ f$,
@@ -343,7 +343,7 @@ Sémantika kardinalit (\one, \many) u obou obrázků taková, že konceptuálně
 \end{figure}
 
 Na Obrázku~\ref{fig:scv-ord-dup} lze vidět vizualizaci schematické kategorie, která má u jednoho z morfismů aktivní uspořádání a duplicity.
-Význam tohoto schématu je takový, že seznam úkolů může mít libovolný počet úkolů, a to dokonce se stejným popisem (duplicity) a že je důležité udržovat informaci o pořadí, ve kterém byly jednotlivé úkoly přidávány (uspořádání).
+Význam tohoto schématu je takový, že seznam úkolů může mít libovolný počet úkolů, a to dokonce se stejným popisem (duplicity), a že je důležité udržovat informaci o pořadí, ve kterém byly jednotlivé úkoly přidávány (uspořádání).
 
 \begin{figure}[!htb]
   \centering
@@ -382,7 +382,7 @@ S tímto pořadím budeme počítat po celý algoritmus.
 Kvůli délce algoritmu zde nejdříve naznačíme hrubý postup, než popíšeme jednotlivé kroky.
 Začneme s prázdnou schematickou kategorií a postupně budeme převádět konstrukty \acrshort{er} do konstruktů schematické kategorie:
 \begin{itemize}
-  \item Nejdříve vytvoříme objekt každý jednoduchý nebo složený atribut a spojíme je morfismy (složené atributy s jejich atributy).
+  \item Nejdříve vytvoříme objekt pro každý jednoduchý nebo složený atribut a spojíme je morfismy (složené atributy s jejich atributy).
   \item Následně vytvoříme objekt pro každý entitní typ, ale ještě mu nepřevedeme identifikátory, protože nemáme v tuto chvíli všechny potřebné morfismy.
   \item Proto se následně budeme věnovat vztahovým typům -- vytvoříme pro každý z nich objekt (zatím zase bez identifikátorů) a spojíme ho morfismy s jeho atributy a účastnícími se entiními typy.
   \item Poté se budeme věnovat identifikátorům objektů entitních typů a vztahových typů.

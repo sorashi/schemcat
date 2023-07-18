@@ -18,7 +18,7 @@ Před představením existujících nástrojů určíme srovnávací kritéria, 
 \section{Srovnávací kritéria}
 
 Prvním kritériem pro porovnání nástrojů je jejich kategorie, která vypovídá o účelu nástroje a cílové skupině zákazníků.
-Základní kategorie jsou
+Základní kategorie jsou:
 \begin{itemize}
   \item konceptuální vrstva -- tyto nástroje jsou většinou určené pro tvorbu ER diagramů, případně jiným způsobem modelují vztahy a atributy entit, na které při datovém modelování vymezujeme svůj diskurz,
   \item logická vrstva -- tyto nástroje umožňují tvorbu diagramů s ohledem na typ struktur, v kterých jsou data uchovávána, např. relační databáze,
@@ -251,7 +251,7 @@ Interaktivní spolupráce je k dispozici pouze v placené verzi.
 Dle našeho názoru je interaktivní spolupráce hlavní funkcí tohoto nástroje oproti konkurenčním relačním modelovacím nástrojům.
 Některá integrovaná vývojová prostředí (např. Visual Studio\footnote{Vývojové prostředí Microsoft Visual Studio -- \url{https://visualstudio.microsoft.com}}) obsahují nástroj pro relační modelování i generování databázového schématu.
 Hlavním omezením těchto nástrojů je však absence interaktivní spolupráce, jedná se spíše o spolupráci iterací.
-Proto považujeme určení interaktivní spolupráce za placenou funkci za negativní rozhodnutí pro využitelnost nástroje v relaci s konkurencí.
+Proto považujeme určení interaktivní spolupráce jako placené funkce za negativní rozhodnutí pro využitelnost nástroje v relaci s konkurencí.
 
 Web drawSQL také zveřejňuje šablony modelů\footnote{na adrese \url{https://drawsql.app/templates}} (jedná se spíše o příklady).
 Šablony jsou většinou potenciální modely známých produktů (např. WordPress\footnote{\url{https://wordpress.com}}) a tvoří je autoři drawSQL.
@@ -340,9 +340,9 @@ Z relačních schémat lze podobně vygenerovat SQL.
 
 Vlastnoruční tvorba relačních diagramů probíhá podobně.
 Uživatel může tvořit tabulky, přidávat jim sloupce a v tabulkách volit primární klíče v postranním panelu.
-Pomocí tlačítka \texttt{Connect} lze poté přidat cizí klíč, který odkazuje do jiné tabulky tažením myši.
+Pomocí tlačítka \menu{Connect} lze poté přidat cizí klíč, který odkazuje do jiné tabulky tažením myši.
 ERDPlus do tabulky přidá všechny primární klíče, které cílová tabulka obsahuje, jako nové sloupce.
-K vytvoření cizího klíče, který odkazuje na stejnou tabulku (tzv. rekurzivní klíč) slouží tlačítko \texttt{Recursive Key} ve vlastnostech tabulky.
+K vytvoření cizího klíče, který odkazuje na stejnou tabulku (tzv. rekurzivní klíč) slouží tlačítko \menu{Recursive Key} ve vlastnostech tabulky.
 Hvězdicovým schématům se věnovat nebudeme, protože jsou mimo rozsah této práce.
 
 Výhody:
@@ -391,7 +391,7 @@ Dále lze najít tlačítka pro export, sdílení a uložení do místního úlo
 
 Jazyk diagramů je velmi jednoduchý.
 Skládá se z definic entit a jejich relací.
-Uživatel může vyjít z úvodního diagramu, který se ukáže při navštívení hlavní stránky nástroje.
+Uživatel může vyjít z úvodního diagramu, který se zobrazí při navštívení hlavní stránky nástroje.
 Pro ukázku, definice entity vypadá následovně
 
 \noindent\texttt{[<abstract> Entita|soukromaSlozka; soukromaSlozka2|verejnyAtribut]}.

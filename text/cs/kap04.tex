@@ -1,7 +1,7 @@
 \chapter{Implementace}\label{chapter:implementace}
 
 V této kapitole popíšeme postup implementace aplikace.
-Nejdříve představíme technologie a knihovny, které jsem k vývoji použili.
+Nejdříve představíme technologie a knihovny, které jsme k vývoji použili.
 Dále uvedeme uživatelskou dokumentaci, kde popíšeme fungování a způsob použití aplikace z pohledu uživatele.
 Následně se v technické dokumentaci budeme věnovat ze širšího pohledu zdrojovému kódu, konkrétně jednotlivým modulům a komponentám a jejich účelu.
 Posléze se budeme věnovat tomu, jak připravit své vývojové prostředí k vývoji aplikace.
@@ -28,7 +28,7 @@ Ovšem zachytává i nepatrné změny, a tak se sledování stavů musí vhodně
 
 Dále využijeme knihovnu Immer~\cite{michelweststrate_immer_2017}, která umožňuje v React jednodušeji aktualizovat stav komponent.
 Při použití frameworku React by se totiž stav přímo upravovat neměl, protože by nebyla zaregistrována jeho změna, React by na ni nemohl náležitě zareagovat a došlo by k nekonzistenci.
-React změnu stavu detekuje referenčním (ne hlubokým) porovnáním předchozího a nového stavu komponenty.
+React změnu stavu detekuje referenčním (a ne hlubokým) porovnáním předchozího a nového stavu komponenty.
 Při každé změně stavu se proto běžně musí vytvořit nový objekt.
 Pokud je objekt hluboce zanořený, je tvorba nového objektu velmi explicitní a zdlouhavá na programování.
 React by se správně měl používat bez zanořených stavů, takže každá komponenta se stará o svůj minimální stav.
@@ -70,7 +70,7 @@ setState(produce(draft => {
 
 Další důležitou použitou knihovnou je class-transformer~\cite{attilaolah_classtransformer_2016}.
 V jazyce JavaScript, resp. v TypeScript, existují dva druhy objektů -- \emph{plain} a \emph{class} objekt.
-Při serializaci class objektů do \acrshort{json}~\cite{tc39group_jsondata_2017} a zpět ztrácí objekt své metody, metody předků a další informace o třídě, z které byla zkonstruována jeho instance.
+Při serializaci class objektů do \acrshort{json}~\cite{tc39group_jsondata_2017} a zpět ztrácí objekt své metody, metody předků a další informace o třídě, ze které byla zkonstruována jeho instance.
 Knihovna class-transformer umožňuje mezi těmito typy objektů převádět a my tak můžeme používat instanční metody na objektech deserializovaných z \acrshort{json}.
 Knihovna nefunguje perfektně pro všechny druhy datových složek a pokládá na třídy další určité restrikce, které už jsme zmínili v Sekci~\ref{section:classes}.
 Dále knihovna nepodporuje generické typy, protože TypeScript nemá reflexi za běhu (v době psaní práce se na ní však pracuje).
@@ -92,7 +92,7 @@ Jedná se o rozhraní s okny, která se dají přesouvat, roztahovat a přepína
 Tato knihovna byla zvolena, protože je flexibilní a uživatel výsledné aplikace si své pracovní prostředí díky jejím prvkům může libovolně upravit.
 
 K tomu, abychom uložili projekt do \acrshort{png} souboru tak, aby šel znovu plnohodnotně otevřít, jsme využili toho, že specifikace \acrshort{png} umožňuje do souboru přidat libovolné textové informace~\cite[sekce 11.3.4]{w3c_portablenetwork_2003}.
-Specifikace k tomu definuje definuje tři typy datových bloků.
+Specifikace k tomu definuje tři typy datových bloků.
 Pro práci s \acrshort{png} bloky jsme použili knihovny png-chunks-extract~\cite{kennedy_pngchunksextract_2015} k extrahování bloků ze souboru, resp. png-chunks-encode~\cite{kennedy_pngchunksencode_2015} k zpětnému zakódování bloků.
 Dále jsme využili knihovnu png-chunk-text~\cite{kennedy_pngchunktext_2015}, která kóduje a dekóduje právě textové bloky.
 Všechny tři knihovny jsou od stejného autora a jsou spolu plně kompatibilní.
@@ -117,7 +117,7 @@ Tento název se odráží v názvu souboru při exportu diagramu.
 
 Rozhraní aplikace se skládá z oken, která obsahují záložky s různým obsahem.
 Záložky lze přesouvat mezi okny a přetahovat přes jiné záložky myší, čímž může být vytvořeno nové okno.
-Při přetahování je uživateli intuitivně vizuálně znázorněno, která z akcí se stane po puštění záložky.
+Při přetahování je uživateli intuitivně vizuálně znázorněno, která z akcí se stane po puštění záložky myší.
 Okna lze zvětšovat a zmenšovat přetažením jejich krajů.
 Pokud v nějakém okně nezůstane ani jedna záložka, okno zanikne.
 

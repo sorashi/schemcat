@@ -392,7 +392,7 @@ Protože TypeScript typové anotace jsou při kompilaci do JavaScriptu odstraně
 Symbol \texttt{immerable} je definován knihovnou Immer~\cite{michelweststrate_immer_2017}, kterou popíšeme později při implementaci.
 Zjednodušeně řečeno, tato datová složka říká knihovně, že instance dané třídy může považovat za použitelné pro svou funkcionalitu.
 
-\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde mezi každými dvěma vrcholy vede nejvýše jedna cesta a všechny jeho stromy jsou zakořeněné).
+\emph{Celý datový model musí tvořit orientovaný les} (tj. orientovaný graf, kde mezi každými dvěma vrcholy vede nejvýše jedna orientovaná cesta a všechny jeho stromy jsou zakořeněné).
 Myslíme tím zejména to, že v modelu nejsou vnitřní reference a na každou instanci třídy může držet referenci nejvýše jedna jiná instance (její majitel).
 Úplná absence cyklů v datovém modelu je nutná k tomu, aby nevznikaly cyklické závislosti při úpravě instance modelu.
 Tato restrikce vzniká kvůli frameworku React~\cite{react_2023}.
@@ -465,7 +465,7 @@ Tento obal navíc obsahuje typový diskriminátor \texttt{type}, jenž vyjadřuj
 Tato typová diskriminace je důležitá, aby systém věděl, kde má daný element s daným \texttt{id} hledat, zdali mezi \texttt{nodes}, \texttt{links}, \texttt{identifiers}, nebo \texttt{hierarchies}.
 
 Podobně je určen typ \texttt{ErNode}, který pro element diagramu říká, jak se má zobrazovat.
-V \acrshort{er} jsme definoval tři hlavní elementy -- entitní typ, vztahový typ a atribut.
+V \acrshort{er} jsme definovali tři hlavní elementy -- entitní typ, vztahový typ a atribut.
 Mohli jsme tyto elementy modelovat jako jednotlivé třídy, ale tento přístup je vhodnější, protože rozdíl mezi nimi je pouze ve vizualizaci.
 Také se tímto způsobem v jazyce TypeScrip jednodušeji pozná, o jaký typ má aktuálně držená instance \texttt{ErNode}.
 V reakci na to lze jednodušeji implementovat v systému rozličnou logiku týkající se pouze jednotlivých typů elementů.
