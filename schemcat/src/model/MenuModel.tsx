@@ -1,5 +1,6 @@
 import { ClearAllDataMenuItem } from '../components/Menu/ClearAllDataMenuItem'
 import { DropdownItem, DropdownItemProps } from '../components/Menu/DropdownItem'
+import { ExportJsonMenuItem } from '../components/Menu/ExportJsonMenuItem'
 import { ExportPngMenuItem } from '../components/Menu/ExportPngMenuItem'
 import { ExportSvgMenuItem } from '../components/Menu/ExportSvgMenuItem'
 import { LoadFileMenuItem } from '../components/Menu/LoadFileMenuItem'
@@ -92,6 +93,10 @@ export const menuModel: MenuModel = [
           {
             title: 'PNG',
             factory: (props: DropdownItemProps) => <ExportPngMenuItem {...props} />,
+          },
+          {
+            title: 'JSON',
+            factory: (props: DropdownItemProps) => <ExportJsonMenuItem {...props} />,
           },
         ],
       },
