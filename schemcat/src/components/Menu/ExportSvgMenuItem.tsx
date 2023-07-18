@@ -5,6 +5,7 @@ import { assertNever } from '../../utils/Types'
 import { ExportSvgDialog, ExportSvgDialogData, useExportSvgDialogState } from '../Dialog/ExportSvgDialog'
 import { DiagramSvgIds } from '../../model/Constats'
 import { DropdownItem, DropdownItemProps } from './DropdownItem'
+import { download } from '../../utils/Download'
 
 function useExportSvgDialog(onSubmit: (data: ExportSvgDialogData) => void) {
   const setIsVisible = useExportSvgDialogState((state) => state.setIsVisible)
@@ -43,12 +44,9 @@ function exportSvg({ includeSerialized, selectedDiagram }: ExportSvgDialogData) 
   const preface = '<?xml version="1.0" standalone="no"?>\n'
   const svgBlob = new Blob([preface, svgData], { type: 'image/svg+xml;charset=utf-8' })
   const svgUrl = URL.createObjectURL(svgBlob)
-  const downloadLink = document.createElement('a')
-  downloadLink.href = svgUrl
-  downloadLink.download = `${toKebabCase(useStore.getState().projectName)}.svg`
-  document.body.appendChild(downloadLink)
-  downloadLink.click()
-  document.body.removeChild(downloadLink)
+  const filename = `${toKebabCase(useStore.getState().projectName)}.svg`
+
+  download(svgUrl, filename)
 }
 
 export function ExportSvgMenuItem(props: DropdownItemProps) {

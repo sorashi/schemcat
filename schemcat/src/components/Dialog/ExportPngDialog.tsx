@@ -11,6 +11,7 @@ import text from 'png-chunk-text'
 import encode from 'png-chunks-encode'
 import { Buffer } from 'buffer'
 import { instanceToPlain } from 'class-transformer'
+import { download } from '../../utils/Download'
 
 interface ExportPngDialogData {
   includeSerialized: boolean
@@ -72,16 +73,13 @@ async function exportPng({ includeSerialized, selectedDiagram, addBackground, ba
         const encoded = encode(chunks)
         const blb = new Blob([encoded], { type: 'image/png' })
         const url = DOMURL.createObjectURL(blb)
-        const dwnld = document.createElement('a')
-        dwnld.href = url
-        dwnld.download = `${toKebabCase(useStore.getState().projectName)}.png`
-        document.body.appendChild(dwnld)
-        dwnld.click()
+        const filename = `${toKebabCase(useStore.getState().projectName)}.png`
+
+        download(url, filename)
 
         // cleanup
         DOMURL.revokeObjectURL(url)
         img.remove()
-        document.body.removeChild(dwnld)
         document.body.removeChild(canvas)
       }, 'image/png')
       return
