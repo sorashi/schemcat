@@ -151,6 +151,14 @@ export class ErIsaHierarchy {
     }
     this.parent = parent
   }
+  idsForIdentities: number[] = []
+  public getIdsForIdentities(): number[] {
+    if (this.idsForIdentities.length < this.children.size) {
+      for (let i = 0; i < this.children.size - this.idsForIdentities.length; i++)
+        this.idsForIdentities.push(globalIdGenerator.nextId())
+    }
+    return this.idsForIdentities
+  }
 }
 
 /**
@@ -310,6 +318,14 @@ export class Cardinality {
   isDefault(): boolean {
     return this.lowerBound === CardinalityLowerBound.One && this.upperBound === CardinalityUpperBound.One
   }
+}
+
+export const Cardinalities = {
+  Default: new Cardinality(),
+  ZeroOne: new Cardinality(CardinalityLowerBound.Zero, CardinalityUpperBound.One),
+  ZeroMany: new Cardinality(CardinalityLowerBound.Zero, CardinalityUpperBound.Many),
+  OneOne: new Cardinality(CardinalityLowerBound.One, CardinalityUpperBound.One),
+  OneMany: new Cardinality(CardinalityLowerBound.One, CardinalityUpperBound.Many),
 }
 
 export class Connection {

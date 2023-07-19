@@ -19,6 +19,7 @@ import {
 } from '../model/DiagramModel'
 import { assertNever } from '../utils/Types'
 import { AnchorPicker, enabledAnchorsCombinations } from './AnchorPicker'
+import { SchemaCategoryEntityDiscriminator, erDiagramToSchemcat } from '../model/SchemcatModel'
 
 type ErEntity = ErNode & Connection & ErIsaHierarchy & ErIdentifier
 type ErEntityKey = keyof ErEntity
@@ -242,7 +243,7 @@ function ControlPanelPropertyDescription({
   return <dt className='font-bold'>{propertyDescription}</dt>
 }
 
-function ControlPanel() {
+function ErControlPanel() {
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
 
   const selectedEntityId = selectedEntities.length === 1 ? selectedEntities[0] : undefined
@@ -283,6 +284,74 @@ function ControlPanel() {
         )}
       </dl>
     </div>
+  )
+}
+
+interface SelectedSchemcatEntityProps {
+  selectedSchemcatEntity: SchemaCategoryEntityDiscriminator
+}
+
+function MorphismControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
+  return (
+    <dl>
+      <dt></dt>
+    </dl>
+  )
+}
+
+function ObjectControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
+  const diagram = useStore((state) => state.diagram)
+  const schemaCategory = erDiagramToSchemcat(diagram)
+  const schemaObject = schemaCategory.objects.find((x) => x.key == selectedSchemcatEntity.id)
+  if (!schemaObject) return null
+  return (
+    <dl>
+      <dt className='font-bold'>identity</dt>
+      <dd className='ml-4'>{schemaObject.key}</dd>
+      <dt className='font-bold'>label</dt>
+      <dd className='ml-4'>{schemaObject.label}</dd>
+      <dt className='font-bold'>identifiers</dt>
+      <dd className='ml-4 font-mono'>
+        {'{ '}
+        {schemaObject.identifiers.size > 0
+          ? [...schemaObject.identifiers.values()]
+              .map(
+                (identifier) => '{' + [...identifier.values()].map((signature) => signature.join('⋅')).join(', ') + '}'
+              )
+              .join(', ')
+          : '{ε}'}
+        {' }'}
+      </dd>
+    </dl>
+  )
+}
+
+function SchemcatEntityControlPanel({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
+  switch (selectedSchemcatEntity.type) {
+    case 'Object':
+      return (
+        <div className='p-2'>
+          <ObjectControlPanelView selectedSchemcatEntity={selectedSchemcatEntity}></ObjectControlPanelView>
+        </div>
+      )
+    case 'Morphism':
+      return (
+        <div className='p-2'>
+          <MorphismControlPanelView selectedSchemcatEntity={selectedSchemcatEntity}></MorphismControlPanelView>
+        </div>
+      )
+    default:
+      assertNever(selectedSchemcatEntity.type)
+  }
+  return <div className='p-2'></div>
+}
+
+function ControlPanel() {
+  const selectedSchemcatEntity = useStore((state) => state.selectedSchemcatEntity)
+  return (
+    (selectedSchemcatEntity && (
+      <SchemcatEntityControlPanel selectedSchemcatEntity={selectedSchemcatEntity}></SchemcatEntityControlPanel>
+    )) || <ErControlPanel></ErControlPanel>
   )
 }
 

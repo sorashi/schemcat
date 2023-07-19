@@ -21,6 +21,7 @@ import { assertNever, DeepPartial } from '../utils/Types'
 import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { RunningMaximum } from '../utils/RunningMaximum'
 import { DiagramType } from '../model/Constats'
+import { SchemaCategoryEntityDiscriminator } from '../model/SchemcatModel'
 
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
@@ -65,6 +66,7 @@ export interface StoreModel {
   isZoomPanSynced: boolean
   projectName: string
   activeDiagram: DiagramType | null
+  selectedSchemcatEntity?: SchemaCategoryEntityDiscriminator
   setIsZoomPanSynced: (isLocked: boolean) => void
   updateDiagram: (update: (diagram: DiagramModel) => void) => void
   updateNode: (node: ErNode) => void
@@ -82,6 +84,7 @@ export interface StoreModel {
   removeErDiagramEntityById: (id: number, type: ErDiagramEntityType) => void
   setProjectName: (projectName: string) => void
   setActiveDiagram: (activeDiagram: DiagramType) => void
+  setSelectedSchemcatEntity: (selectedSchemcatEntity?: SchemaCategoryEntityDiscriminator) => void
   deselect: () => void
 }
 
@@ -275,6 +278,13 @@ export const useStore = create<StoreModel>()(
             set(
               produce((state) => {
                 state.activeDiagram = activeDiagram
+              })
+            )
+          },
+          setSelectedSchemcatEntity: (selectedSchemcatEntity?: SchemaCategoryEntityDiscriminator): void => {
+            set(
+              produce((state) => {
+                state.selectedSchemcatEntity = selectedSchemcatEntity
               })
             )
           },

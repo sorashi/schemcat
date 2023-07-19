@@ -19,3 +19,14 @@ export function arrayRotate<T>(array: Array<T>, n: number): Array<T> {
   array.push(...array.splice(0, n))
   return array
 }
+
+export function groupBy<T, K>(array: Array<T>, selector: (selector: T) => K): Map<K, T[]> {
+  const grouping = new Map<K, T[]>()
+  for (const element of array) {
+    const property = selector(element)
+    if (!grouping.has(property)) grouping.set(property, [])
+
+    grouping.get(property)!.push(element)
+  }
+  return grouping
+}
