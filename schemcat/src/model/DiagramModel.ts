@@ -220,8 +220,9 @@ export enum ErNodeType {
 }
 export class ErNode extends DiagramNode {
   [immerable] = true
-  @IncludeInControlPanel(ControlPanelViewType.ComboBox)
-  @EnumType(ErNodeType)
+  // Uncomment to enable changing the type of a node in the control panel
+  //@IncludeInControlPanel(ControlPanelViewType.ComboBox)
+  //@EnumType(ErNodeType)
   type: ErNodeType
   /** Set of {@link ErIdentifier#id} */
   @Transform((value) => new Set(value.value))
