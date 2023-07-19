@@ -38,9 +38,9 @@ function exampleDiagram(): DiagramModel {
   const teamMember = new ErNode('member', ErNodeType.RelationshipType, 200, 150, true)
   diagram.nodes = [person, student, teacher, givenName, surname, age, nationalId, team, teamName, teamMember]
   diagram.links = [
-    new Connection(person.id, givenName.id, new Cardinality(0, 1), true, Anchor.Bottom),
+    new Connection(person.id, givenName.id, new Cardinality(0, 1), true, Anchor.BottomLeft),
     new Connection(person.id, surname.id, new Cardinality(0, 1), true, Anchor.Bottom),
-    new Connection(person.id, age.id, new Cardinality(0, 1), true, Anchor.Bottom),
+    new Connection(person.id, age.id, new Cardinality(0, 1), true, Anchor.BottomRight),
     new Connection(person.id, nationalId.id, new Cardinality(1, 1), true, Anchor.Top),
     new Connection(team.id, teamName.id, new Cardinality(0, 1), true, Anchor.Bottom),
     new Connection(team.id, teamMember.id, new Cardinality(0, 1), true, Anchor.Right, Anchor.BottomLeft),
