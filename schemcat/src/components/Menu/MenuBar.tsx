@@ -38,7 +38,7 @@ export function MenuBar() {
           defaultValue={isZoomPanSynced}
         />
         <button
-          className='text-sm font-medium border p-1 rounded text-center w-20 hover:bg-gray-100 active:bg-gray-400'
+          className='text-sm font-medium border p-1 rounded text-center w-20 hover:bg-gray-100 active:bg-gray-400 bg-[#e9faff]'
           onClick={onResetZoom}>
           {zoom} %
         </button>
