@@ -7,6 +7,7 @@ import { Point } from '../model/Point'
 import { clientToSvgCoordinates } from '../utils/Svg'
 import { Draggable } from './Draggable'
 import { shallowClone } from '../utils/Types'
+import { roundTo } from '../utils/Round'
 
 interface PannableZoomableSvgProps {
   children?: React.ReactNode
@@ -122,16 +123,32 @@ function PannableZoomableSvg({
 
   const setZoom = useZoomStore((state) => state.setZoom)
   const setOnResetZoom = useZoomStore((state) => state.setOnResetZoom)
+  const originalSize = 800
   if (isSelectedNodeInActiveTabset) {
     if (isZoomPanSynced) {
-      setZoom(Math.round((800 / viewBox.width) * 100.0 * 100) / 100)
+      setZoom(roundTo((originalSize / viewBox.width) * 100.0, 2))
       setOnResetZoom(() => {
-        updateDiagram((d) => (d.viewBox = new Rectangle(0, 0, 800, 800)))
+        updateDiagram(
+          (d) =>
+            (d.viewBox = new Rectangle(
+              (viewBox.x * originalSize) / viewBox.width,
+              (viewBox.y * originalSize) / viewBox.height,
+              originalSize,
+              originalSize
+            ))
+        )
       })
     } else {
-      setZoom(Math.round((800 / customViewBox.width) * 100.0 * 100) / 100)
+      setZoom(roundTo((originalSize / customViewBox.width) * 100.0, 2))
       setOnResetZoom(() => {
-        setCustomViewBox(new Rectangle(0, 0, 800, 800))
+        setCustomViewBox(
+          new Rectangle(
+            (customViewBox.x * originalSize) / customViewBox.width,
+            (customViewBox.y * originalSize) / customViewBox.height,
+            originalSize,
+            originalSize
+          )
+        )
       })
     }
   }
