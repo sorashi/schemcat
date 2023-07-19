@@ -343,3 +343,27 @@ function partializeStoreModel(state: StoreModel): DeepPartial<StoreModel> {
 }
 
 export const useTemporalStore = create(useStore.temporal)
+
+interface ZoomModel {
+  zoom: string
+  setZoom: (zoom: number) => void
+  onResetZoom?: () => void
+  setOnResetZoom: (onResetZoom: () => void) => void
+}
+
+export const useZoomStore = create<ZoomModel>((set) => ({
+  zoom: '100',
+  setZoom: (zoom) =>
+    set(
+      produce((state) => {
+        state.zoom = zoom
+      })
+    ),
+  setOnResetZoom: (onResetZoom: () => void) => {
+    set(
+      produce((state) => {
+        state.onResetZoom = onResetZoom
+      })
+    )
+  },
+}))

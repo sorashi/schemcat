@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-named-as-default
 import { produce } from 'immer'
 import { useLayoutEffect, useRef, useState } from 'react'
-import { useStore } from '../hooks/useStore'
+import { useStore, useZoomStore } from '../hooks/useStore'
 import { Rectangle, ErDiagramEntityType } from '../model'
 import { Point } from '../model/Point'
 import { clientToSvgCoordinates } from '../utils/Svg'
@@ -48,8 +48,6 @@ function PannableZoomableSvg({
   const viewBox = useStore((state) => state.diagram.viewBox)
   const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   const updateDiagram = useStore((state) => state.updateDiagram)
-  const updateEntity = useStore((state) => state.updateErEntityByDiscriminator)
-  const selectedEntities = useStore((state) => state.diagram.selectedEntities)
 
   const [customViewBox, setCustomViewBox] = useState<Rectangle>(shallowClone(Rectangle, viewBox))
   const [viewBoxOnDragStart, setViewBoxOnDragStart] = useState({
@@ -91,7 +89,7 @@ function PannableZoomableSvg({
     // We cannot preventDefault() here, because wheel is a passive event listener.
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners
     // The scrolling capability must be properly disabled in the style layer. See #13.
-    const scaleFactor = 1.6
+    const scaleFactor = 1.4
     const delta = e.deltaY || e.detail || 0
     const normalized = -(delta % 3 ? delta * 10 : delta / 3)
     const scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor
@@ -121,6 +119,22 @@ function PannableZoomableSvg({
       updateDiagram((d) => (d.viewBox = shallowClone(Rectangle, customViewBox)))
     }
   }, [isZoomPanSynced])
+
+  const setZoom = useZoomStore((state) => state.setZoom)
+  const setOnResetZoom = useZoomStore((state) => state.setOnResetZoom)
+  if (isSelectedNodeInActiveTabset) {
+    if (isZoomPanSynced) {
+      setZoom(Math.round((800 / viewBox.width) * 100.0 * 100) / 100)
+      setOnResetZoom(() => {
+        updateDiagram((d) => (d.viewBox = new Rectangle(0, 0, 800, 800)))
+      })
+    } else {
+      setZoom(Math.round((800 / customViewBox.width) * 100.0 * 100) / 100)
+      setOnResetZoom(() => {
+        setCustomViewBox(new Rectangle(0, 0, 800, 800))
+      })
+    }
+  }
 
   return (
     <Draggable onDragStart={handleDragStart} onDragging={handleDragging}>
