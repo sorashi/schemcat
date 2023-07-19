@@ -1,4 +1,7 @@
-import { Cardinality, DiagramModel } from './DiagramModel'
+import { produce } from 'immer'
+import { ValidationModel, useValidtaionStore } from '../hooks/useStore'
+import { getDependencyGraph } from '../utils/DependencyGraph'
+import { Cardinality, DiagramModel, ErNodeType } from './DiagramModel'
 
 export class SchemaCategory {
   objects: SchemaObject[] = []
@@ -25,7 +28,18 @@ export class Morphism {
 }
 
 export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
+  const graph = getDependencyGraph(diagram)
+
+  useValidtaionStore.setState(
+    produce((state: ValidationModel) => {
+      state.dependencyCycle = !graph.isAcyclic()
+    }),
+    true
+  )
+
   const schema = new SchemaCategory()
+
+  if (!graph.isAcyclic()) return schema
 
   // objects and identifiers
   diagram.nodes.forEach((node) => {

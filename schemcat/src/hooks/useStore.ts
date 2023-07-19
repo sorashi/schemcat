@@ -113,6 +113,13 @@ function getMaxIdFromModel(model: DeepPartial<StoreModel>) {
   return Math.max(max.currentMax, 0)
 }
 
+export interface ValidationModel {
+  dependencyCycle: boolean
+}
+export const useValidtaionStore = create<ValidationModel>((set) => ({
+  dependencyCycle: false,
+}))
+
 export const useStore = create<StoreModel>()(
   devtools(
     persist(

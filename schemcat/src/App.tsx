@@ -17,6 +17,7 @@ import { useStore } from './hooks/useStore'
 import { DiagramType } from './model/Constats'
 import { SchemcatVisualizationDiagram } from './components/SchemcatVisualizationDiagram'
 import { LAYOUT_STORAGE } from './Constants'
+import { Validations } from './components/Validations'
 
 const defaultLayoutModel = FlexLayout.Model.fromJson({
   global: {
@@ -58,14 +59,31 @@ const defaultLayoutModel = FlexLayout.Model.fromJson({
         ],
       },
       {
-        type: 'tabset',
+        type: 'row',
         weight: 50,
         children: [
           {
-            type: 'tab',
-            name: 'ER Diagram',
-            component: 'er-diagram',
-            className: 'overflow-hidden',
+            type: 'tabset',
+            weight: 90,
+            children: [
+              {
+                type: 'tab',
+                name: 'ER Diagram',
+                component: 'er-diagram',
+                className: 'overflow-hidden',
+              },
+            ],
+          },
+          {
+            type: 'tabset',
+            weight: 10,
+            children: [
+              {
+                type: 'tab',
+                name: 'Validations',
+                component: 'validations',
+              },
+            ],
           },
         ],
       },
@@ -115,6 +133,8 @@ function factory(node: FlexLayout.TabNode) {
       return <ControlPanel key={uuidv4()} />
     case 'drag-and-drop-panel':
       return <DragAndDropPanel />
+    case 'validations':
+      return <Validations></Validations>
     default:
       return (
         <div>
