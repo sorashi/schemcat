@@ -6,11 +6,12 @@ interface ToggleButtonProps {
   label?: string
   onToggle?: (isChecked: boolean) => void
   className?: string
+  defaultValue?: boolean
 }
 
 export function ToggleButton(props: ToggleButtonProps) {
   const [id] = useState(`toggle-btn-${uuidv4()}`)
-  const [isChecked, setIsChecked] = useState(props.isChecked)
+  const [isChecked, setIsChecked] = useState(props.defaultValue || false)
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setIsChecked(event.target.checked)

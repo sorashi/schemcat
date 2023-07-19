@@ -126,7 +126,7 @@ export const useStore = create<StoreModel>()(
       temporal(
         (set) => ({
           diagram: exampleDiagram(),
-          isZoomPanSynced: false,
+          isZoomPanSynced: true,
           projectName: 'Untitled Diagram',
           activeDiagram: null,
           setIsZoomPanSynced: (isZoomPanSynced: boolean) =>
@@ -334,7 +334,6 @@ function partializeStoreModel(state: StoreModel): DeepPartial<StoreModel> {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   // ignore a part of the state
   const {
-    isZoomPanSynced,
     diagram: { selectedEntities: selectedNodeIds, ...diagRest },
     ...rest
   } = state

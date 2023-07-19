@@ -9,6 +9,7 @@ export function MenuBar() {
   const setIsZoomPanLocked = useStore((state) => state.setIsZoomPanSynced)
   const setProjectName = useStore((state) => state.setProjectName)
   const projectName = useStore((state) => state.projectName)
+  const isZoomPanSynced = useStore((state) => state.isZoomPanSynced)
   return (
     <ul className='flex flex-row flex-wrap items-center gap-1 py-1 px-2 my-0 mx-auto'>
       {menuModel.map((item) => (
@@ -24,7 +25,12 @@ export function MenuBar() {
           RESET
         </button>
       )}
-      <ToggleButton className='ml-5' label='Sync Pan & Zoom' onToggle={(locked) => setIsZoomPanLocked(locked)} />
+      <ToggleButton
+        className='ml-5'
+        label='Sync Pan & Zoom'
+        onToggle={(locked) => setIsZoomPanLocked(locked)}
+        defaultValue={isZoomPanSynced}
+      />
       <EditableText initialText={projectName} onChange={(e) => setProjectName(e.target.value)} />
     </ul>
   )
