@@ -297,11 +297,12 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
     for (const child of hierarchy.children.values()) {
       const childObject = schema.objects.find((x) => x.key == child)
       if (!childObject) throw new Error('Could not find child object of a hierarchy')
+      const currentMorphismId = ids[i++]
       schema.morphisms.push(
-        ...createMutuallyDualMorphisms(ids[i++], child, parent, Cardinalities.OneOne, Cardinalities.OneOne)
+        ...createMutuallyDualMorphisms(currentMorphismId, child, parent, Cardinalities.OneOne, Cardinalities.OneOne)
       )
       const concatenatedIdentifiers = [...parentObject.identifiers.values()].map((id) =>
-        [...id.values()].map((v) => concatSignatures(v, [hierarchy.id]))
+        [...id.values()].map((v) => concatSignatures(v, [currentMorphismId]))
       )
       concatenatedIdentifiers.forEach((ci) => {
         childObject.identifiers.add(new Set(ci))
