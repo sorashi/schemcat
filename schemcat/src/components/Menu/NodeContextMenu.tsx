@@ -31,6 +31,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const nodes = useStore((state) => state.diagram.nodes)
+  const links = useStore((state) => state.diagram.links)
   const identifiers = useStore((state) => state.diagram.identifiers)
   const node: ErNode | undefined = useStore(
     useCallback((state) => state.diagram.nodes.find((n) => n.id === nodeId), [nodeId])
@@ -48,7 +49,9 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
     return (
       node?.type === ErNodeType.EntityType &&
       [...selectedNodeIdsWithSelf.values()].every(
-        (sn) => nodes.find((n) => n.id == sn)?.type != ErNodeType.EntityType
+        (sn) =>
+          nodes.find((n) => n.id == sn)?.type != ErNodeType.EntityType &&
+          links.some((l) => (l.fromId == sn && l.toId == node.id) || (l.fromId == node.id && l.toId == sn))
       ) &&
       selectedEntityIds.length >= 1
     )
@@ -205,6 +208,7 @@ function NewConnectionDropdownItem({ nodeId, onAfterAction }: ContextMenuItemPro
       )
     )
       return false
+    if (!existingConnection) return true
     if (
       !!existingConnection &&
       ((thisNode?.type === ErNodeType.EntityType && otherNode?.type === ErNodeType.RelationshipType) ||
