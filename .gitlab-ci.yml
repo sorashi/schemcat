@@ -31,6 +31,7 @@ schemcat-build:
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
+    - pnpm install
   script:
     - pnpm build
   artifacts:
@@ -47,6 +48,7 @@ schemcat-test:
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
+    - pnpm install
   script:
     - pnpm test
 
