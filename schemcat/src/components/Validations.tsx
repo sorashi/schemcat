@@ -11,12 +11,9 @@ interface IdentifierLinkInfo {
 
 export function getNonOneOneIdentifiers(diagram: DiagramModel): IdentifierLinkInfo[] {
   return diagram.identifiers
-    .filter((x) => x.identities.size == 1)
-    .map((x) =>
-      diagram.links.find(
-        (l) =>
-          (l.fromId == x.identities.values().next().value && l.toId == x.identifies) ||
-          (l.toId == x.identities.values().next().value && l.fromId == x.identifies)
+    .flatMap((x) =>
+      diagram.links.filter(
+        (l) => (l.fromId === x.identifies && x.identities.has(l.toId)) || (x.identifies && x.identities.has(l.toId))
       )
     )
     .filter((x) => !x?.cardinality.isDefault())
@@ -71,7 +68,7 @@ export function Validations() {
       {nonOneOneIdentifiers.map((n) => (
         <ValidationError
           key={`non-1,1-ident-${n.fromNode.id}-${n.toNode.id}`}
-          message={`Connection from ${n.fromNode.id} (${n.fromNode.label}) to ${n.toNode.id} (${n.toNode.label}) has cardinality ${n.cardinality}, but it is an identifier, so it must be ${Cardinalities.Default}`}></ValidationError>
+          message={`Connection from ${n.fromNode.id} (${n.fromNode.label}) to ${n.toNode.id} (${n.toNode.label}) has cardinality ${n.cardinality}, but it is a part of an identifier, so it must be ${Cardinalities.Default}`}></ValidationError>
       ))}
       {[...cannotBeComposite.values()].map((n) => (
         <ValidationError
