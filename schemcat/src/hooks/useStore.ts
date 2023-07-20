@@ -53,6 +53,9 @@ function exampleDiagram(): DiagramModel {
   diagram.identifiers.push(identifier1, identifier2)
   person.identifiers.add(identifier1.id)
   person.identifiers.add(identifier2.id)
+  const teamIdentifier = new ErIdentifier(team.id, [teamName.id], true)
+  diagram.identifiers.push(teamIdentifier)
+  team.identifiers.add(teamIdentifier.id)
   const hierarchy1 = new ErIsaHierarchy(person.id, [student.id, teacher.id], true)
   diagram.hierarchies = [hierarchy1]
   // Simulate serialization and deserialization in order to ensure persistent
