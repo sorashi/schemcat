@@ -151,14 +151,6 @@ export class ErIsaHierarchy {
     }
     this.parent = parent
   }
-  idsForIdentities: number[] = []
-  public getIdsForIdentities(): number[] {
-    if (this.idsForIdentities.length < this.children.size) {
-      for (let i = 0; i < this.children.size - this.idsForIdentities.length; i++)
-        this.idsForIdentities.push(globalIdGenerator.nextId())
-    }
-    return this.idsForIdentities
-  }
 }
 
 /**

@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { ValidationModel, useValidtaionStore } from '../hooks/useStore'
+import { ValidationModel, useStore, useValidtaionStore } from '../hooks/useStore'
 import { getDependencyGraph } from '../utils/DependencyGraph'
 import {
   Cardinalities,
@@ -10,6 +10,7 @@ import {
   ErNode,
   ErNodeType,
 } from './DiagramModel'
+import globalIdGenerator from '../utils/GlobalIdGenerator'
 
 export class SchemaCategory {
   objects: SchemaObject[] = []
@@ -291,7 +292,7 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
   for (const hierarchy of diagram.hierarchies) {
     const parent = hierarchy.parent
     const parentObject = schema.objects.find((x) => x.key == parent)
-    const ids = hierarchy.getIdsForIdentities()
+    const ids = globalIdGenerator.getSubIds(hierarchy.id, hierarchy.children.size)
     let i = 0
     if (!parentObject) throw new Error('Could not find parent object of a hierarchy')
     for (const child of hierarchy.children.values()) {
