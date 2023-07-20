@@ -342,10 +342,11 @@ function ObjectControlPanelView({ selectedSchemcatEntity, schemcat }: SchemcatEn
         {schemaObject.identifiers.size > 0
           ? [...schemaObject.identifiers.values()]
               .map(
-                (identifier) => '{' + [...identifier.values()].map((signature) => signature.join('⋅')).join(', ') + '}'
+                (identifier) =>
+                  '{' + [...identifier.values()].map((signature) => signature.join(symbols.cdot)).join(', ') + '}'
               )
               .join(', ')
-          : '{ε}'}
+          : `{${symbols.epsilon}}`}
         {' }'}
       </dd>
     </dl>
