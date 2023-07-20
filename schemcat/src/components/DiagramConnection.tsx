@@ -64,7 +64,7 @@ export function DiagramConnection({ link, onClick }: DiagramConnectionProps) {
   const pathId = 'path-' + link.id
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
   const [pointFrom, pointTo] = linkToPoints(link, from, to)
-  const cardinalityPosition = pointFrom.add(pointTo.subtract(pointFrom).normalize().multiply(30))
+  const cardinalityPosition = pointFrom.add(pointTo.subtract(pointFrom).multiply(0.3))
   const style: React.CSSProperties | undefined = selectedEntities.some((x) => x.id === link.id)
     ? { stroke: 'green', strokeDasharray: '5,5' }
     : undefined

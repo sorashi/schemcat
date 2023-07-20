@@ -18,7 +18,7 @@ export function CardinalityText(props: { cardinality: Cardinality; x: number; y:
   if (cardinality.isDefault()) return null
   return (
     <text ref={textRef} x={x} y={y} alignmentBaseline='middle' dominantBaseline='middle' textAnchor='start'>
-      {cardinality.lowerBound}..{cardinality.upperBound}
+      ({cardinality.lowerBound}, {cardinality.upperBound})
     </text>
   )
 }
