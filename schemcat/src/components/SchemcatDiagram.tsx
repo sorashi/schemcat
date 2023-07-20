@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useStore } from '../hooks/useStore'
 import { erDiagramToSchemcat } from '../model/SchemcatModel'
 import Vector2 from '../utils/Vector2'
@@ -24,7 +24,7 @@ function SchemcatDiagram({ isSelectedNodeInActiveTabSet }: SchemcatDiagramProps)
   const selectedSchemcatEntity = useStore((state) => state.selectedSchemcatEntity)
 
   const svgRef = useRef(null)
-  const schemcat = erDiagramToSchemcat(diagram)
+  const schemcat = useMemo(() => erDiagramToSchemcat(diagram), [diagram])
   const morphismGroups = groupBy(schemcat.morphisms, (m) => m.signature[0])
   const nodes = diagram.nodes
   return (

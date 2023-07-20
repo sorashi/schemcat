@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useStore } from '../hooks/useStore'
 import { Cardinality, ErNodeType } from '../model'
 import { DiagramSvgIds, DiagramType } from '../model/Constats'
@@ -132,8 +132,7 @@ export function SchemcatVisualizationMorphism({ morphisms }: { morphisms: Schema
 
 export function SchemcatVisualizationDiagram({ isSelectedNodeInActiveTabSet }: SchemcatVisualizationDiagramProps) {
   const diagram = useStore((state) => state.diagram)
-  const updateDiagram = useStore((state) => state.updateDiagram)
-  const schemcat = erDiagramToSchemcat(diagram)
+  const schemcat = useMemo(() => erDiagramToSchemcat(diagram), [diagram])
   const morphismGroups = groupBy(schemcat.morphisms, (m) => m.signature[0])
   const setSelectedSchemcatEntity = useStore((state) => state.setSelectedSchemcatEntity)
 

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { getErEntityByDiscriminator, useStore } from '../hooks/useStore'
 import {
   Anchor,
@@ -301,7 +301,7 @@ function MorphismControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEn
 
 function ObjectControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
   const diagram = useStore((state) => state.diagram)
-  const schemaCategory = erDiagramToSchemcat(diagram)
+  const schemaCategory = useMemo(() => erDiagramToSchemcat(diagram), [diagram])
   const schemaObject = schemaCategory.objects.find((x) => x.key == selectedSchemcatEntity.id)
   if (!schemaObject) return null
   return (
