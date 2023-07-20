@@ -39,7 +39,6 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
     if (event.button !== 0) return
     setState({ isDragging: false, offset: { x: 0, y: 0 } })
     resume()
-    console.log('Resumed')
     const res = clientToSvgCoordinates(event.clientX, event.clientY, props.svgRef.current)
     if (props.onDrag) {
       props.onDrag(res.x - state.offset.x, res.y - state.offset.y)
@@ -48,7 +47,6 @@ function MovableSvgComponent(props: MovableSvgComponentProps) {
   function handleMouseLeave(event: React.MouseEvent) {
     if (state.isDragging) {
       handleMouseMove(event)
-      console.log('mouse left')
     }
   }
   function handleClick(event: React.MouseEvent) {
