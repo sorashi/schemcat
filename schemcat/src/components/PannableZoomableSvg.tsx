@@ -167,6 +167,7 @@ function PannableZoomableSvg({
         // zoom on mouse wheel
         onWheel={(e) => handleWheel(e, svgRef)}
         onClick={(e) => e.target === svgRef.current && e.button === 0 && onLeftClick && onLeftClick(e)}
+        onContextMenu={(e) => e.preventDefault()}
         onMouseMove={onMouseMove}
         preserveAspectRatio='xMidYMid meet'>
         {children}
