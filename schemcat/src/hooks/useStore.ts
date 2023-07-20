@@ -22,6 +22,7 @@ import globalIdGenerator from '../utils/GlobalIdGenerator'
 import { RunningMaximum } from '../utils/RunningMaximum'
 import { DiagramType } from '../model/Constats'
 import { SchemaCategoryEntityDiscriminator } from '../model/SchemcatModel'
+import _ from 'lodash'
 
 function exampleDiagram(): DiagramModel {
   const diagram = new DiagramModel()
@@ -299,6 +300,10 @@ export const useStore = create<StoreModel>()(
         {
           // limit: 50,
           // partialize: partializeStoreModel,
+          handleSet: (handleSet) =>
+            _.throttle<typeof handleSet>((state) => {
+              handleSet(state)
+            }, 1000),
         }
       ),
       {

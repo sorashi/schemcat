@@ -32,6 +32,7 @@
     "feather-icons": "^4.29.0",
     "flexlayout-react": "^0.7.7",
     "immer": "^10.0.2",
+    "lodash": "^4.17.21",
     "png-chunk-text": "^1.0.0",
     "png-chunks-encode": "^1.0.0",
     "png-chunks-extract": "^1.0.0",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@types/feather-icons": "^4.29.1",
+    "@types/lodash": "^4.14.195",
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
     "@types/svg-intersections": "^0.4.1",
