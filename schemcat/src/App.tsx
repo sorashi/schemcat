@@ -32,7 +32,7 @@ const defaultLayoutModel = FlexLayout.Model.fromJson({
     children: [
       {
         type: 'row',
-        weight: 10,
+        weight: 20,
         children: [
           {
             type: 'tabset',
