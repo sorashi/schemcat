@@ -32,6 +32,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
   const addIdentifier = useStore((state) => state.addIdentifier)
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
+  const nodes = useStore((state) => state.diagram.nodes)
   const identifiers = useStore((state) => state.diagram.identifiers)
   const node: ErNode | undefined = useStore(
     useCallback((state) => state.diagram.nodes.find((n) => n.id === nodeId), [nodeId])
@@ -48,7 +49,9 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
   function canAddOrRemoveIdentifier(): boolean {
     return (
       node?.type === ErNodeType.EntityType &&
-      selectedEntityIds.every((selected) => selected.type === 'ErNode') &&
+      [...selectedNodeIdsWithSelf.values()].every(
+        (sn) => nodes.find((n) => n.id == sn)?.type != ErNodeType.EntityType
+      ) &&
       selectedEntityIds.length >= 1
     )
   }
@@ -104,7 +107,7 @@ function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuI
       item={{ title: getAddRemoveIdentifierTitle() }}
       action={handleAddRemoveIdentifier}
       onAfterAction={onAfterAction}
-      canDoAction={() => node?.type !== ErNodeType.AttributeType && selectedNodeIdsWithoutSelf.size > 0}></DropdownItem>
+      canDoAction={canAddOrRemoveIdentifier}></DropdownItem>
   )
 }
 
@@ -113,13 +116,18 @@ function AddRemoveFromHierarchyItemMenu({ nodeId, onAfterAction }: ContextMenuIt
   const node = useStore(useCallback((state) => state.diagram.nodes.find((x) => x.id === nodeId), [nodeId]))
   const hierarchies = useStore((state) => state.diagram.hierarchies)
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
+  const nodes = useStore((state) => state.diagram.nodes)
   const selectedNodeIds = useMemo(
     () => new Set(selectedEntities.filter((x) => x.type === 'ErNode').map((x) => x.id)),
     [selectedEntities]
   )
   if (selectedNodeIds.has(nodeId)) selectedNodeIds.delete(nodeId)
   function canAddOrRemoveHierarchy(): boolean {
-    return node?.type === ErNodeType.EntityType && selectedNodeIds.size > 0
+    return (
+      node?.type === ErNodeType.EntityType &&
+      selectedNodeIds.size > 0 &&
+      [...selectedNodeIds.values()].every((sn) => nodes.find((n) => n.id == sn)?.type === ErNodeType.EntityType)
+    )
   }
   function getAddRemoveHierarchyTitle(add: string, remove: string, neutral: string) {
     if (!node) return neutral
@@ -178,15 +186,34 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
 function NewConnectionDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
   const selectedEntities = useStore((state) => state.diagram.selectedEntities)
   const updateDiagram = useStore((state) => state.updateDiagram)
+  const links = useStore((state) => state.diagram.links)
+  const nodes = useStore((state) => state.diagram.nodes)
   // for now we can connect only 2 entities
   // and they can have at most two connections between themselves
   function canConnect(): boolean {
     // either 2 entities are selected and one of them is the entity on which the context menu was triggered,
     // or 1 entity is selected and another one is the entity on which the context menu was triggered
-    return (
-      (selectedEntities.length == 2 && selectedEntities.some((x) => x.id == nodeId)) ||
-      (selectedEntities.length == 1 && selectedEntities[0].id != nodeId)
+    const thisOne = nodeId
+    const thisNode = nodes.find((n) => n.id == thisOne)
+    const otherOne = selectedEntities.find((s) => s.id != thisOne)
+    const otherNode = nodes.find((n) => n.id == otherOne?.id)
+    const existingConnection = links.find(
+      (l) => (l.fromId == thisOne && l.toId == otherOne?.id) || (l.fromId == otherOne?.id && l.toId == thisOne)
     )
+    if (
+      !(
+        (selectedEntities.length == 2 && selectedEntities.some((x) => x.id == nodeId)) ||
+        (selectedEntities.length == 1 && selectedEntities[0].id != nodeId)
+      )
+    )
+      return false
+    if (
+      !!existingConnection &&
+      ((thisNode?.type === ErNodeType.EntityType && otherNode?.type === ErNodeType.RelationshipType) ||
+        (thisNode?.type === ErNodeType.RelationshipType && otherNode?.type === ErNodeType.EntityType))
+    )
+      return true
+    return false
   }
   function handleConnect() {
     if (!canConnect()) return
