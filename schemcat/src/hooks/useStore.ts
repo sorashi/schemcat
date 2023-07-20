@@ -44,7 +44,7 @@ function exampleDiagram(): DiagramModel {
     new Connection(person.id, surname.id, new Cardinality(0, 1), true, Anchor.Bottom),
     new Connection(person.id, age.id, new Cardinality(0, 1), true, Anchor.BottomRight),
     new Connection(person.id, nationalId.id, new Cardinality(1, 1), true, Anchor.Top),
-    new Connection(team.id, teamName.id, new Cardinality(0, 1), true, Anchor.Bottom),
+    new Connection(team.id, teamName.id, new Cardinality(1, 1), true, Anchor.Bottom),
     new Connection(team.id, teamMember.id, new Cardinality(0, 1), true, Anchor.Right, Anchor.BottomLeft),
     new Connection(person.id, teamMember.id, new Cardinality(0, 1), true, Anchor.BottomRight, Anchor.TopLeft),
   ]
