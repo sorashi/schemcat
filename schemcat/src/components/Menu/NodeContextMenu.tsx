@@ -14,7 +14,6 @@ import { isSubset } from '../../utils/SetOperations'
 import { Dropdown } from './Dropdown'
 import { DropdownItem } from './DropdownItem'
 import Vector2 from '../../utils/Vector2'
-import { DiagramConnection } from '../DiagramConnection'
 
 interface NodeContextMenuProps {
   location: Vector2
