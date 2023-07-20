@@ -59,6 +59,7 @@ schemcat-gh-pages:
     - curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v7.15.0/pnpm-linuxstatic-x64" -o /bin/pnpm; chmod +x /bin/pnpm;
     - pnpm config set store-dir .pnpm-store
     - cd schemcat
+    - pnpm i
   script:
     - pnpm build
     - git clone --depth 1 https://sorashi:$GITHUB_ACCESS_TOKEN@github.com/sorashi/schemcat.git
