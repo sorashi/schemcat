@@ -75,6 +75,9 @@ schemcat-diagrams: ../img/schemcat-diagrams/raw-schemcat-example.pdf ../img/sche
 ../img/cartesian-systems.pdf: ../img/cartesian-systems.svg
 	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf --export-filename="$@"
 
+../img/university-model.pdf: ../img/university-model.svg
+	inkscape "$<" --export-area-drawing --batch-process --export-type=pdf --export-filename="$@"
+
 # convert to grayscale to preview how the PDF would looked if printed in grayscale
 grayscale: prace.pdf
 	gs -sOutputFile=prace-gs.pdf -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibilityLevel=1.5 $< < /dev/null
