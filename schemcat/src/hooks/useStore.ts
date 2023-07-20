@@ -168,7 +168,7 @@ export const useStore = create<StoreModel>()(
           },
           removeNodeById: (id: number) => {
             set(
-              produce((state) => {
+              produce((state: StoreModel) => {
                 const index = state.diagram.nodes.findIndex((n: DiagramNode) => n.id === id)
                 if (index === -1) {
                   console.log('node id not found')
@@ -176,6 +176,24 @@ export const useStore = create<StoreModel>()(
                 }
                 state.diagram.nodes.splice(index, 1)
                 state.diagram.links = state.diagram.links.filter((l: Connection) => l.fromId !== id && l.toId !== id)
+                // update hierarchies
+                let childHierarchyIndex = state.diagram.hierarchies.findIndex((h) => h.children.has(id))
+                while (childHierarchyIndex != -1) {
+                  state.diagram.hierarchies[childHierarchyIndex].children.delete(id)
+                  childHierarchyIndex = state.diagram.hierarchies.findIndex((h) => h.children.has(id))
+                }
+                state.diagram.hierarchies = state.diagram.hierarchies.filter(
+                  (h) => h.parent != id && h.children.size > 0
+                )
+                // update identifiers
+                let identifierIndex = state.diagram.identifiers.findIndex((ident) => ident.identities.has(id))
+                while (identifierIndex != -1) {
+                  state.diagram.identifiers[identifierIndex].identities.delete(id)
+                  identifierIndex = state.diagram.identifiers.findIndex((ident) => ident.identities.has(id))
+                }
+                state.diagram.identifiers = state.diagram.identifiers.filter(
+                  (ident) => ident.identities.size > 0 && ident.identifies != id
+                )
               })
             )
           },

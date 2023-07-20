@@ -172,6 +172,22 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
                 console.error('Connection for removal not found', selected.id)
                 return
               }
+              const link = d.links[index]
+              let identifierIndex = d.identifiers.findIndex(
+                (ident) =>
+                  (ident.identifies == link.fromId && ident.identities.has(link.toId)) ||
+                  (ident.identifies == link.fromId && ident.identities.has(link.toId))
+              )
+              while (identifierIndex != -1) {
+                d.identifiers[identifierIndex].identities.delete(link.toId)
+                d.identifiers[identifierIndex].identities.delete(link.fromId)
+                identifierIndex = d.identifiers.findIndex(
+                  (ident) =>
+                    (ident.identifies == link.fromId && ident.identities.has(link.toId)) ||
+                    (ident.identifies == link.fromId && ident.identities.has(link.toId))
+                )
+              }
+              d.identifiers = d.identifiers.filter((ident) => ident.identities.size > 0)
               d.links.splice(index, 1)
             })
             break
