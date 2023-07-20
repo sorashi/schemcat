@@ -150,12 +150,12 @@ function ChilrenAnchorsView(props: ControlPanelViewProps) {
   const keys: number[] = Array(...childrenAnchors.keys())
   keys.sort()
   return (
-    <dl className='border border-gray-400 rounded p-2 w-fit'>
+    <>
       {keys.map((k) => {
         const node = nodes.find((x) => x.id === k)
         return (
           <React.Fragment key={`children-anchors-view-anchor-picker-${k}`}>
-            <dt>{node?.label || 'child'}</dt>
+            <dt className='font-bold'>({node?.label || 'child'})</dt>
             <dd className='mb-3'>
               <AnchorPicker
                 enabled={enabledAnchorsCombinations.all}
@@ -170,7 +170,7 @@ function ChilrenAnchorsView(props: ControlPanelViewProps) {
           </React.Fragment>
         )
       })}
-    </dl>
+    </>
   )
 }
 
