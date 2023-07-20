@@ -110,10 +110,13 @@ Pro potřeby uživatele popíšeme uživatelské rozhraní aplikace, jehož uká
 V horní liště aplikace se nachází menu.
 Tlačítko \menu{File} obsahuje možnosti pro vytvoření nového projektu a pro export.
 Tlačítko \menu{Edit} obsahuje možnosti \menu{Undo} a \menu{Redo}.
-Následuje přepínač \enquote{Sync Pan \& Zoom}, který zamkne synchronizaci pozice pláten.
-Přetažení a přiblížení v jednom plátně tak způsobí totožný přesun a přiblížení ve všech ostatních plátnech.
-Poslední položkou horní lišty je editovatelné textové pole s názvem diagramu.
+Následuje editovatelné textové pole s názvem diagramu.
 Tento název se odráží v názvu souboru při exportu diagramu.
+
+Na pravé straně horní lišty se nachází přepínač \enquote{Sync Pan \& Zoom}, který zamkne synchronizaci pozice pláten.
+Přetažení a přiblížení v jednom plátně tak způsobí totožný přesun a přiblížení ve všech ostatních plátnech.
+Nakonec je v horní liště zobrazena míra přiblížení v aktivním diagramu.
+Kliknutím na tuto položku dojde k obnovení přiblížení na výchozích 100 \%.
 
 Rozhraní aplikace se skládá z oken, která obsahují záložky s různým obsahem.
 Záložky lze přesouvat mezi okny a přetahovat přes jiné záložky myší, čímž může být vytvořeno nové okno.
@@ -137,6 +140,20 @@ Význam záložek s popisky \acrshort{er} Diagram, Schemcat Diagram a Schemcat V
   \caption{Ukázka ovládacího panelu}
   \label{fig:control-panel}
 \end{figure}
+
+Záložka s názvem Validations ukáže chybové hlášky, pokud není \acrshort{er} validní.
+Validace jsou pouze čtyř typů:
+\begin{itemize}
+  \item Závislostní graf \acrshort{er} diagramu musí být acyklický.
+  \item Členové identifikátoru se musí entitního typu, který identifikují, účastnit s kardinalitou \oneone{}.
+  \item Každý entitní typ musí mít alespoň jeden identifikátor (ne nutně vlastní).
+  \item Složené atributy nesmí mít další složené atributy.
+\end{itemize}
+
+Pravým tlačítkem myši lze otevřít na tvarech v diagramu kontextové menu, které skrývá různé možnosti, např.~vytvoření identifikátoru, hierarchie, atd.
+Například pro vytvoření identifikátoru uživatel podrží klávesu \menu{Ctrl} a myší zvolí jednotlivé elementy diagramu, které mají tvořit identifikátor.
+Poté otevře kontextové menu na entitním typu, jemuž chce přidat identifikátor a zvolí možnost \enquote{Add as identifier}.
+Hierarchie se tvoří podobně, jen se zvolí nejdříve děti a poté se použije kontextové menu na rodiči hierarchie.
 
 \section{Technická dokumentace}
 
@@ -191,25 +208,25 @@ Naše prostředí má Node verze 20.
 Po instalaci by měl být k dispozici program \texttt{corepack}, kterým lze aktivovat náš upřednostňovaný správce balíčků \texttt{pnpm}~\cite{pnpm_pnpmfast_}.
 Spustíme příkaz\footnote{rozsah \texttt{\^{}8} specifikuje verzi použitou v době psaní práce, nejnovější verzi lze nainstalovat tím, že místo tohoto rozsahu použijeme \texttt{latest}}
 \begin{command}
-corepack prepare --activate pnpm@^8
+  corepack prepare --activate pnpm@^8
 \end{command}
 a poté ve složce \directory{schemcat} se zdrojovým kódem spustíme
 \begin{command}
-pnpm install
+  pnpm install
 \end{command}
 což nainstaluje všechny potřebné závislosti.
 
 Poté lze používat všechny příkazy, které jsme definovali v souboru \texttt{package.json}.
 Např.~příkaz
 \begin{command}
-pnpm run dev
+  pnpm run dev
 \end{command}
 spustí vývojový server, který sleduje změny ve zdrojovém kódu a sám stránku webového prohlížeče aktualizuje, když se kód změní.
 To umožňuje rapidní cyklus vývoje a testování změn.
 
 Příkaz
 \begin{command}
-pnpm run build
+  pnpm run build
 \end{command}
 sestaví projekt a výsledné soubory připravené k nasazení uloží do složky \texttt{dist}.
 
@@ -227,7 +244,7 @@ Nakonec je nutné projekt sestavit.
 
 Pokud chceme sestavený projekt spustit lokálně a máme nainstalovaný správce balíčků ze Sekce~\ref{section:development}, stačí spustit příkaz
 \begin{command}
-pnpx http-server .
+  pnpx http-server .
 \end{command}
 ve složce se soubory sestaveného projektu.
 Na obrazovce se pak vypíší lokální adresy, na kterých běží tento statický server.
