@@ -117,12 +117,7 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
   // composite attribute: morphisms to its attributes
   for (const compositeAttribute of diagram.nodes
     .filter((x) => x.type == ErNodeType.AttributeType)
-    .filter((x) =>
-      diagram.links
-        .filter((link) => link.fromId === x.id || link.toId === x.id)
-        .map((l) => (l.fromId === x.id ? l.toId : l.fromId))
-        .some((l) => diagram.nodes.find((n) => n.id === l)?.type === ErNodeType.EntityType)
-    )) {
+    .filter((x) => getLinks(diagram, x.id).some((l) => l.toNode?.type == ErNodeType.AttributeType))) {
     const subAttributeLinks = diagram.links
       .filter((x) => x.fromId == compositeAttribute.id || x.toId == compositeAttribute.id)
       .filter((x) => {
