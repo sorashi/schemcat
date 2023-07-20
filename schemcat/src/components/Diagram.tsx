@@ -148,6 +148,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
   const removeNodeById = useStore((state) => state.removeNodeById)
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const updateErEntityByDiscriminator = useStore((state) => state.updateErEntityByDiscriminator)
+  const setSelectedSchemcatEntity = useStore((state) => state.setSelectedSchemcatEntity)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
   const [nodeContextMenuState, setNodeContextMenuState] = useState({
     show: false,
@@ -250,6 +251,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
         key={`er-isa-hierarchy-${hierarchy.id}`}
         erIsaHierarchy={hierarchy}
         onClick={(e) => {
+          setSelectedSchemcatEntity()
           if (e.ctrlKey) {
             if (selectedEntityIds.some((x) => x.id === hierarchy.id)) {
               // remove from selection
@@ -276,6 +278,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
         key={link.id}
         link={link}
         onClick={(e) => {
+          setSelectedSchemcatEntity()
           if (e.ctrlKey) {
             if (selectedEntityIds.some((x) => x.id === link.id)) {
               // remove from selection
@@ -306,30 +309,6 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
     const identifierIsRelationshipType = identifiers.length === 1 && identifiers[0].type === ErNodeType.RelationshipType
 
     if (identifiers.length < 2 && !identifierIsRelationshipType) return
-    // const bezierResult = identifiersToBezier(node as ErNodeModel, identifiers as ErNodeModel[], links)
-    const style: React.CSSProperties | undefined = selectedEntityIds.some((x) => x.id === identifierId)
-      ? {
-          stroke: 'green',
-          strokeDasharray: '5,5',
-        }
-      : undefined
-    const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
-      if (e.ctrlKey) {
-        if (selectedEntityIds.some((x) => x.id === identifierId)) {
-          updateDiagram((d) => {
-            d.selectedEntities = d.selectedEntities.filter((x) => x.id !== identifierId)
-          })
-          return
-        }
-        updateDiagram((d) => {
-          d.selectedEntities.push({ id: identifierId, type: 'ErIdentifier' })
-        })
-        return
-      }
-      updateDiagram((d) => {
-        d.selectedEntities = [{ id: identifierId, type: 'ErIdentifier' }]
-      })
-    }
     return (
       <>
         <IdentifierFence
@@ -339,44 +318,6 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
           identifiers={[...identifiers.map((x) => plainToClass(ErNodeModel, { ...x }))] as ErNodeModel[]}
           links={[...links.map((x) => plainToClass(Connection, { ...x }))]}
         />
-        ,
-        {/**
-          // this path is the "hitbox", i.e. what the user can click to select the path
-          ...bezierResult.crossingPoints.map((point) => (
-            <circle
-              key={`crossing-point-${point.x}-${point.y}`}
-              cx={point.x}
-              cy={point.y}
-              r={3}
-              fill='black'
-              style={style}
-            />
-          )),
-          <path
-            key={`identifiers-bezier-hitbox-${identifierId}}`}
-            fill='none'
-            stroke='rgba(255,0,0,0)'
-            strokeWidth={10}
-            d={bezierResult.path}
-            onClick={selectOnClick}
-          />,
-          <path
-            key={`identifiers-bezier-${identifierId}`}
-            fill='none'
-            stroke='black'
-            strokeWidth={1}
-            style={style}
-            d={bezierResult.path}
-          />,
-          <circle
-            key={`identifiers-circle-${identifierId}`}
-            cx={bezierResult.circle.x}
-            cy={bezierResult.circle.y}
-            r={7}
-            fill='black'
-            style={style}
-            onClick={selectOnClick}
-          />, */}
       </>
     )
   }
@@ -402,6 +343,7 @@ function Diagram({ isSelectedNodeInActiveTabSet: isSelectedNodeInActiveTabSet = 
           })
         }}
         onClick={(e) => {
+          setSelectedSchemcatEntity()
           if (e.ctrlKey) {
             updateDiagram((d) => {
               const foundIndex = d.selectedEntities.findIndex((selected) => selected.id === node.id)

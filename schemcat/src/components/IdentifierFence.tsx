@@ -197,7 +197,9 @@ export function IdentifierFence(props: IdentifierFenceProps) {
   const dashArrayGap = fence.totalLength - dashArrayStroke
   const identifier = props.identifier
   const identifierId = identifier.id
+  const setSelectedSchemcatEntity = useStore((state) => state.setSelectedSchemcatEntity)
   const selectOnClick = (e: React.MouseEvent<SVGElement>) => {
+    setSelectedSchemcatEntity()
     if (e.ctrlKey) {
       if (selectedEntityIds.some((x) => x.id === identifierId)) {
         updateDiagram((d) => {
