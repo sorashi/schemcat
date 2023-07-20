@@ -22,3 +22,9 @@ export const MIME = {
   svg: 'image/svg+xml',
   png: 'image/png',
 }
+
+export const symbols = {
+  cdot: '⋅',
+  epsilon: 'ε',
+  bot: '⊥',
+}

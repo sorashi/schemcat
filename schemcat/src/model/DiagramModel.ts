@@ -310,6 +310,9 @@ export class Cardinality {
   isDefault(): boolean {
     return this.lowerBound === CardinalityLowerBound.One && this.upperBound === CardinalityUpperBound.One
   }
+  toString(): string {
+    return `(${this.lowerBound}, ${this.upperBound})`
+  }
 }
 
 export const Cardinalities = {

@@ -19,7 +19,8 @@ import {
 } from '../model/DiagramModel'
 import { assertNever } from '../utils/Types'
 import { AnchorPicker, enabledAnchorsCombinations } from './AnchorPicker'
-import { SchemaCategoryEntityDiscriminator, erDiagramToSchemcat } from '../model/SchemcatModel'
+import { SchemaCategory, SchemaCategoryEntityDiscriminator, erDiagramToSchemcat } from '../model/SchemcatModel'
+import { symbols } from '../Constants'
 
 type ErEntity = ErNode & Connection & ErIsaHierarchy & ErIdentifier
 type ErEntityKey = keyof ErEntity
@@ -287,22 +288,47 @@ function ErControlPanel() {
   )
 }
 
-interface SelectedSchemcatEntityProps {
+interface SchemcatEntityControlPanelProps {
   selectedSchemcatEntity: SchemaCategoryEntityDiscriminator
+  schemcat: SchemaCategory
 }
 
-function MorphismControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
+function MorphismControlPanelView({ selectedSchemcatEntity, schemcat }: SchemcatEntityControlPanelProps) {
+  const morphisms = schemcat.morphisms.filter((x) => x.signature[0] === selectedSchemcatEntity.id)
+  const morphism = morphisms[0]
+  const dualMorphism = morphisms[1]
+  if (!morphism) return null
   return (
     <dl>
-      <dt></dt>
+      <dt className='font-bold'>signature</dt>
+      <dd className='ml-4'>{morphism.signature.join(symbols.cdot)}</dd>
+      <dt className='font-bold'>domain</dt>
+      <dd className='ml-4'>{morphism.domain}</dd>
+      <dt className='font-bold'>codomain</dt>
+      <dd className='ml-4'>{morphism.codomain}</dd>
+      <dt className='font-bold'>label</dt>
+      <dd className='ml-4'>{morphism.label || symbols.bot}</dd>
+      <dt className='font-bold'>dual label</dt>
+      <dd className='ml-4'>{dualMorphism.label || symbols.bot}</dd>
+      <dt className='font-bold'>cardinality</dt>
+      <dd className='ml-4'>{morphism.cardinality.toString()}</dd>
+      <dt className='font-bold'>dual cardinality</dt>
+      <dd className='ml-4'>{dualMorphism.cardinality.toString()}</dd>
+      <dt className='font-bold'>duplicities</dt>
+      <dd className='ml-4'>{morphism.duplicities.toString()}</dd>
+      <dt className='font-bold'>dual duplicities</dt>
+      <dd className='ml-4'>{dualMorphism.duplicities.toString()}</dd>
+      <dt className='font-bold'>ordering</dt>
+      <dd className='ml-4'>{morphism.ordering.toString()}</dd>
+      <dt className='font-bold'>dual ordering</dt>
+      <dd className='ml-4'>{dualMorphism.ordering.toString()}</dd>
+      <dt className='font-bold'></dt>
     </dl>
   )
 }
 
-function ObjectControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
-  const diagram = useStore((state) => state.diagram)
-  const schemaCategory = useMemo(() => erDiagramToSchemcat(diagram), [diagram])
-  const schemaObject = schemaCategory.objects.find((x) => x.key == selectedSchemcatEntity.id)
+function ObjectControlPanelView({ selectedSchemcatEntity, schemcat }: SchemcatEntityControlPanelProps) {
+  const schemaObject = schemcat.objects.find((x) => x.key == selectedSchemcatEntity.id)
   if (!schemaObject) return null
   return (
     <dl>
@@ -326,18 +352,28 @@ function ObjectControlPanelView({ selectedSchemcatEntity }: SelectedSchemcatEnti
   )
 }
 
-function SchemcatEntityControlPanel({ selectedSchemcatEntity }: SelectedSchemcatEntityProps) {
+function SchemcatEntityControlPanel({
+  selectedSchemcatEntity,
+}: {
+  selectedSchemcatEntity: SchemaCategoryEntityDiscriminator
+}) {
+  const diagram = useStore((state) => state.diagram)
+  const schemcat = useMemo(() => erDiagramToSchemcat(diagram), [diagram])
   switch (selectedSchemcatEntity.type) {
     case 'Object':
       return (
         <div className='p-2'>
-          <ObjectControlPanelView selectedSchemcatEntity={selectedSchemcatEntity}></ObjectControlPanelView>
+          <ObjectControlPanelView
+            schemcat={schemcat}
+            selectedSchemcatEntity={selectedSchemcatEntity}></ObjectControlPanelView>
         </div>
       )
     case 'Morphism':
       return (
         <div className='p-2'>
-          <MorphismControlPanelView selectedSchemcatEntity={selectedSchemcatEntity}></MorphismControlPanelView>
+          <MorphismControlPanelView
+            schemcat={schemcat}
+            selectedSchemcatEntity={selectedSchemcatEntity}></MorphismControlPanelView>
         </div>
       )
     default:
