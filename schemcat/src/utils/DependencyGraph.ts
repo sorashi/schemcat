@@ -14,19 +14,35 @@ export class DirectedGraph {
       visited.add(node.id)
       const neighbors = this.getNeighbors(node)
       for (const neighbor of neighbors) {
-        if (!visited.has(neighbor.id)) {
-          dfs(neighbor)
-        }
+        if (!visited.has(neighbor.id)) dfs(neighbor)
       }
       stack.unshift(node.id)
     }
 
     for (const node of this.nodes) {
-      if (!visited.has(node.id)) {
-        dfs(node)
-      }
+      if (!visited.has(node.id)) dfs(node)
     }
     return stack
+  }
+  public getLeaves(): number[] {
+    const visited = new Set<number>()
+    const leaves: number[] = []
+    const dfs = (node: Vertex) => {
+      visited.add(node.id)
+      const neighbors = this.getNeighbors(node)
+      if (neighbors.length == 0) {
+        leaves.push(node.id)
+      }
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor.id)) {
+          dfs(neighbor)
+        }
+      }
+    }
+    for (const node of this.nodes) {
+      if (!visited.has(node.id)) dfs(node)
+    }
+    return leaves
   }
   public isAcyclic(): boolean {
     const visited = new Set<number>()

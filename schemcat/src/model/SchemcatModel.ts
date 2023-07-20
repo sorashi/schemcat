@@ -94,6 +94,7 @@ export function erDiagramToSchemcat(diagram: DiagramModel): SchemaCategory {
   useValidtaionStore.setState(
     produce((state: ValidationModel) => {
       state.dependencyCycle = !graph.isAcyclic()
+      state.leaves = graph.getLeaves()
     }),
     true
   )

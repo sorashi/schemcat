@@ -119,9 +119,11 @@ function getMaxIdFromModel(model: DeepPartial<StoreModel>) {
 
 export interface ValidationModel {
   dependencyCycle: boolean
+  leaves: number[]
 }
 export const useValidtaionStore = create<ValidationModel>((set) => ({
   dependencyCycle: false,
+  leaves: [],
 }))
 
 export const useStore = create<StoreModel>()(
