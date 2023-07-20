@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react'
 import { useStore } from '../hooks/useStore'
-import { Cardinality, ErNodeType } from '../model'
 import { DiagramSvgIds, DiagramType } from '../model/Constats'
 import { erDiagramToSchemcat, SchemaCategory, SchemaMorphism, SchemaObject } from '../model/SchemcatModel'
 import Vector2 from '../utils/Vector2'
@@ -11,6 +10,8 @@ import { groupBy } from '../utils/Array'
 import { attributeCircleRadius, selectedStrokeStyle } from '../Constants'
 import { PositionedSvgGroup } from './PositionedSvgGroup'
 import { IdentifierFenceForSchemcatVisualization } from './IdentifierFence'
+import { Angle } from '../utils/Angle'
+import SvgPathStringBuilder from '../utils/SvgPathStringBuilder'
 
 const objectCircleRadius = 18
 export const schemcatVisRectangleWidth = 100
@@ -80,52 +81,112 @@ export function SchemcatVisualizationObjectView({
     )
 }
 
-export function SchemcatVisualizationMorphism({ morphisms }: { morphisms: SchemaMorphism[] }) {
+export function SchemcatVisualizationMorphism({
+  morphisms,
+  schemcat,
+}: {
+  schemcat: SchemaCategory
+  morphisms: SchemaMorphism[]
+}) {
+  if (!morphisms) return null
   const morphism = morphisms[0]
+  const dual = morphisms[1]
   const nodes = useStore((state) => state.diagram.nodes)
   const from = nodes.find((n) => n.id === morphism.domain)
   const to = nodes.find((n) => n.id === morphism.codomain)
   if (!from || !to) throw new Error('could not find morphism domain or codomain')
-  const fromPos = new Vector2(from.x, from.y)
-  const toPos = new Vector2(to.x, to.y)
-  const cardinalityPosition = fromPos.add(toPos.subtract(fromPos).multiply(0.5))
-  const cardinalityBackPosition = fromPos.add(toPos.subtract(fromPos).multiply(0.8))
+  const fromVector = new Vector2(from.x, from.y)
+  const toVector = new Vector2(to.x, to.y)
+  const cardinalityPosition = fromVector.add(toVector.subtract(fromVector).multiply(0.5))
+  const cardinalityBackPosition = fromVector.add(toVector.subtract(fromVector).multiply(0.8))
 
   const selectedSchemcatEntity = useStore((state) => state.selectedSchemcatEntity)
   const setSelectedSchemcatEntity = useStore((state) => state.setSelectedSchemcatEntity)
 
+  const similarMorphisms = schemcat.morphisms.filter(
+    (x) => x.domain == morphism.domain && x.codomain == morphism.codomain
+  )
+  const thisMorphismIndex = similarMorphisms.findIndex((x) => x.signature[0] == morphism.signature[0])
+  const directionVector = toVector.subtract(fromVector)
+  const perpDir = directionVector.rotate(Angle.rightAngle).normalize()
+  const perpLineLength = 100
+  const perpLineFrom = fromVector.add(directionVector.multiply(0.5).subtract(perpDir.multiply(perpLineLength / 2)))
+  const perpLineTo = fromVector.add(directionVector.multiply(0.5).add(perpDir.multiply(perpLineLength / 2)))
+  const perpLineVector = perpLineTo.subtract(perpLineFrom)
+  const curvePoint = perpLineFrom.add(perpLineVector.multiply((1 / similarMorphisms.length) * thisMorphismIndex))
+  const pathSb = new SvgPathStringBuilder()
+  pathSb.start(fromVector)
+  pathSb.quadraticBezier(curvePoint, toVector)
+  const onClick = () => setSelectedSchemcatEntity({ type: 'Morphism', id: morphism.signature[0] })
+  const cardinalityPositionCoefficient = 0.6
+  const curveCardinalityPosition = fromVector.add(
+    curvePoint.subtract(fromVector).multiply(cardinalityPositionCoefficient)
+  )
+  const curveBackCardinalityPosition = toVector.add(
+    curvePoint.subtract(toVector).multiply(cardinalityPositionCoefficient)
+  )
+
   return (
     <>
-      <line
-        x1={from.x}
-        y1={from.y}
-        x2={to.x}
-        y2={to.y}
-        stroke='black'
-        strokeWidth={1}
-        style={(selectedSchemcatEntity?.id === morphism.signature[0] && selectedStrokeStyle) || undefined}
-      />
-      <line
-        x1={from.x}
-        y1={from.y}
-        x2={to.x}
-        y2={to.y}
-        stroke='rgba(240,0,0,0)'
-        strokeWidth={10}
-        onClick={(e) => setSelectedSchemcatEntity({ type: 'Morphism', id: morphisms[0].signature[0] })}
-      />
-      <CardinalityText
-        x={cardinalityPosition.x}
-        y={cardinalityPosition.y}
-        cardinality={morphism.cardinality}
-        pathId={''}
-      />
-      <CardinalityText
-        x={cardinalityBackPosition.x}
-        y={cardinalityBackPosition.y}
-        cardinality={morphisms[1].cardinality}
-        pathId={''}
-      />
+      {similarMorphisms.length > 1 ? (
+        <>
+          <path d={pathSb.toString()} stroke='black' strokeWidth={1} fill='none'></path>
+          <path d={pathSb.toString()} stroke='rgba(240, 0, 0, 0)' strokeWidth={5} onClick={onClick} fill='none'></path>
+          <CardinalityText
+            x={curveCardinalityPosition.x}
+            y={curveCardinalityPosition.y}
+            cardinality={morphism.cardinality}
+            pathId={''}
+          />
+          <text
+            x={curvePoint.x + 5}
+            y={curvePoint.y}
+            dominantBaseline='middle'
+            alignmentBaseline='middle'
+            textAnchor='start'>
+            {morphism.signature[0]}
+          </text>
+          <CardinalityText
+            x={curveBackCardinalityPosition.x}
+            y={curveBackCardinalityPosition.y}
+            cardinality={dual.cardinality}
+            pathId={''}
+          />
+        </>
+      ) : (
+        <>
+          <line
+            x1={from.x}
+            y1={from.y}
+            x2={to.x}
+            y2={to.y}
+            stroke='black'
+            strokeWidth={1}
+            style={(selectedSchemcatEntity?.id === morphism.signature[0] && selectedStrokeStyle) || undefined}
+          />
+          <line
+            x1={from.x}
+            y1={from.y}
+            x2={to.x}
+            y2={to.y}
+            stroke='rgba(240,0,0,0)'
+            strokeWidth={10}
+            onClick={onClick}
+          />
+          <CardinalityText
+            x={cardinalityPosition.x}
+            y={cardinalityPosition.y}
+            cardinality={morphism.cardinality}
+            pathId={''}
+          />
+          <CardinalityText
+            x={cardinalityBackPosition.x}
+            y={cardinalityBackPosition.y}
+            cardinality={morphisms[1].cardinality}
+            pathId={''}
+          />
+        </>
+      )}
     </>
   )
 }
@@ -152,6 +213,7 @@ export function SchemcatVisualizationDiagram({ isSelectedNodeInActiveTabSet }: S
           const mps = [...m]
           return (
             <SchemcatVisualizationMorphism
+              schemcat={schemcat}
               key={`schemcat-vis-morphism-${mps[0].domain}-${mps[0].codomain}-${mps[0].signature.join('.')}`}
               morphisms={mps}
             />
