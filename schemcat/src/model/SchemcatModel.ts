@@ -49,7 +49,7 @@ interface LinkInfo {
   link: Connection
   toNode?: ErNode
 }
-function getLinks(diagram: DiagramModel, from: number): LinkInfo[] {
+export function getLinks(diagram: DiagramModel, from: number): LinkInfo[] {
   return diagram.links
     .filter((x) => x.fromId == from || x.toId == from)
     .map((x) => {
