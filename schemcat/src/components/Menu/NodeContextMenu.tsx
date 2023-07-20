@@ -28,7 +28,6 @@ interface ContextMenuItemProps {
 }
 
 function AddRemoveIdentifierDropdownItem({ nodeId, onAfterAction }: ContextMenuItemProps) {
-  const updateNodeById = useStore((state) => state.updateNodeById)
   const addIdentifier = useStore((state) => state.addIdentifier)
   const removeIdentifierById = useStore((state) => state.removeIdentifierById)
   const selectedEntityIds = useStore((state) => state.diagram.selectedEntities)
