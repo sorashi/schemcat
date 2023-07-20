@@ -159,10 +159,6 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
 
   function handleAddAttribute() {
     if (!node) return
-    if (node.type !== ErNodeType.EntityType) {
-      console.error('Adding attribute supported only for entities')
-      return
-    }
     const newAttribute: ErNode = new ErNode('Attribute', ErNodeType.AttributeType, node.x, node.y + 100, true)
     updateDiagram((d) => {
       d.nodes.push(newAttribute)
@@ -175,7 +171,7 @@ function AddAttributeTypeDropdownItem({ nodeId, onAfterAction }: ContextMenuItem
       item={{ title: 'Add attribute type' }}
       action={handleAddAttribute}
       onAfterAction={onAfterAction}
-      canDoAction={() => node?.type === ErNodeType.EntityType}></DropdownItem>
+      canDoAction={() => !!node?.type}></DropdownItem>
   )
 }
 
