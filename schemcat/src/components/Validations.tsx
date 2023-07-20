@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useStore, useValidtaionStore } from '../hooks/useStore'
 import { Cardinalities, Cardinality, DiagramModel, ErNode, ErNodeType } from '../model'
 import { getLinks } from '../model/SchemcatModel'
@@ -51,13 +52,14 @@ export function Validations() {
   const dependencyCycle = useValidtaionStore((state) => state.dependencyCycle)
 
   const leaves = useValidtaionStore((state) => state.leaves)
-  const leafNodesWithoutIdentifiers = diagram.nodes
-    .filter((x) => leaves.some((l) => l == x.id))
-    .filter((n) => n.identifiers.size == 0)
+  const leafNodesWithoutIdentifiers = useMemo(
+    () => diagram.nodes.filter((x) => leaves.some((l) => l == x.id)).filter((n) => n.identifiers.size == 0),
+    [diagram]
+  )
 
-  const nonOneOneIdentifiers = getNonOneOneIdentifiers(diagram)
+  const nonOneOneIdentifiers = useMemo(() => getNonOneOneIdentifiers(diagram), [diagram])
 
-  const cannotBeComposite = getAttributesThatCannotBeComposite(diagram)
+  const cannotBeComposite = useMemo(() => getAttributesThatCannotBeComposite(diagram), [diagram])
   return (
     <div className='w-full h-full'>
       {dependencyCycle && <ValidationError message='Dependency cycle detected in ER.'></ValidationError>}
