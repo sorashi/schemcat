@@ -13,7 +13,9 @@ export function getNonOneOneIdentifiers(diagram: DiagramModel): IdentifierLinkIn
   return diagram.identifiers
     .flatMap((x) =>
       diagram.links.filter(
-        (l) => (l.fromId === x.identifies && x.identities.has(l.toId)) || (x.identifies && x.identities.has(l.toId))
+        (l) =>
+          (l.fromId === x.identifies && x.identities.has(l.toId)) ||
+          (l.toId == x.identifies && x.identities.has(l.toId))
       )
     )
     .filter((x) => !x?.cardinality.isDefault())
