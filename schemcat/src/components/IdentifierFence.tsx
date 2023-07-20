@@ -189,7 +189,10 @@ export function IdentifierFence(props: IdentifierFenceProps) {
     return { from: from, to: to }
   })
 
-  const minDistance = Math.min(...segments.map((s) => closestDistanceOfPointToRectangle(rectangle, s.to)))
+  let minDistance = Math.min(...segments.map((s) => closestDistanceOfPointToRectangle(rectangle, s.to)))
+  if (segments.length == 1) {
+    minDistance /= 2
+  }
   const fenceRectangle = getFenceRectangle(minDistance, rectangle)
 
   const fence = identifiersToFence(fenceRectangle, segments)
