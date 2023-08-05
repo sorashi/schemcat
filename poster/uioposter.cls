@@ -55,7 +55,7 @@
 \RequirePackage[size = a0, scale = 1.5]{beamerposter}
 \RequirePackage{etoolbox}
 \RequirePackage{pgfpages}
-\RequirePackage[utf8]{inputenx}
+% \RequirePackage[utf8]{inputenx}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{calc}
 \RequirePackage[final]{microtype}
