@@ -99,27 +99,32 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\definecolor{uiored}{cmyk}{0, 1, 1, 0}
+\definecolor{uiored}{cmyk}{0.29, 0, 0.52, 0.22}
 \definecolor{uiowhite}{cmyk}{0, 0, 0, 0}
 \definecolor{uioblack}{cmyk}{0, 0, 0, 1}
+\definecolor{mffgreen}{cmyk}{0.29, 0, 0.52, 0.22}
+\definecolor{mffred}{cmyk}{0, 0.76, 0.67, 0.18}
+\definecolor{cpbluedark}{cmyk}{0.81, 0.40, 0, 0.39}
+\definecolor{cpbluelight}{cmyk}{0.52, 0.21, 0, 0.04}
+\definecolor{morered}{cmyk}{0, 0.74, 1, 0.18}
 \definecolor{uioheader}{cmyk}{0, 0, 0, 0.6}
-\definecolor{uiobackground}{cmyk}{0, 0, 0, 0.2}
+\definecolor{uiobackground}{cmyk}{0, 0, 0, 0.1}
 \definecolor{uiolink}{HTML}{0B5A9D}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \setbeamercolor{structure}{fg = uioheader}
-\setbeamercolor{alerted text}{fg = uiored}
+\setbeamercolor{alerted text}{fg = cpbluedark}
 \setbeamercolor{background canvas}{fg = uioblack, bg = uiobackground}
-\setbeamercolor{headline}{fg = uiowhite, bg = uioblack}
-\setbeamercolor{title in headline}{fg = uiored}
+\setbeamercolor{headline}{fg = uiowhite, bg = cpbluedark}
+\setbeamercolor{title in headline}{fg = uiowhite}
 \setbeamercolor{author in headline}{fg = uiowhite}
-\setbeamercolor{footline}{fg = uiowhite, bg = uioblack}
+\setbeamercolor{footline}{fg = uiowhite, bg = cpbluedark}
 
 
-\setbeamercolor{block title}{fg = uiowhite, bg = structure}
+\setbeamercolor{block title}{fg = uiowhite, bg = cpbluelight}
 \setbeamercolor{block title example}{fg = uiowhite, bg = uioblack}
-\setbeamercolor{block title alerted}{fg = uiowhite, bg = uiored}
+\setbeamercolor{block title alerted}{fg = uiowhite, bg = cpbluedark}
 
 
 \setbeamercolor{block body} {fg = uioblack, bg = uiowhite}
@@ -130,7 +135,7 @@
 
 \setbeamerfont{title in headline}{family = \sffamily,
                                   series = \bfseries,
-                                  size   = \Huge}
+                                  size   = \huge}
 \setbeamerfont{author in headline}{family = \sffamily,
                                    series = \bfseries,
                                    size   = \Large}
