@@ -20,6 +20,8 @@
 \usepackage[figwidth = 0.98\linewidth]{todonotes}  % Dummy image (and more!)
 \usepackage[absolute, overlay]{textpos}            % Figure placement
 \usepackage{polyglossia}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \setmainlanguage{czech}
 \setotherlanguages{english}
 \usepackage[mono=true]{libertinus-otf}
@@ -63,41 +65,37 @@
         Usnadní tak výzkumníkům a potenciálním uživatelům schematických kategorií prozkoumání a seznámení se s tímto novým konceptem.
       \end{block}
 
-      \begin{alertblock}{How do you make it pop?}
-        Use an \alert{alertblock}!
-      \end{alertblock}
-
-      \begin{block}{Method}
-        \lipsum[1]
-      \end{block}
-
-      \begin{block}{Results}
-        \lipsum[2]
-        \missingfigure{Striking imagery relevant to the research}
-        \unskip
+      \begin{block}{Příklad diagramů}
+        \begin{figure}
+          \centering
+          \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=1\textwidth]{./images/university-er.pdf}
+            \caption{Entity-Relationship}
+          \end{subfigure}
+          \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{./images/university-schemcat.pdf}
+            \caption{Schematická kategorie}
+          \end{subfigure}
+          \begin{subfigure}{0.45\textwidth}
+            \includegraphics[width=\textwidth]{./images/university-scv.pdf}
+            \caption{Vizualizace schematické kategorie}
+          \end{subfigure}
+        \end{figure}
       \end{block}
     \end{column}
 
 
     \begin{column}{0.5\textwidth - 1.5cm}
-      \begin{block}{Conclusions}
-        \lipsum[4]
+      \begin{block}{Uživatelské rozhraní}
+        \begin{figure}
+          \centering
+          \includegraphics[width=0.8\textwidth]{./images/identifier-screenshot.png}
+        \end{figure}
       \end{block}
-
-      \begin{block}{Acknowledgements}
-        \lipsum[5]
-      \end{block}
-
-      \begin{block}{References}
-        \lipsum[6]
-      \end{block}
-
-      \begin{block}{Kontakt}
-        \lipsum[75]
+      \begin{block}{Závěr}
+          Webová aplikace je 
       \end{block}
     \end{column}
-
-
   \end{columns}
 
 

@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="erDiagram"
+   viewBox="-0.8519668579101562 0 800 800"
+   class="h-[100vh] w-[100vw] cursor-move"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.1"
+   sodipodi:docname="university.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+   id="namedview28"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="0.445"
+   inkscape:cx="39.325843"
+   inkscape:cy="398.8764"
+   inkscape:window-width="1920"
+   inkscape:window-height="1011"
+   inkscape:window-x="0"
+   inkscape:window-y="32"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="erDiagram" />
+<defs
+   id="defs1">
+  <marker
+     id="marker-triangle-empty"
+     viewBox="0 0 10 10"
+     refX="9"
+     refY="5"
+     markerUnits="strokeWidth"
+     markerWidth="15"
+     markerHeight="15"
+     stroke-width="1"
+     stroke-linejoin="round"
+     orient="auto">
+    <path
+       d="M 1 1 L 9 5 L 1 9 z"
+       fill="white"
+       stroke="black"
+       id="path1" />
+  </marker>
+</defs>
+<g
+   stroke-width="1"
+   stroke="#000000"
+   id="g3"
+   transform="translate(434.93543,12.756896)">
+  <line
+     marker-end="url(#marker-triangle-empty)"
+     x1="-153.19489"
+     y1="223.57162"
+     x2="-153.19489"
+     y2="192.16721"
+     stroke-width="1.5"
+     id="line1" />
+  <line
+     x1="-234.39832"
+     y1="251.56818"
+     x2="-153.19489"
+     y2="223.57162"
+     stroke-width="1.5"
+     id="line2" />
+  <line
+     x1="-71.991478"
+     y1="258.38391"
+     x2="-153.19489"
+     y2="223.57162"
+     stroke-width="1.5"
+     id="line3" />
+</g>
+<g
+   stroke-width="15"
+   stroke="rgba(0,0,0,0)"
+   id="g6"
+   transform="translate(434.93543,12.756896)">
+  <line
+     x1="-153.19489"
+     y1="223.57162"
+     x2="-153.19489"
+     y2="192.16721"
+     id="line4" />
+  <line
+     x1="-334.39832"
+     y1="224.06818"
+     x2="-153.19489"
+     y2="223.57162"
+     id="line5" />
+  <line
+     x1="-71.991478"
+     y1="230.88393"
+     x2="-153.19489"
+     y2="223.57162"
+     id="line6" />
+</g>
+ref.current &amp;&amp; <polyline
+   id="path-54"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="112.61981201171875,258.3839111328125 112.88605499267578,320.6602783203125"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="112.61981201171875,258.3839111328125 112.88605499267578,320.6602783203125"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline6"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-56"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="111.13951301574707,163.18690490722656 -153.19488525390625,164.66720581054688"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="111.13951301574707,163.18690490722656 -153.19488525390625,164.66720581054688"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline7"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-57"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="111.13951301574707,163.18690490722656 112.61981201171875,258.3839111328125"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="111.13951301574707,163.18690490722656 112.61981201171875,258.3839111328125"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline8"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-59"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-153.19488525390625,164.66720581054688 -93.29074096679688,72.73696517944336"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-153.19488525390625,164.66720581054688 -93.29074096679688,72.73696517944336"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline9"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-61"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-153.19488525390625,164.66720581054688 -206.60275268554688,73.58893585205078"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-153.19488525390625,164.66720581054688 -206.60275268554688,73.58893585205078"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline10"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-66"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-280.13844299316406,541.2379760742188 -165.70819091796875,542.1724853515625"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-280.13844299316406,541.2379760742188 -165.70819091796875,542.1724853515625"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline11"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-67"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-282.470703125,398.3306884765625 -284.3983154296875,251.56817626953125"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-282.470703125,398.3306884765625 -284.3983154296875,251.56817626953125"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline12"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-68"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-282.470703125,415.8306884765625 -280.13844299316406,513.7379760742188"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-282.470703125,415.8306884765625 -280.13844299316406,513.7379760742188"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline13"
+   transform="translate(434.93543,12.756896)" />
+<text
+   x="153.1644"
+   y="457.95978"
+   alignment-baseline="middle"
+   dominant-baseline="middle"
+   text-anchor="start"
+   id="text13">(0, *)</text>
+ref.current &amp;&amp; <polyline
+   id="path-71"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-20.06389617919922,399.1826171875 -21.991477966308594,258.38392639160156"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-20.06389617919922,399.1826171875 -21.991477966308594,258.38392639160156"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline14"
+   transform="translate(434.93543,12.756896)" />
+ref.current &amp;&amp; <polyline
+   id="path-72"
+   stroke-width="15"
+   stroke="rgba(255,0,0,0)"
+   points="-60.06389617919922,416.6826171875 -230.13844299316406,513.7379760742188"
+   transform="translate(434.93543,12.756896)" />
+<polyline
+   points="-60.06389617919922,416.6826171875 -230.13844299316406,513.7379760742188"
+   fill="none"
+   stroke="#000000"
+   stroke-width="1.5"
+   id="polyline15"
+   transform="translate(434.93543,12.756896)" />
+<text
+   x="323.84918"
+   y="458.55612"
+   alignment-baseline="middle"
+   dominant-baseline="middle"
+   text-anchor="start"
+   id="text15">(0, *)</text>
+<g
+   transform="translate(100.53711,236.82507)"
+   class="cursor-pointer"
+   id="g16">
+  <rect
+     width="100"
+     height="55"
+     y="0"
+     x="0"
+     rx="2"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect15" />
+  <text
+     x="50"
+     y="27.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text16">Teacher</text>
+</g>
+<g
+   transform="translate(362.94395,243.64082)"
+   class="cursor-pointer"
+   id="g17">
+  <rect
+     width="100"
+     height="55"
+     y="0"
+     x="0"
+     rx="2"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect16" />
+  <text
+     x="50"
+     y="27.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text17">Student</text>
+</g>
+<g
+   transform="translate(506.07494,158.4438)"
+   class="cursor-pointer"
+   id="g18">
+  <polygon
+     width="80"
+     height="35"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     points="40,-18.652306 117.52887,17.5 40,53.652306 -37.528871,17.5 "
+     stroke-linejoin="round"
+     id="polygon17" />
+  <text
+     x="40"
+     y="17.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text18">has</text>
+</g>
+<g
+   transform="translate(231.74054,149.9241)"
+   class="cursor-pointer"
+   id="g19">
+  <rect
+     width="100"
+     height="55"
+     y="0"
+     x="0"
+     rx="2"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect18" />
+  <text
+     x="50"
+     y="27.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text19">Person</text>
+</g>
+<path
+   d="M 385.32414,228.5077 V 126.3405 a 30,30 0 0 0 -30,-29.999997 h -147.1672 a 30,30 0 0 0 -30,29.999997 v 102.1672 a 30,30 0 0 0 30,30 h 147.1672 a 30,30 0 0 0 30,-30 z"
+   stroke-width="1.5"
+   stroke="#000000"
+   fill="none"
+   stroke-dasharray="40, 647.191"
+   stroke-dashoffset="-30"
+   id="path19" />
+<path
+   d="M 385.32414,228.5077 V 126.3405 a 30,30 0 0 0 -30,-29.999997 h -147.1672 a 30,30 0 0 0 -30,29.999997 v 102.1672 a 30,30 0 0 0 30,30 h 147.1672 a 30,30 0 0 0 30,-30 z"
+   stroke="rgba(255,0,0,0)"
+   fill="none"
+   stroke-dasharray="40, 647.191"
+   stroke-dashoffset="-30"
+   stroke-width="10"
+   id="path20" />
+<circle
+   cx="385.32413"
+   cy="176.84402"
+   r="3"
+   id="circle20" />
+<circle
+   cx="385.32413"
+   cy="158.50771"
+   r="7"
+   fill="#000000"
+   id="circle21" />
+<g
+   transform="translate(497.55524,243.64081)"
+   class="cursor-pointer"
+   id="g21">
+  <rect
+     width="100"
+     height="55"
+     y="0"
+     x="0"
+     rx="2"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect21" />
+  <text
+     x="50"
+     y="27.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text21">ID Card</text>
+</g>
+<g
+   transform="translate(547.82148,333.41717)"
+   class="cursor-pointer"
+   id="g22">
+  <circle
+     r="7"
+     cx="0"
+     cy="0"
+     fill="#000000"
+     stroke="#000000"
+     stroke-width="2"
+     id="circle22" />
+  <text
+     x="17"
+     y="0"
+     dominant-baseline="middle"
+     alignment-baseline="middle"
+     text-anchor="start"
+     id="text22">ID</text>
+</g>
+<g
+   transform="translate(341.64469,85.493861)"
+   class="cursor-pointer"
+   id="g23">
+  <circle
+     r="7"
+     cx="0"
+     cy="0"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="circle23" />
+  <text
+     x="0"
+     y="-17"
+     dominant-baseline="auto"
+     alignment-baseline="baseline"
+     text-anchor="middle"
+     id="text23">surname</text>
+</g>
+<g
+   transform="translate(228.33267,86.345832)"
+   class="cursor-pointer"
+   id="g24">
+  <circle
+     r="7"
+     cx="0"
+     cy="0"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="circle24" />
+  <text
+     x="0"
+     y="-17"
+     dominant-baseline="auto"
+     alignment-baseline="baseline"
+     text-anchor="middle"
+     id="text24">givenName</text>
+</g>
+<g
+   transform="translate(112.46472,393.58758)"
+   class="cursor-pointer"
+   id="g25">
+  <polygon
+     width="80"
+     height="35"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     points="40,-18.652306 117.52887,17.5 40,53.652306 -37.528871,17.5 "
+     stroke-linejoin="round"
+     id="polygon24" />
+  <text
+     x="40"
+     y="17.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text25">teaches</text>
+</g>
+<g
+   transform="translate(104.79698,526.49487)"
+   class="cursor-pointer"
+   id="g26">
+  <rect
+     width="100"
+     height="55"
+     y="0"
+     x="0"
+     rx="2"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     id="rect25" />
+  <text
+     x="50"
+     y="27.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text26">Course</text>
+</g>
+<g
+   transform="translate(269.22724,554.92938)"
+   class="cursor-pointer"
+   id="g27">
+  <circle
+     r="7"
+     cx="0"
+     cy="0"
+     fill="#000000"
+     stroke="#000000"
+     stroke-width="2"
+     id="circle26" />
+  <text
+     x="17"
+     y="0"
+     dominant-baseline="middle"
+     alignment-baseline="middle"
+     text-anchor="start"
+     id="text27">code</text>
+</g>
+<g
+   transform="translate(374.87153,394.43951)"
+   class="cursor-pointer"
+   id="g28">
+  <polygon
+     width="80"
+     height="35"
+     fill="#ffffff"
+     stroke="#000000"
+     stroke-width="2"
+     points="40,-18.652306 117.52887,17.5 40,53.652306 -37.528871,17.5 "
+     stroke-linejoin="round"
+     id="polygon27" />
+  <text
+     x="40"
+     y="17.5"
+     dominant-baseline="middle"
+     text-anchor="middle"
+     alignment-baseline="middle"
+     id="text28">enrolled in</text>
+</g>
+</svg>

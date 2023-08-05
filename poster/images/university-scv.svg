@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="schemcatVisDiagram"
+   viewBox="-9.542070007324241 1.022357177734392 800 800"
+   class="h-[100vh] w-[100vw] cursor-move"
+   preserveAspectRatio="xMidYMid meet"
+   version="1.1"
+   sodipodi:docname="university-scv.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview42"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.445"
+     inkscape:cx="398.8764"
+     inkscape:cy="398.8764"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="schemcatVisDiagram" />
+  <defs
+     id="defs2">
+    <marker
+       id="marker-triangle-empty"
+       viewBox="0 0 10 10"
+       refX="9"
+       refY="5"
+       markerUnits="strokeWidth"
+       markerWidth="15"
+       markerHeight="15"
+       stroke-width="1"
+       stroke-linejoin="round"
+       orient="auto">
+      <path
+         d="M 1 1 L 9 5 L 1 9 z"
+         fill="white"
+         stroke="black"
+         id="path1" />
+    </marker>
+    <marker
+       id="marker-two-sided"
+       viewBox="0 0 10 10"
+       refX="10"
+       refY="5"
+       markerUnits="strokeWidth"
+       markerWidth="10"
+       markerHeight="10"
+       stroke-width="1"
+       orient="auto">
+      <path
+         d="M 0 0 L 10 5 L 0 10"
+         fill="none"
+         stroke="black"
+         stroke-width="1"
+         id="path2" />
+    </marker>
+  </defs>
+  <line
+     x1="381.47476"
+     y1="187.6483"
+     x2="464.11584"
+     y2="98.510918"
+     stroke="#000000"
+     stroke-width="1"
+     id="line2" />
+  <line
+     x1="381.47476"
+     y1="187.6483"
+     x2="464.11584"
+     y2="98.510918"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line3" />
+  <text
+     x="447.58762"
+     y="116.33839"
+     alignment-baseline="middle"
+     dominant-baseline="middle"
+     text-anchor="start"
+     id="text3">(1, *)</text>
+  <line
+     x1="381.47476"
+     y1="187.6483"
+     x2="329.50458"
+     y2="96.806976"
+     stroke="#000000"
+     stroke-width="1"
+     id="line4" />
+  <line
+     x1="381.47476"
+     y1="187.6483"
+     x2="329.50458"
+     y2="96.806976"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line5" />
+  <text
+     x="339.89862"
+     y="114.97524"
+     alignment-baseline="middle"
+     dominant-baseline="middle"
+     text-anchor="start"
+     id="text5">(1, *)</text>
+  <line
+     x1="595.31927"
+     y1="292.44061"
+     x2="645.58551"
+     y2="382.21698"
+     stroke="#000000"
+     stroke-width="1"
+     id="line6" />
+  <line
+     x1="595.31927"
+     y1="292.44061"
+     x2="645.58551"
+     y2="382.21698"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line7" />
+  <line
+     x1="236.63982"
+     y1="623.00494"
+     x2="375.51096"
+     y2="625.88043"
+     stroke="#000000"
+     stroke-width="1"
+     id="line8" />
+  <line
+     x1="236.63982"
+     y1="623.00494"
+     x2="375.51096"
+     y2="625.88043"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line9" />
+  <line
+     x1="595.31927"
+     y1="191.90814"
+     x2="381.47476"
+     y2="187.6483"
+     stroke="#000000"
+     stroke-width="1"
+     id="line10" />
+  <line
+     x1="595.31927"
+     y1="191.90814"
+     x2="381.47476"
+     y2="187.6483"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line11" />
+  <line
+     x1="595.31927"
+     y1="191.90814"
+     x2="595.31927"
+     y2="292.44061"
+     stroke="#000000"
+     stroke-width="1"
+     id="line12" />
+  <line
+     x1="595.31927"
+     y1="191.90814"
+     x2="595.31927"
+     y2="292.44061"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line13" />
+  <line
+     x1="210.22874"
+     y1="442.38739"
+     x2="198.30113"
+     y2="285.62488"
+     stroke="#000000"
+     stroke-width="1"
+     id="line14" />
+  <line
+     x1="210.22874"
+     y1="442.38739"
+     x2="198.30113"
+     y2="285.62488"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line15" />
+  <line
+     x1="210.22874"
+     y1="442.38739"
+     x2="236.63982"
+     y2="623.00494"
+     stroke="#000000"
+     stroke-width="1"
+     id="line16" />
+  <line
+     x1="210.22874"
+     y1="442.38739"
+     x2="236.63982"
+     y2="623.00494"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line17" />
+  <text
+     x="223.43428"
+     y="532.69617"
+     alignment-baseline="middle"
+     dominant-baseline="middle"
+     text-anchor="start"
+     id="text17">(0, *)</text>
+  <text
+     x="231.35762"
+     y="586.88141"
+     alignment-baseline="middle"
+     dominant-baseline="middle"
+     text-anchor="start"
+     id="text18">(1, *)</text>
+  <line
+     x1="472.63556"
+     y1="443.23932"
+     x2="460.70798"
+     y2="292.44061"
+     stroke="#000000"
+     stroke-width="1"
+     id="line18" />
+  <line
+     x1="472.63556"
+     y1="443.23932"
+     x2="460.70798"
+     y2="292.44061"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line19" />
+  <line
+     x1="472.63556"
+     y1="443.23932"
+     x2="236.63982"
+     y2="623.00494"
+     stroke="#000000"
+     stroke-width="1"
+     id="line20" />
+  <line
+     x1="472.63556"
+     y1="443.23932"
+     x2="236.63982"
+     y2="623.00494"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line21" />
+  <text
+     x="354.6377"
+     y="533.12213"
+     alignment-baseline="middle"
+     dominant-baseline="middle"
+     text-anchor="start"
+     id="text21">(0, *)</text>
+  <text
+     x="283.83899"
+     y="587.05182"
+     alignment-baseline="middle"
+     dominant-baseline="middle"
+     text-anchor="start"
+     id="text22">(1, *)</text>
+  <line
+     x1="460.70798"
+     y1="292.44061"
+     x2="381.47476"
+     y2="187.6483"
+     stroke="#000000"
+     stroke-width="1"
+     id="line22" />
+  <line
+     x1="460.70798"
+     y1="292.44061"
+     x2="381.47476"
+     y2="187.6483"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line23" />
+  <line
+     x1="198.30113"
+     y1="285.62488"
+     x2="381.47476"
+     y2="187.6483"
+     stroke="#000000"
+     stroke-width="1"
+     id="line24" />
+  <line
+     x1="198.30113"
+     y1="285.62488"
+     x2="381.47476"
+     y2="187.6483"
+     stroke="rgba(240,0,0,0)"
+     stroke-width="10"
+     id="line25" />
+  <g
+     transform="translate(645.5855,382.21698)"
+     id="g25">
+    <circle
+       cx="0"
+       cy="0"
+       r="7"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="circle25" />
+    <text
+       dominant-baseline="middle"
+       x="20"
+       y="0"
+       text-anchor="left"
+       color="#000000"
+       id="text25">ID</text>
+  </g>
+  <g
+     transform="translate(464.11584,98.510918)"
+     id="g26">
+    <circle
+       cx="0"
+       cy="0"
+       r="7"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="circle26" />
+    <text
+       dominant-baseline="middle"
+       x="20"
+       y="0"
+       text-anchor="left"
+       color="#000000"
+       id="text26">surname</text>
+  </g>
+  <g
+     transform="translate(329.50456,96.806973)"
+     id="g27">
+    <circle
+       cx="0"
+       cy="0"
+       r="7"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="circle27" />
+    <text
+       dominant-baseline="middle"
+       x="20"
+       y="0"
+       text-anchor="left"
+       color="#000000"
+       id="text27">givenName</text>
+  </g>
+  <g
+     transform="translate(375.51096,625.88043)"
+     id="g28">
+    <circle
+       cx="0"
+       cy="0"
+       r="7"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="circle28" />
+    <text
+       dominant-baseline="middle"
+       x="20"
+       y="0"
+       text-anchor="left"
+       color="#000000"
+       id="text28">code</text>
+  </g>
+  <path
+     d="M 324.23003,356.55378 V 214.69597 a 30,30 0 0 0 -30,-30 h -191.8578 a 30,30 0 0 0 -29.999999,30 v 141.85781 a 30,30 0 0 0 29.999999,30 h 191.8578 a 30,30 0 0 0 30,-30 z"
+     stroke-width="1.5"
+     stroke="#000000"
+     fill="none"
+     stroke-dasharray="40, 815.953"
+     stroke-dashoffset="-110"
+     id="path28" />
+  <circle
+     cx="324.23004"
+     cy="218.26756"
+     r="3"
+     id="circle29" />
+  <circle
+     cx="323.13943"
+     cy="206.6523"
+     r="7"
+     fill="#000000"
+     id="circle30" />
+  <g
+     transform="translate(198.30113,285.62487)"
+     id="g30">
+    <rect
+       x="-50"
+       y="-25"
+       width="100"
+       height="50"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="rect30" />
+    <text
+       dominant-baseline="middle"
+       text-anchor="middle"
+       x="0"
+       y="0"
+       color="#000000"
+       id="text30">Teacher</text>
+  </g>
+  <path
+     d="m 553.19737,329.93003 v -74.97881 a 30,30 0 0 0 -30,-30 h -124.9788 a 30,30 0 0 0 -30,30 v 74.97881 a 30,30 0 0 0 30,30 h 124.9788 a 30,30 0 0 0 30,-30 z"
+     stroke-width="1.5"
+     stroke="#000000"
+     fill="none"
+     stroke-dasharray="40, 548.438"
+     stroke-dashoffset="-210"
+     id="path30" />
+  <circle
+     cx="409.67941"
+     cy="224.95123"
+     r="3"
+     id="circle31" />
+  <circle
+     cx="395.31119"
+     cy="225.09038"
+     r="7"
+     fill="#000000"
+     id="circle32" />
+  <g
+     transform="translate(460.70797,292.44062)"
+     id="g32">
+    <rect
+       x="-50"
+       y="-25"
+       width="100"
+       height="50"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="rect32" />
+    <text
+       dominant-baseline="middle"
+       text-anchor="middle"
+       x="0"
+       y="0"
+       color="#000000"
+       id="text32">Student</text>
+  </g>
+  <path
+     d="M 513.397,264.57055 V 110.72604 a 30,30 0 0 0 -30,-29.999997 H 279.55249 a 30,30 0 0 0 -30,29.999997 v 153.84451 a 30,30 0 0 0 30,30 H 483.397 a 30,30 0 0 0 30,-30 z"
+     stroke-width="1.5"
+     stroke="#000000"
+     fill="none"
+     stroke-dasharray="40, 863.9"
+     stroke-dashoffset="-50"
+     id="path32" />
+  <circle
+     cx="513.39697"
+     cy="190.27623"
+     r="3"
+     id="circle33" />
+  <circle
+     cx="513.39697"
+     cy="174.57056"
+     r="7"
+     fill="#000000"
+     id="circle34" />
+  <g
+     transform="translate(381.47475,187.6483)"
+     id="g34">
+    <rect
+       x="-50"
+       y="-25"
+       width="100"
+       height="50"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="rect34" />
+    <text
+       dominant-baseline="middle"
+       text-anchor="middle"
+       x="0"
+       y="0"
+       color="#000000"
+       id="text34">Person</text>
+  </g>
+  <path
+     d="m 677.70772,319.82907 v -54.77692 a 30,30 0 0 0 -30,-30 H 542.9308 a 30,30 0 0 0 -30,30 v 54.77692 a 30,30 0 0 0 30,30 h 104.77692 a 30,30 0 0 0 30,-30 z"
+     stroke-width="1.5"
+     stroke="#000000"
+     fill="none"
+     stroke-dasharray="40, 467.63"
+     stroke-dashoffset="-420"
+     id="path34" />
+  <circle
+     cx="627.45135"
+     cy="349.82907"
+     r="3"
+     id="circle35" />
+  <circle
+     cx="647.20837"
+     cy="349.82907"
+     r="7"
+     fill="#000000"
+     id="circle36" />
+  <g
+     transform="translate(595.31926,292.44061)"
+     id="g36">
+    <rect
+       x="-50"
+       y="-25"
+       width="100"
+       height="50"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="rect36" />
+    <text
+       dominant-baseline="middle"
+       text-anchor="middle"
+       x="0"
+       y="0"
+       color="#000000"
+       id="text36">ID Card</text>
+  </g>
+  <path
+     d="m 331.07539,662.4405 v -78.87112 a 30,30 0 0 0 -30,-30 H 172.20427 a 30,30 0 0 0 -30,30 v 78.87112 a 30,30 0 0 0 30,30 h 128.87112 a 30,30 0 0 0 30,-30 z"
+     stroke-width="1.5"
+     stroke="#000000"
+     fill="none"
+     stroke-dasharray="40, 564.007"
+     stroke-dashoffset="-10"
+     id="path36" />
+  <circle
+     cx="331.07541"
+     cy="624.96033"
+     r="3"
+     id="circle37" />
+  <circle
+     cx="331.07541"
+     cy="612.44049"
+     r="7"
+     fill="#000000"
+     id="circle38" />
+  <g
+     transform="translate(236.63983,623.00494)"
+     id="g38">
+    <rect
+       x="-50"
+       y="-25"
+       width="100"
+       height="50"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="rect38" />
+    <text
+       dominant-baseline="middle"
+       text-anchor="middle"
+       x="0"
+       y="0"
+       color="#000000"
+       id="text38">Course</text>
+  </g>
+  <path
+     d="M 683.08549,224.67437 V 159.1419 a 30,30 0 0 0 -30,-30 H 537.55302 a 30,30 0 0 0 -30,30 v 65.53247 a 30,30 0 0 0 30,30 h 115.53247 a 30,30 0 0 0 30,-30 z"
+     stroke-width="1.5"
+     stroke="#000000"
+     fill="none"
+     stroke-dasharray="40, 510.652"
+     stroke-dashoffset="-420"
+     id="path38" />
+  <circle
+     cx="595.31927"
+     cy="254.67438"
+     r="3"
+     id="circle39" />
+  <circle
+     cx="609.5639"
+     cy="254.67438"
+     r="7"
+     fill="#000000"
+     id="circle40" />
+  <g
+     transform="translate(595.31925,191.90814)"
+     id="g40">
+    <rect
+       x="-50"
+       y="-25"
+       width="100"
+       height="50"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="rect40" />
+    <text
+       dominant-baseline="middle"
+       text-anchor="middle"
+       x="0"
+       y="0"
+       color="#000000"
+       id="text40">has</text>
+  </g>
+  <g
+     transform="translate(210.22874,442.38739)"
+     id="g41">
+    <circle
+       cx="0"
+       cy="0"
+       r="7"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="circle41" />
+    <text
+       dominant-baseline="middle"
+       x="20"
+       y="0"
+       text-anchor="left"
+       color="#000000"
+       id="text41">teaches</text>
+  </g>
+  <g
+     transform="translate(472.63555,443.23932)"
+     id="g42">
+    <circle
+       cx="0"
+       cy="0"
+       r="7"
+       stroke="#000000"
+       stroke-width="1"
+       fill="#ffffff"
+       id="circle42" />
+    <text
+       dominant-baseline="middle"
+       x="20"
+       y="0"
+       text-anchor="left"
+       color="#000000"
+       id="text42">enrolled in</text>
+  </g>
+</svg>
