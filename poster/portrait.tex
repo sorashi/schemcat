@@ -71,16 +71,28 @@
           \begin{subfigure}{0.45\textwidth}
             \includegraphics[width=1\textwidth]{./images/university-er.pdf}
             \caption{Entity-Relationship}
+            \label{fig:diagrams:er}
           \end{subfigure}
           \begin{subfigure}{0.45\textwidth}
             \includegraphics[width=\textwidth]{./images/university-schemcat.pdf}
             \caption{Schematická kategorie}
+            \label{fig:diagrams:schemcat}
           \end{subfigure}
-          \begin{subfigure}{0.45\textwidth}
+          \begin{subfigure}{0.5\textwidth}
             \includegraphics[width=\textwidth]{./images/university-scv.pdf}
             \caption{Vizualizace schematické kategorie}
+            \label{fig:diagrams:scv}
           \end{subfigure}
+          \caption{Diagramy}
+          \label{fig:diagrams}
         \end{figure}
+
+        Na Obrázku~\ref{fig:diagrams:er} je ER schéma vysoké školy s učiteli a studenty, kteří učí resp. docházejí na lekce.
+        Odpovídající schematická kategorie je na Obrázku~\ref{fig:diagrams:schemcat}.
+        Ta však nevyobrazuje úplně všechna data, která schematická kategorie obsahuje.
+        Uživatel je může prozkoumat zvolením jednotlivých objektů nebo morfismů.
+
+        Aby byla jednodušeji z diagramu vidět sémantika schematické kategorie, byla navržena vizualizace schematické kategorie, viz Obrázek~\ref{fig:diagrams:scv}.
       \end{block}
     \end{column}
 
@@ -90,10 +102,26 @@
         \begin{figure}
           \centering
           \includegraphics[width=0.8\textwidth]{./images/identifier-screenshot.png}
+          \caption{Uživatelské rozhraní}
+          \label{fig:user-interface}
         \end{figure}
+
+        Uživatelské rozhraní z Obrázku~\ref{fig:user-interface} je složeno z oken a záložek, které lze libovolně přesouvat a měnit jejich velikost.
+        Na obrázku je právě zvolen objekt odpovídající entitě učitele a v ovládacím panelu vlevo lze vidět jeho identifikátor $54\cdot 57\cdot 56\cdot 51$.
+        To je řetězec složený ze signatur morfismů, které vedou do objektu, jímž je učitel identifikován (ID identifikační karty).
+
+        Vlevo dole vidíme různé přepřipravené konstrukty, které lze přetažením myší vložit do ER diagramu.
+
+        Dole je (prázdný) seznam validací, který potenciálně ukazuje některé zdetekované chyby v ER diagramu, které by způsobovaly, že diagram není validní (např.~existující cyklus slabé identifikace).
       \end{block}
       \begin{block}{Závěr}
-          Webová aplikace je 
+          Webová aplikace byla navrhnuta tak, aby umožnila potenciální rozšíření.
+          Například:
+          \begin{itemize}
+              \item UML modelování,
+              \item přímá tvorba a úprava schematických kategorií,
+              \item online interaktivní spolupráce na tvorbě schémat.
+          \end{itemize}
       \end{block}
     \end{column}
   \end{columns}
