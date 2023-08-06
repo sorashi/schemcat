@@ -64,7 +64,7 @@ schemcat-gh-pages:
     - pnpm i
   script:
     - pnpm build
-    - git clone --depth 1 https://sorashi:$GITHUB_ACCESS_TOKEN@github.com/sorashi/schemcat.git
+    - git clone --branch gh-pages --depth 1 https://sorashi:$GITHUB_ACCESS_TOKEN@github.com/sorashi/schemcat.git
     - mkdir schemcat.new
     # clean working dir, preserve .git
     - cp -a schemcat/.git schemcat.new/.git
