@@ -49,14 +49,8 @@
 %\setbeamertemplate{footline}{}
 
 \begin{document}
-% \begin{tikzpicture}[remember picture, overlay]
-%     \draw (0,0) rectangle (200mm, 200mm);
-% 
-% \end{tikzpicture}
 \begin{frame}
   \begin{columns}[onlytextwidth]
-
-
     \begin{column}{0.5\textwidth - 1.5cm}
       \begin{block}{Úvod}
         Konceptuální modely jako ER a UML byly vyvinuty v době, kdy měl největší zastoupení v databázových systémech jeden logický model -- relační.
@@ -115,12 +109,15 @@
         Na obrázku je právě zvolen objekt odpovídající entitě učitele a v ovládacím panelu vlevo lze vidět jeho identifikátor $54\cdot 57\cdot 56\cdot 51$.
         To je řetězec složený ze signatur morfismů, které vedou do objektu, jímž je učitel identifikován (ID identifikační karty).
 
-        Vlevo dole vidíme různé přepřipravené konstrukty, které lze přetažením myší vložit do ER diagramu.
+        Vlevo dole vidíme různé předpřipravené konstrukty, které lze přetažením myší vložit do ER diagramu.
 
-        Dole je (prázdný) seznam validací, který potenciálně ukazuje některé zdetekované chyby v ER diagramu, které by způsobovaly, že diagram není validní (např.~existující cyklus slabé identifikace).
+        Dole je (prázdný) seznam validací, který potenciálně ukazuje některé detekované chyby v ER diagramu, které by způsobovaly, že diagram není validní (např.~existující cyklus slabé identifikace).
       \end{block}
       \begin{block}{Závěr}
-        Webová aplikace byla navrhnuta tak, aby umožnila potenciální rozšíření.
+        Funkcionalita aplikace je dostačující k seznámení s konceptem schematických kategorií.
+        Bohužel zvolený framework (React) a knihovny kladly na architekturu a datový model určitá omezení, která jsou v práci definovaná.
+
+        Webová aplikace byla přesto navržena tak, aby umožnila potenciální rozšíření.
         Například:
         \begin{itemize}
           \item UML modelování,
