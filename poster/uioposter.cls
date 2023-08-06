@@ -63,7 +63,7 @@
 \RequirePackage[scaled]{beramono}
 
 
-\hypersetup{colorlinks,
+\hypersetup{%colorlinks,
             urlcolor  = uiolink,
             linkcolor =,
             citecolor =,

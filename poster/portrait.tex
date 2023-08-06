@@ -21,6 +21,8 @@
 \usepackage[absolute, overlay]{textpos}            % Figure placement
 \usepackage{polyglossia}
 \usepackage{graphicx}
+\usepackage{qrcode}
+\usepackage{xurl}
 \usepackage{subcaption}
 \setmainlanguage{czech}
 \setotherlanguages{english}
@@ -46,8 +48,11 @@
 %% Remove footline:
 %\setbeamertemplate{footline}{}
 
-
 \begin{document}
+% \begin{tikzpicture}[remember picture, overlay]
+%     \draw (0,0) rectangle (200mm, 200mm);
+% 
+% \end{tikzpicture}
 \begin{frame}
   \begin{columns}[onlytextwidth]
 
@@ -115,13 +120,20 @@
         Dole je (prázdný) seznam validací, který potenciálně ukazuje některé zdetekované chyby v ER diagramu, které by způsobovaly, že diagram není validní (např.~existující cyklus slabé identifikace).
       \end{block}
       \begin{block}{Závěr}
-          Webová aplikace byla navrhnuta tak, aby umožnila potenciální rozšíření.
-          Například:
-          \begin{itemize}
-              \item UML modelování,
-              \item přímá tvorba a úprava schematických kategorií,
-              \item online interaktivní spolupráce na tvorbě schémat.
-          \end{itemize}
+        Webová aplikace byla navrhnuta tak, aby umožnila potenciální rozšíření.
+        Například:
+        \begin{itemize}
+          \item UML modelování,
+          \item přímá tvorba a úprava schematických kategorií,
+          \item online interaktivní spolupráce na tvorbě schémat.
+        \end{itemize}
+      \end{block}
+      \begin{block}{Odkazy}
+        \begin{tabular}{rll}
+          \qrcode[link,padding,hyperlink,height=3cm]{https://sorashi.github.io/schemcat}  & \href{https://sorashi.github.io/schemcat}{\texttt{sorashi.github.io/schemcat}}   & aplikace     \\
+          \qrcode[link,padding,hyperlink,height=3cm]{https://github.com/sorashi/schemcat} & \href{https://github.com/sorashi/schemcat}{\texttt{github.com/sorashi/schemcat}} & zdrojový kód \\
+          \qrcode[link,padding,hyperlink,height=3cm]{mailto:prazak.dennis@gmail.com}      & \href{mailto:prazak.dennis@gmail.com}{\texttt{prazak.dennis@gmail.com}}          & email
+        \end{tabular}
       \end{block}
     \end{column}
   \end{columns}
