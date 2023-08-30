@@ -24,6 +24,9 @@
 \usepackage{qrcode}
 \usepackage{xurl}
 \usepackage{subcaption}
+\usepackage{showframe}
+\renewcommand\ShowFrameLinethickness{1.5pt}
+\renewcommand*\ShowFrameColor{\color{red}}
 \setmainlanguage{czech}
 \setotherlanguages{english}
 \usepackage[mono=true]{libertinus-otf}
@@ -33,14 +36,9 @@
 
 
 \title{Konceptuální modelování pomocí schematických kategorií}
-\author {Dennis Pražák}
+\author{Dennis Pražák}
 %% Optional:
-%\institute
-%{
-%    \inst{1} Department of Mathematics
-%    \and
-%    \inst{2} Department of Informatics
-%}
+\institute{\href{mailto:prazak.dennis@gmail.com}{\texttt{prazak.dennis@gmail.com}}}
 % Or:
 %\institute{Contact information}
 
@@ -52,16 +50,16 @@
 \begin{frame}
   \begin{columns}[onlytextwidth]
     \begin{column}{0.5\textwidth - 1.5cm}
-      \begin{block}{Úvod}
-        Konceptuální modely jako ER a UML byly vyvinuty v době, kdy měl největší zastoupení v databázových systémech jeden logický model -- relační.
-        V dnešní době se však kromě relačního modelu ve vyšší míře používá mnoho odlišných logických modelů (grafový, dokumentový, key-value, wide column\dots).
+      \begin{block}{Úvod a motivace}
+        \textbf{\alert{Konceptuální modely}} jako ER a UML byly vyvinuty v době, kdy měl největší zastoupení v databázových systémech jeden logický model, a to relační.
+        V dnešní době se však kromě relačního modelu ve vyšší míře používá mnoho odlišných logických modelů (grafový, dokumentový, dvojice klíč/hodnota, sloupcový\dots).
 
-        \alert{Schematické kategorie} jsou nový prostředek ke konceptuálnímu modelování, který je obecnější (má vyšší vyjadřovací schopnost) a není natolik provázaný s logickou vrstvou.
-        Schematické kategorie splňují vlastnosti teorie kategorií a lze na ně tak aplikovat již vybudované nástroje tohoto oboru matematiky.
+        \textbf{\alert{Schematická kategorie}} je novým prostředekem ke konceptuálnímu modelování, který je obecnější (má vyšší vyjadřovací sílu) a není natolik provázaný s relačním modelem.
+        Schematické kategorie splňují požadavky vyplývající z teorie kategorií, a lze na ně tak aplikovat již vybudované nástroje tohoto oboru matematiky.
 
         Cílem této práce bylo vytvořit webovou aplikaci, která umožní konceptuální modelování pomocí schematických kategorií v již známém modelu Entity-Relationship.
-        ER schéma se automaticky převede na schematické kategorie.
-        Usnadní tak výzkumníkům a potenciálním uživatelům schematických kategorií prozkoumání a seznámení se s tímto novým konceptem.
+        Vytvořené ER schéma se automaticky převede na odpovídající schematickou kategorii.
+        Usnadní tak výzkumníkům a potenciálním uživatelům schematických kategorií seznámení se s tímto novým konceptem.
       \end{block}
 
       \begin{block}{Příklad diagramů}
@@ -69,29 +67,24 @@
           \centering
           \begin{subfigure}{0.45\textwidth}
             \includegraphics[width=1\textwidth]{./images/university-er.pdf}
-            \caption{Entity-Relationship}
-            \label{fig:diagrams:er}
+            \caption*{ER schéma}
           \end{subfigure}
           \begin{subfigure}{0.45\textwidth}
             \includegraphics[width=\textwidth]{./images/university-schemcat.pdf}
-            \caption{Schematická kategorie}
-            \label{fig:diagrams:schemcat}
+            \caption*{Schematická kategorie}
           \end{subfigure}
           \begin{subfigure}{0.5\textwidth}
             \includegraphics[width=\textwidth]{./images/university-scv.pdf}
-            \caption{Vizualizace schematické kategorie}
-            \label{fig:diagrams:scv}
+            \caption*{Vizuální notace}
           \end{subfigure}
-          \caption{Diagramy}
-          \label{fig:diagrams}
+          %\caption{Diagramy}
         \end{figure}
 
-        Na Obrázku~\ref{fig:diagrams:er} je ER schéma vysoké školy s učiteli a studenty, kteří učí resp. docházejí na lekce.
-        Odpovídající schematická kategorie je na Obrázku~\ref{fig:diagrams:schemcat}.
-        Ta však nevyobrazuje úplně všechna data, která schematická kategorie obsahuje.
+        Na prvním obrázku je ER schéma vysoké školy s učiteli a studenty, kteří učí resp. docházejí na lekce.
+        Na dalším obrázku lze vidět odpovídající schematickou kategorii.
+        Záměrně zde kvůli zjednodušení nezobrazujeme všechny položky, které schematická kategorie obsahuje.
         Uživatel je může prozkoumat zvolením jednotlivých objektů nebo morfismů.
-
-        Aby byla jednodušeji z diagramu vidět sémantika schematické kategorie, byla navržena vizualizace schematické kategorie, viz Obrázek~\ref{fig:diagrams:scv}.
+        Uživatelsky přívětivější podání schematické kategorie pak vidíme na posledním obrázku.
       \end{block}
     \end{column}
 
@@ -101,35 +94,30 @@
         \begin{figure}
           \centering
           \includegraphics[width=0.8\textwidth]{./images/identifier-screenshot.png}
-          \caption{Uživatelské rozhraní}
+          \caption*{Uživatelské rozhraní}
           \label{fig:user-interface}
         \end{figure}
 
         Uživatelské rozhraní z Obrázku~\ref{fig:user-interface} je složeno z oken a záložek, které lze libovolně přesouvat a měnit jejich velikost.
-        Na obrázku je právě zvolen objekt odpovídající entitě učitele a v ovládacím panelu vlevo lze vidět jeho identifikátor $54\cdot 57\cdot 56\cdot 51$.
+        Na obrázku je právě zvolen objekt odpovídající entitnímu typu učitele a v ovládacím panelu vlevo lze vidět jeho jediný identifikátor 54$\cdot$57$\cdot$56$\cdot$51.
         To je řetězec složený ze signatur morfismů, které vedou do objektu, jímž je učitel identifikován (ID identifikační karty).
 
-        Vlevo dole vidíme různé předpřipravené konstrukty, které lze přetažením myší vložit do ER diagramu.
+        Vlevo dole vidíme různé předpřipravené konstrukty (entitní typ, vztahový typ, atribut, ISA hierarchii, atd.), které lze přetažením myší vložit do ER diagramu.
 
         Dole je (prázdný) seznam validací, který potenciálně ukazuje některé detekované chyby v ER diagramu, které by způsobovaly, že diagram není validní (např.~existující cyklus slabé identifikace).
       \end{block}
       \begin{block}{Závěr}
-        Funkcionalita aplikace je dostačující k seznámení s konceptem schematických kategorií.
-        Bohužel zvolený framework (React) a knihovny kladly na architekturu a datový model určitá omezení, která jsou v práci definovaná.
-
-        Webová aplikace byla přesto navržena tak, aby umožnila potenciální rozšíření.
+        Webová aplikace byla dále navržena tak, aby umožnila potenciální rozšíření.
         Například:
         \begin{itemize}
-          \item UML modelování,
           \item přímá tvorba a úprava schematických kategorií,
-          \item online interaktivní spolupráce na tvorbě schémat.
+          \item online interaktivní spolupráce více uživatelů.
         \end{itemize}
       \end{block}
       \begin{block}{Odkazy}
         \begin{tabular}{rll}
-          \qrcode[link,padding,hyperlink,height=3cm]{https://sorashi.github.io/schemcat}  & \href{https://sorashi.github.io/schemcat}{\texttt{sorashi.github.io/schemcat}}   & aplikace     \\
-          \qrcode[link,padding,hyperlink,height=3cm]{https://github.com/sorashi/schemcat} & \href{https://github.com/sorashi/schemcat}{\texttt{github.com/sorashi/schemcat}} & zdrojový kód \\
-          \qrcode[link,padding,hyperlink,height=3cm]{mailto:prazak.dennis@gmail.com}      & \href{mailto:prazak.dennis@gmail.com}{\texttt{prazak.dennis@gmail.com}}          & email
+          \qrcode[link,padding,hyperlink,height=5cm]{https://sorashi.github.io/schemcat}  & \href{https://sorashi.github.io/schemcat}{\texttt{sorashi.github.io/schemcat}}   & aplikace     \\
+          \qrcode[link,padding,hyperlink,height=5cm]{https://github.com/sorashi/schemcat} & \href{https://github.com/sorashi/schemcat}{\texttt{github.com/sorashi/schemcat}} & zdrojový kód
         \end{tabular}
       \end{block}
     \end{column}
