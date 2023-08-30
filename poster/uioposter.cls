@@ -192,7 +192,7 @@
         \insertauthor
         \ifdefempty{\insertinstitute}{}
         {
-            \vskip1ex
+            \hskip1ex
             \usebeamerfont{institute}
             \def\beamer@andinst{\quad}
             \insertinstitute
