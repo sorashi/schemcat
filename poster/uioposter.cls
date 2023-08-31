@@ -51,8 +51,17 @@
 
 \LoadClass[t]{beamer}
 
+\def\beamerscale{1.3}
+\def\horizontalmarginminimal{1.05cm}
+\def\horizontalmarginadditional{3cm}
+\def\horizontalmargin{\dimexpr\horizontalmarginminimal + \horizontalmarginadditional}
 
-\RequirePackage[size = a0, scale = 1.5]{beamerposter}
+\def\verticalmarginminimal{1.3cm}
+\def\verticalmarginadditional{3cm}
+\def\verticalmargincompensatepredefined{-0.5in}
+\def\verticalmargin{\dimexpr\verticalmarginminimal + \verticalmarginadditional + \verticalmargincompensatepredefined}
+\def\footerverticalmarginadditional{1cm}
+\RequirePackage[size = a0, scale = \beamerscale]{beamerposter}
 \RequirePackage{etoolbox}
 \RequirePackage{pgfpages}
 % \RequirePackage[utf8]{inputenx}
@@ -95,8 +104,7 @@
 
 \setlength{\labelsep}{3ex}
 \setlength{\leftmargini}{18ex}
-\setbeamersize{text margin left = 3cm, text margin right = 3cm}
-
+\setbeamersize{text margin left = \horizontalmargin, text margin right = \horizontalmargin}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \definecolor{uiored}{cmyk}{0.29, 0, 0.52, 0.22}
@@ -175,9 +183,9 @@
 \setbeamertemplate{headline}
 {
     \begin{beamercolorbox}[wd = \paperwidth,
-                           leftskip  = 3cm,
-                           rightskip = 3cm plus 20cm]{headline}
-        \vskip-0.5cm
+                           leftskip  = \horizontalmargin,
+                           rightskip = \horizontalmargin plus 5cm]{headline}
+        \vskip\verticalmargin
         \usebeamerfont{title in headline}
         \usebeamercolor{title in headline}
         \color{fg}
@@ -208,10 +216,10 @@
 {
     \leavevmode
     \begin{beamercolorbox}[wd = \paperwidth]{footline}
-        \vskip2cm
-        \hskip4.1cm
-        \includegraphics[scale = 1.5]{images/logo-cs-removed-white-inverse}
-        \vskip2cm
+        \vskip0.5cm
+        \hskip\dimexpr\horizontalmargin + \footerverticalmarginadditional
+        \includegraphics[scale = \beamerscale]{images/logo-cs-removed-white-inverse}
+        \vskip\verticalmargin
     \end{beamercolorbox}
 }
 
@@ -256,7 +264,7 @@
         \end{minipage}
     \vskip0.2ex
     \end{beamercolorbox}
-    \vskip3cm
+    \vskip1cm
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
